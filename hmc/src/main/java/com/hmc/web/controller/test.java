@@ -8,7 +8,7 @@ public class test {
 
 	@GetMapping(path = {"/", "/test"})
 	public String testHome() {
-		// 커밋 테스트
+		// 이클립스와 소스트리를 연동해봤습니다. 테스트
 		return "test/home";
 	}
 	
