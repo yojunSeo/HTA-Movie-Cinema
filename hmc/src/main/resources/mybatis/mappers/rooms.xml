@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hmc.dao.RoomDao">
+	
+	<resultMap type="com.hmc.vo.Room" id="RoomResultMap">
+		<id column="room_code" property="code"/>
+		<result column="branch_code" property="branchCode"/>
+		<result column="room_total_seat" property="totalSeat"/>
+		<result column="room_status" property="status"/>
+	</resultMap>
+	
+	<update id="updateRoom" parameterType="com.hmc.vo.Room">
+		update t_room
+		set
+			room_total_seat = #{totalSeat},
+			room_status = #{status}
+		where
+			room_code = #{code}
+	</update>
+	
+	<select id="getRoomsByBranchCode" parameterType="string" resultMap="RoomResultMap">
+		select
+			*
+		from
+			t_room
+		where
+			branch_code = #{value}
+	</select>
+	
+	<select id="getRoomByCode" parameterType="string" resultMap="RoomResultMap">
+		select
+			*
+		from
+			t_room
+		where
+			room_code = #{value}
+	</select>
+</mapper>

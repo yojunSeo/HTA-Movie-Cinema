@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hmc.dao.UserDao">
+   
+   <resultMap type="com.hmc.vo.User" id="UserResultMap">
+      <id column="user_id" property="id"/>
+      <result column="user_password" property="password"/>
+      <result column="user_name" property="name"/>
+      <result column="user_gender" property="gender"/>
+      <result column="user_birthday" property="birthday"/>
+      <result column="user_email" property="email"/>
+      <result column="user_phone" property="phone"/>
+      <result column="user_grade" property="grade"/>
+      <result column="user_point" property="point"/>
+      <result column="user_status" property="status"/>
+      <result column="user_created_date" property="createdDate"/>
+      <result column="user_withdrawal_date" property="withdrawalDate"/>
+      <result column="admin_yn" property="adminYN"/>
+      <result column="favorite_branch1" property="favoriteBranch1"/>
+      <result column="favorite_branch2" property="favoriteBranch2"/>
+      <result column="favorite_branch3" property="favoriteBranch3"/>
+   </resultMap>
+   
+   <insert id="insertUser" parameterType="com.hmc.vo.User" >
+	   insert into t_user
+	   		(user_id, user_password, user_name, user_gender, user_birthday, user_email, user_phone)
+	   values
+	   		(#{id}, #{password}, #{name}, #{gender}, #{birthday}, #{email}, #{phone})
+   </insert>
+   
+   <select id="getUserById" parameterType="string" resultMap="UserResultMap">
+   		select 
+   			*
+   		from
+   			t_user
+   		where
+   			user_id = #{value}	
+   </select>
+   		
+   <select id="getAllUsers" resultMap="UserResultMap">
+   		select
+   			*
+   		from
+   			t_user
+   		where
+   			user_status = 'Y'
+   </select>
+   
+   <update id="updateUser" parameterType="com.hmc.vo.User">
+   		update
+   			t_user
+   		set
+   			user_password 		= #{password},
+   			user_email 			= #{email},	
+   			user_phone 			= #{phone},	
+   			user_grade 			= #{grade},	
+   			user_point 			= #{point},	
+   			favorite_branch1 	= #{favoriteBranch1},	
+   			favorite_branch2 	= #{favoriteBranch2},	
+   			favorite_branch3 	= #{favoriteBranch3}
+   		where 
+   			user_id = #{id}		
+   </update>
+   
+   <update id="deletedUser" parameterType="com.hmc.vo.User">
+   		update
+   			t_user
+   		set
+   			user_status 		= #{status},	
+   			user_withdrawal_Date = #{withdrawalDate}	
+   		where 
+   			user_id 			= #{id}
+   </update>
+   
+   
+   
+</mapper>

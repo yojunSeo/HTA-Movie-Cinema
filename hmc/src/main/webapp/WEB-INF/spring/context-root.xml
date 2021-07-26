@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+
+	<!-- 빈 오토와이어링을 지원하는 객체를 스프링 컨테이너에 등록함 -->
+	<context:annotation-config/>
+	
+	<!--  모든 ServiceImpl 객체들을 스프링의 빈으로 등록 -->
+	<context:component-scan base-package="com.hmc.service"/>
+	
+	<!-- 환경설정정보가 정의된 properties 파일정보 스프링 빈으로 등록 -->
+   <context:property-placeholder location="classpath:/spring/*.properties" />
+	
+	<!-- commons-dbcp2 라이브러리를 이용한 커넥션풀을 스프링의 빈으로 등록 -->
+	<bean id="dataSource" 
+		class="org.apache.commons.dbcp2.BasicDataSource"
+		p:driverClassName="oracle.jdbc.OracleDriver"
+		p:url="jdbc:oracle:thin:@db202107132355_high?TNS_ADMIN=C://OracleCloud"
+		p:username="admin"
+		p:password="$tH8Zg8*zhn#3RT"/>
+	
+	<!-- 트랜잭션 매니저를 스프링 컨테이너의 빈으로 등록 -->
+	<bean id="transactionManager" 
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+		p:dataSource-ref="dataSource"/>
+
+	<!-- Spring AOP 설정을 사용해서 선언적 트랜잭션 처리 -->
+	<!-- 
+ 	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+ 	   	<tx:attributes>
+			<tx:method read-only="true" name="get*" />
+			<tx:method propagation="REQUIRED" name="*" />
+			<tx:method rollback-for="EXCEPTION" name="*" />
+		</tx:attributes>
+ 	</tx:advice>
+	 -->
+	<!-- txAdvice를 Service에 공통기능으로 적용 -->
+	<!-- 
+    <aop:config>
+    	<aop:pointcut expression="execution(* com.hmc.service.*Service.*(..))" id="txPointcut"/>
+    	<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut"/>
+    </aop:config>
+	 -->
+	<!-- mybatis의 핵심객체인 SqlStssionFactory 객체를 스프링 컨테이너의 빈으로 등록 -->
+	<bean id="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean"
+		p:dataSource-ref="dataSource"
+		p:configLocation="classpath:/mybatis/mybatis-config.xml"
+		p:mapperLocations="classpath:/mybatis/mappers/*.xml"/>
+	
+	<!-- 지정된 패키지에서 mybatis용 Mapper 인터페이스(PtoductDao, UserDao, OrderDao, ReviewDao, CartDao 등) 스프링 컨테이너의 빈으로 등록 -->
+	<mybatis-spring:scan 
+		base-package="com.hmc.dao"
+		factory-ref="sqlSessionFactory"/>
+
+</beans>
