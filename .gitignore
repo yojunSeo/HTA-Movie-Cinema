@@ -2,17 +2,10 @@
 # Created by https://www.toptal.com/developers/gitignore/api/java,java-web,windows,eclipse,maven
 # Edit at https://www.toptal.com/developers/gitignore?templates=java,java-web,windows,eclipse,maven
 
-<<<<<<< HEAD
 
 target/*
 META-INF/*
 
-
-=======
-target/*
-META-INF/*
-
->>>>>>> 93cd598888942a7493056f496c68ff94e36d588a
 ### Eclipse ###
 .metadata
 bin/
