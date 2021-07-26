@@ -15,6 +15,7 @@
 		<result column="booking_total_price" property="totalPrice"/>
 		<result column="booking_status" property="status"/>
 	</resultMap>
+<<<<<<< HEAD
 	
 	<insert id="insertBooking" parameterType="com.hmc.vo.Booking">
 		insert into t_booking
@@ -50,4 +51,7 @@
 		where
 			booking_code = #{value}	
 	</select>
+=======
+
+>>>>>>> 93cd598888942a7493056f496c68ff94e36d588a
 </mapper>

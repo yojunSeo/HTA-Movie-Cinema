@@ -14,6 +14,7 @@
 	</resultMap>
 	
 	<insert id="insertSchedule" parameterType="com.hmc.vo.Schedule">
+<<<<<<< HEAD
 		insert into t_schedule
 			(schedule_code, screen_code, branch_code, room_code, schedule_date, 
 						schedule_start_time, schedule_end_time, schedule_empty_seat)
@@ -59,6 +60,25 @@
 			t_schedule
 		where
 			schedule_code = #{value}
+=======
+	
+	</insert>
+	
+	<update id="updateSchedule" parameterType="com.hmc.vo.Schedule">
+	
+	</update>
+	
+	<delete id="deleteSchedule" parameterType="string">
+	
+	</delete>
+	
+	<select id="getAllSchedules" resultMap="ScheduleResultMap">
+	
+	</select>
+	
+	<select id="getScheduleByCode"  parameterType="string" resultMap="ScheduleResultMap">
+	
+>>>>>>> 93cd598888942a7493056f496c68ff94e36d588a
 	</select>
 	
 </mapper>
