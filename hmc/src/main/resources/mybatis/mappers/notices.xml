@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hmc.dao.NoticeDao">
+	
+	<resultMap type="com.hmc.vo.Notice" id="NoticeResultMap">
+		<id column="notice_code" property="code"/>
+		<result column="notice_category" property="category"/>
+		<result column="notice_writer" property="writer"/>
+		<result column="notice_title" property="title"/>
+		<result column="notice_content" property="content"/>
+		<result column="notice_created_date" property="createdDate"/>
+		<result column="notice_modified_date" property="modifiedDate"/>
+		<result column="notice_status" property="status"/>
+	</resultMap>
+	
+	<select id="getNoticeByCode" parameterType="string" resultMap="NoticeResultMap">
+		select 
+			*
+		from
+			t_notice
+		where
+			notice_code = #{value}		
+	</select>
+	
+	<select id="getAllNotices" resultMap="NoticeResultMap">
+		select
+			*
+		from
+			t_notice
+		where 
+            notice_status = 'Y'	
+        or notice_status = 'I'    		
+	</select>
+	
+	<update id="updateNotice" parameterType="com.hmc.vo.Notice">
+		update
+			t_notice
+		set
+			notice_category = #{category},
+			notice_writer = #{writer},		
+			notice_title = #{title},		
+			notice_content = #{content},		
+			notice_status = #{status},
+			notice_modified_date = {modifiedDate}
+		where
+			notice_code = #{code}			
+	</update>
+	
+	<insert id="insertNotice" parameterType="com.hmc.vo.Notice">
+		insert into t_notice
+		(notice_code, notice_category, notice_writer, notice_title, notice_content)
+		values
+		( 'NT' || lpad(T_NOTICE_SEQ.nextval, 6,0), #{category}, #{writer}, #{title}, #{content})
+	</insert>
+	
+	<update id="deleteNotice" parameterType="com.hmc.vo.Notice">
+		update
+			t_notice
+		set
+			notice_status = #{status}
+		where
+			notice_code = #{code}			
+	</update>
+
+</mapper>

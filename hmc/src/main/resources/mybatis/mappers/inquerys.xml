@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hmc.dao.InqueryDao">
+	
+	<resultMap type="com.hmc.vo.Inquery" id="InqueryResultMap">
+		<id column="inquery_code" property="code"/>
+		<result column="user_id" property="userId"/>
+		<result column="inquery_category" property="category"/>
+		<result column="inquery_title" property="title"/>
+		<result column="inquery_content" property="content"/>
+		<result column="branch_code" property="branchCode"/>
+		<result column="inquery_created_date" property="createdDate"/>
+		<result column="inquery_responder" property="responder"/>
+		<result column="inquery_respond_content" property="respondContent"/>
+		<result column="inquery_respond_date" property="respondDate"/>
+		<result column="inquery_respond_status" property="respondStatus"/>
+	</resultMap>
+	
+	<select id="getAllInquerysByUserId" parameterType="string" resultMap="InqueryResultMap">
+		select
+			*
+		from
+			t_inquery
+		where
+			user_id = #{value}		
+	</select>
+	
+	<insert id="insertInquery" parameterType="com.hmc.vo.Inquery">
+		insert into t_inquery
+			(inquery_code, user_id, inquery_category, inquery_title, inquery_content, branch_code)
+		values
+			('IQ' || lpad(T_INQUERY_SEQ.nextval, 6,0), #{userId}, #{category}, #{title}, #{content}, #{branchCode})
+	</insert>
+	
+	<update id="adminUpdateInquery" parameterType="com.hmc.vo.Inquery">
+		update
+			t_inquery
+		set
+			inquery_responder 		= #{responder},
+			inquery_respond_content = #{respondContent},
+			inquery_respond_date 	= #{respondDate},
+			inquery_respond_status 	= #{respondStatus}
+		where
+			inquery_code 			= #{code}		
+	</update>
+	
+	
+	
+	
+	
+
+</mapper>

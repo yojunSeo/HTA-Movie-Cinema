@@ -10,8 +10,9 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Inquery {
-	
+
 	private int code;
+	private String code;
 	private String userId;
 	private String category;
 	private String title;

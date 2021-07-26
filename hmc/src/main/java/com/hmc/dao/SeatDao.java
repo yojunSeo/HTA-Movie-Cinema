@@ -1,5 +1,6 @@
 package com.hmc.dao;
 
+<<<<<<< HEAD
 
 import java.util.List;
 import java.util.Map;
@@ -48,5 +49,8 @@ public interface SeatDao {
 	 * @return 해당하는 좌석예약정보
 	 */
 	SeatBooking getSeatBookingsByBooking(String bookingCode);
+=======
+public interface SeatDao {
+>>>>>>> 25b8dcb184f82f5abd49ec1e0315fc3ad3374052
 
 }

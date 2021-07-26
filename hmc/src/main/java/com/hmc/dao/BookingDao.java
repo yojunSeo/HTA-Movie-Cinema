@@ -1,5 +1,6 @@
 package com.hmc.dao;
 
+<<<<<<< HEAD
 
 import java.util.List;
 
@@ -36,4 +37,8 @@ public interface BookingDao {
 
 
 
+=======
+public interface BookingDao {
+
+>>>>>>> 25b8dcb184f82f5abd49ec1e0315fc3ad3374052
 }

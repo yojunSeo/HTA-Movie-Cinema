@@ -14,6 +14,7 @@
 	</resultMap>
 	
 	<insert id="insertSchedule" parameterType="com.hmc.vo.Schedule">
+<<<<<<< HEAD
 
 		insert into t_schedule
 			(schedule_code, screen_code, branch_code, room_code, schedule_date, 
@@ -63,6 +64,10 @@
 
 	
 	</select>
+=======
+	
+	</insert>
+>>>>>>> 25b8dcb184f82f5abd49ec1e0315fc3ad3374052
 	
 	<update id="updateSchedule" parameterType="com.hmc.vo.Schedule">
 	
@@ -78,7 +83,10 @@
 	
 	<select id="getScheduleByCode"  parameterType="string" resultMap="ScheduleResultMap">
 	
+<<<<<<< HEAD
 
+=======
+>>>>>>> 25b8dcb184f82f5abd49ec1e0315fc3ad3374052
 	</select>
 	
 </mapper>
