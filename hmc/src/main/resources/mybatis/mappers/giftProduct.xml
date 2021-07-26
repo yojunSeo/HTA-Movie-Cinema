@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hmc.dao.GiftProductDao">
+	
+	<resultMap type="com.hmc.vo.GiftProduct" id="GiftProductResultMap">
+		<id column="gift_code" property="code" />
+		<result column="payment_code" property="paymentCode" />
+		<result column="product_code" property="productCode" />
+		<result column="gift_give_user_id" property="giveUser" />
+		<result column="gift_receive_user_id" property="receiveUser" />
+		<result column="gift_price" property="price" />
+		<result column="gift_amount" property="amount" />
+		<result column="gift_end_date" property="endDate" />
+		<result column="gift_purchased_date" property="purchasedDate" />
+		<result column="gift_used" property="isUsed" />
+		<result column="gift_used_date" property="usedDate" />
+	</resultMap>
+	
+	<insert id="insertGiftProduct" parameterType="com.hmc.vo.GiftProduct">
+		insert into t_gift_product
+			(gift_code, payment_code, product_code, gift_give_user_id, gift_receive_user_id, gift_price, gift_amount)
+		values
+			('GT' || lpad(T_Gift_seq.nextval, 6,0), #{paymentCode}, #{productCode}, #{giveUser}, #{receiveUser}, #{price}, #{amount})
+	</insert>
+	
+	<select id="getMyGiftProduct" parameterType="string" resultMap="GiftProductResultMap">
+		select
+			*
+		from
+			t_gift_product
+		where
+			gift_receive_user_id = #{value}
+	</select>
+	
+	<update id="updateUsedStatusToY" parameterType="string">
+		update t_gift_product
+		set
+			gift_used = 'Y',
+			gift_used_date = sysdate
+		where
+			gift_code = #{value}
+	</update>
+	
+</mapper>

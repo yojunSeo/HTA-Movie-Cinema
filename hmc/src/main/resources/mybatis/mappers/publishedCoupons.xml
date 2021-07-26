@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hmc.dao.PublishedCouponDao">
+	
+	<resultMap type="com.hmc.vo.PublishedCoupon" id="PublishedCouponMap">
+		<id column="published_code" property="code"/>
+		<result column="coupon_code" property="couponCode"/>
+		<result column="user_id" property="userId"/>
+		<result column="published_given_date" property="givenDate"/>
+		<result column="published_end_date" property="endDate"/>
+		<result column="published_used" property="isUsed"/>
+		<result column="published_used_date" property="usedDate"/>
+	</resultMap>
+
+	<insert id="insertPublishedCoupon" parameterType="com.hmc.vo.PublishedCoupon">
+		insert into t_published_coupon
+			(published_code, coupon_code, user_id)
+		values
+			('PC' || lpad(T_PUBLISHED_COUPON_SEQ.nextval, 6,0), #{couponCode}, #{userId})
+	</insert>
+	
+	<select id="getMyCoupons" parameterType="string" resultMap="PublishedCouponMap">
+		select
+			*
+		from
+			t_published_coupon
+		where
+			user_id = #{userId}
+	</select>
+	
+	<update id="updatePublishedCouponStatusToY" parameterType="string">
+		update t_published_coupon
+		set
+			published_used = 'Y',
+			published_used_date = sysdate
+		where
+			published_code = #{value}
+			
+	</update>
+	
+</mapper>

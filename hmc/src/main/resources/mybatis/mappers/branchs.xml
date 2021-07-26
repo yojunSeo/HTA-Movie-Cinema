@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hmc.dao.BranchDao">
+	<resultMap type="com.hmc.vo.Branch" id="branchResultMap">
+		<id column="branch_code" property="code" />
+		<result column="branch_name" property="name" />
+		<result column="branch_info" property="info" />
+		<result column="branch_facility" property="facility" />
+		<result column="branch_prking_info" property="parking_info" />
+		<result column="branch_status" property="status" />
+	</resultMap>
+	
+	<select id="getAllBranchs" resultMap="branchResultMap">
+		select
+			*
+		from 
+			t_branch
+	</select>
+	
+	<!-- 이건 나중에 상영관수, 좌석수 등 join해서 뽑아야 할듯 -->
+	<select id="getBranchDetail" parameterType="string" resultMap="branchResultMap">
+		select
+			*
+		from 
+			t_branch
+		where
+			branch_code = #{value}
+	</select>
+	
+	<update id="updateBranch" parameterType="com.hmc.vo.Branch">
+		update t_branch
+		set
+			branch_info = #{info},
+			branch_parking_info = #{parking_info},
+			branch_status = #{status}
+		where
+			branch_code = #{code}
+	</update>
+	
+</mapper>

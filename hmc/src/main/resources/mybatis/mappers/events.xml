@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hmc.dao.EventDao">
+	
+	<resultMap type="com.hmc.vo.Event" id="EventResultMap">
+		<id column="event_code" property="code"/>
+		<result column="coupon_code" property="couponCode"/>
+		<result column="event_title" property="title"/>
+		<result column="event_content" property="content"/>
+		<result column="event_writer" property="writer"/>
+		<result column="event_start_date" property="startDate"/>
+		<result column="event_end_date" property="endDate"/>
+		<result column="event_coupon_amount" property="couponAmount"/>
+		<result column="event_status" property="status"/>
+	</resultMap>
+	
+	<insert id="insertEvent" parameterType="com.hmc.vo.Event">
+		insert into t_event
+			(event_code, coupon_code, event_title, event_content,event_writer, 
+						event_start_date, event_end_date, event_coupon_amount)
+		values
+			('EV' || lpad(T_EVENT_SEQ.nextval, 6,0), #{couponCode}, #{title}, #{content}, #{writer},
+					 #{startDate}, #{endDate}, #{couponAmount})
+	</insert>
+	
+	<update id="updateEventStatus" parameterType="map">
+		update t_event
+		set
+			event_status = #{status}
+		where 	
+			event_code = #{eventCode}
+	</update>
+	
+	<update id="updateEvent" parameterType="com.hmc.vo.Event">
+		update t_event
+		set
+			coupon_code = #{couponCode},
+			event_title = #{title},
+			event_content = #{content},
+			event_writer = #{writer},
+			event_start_date = #{startDate},
+			event_end_date = #{endDate},
+			event_coupon_amount = #{couponAmount}
+		where 
+			event_code = #{eventCode}
+	</update>
+	
+	<select id="getAllEvents" resultMap="EventResultMap">
+		select 
+			*
+		from
+			t_event
+		order by
+			event_code desc
+	</select>
+	
+	<select id="getEventByCode" parameterType="string" resultMap="EventResultMap">
+		select
+			*
+		from 
+			t_event
+		where 
+			event_code = #{value}
+	</select>
+	
+</mapper>

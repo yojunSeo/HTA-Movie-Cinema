@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hmc.dao.BookingDao">
+	
+	<resultMap type="com.hmc.vo.Booking" id="BookingResultMap">
+		<id column="booking_code" property="code"/>
+		<result column="schedule_code" property="scheduleCode"/>
+		<result column="user_id" property="userId"/>
+		<result column="payment_code" property="paymentCode"/>
+		<result column="booking_date" property="bookingDate"/>
+		<result column="booking_cnt" property="count"/>
+		<result column="booking_price" property="price"/>
+		<result column="booking_discount_price" property="discountPrice"/>
+		<result column="booking_total_price" property="totalPrice"/>
+		<result column="booking_status" property="status"/>
+	</resultMap>
+	
+	<insert id="insertBooking" parameterType="com.hmc.vo.Booking">
+		insert into t_booking
+			(booking_code, schedule_code, user_id, payment_code, 
+					booking_cnt, booking_price, booking_discount_price, booking_total_price)
+		values
+			('BK' || lpad(T_BOOKING_SEQ.nextval, 6,0), #{scheduleCode}, #{userId}, #{paymentCode} ,#{count}, #{price}, #{discountPrice}, #{totalPrice});
+	</insert>
+
+	<update id="updateBooking" parameterType="com.hmc.vo.Booking">
+		update t_booking
+		set
+			payment_code = #{paymentCode},
+			booking_status = #{status}
+		where
+    		booking_code = #{code}
+	</update>
+	
+	<select id="getBookingsByUserId" parameterType="string" resultMap="BookingResultMap">
+		select
+			*
+		from 
+			t_booking
+		order by
+			booking_code desc
+	</select>
+	
+	<select id="getBookingByCode" parameterType="string" resultMap="BookingResultMap">
+		select
+			*
+		from 
+			t_booking
+		where
+			booking_code = #{value}	
+	</select>
+</mapper>

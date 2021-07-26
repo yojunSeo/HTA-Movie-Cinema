@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hmc.dao.SeatDao">
+
+	<resultMap type="com.hmc.vo.Seat" id="SeatResultMap">
+		<id column="seat_code" property="code"/>
+		<result column="branch_code" property="branchCode"/>
+		<result column="room_code" property="roomCode"/>
+		<result column="seat_row" property="row"/>
+		<result column="seat_col" property="col"/>
+		<result column="seat_type" property="type"/>
+	</resultMap>
+
+	<resultMap type="com.hmc.vo.SeatBooking" id="SeatBookingResultMap">
+		<result column="seat_code" property="seatCode"/>
+		<result column="booking_code" property="bookingCode"/>
+		<result column="schedule_code" property="scheduleCode"/>
+	</resultMap>
+		
+	<select id="getAllSeatTypes" resultType="com.hmc.vo.SeatType">
+		select
+			*
+		from 
+			t_seat_type
+		order by
+			seat_price 
+	</select>
+	
+	<select id="getSeats" parameterType="map" resultMap="SeatResultMap">
+		select
+			*
+		from
+			t_seat
+		where
+			branch_code = #{branchCode}
+		and 
+			room_code = #{roomCode}
+	</select>
+	
+	<insert id="insertSeatBooking" parameterType="com.hmc.vo.SeatBooking">
+		insert into t_seat_booking
+		(seat_code, booking_code, schedule_code)
+		values
+		(#{seatCode}, #{bookingCode}, #{scheduleCode})
+	</insert>
+	
+	<delete id="deleteSeatBooking" parameterType="string">
+		delete from 
+			t_seat_booking
+		where
+			booking_code = #{value}
+	</delete>
+	
+	<select id="getSeatBookingsBySchedule" parameterType="string" resultMap="SeatBookingResultMap">
+		select
+			*
+		from	
+			t_seat_booking
+		where
+			schedule_code = #{value}
+		order by
+			booking_code desc
+	</select>
+	
+	<select id="getSeatBookingsByBooking" parameterType="string" resultMap="SeatBookingResultMap">
+		select
+			*
+		from
+			t_seat_booking
+		where
+			booking_code = #{value}
+	</select>
+
+</mapper>

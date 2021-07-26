@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hmc.dao.CouponDao">
+
+	<resultMap type="com.hmc.vo.Coupon" id="CouponResultMap">
+		<id column="coupon_code" property="code" />
+		<result column="coupon_type" property="type" />
+		<result column="coupon_name" property="name" />
+		<result column="event_code" property="eventCode" />
+	</resultMap>
+	
+	<insert id="insertCoupon" parameterType="com.hmc.vo.Coupon">
+		insert into t_coupon
+			(coupon_code, coupon_type, coupon_name)
+		values
+			('CP' || lpad(T_COUPON_SEQ.nextval, 6,0), #{type}, #{name})
+	</insert>
+	
+	<select id="getCouponNonMappingEvent" resultMap="CouponResultMap">
+		select
+			*
+		from
+			t_coupon
+		where
+			event_code is null
+	</select>
+	
+	<select id="getCouponByCode" parameterType="string" resultMap="CouponResultMap">
+		select
+			*
+		from
+			t_coupon
+		where
+			coupon_code = #{value}
+	</select>
+	
+	<update id="updateCoupon" parameterType="com.hmc.vo.Coupon">
+		update t_coupon
+		set
+			event_code = #{eventCode}
+		where
+			coupon_code = #{code}
+	</update>
+	
+	<delete id="deleteCoupon" parameterType="string">
+		delete from
+			t_coupon
+		where
+			coupon_code = #{value}
+	</delete>
+</mapper>
