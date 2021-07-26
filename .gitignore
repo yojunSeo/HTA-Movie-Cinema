@@ -2,7 +2,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/java,java-web,windows,eclipse,maven
 # Edit at https://www.toptal.com/developers/gitignore?templates=java,java-web,windows,eclipse,maven
 
-target/
+
+target/*
+META-INF/*
 
 
 ### Eclipse ###
