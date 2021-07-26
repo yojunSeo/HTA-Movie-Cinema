@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hmc.dao.ScheduleDao">
+	<resultMap type="com.hmc.vo.Schedule" id="ScheduleResultMap">
+		<id column="schedule_code" property="code"/>
+		<result column="screen_code" property="screenCode"/>
+		<result column="branch_code" property="branchCode"/>
+		<result column="room_code" property="roomCode"/>
+		<result column="schedule_date" property="scheduleDate"/>
+		<result column="schedule_start_time" property="startTime"/>
+		<result column="schedule_end_time" property="endTime"/>
+		<result column="schedule_empty_seat" property="emptySeat"/>
+	</resultMap>
+	
+	<insert id="insertSchedule" parameterType="com.hmc.vo.Schedule">
+	
+	</insert>
+	
+	<update id="updateSchedule" parameterType="com.hmc.vo.Schedule">
+	
+	</update>
+	
+	<delete id="deleteSchedule" parameterType="string">
+	
+	</delete>
+	
+	<select id="getAllSchedules" resultMap="ScheduleResultMap">
+	
+	</select>
+	
+	<select id="getScheduleByCode"  parameterType="string" resultMap="ScheduleResultMap">
+	
+	</select>
+	
+</mapper>

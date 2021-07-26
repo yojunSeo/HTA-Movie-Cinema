@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hmc.dao.PaymentDao">
+	<resultMap type="com.hmc.vo.Payment" id="PaymentResultMap">
+		<id column="payment_code" property="code"/>
+		<result column="user_id" property="userId"/>
+		<result column="payment_price" property="price"/>
+		<result column="payment_date" property="paymentDate"/>
+		<result column="payment_way" property="way"/>
+		<result column="payment_status" property="status"/>
+	</resultMap>
+	
+	<insert id="insertPayment" parameterType="com.hmc.vo.Payment">
+		insert into t_payment
+		(payment_code, user_id, payment_price, payment_way)
+		values
+		('PM' || lpad(T_PAYMENT_SEQ.nextval, 6,0), #{userId},  #{price}, #{way})
+	</insert>
+	
+	<update id="updatePaymentStatus" parameterType="com.hmc.vo.Payment">
+		update t_payment
+		set
+			payment_status = #{status}
+		where
+			payment_code = #{code}
+	</update>
+	
+	<select id="getPaymentsByUserId" parameterType="string" resultMap="PaymentResultMap">
+		select
+			*
+		from
+			t_payment
+		where
+			user_id = #{value}
+	</select>
+	
+	<select id="getPaymentByCode" parameterType="string" resultMap="PaymentResultMap">
+		select 
+			*
+		from
+			t_payment
+		where
+			payment_code = #{value}
+	</select>
+</mapper>
