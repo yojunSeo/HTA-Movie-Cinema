@@ -35,9 +35,7 @@
 		where
 			product_code = #{value}
 	</select>
-<<<<<<< HEAD
 
-	
 	<select id="getTotalProductsRows" resultType="int">
 		select
 			count(*)
@@ -66,6 +64,4 @@
 			product_code = #{code}
 	</update>
 
-=======
->>>>>>> 25b8dcb184f82f5abd49ec1e0315fc3ad3374052
 </mapper>

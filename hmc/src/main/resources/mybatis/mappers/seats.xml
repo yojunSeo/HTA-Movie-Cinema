@@ -2,8 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.hmc.dao.SeatDao">
-<<<<<<< HEAD
-
 
 	<resultMap type="com.hmc.vo.Seat" id="SeatResultMap">
 		<id column="seat_code" property="code"/>
@@ -75,8 +73,5 @@
 	</select>
 
 
-=======
-	
-	
->>>>>>> 25b8dcb184f82f5abd49ec1e0315fc3ad3374052
+
 </mapper>

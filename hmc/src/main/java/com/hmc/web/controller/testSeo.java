@@ -3,15 +3,10 @@ package com.hmc.web.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-<<<<<<< HEAD
 
 import com.hmc.service.BranchService;
 import com.hmc.service.CouponService;
 
-=======
->>>>>>> 25b8dcb184f82f5abd49ec1e0315fc3ad3374052
 import com.hmc.service.MallService;
 import com.hmc.vo.Product;
 
@@ -20,8 +15,6 @@ public class testSeo {
 	
 	@Autowired
 	private MallService mallService;
-	
-<<<<<<< HEAD
 
 	@GetMapping("product/test")
 	public String productTest() {
@@ -61,8 +54,6 @@ public class testSeo {
 		return "test/seo";
 	}
 	
-	
-	
 	@GetMapping("publishedcoupon/test")
 	public String publishedCouponTest() {
 		
@@ -71,8 +62,6 @@ public class testSeo {
 		return "test/seo";
 	}
 
-=======
->>>>>>> 25b8dcb184f82f5abd49ec1e0315fc3ad3374052
 	@GetMapping("product/insert")
 	public String insertProduct() {
 		
@@ -87,9 +76,5 @@ public class testSeo {
 		mallService.insertProduct(product);
 		
 		return "";
-<<<<<<< HEAD
-
-=======
->>>>>>> 25b8dcb184f82f5abd49ec1e0315fc3ad3374052
 	}
 }
