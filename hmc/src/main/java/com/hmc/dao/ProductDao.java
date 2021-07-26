@@ -9,7 +9,7 @@ public interface ProductDao {
 
 	List<Product> getAllProduct();
 		
-<<<<<<< HEAD
+
 	Product getProductByCode(String prductCode);
 	
 	int getTotalProductsRows();
@@ -19,13 +19,6 @@ public interface ProductDao {
 	void updateProduct(Product product);
 	
 
-=======
-	Product getProductByCode();
-	
-	int getTotalProductsRows();
-	
-	void deleteProductByCode(String ProductCode);
-	
-	void updateProduct(Product product);
->>>>>>> 93cd598888942a7493056f496c68ff94e36d588a
+
+
 }

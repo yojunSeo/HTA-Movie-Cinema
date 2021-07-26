@@ -6,11 +6,11 @@ import com.hmc.vo.Product;
 
 public interface MallService {
 	
-<<<<<<< HEAD
+
 	void mallServiceTest();
 	
 	void giftTest();
-=======
+
 	List<Product> getAllProduct();
 	
 	Product getProductByCode();
@@ -22,5 +22,5 @@ public interface MallService {
 	void deleteProductByCode(String ProductCode);
 	
 	void updateProduct(Product product);
->>>>>>> 93cd598888942a7493056f496c68ff94e36d588a
+
 }

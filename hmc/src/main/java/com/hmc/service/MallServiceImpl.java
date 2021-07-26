@@ -5,14 +5,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-<<<<<<< HEAD
+
 import com.hmc.dao.GiftProductDao;
 import com.hmc.dao.ProductCategoryDao;
 import com.hmc.dao.ProductDao;
 import com.hmc.vo.GiftProduct;
-=======
+
 import com.hmc.dao.ProductDao;
->>>>>>> 93cd598888942a7493056f496c68ff94e36d588a
+
 import com.hmc.vo.Product;
 
 @Service
@@ -21,7 +21,7 @@ public class MallServiceImpl implements MallService{
 	@Autowired
 	ProductDao productDao;
 	
-<<<<<<< HEAD
+
 	@Autowired
 	ProductCategoryDao productCategoryDao;
 	
@@ -111,7 +111,7 @@ public class MallServiceImpl implements MallService{
 		giftProductDao.updateUsedStatusToY("GT000044");
 	}
 	
-=======
+
 	@Override
 	public void insertProduct(Product product) {
 		
@@ -149,5 +149,5 @@ public class MallServiceImpl implements MallService{
 		// TODO Auto-generated method stub
 		
 	}
->>>>>>> 93cd598888942a7493056f496c68ff94e36d588a
+
 }

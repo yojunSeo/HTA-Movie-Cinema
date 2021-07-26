@@ -5,11 +5,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-<<<<<<< HEAD
+
 import com.hmc.service.BranchService;
 import com.hmc.service.CouponService;
-=======
->>>>>>> 93cd598888942a7493056f496c68ff94e36d588a
+
 import com.hmc.service.MallService;
 import com.hmc.vo.Product;
 
@@ -19,7 +18,7 @@ public class testSeo {
 	@Autowired
 	private MallService mallService;
 	
-<<<<<<< HEAD
+
 	@GetMapping("product/test")
 	public String productTest() {
 		
@@ -66,7 +65,8 @@ public class testSeo {
 		couponService.publishedCouponServiceTest();
 		
 		return "test/seo";
-=======
+	}
+
 	@GetMapping("product/insert")
 	public String insertProduct() {
 		
@@ -81,6 +81,6 @@ public class testSeo {
 		mallService.insertProduct(product);
 		
 		return "";
->>>>>>> 93cd598888942a7493056f496c68ff94e36d588a
+
 	}
 }
