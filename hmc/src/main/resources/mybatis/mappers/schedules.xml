@@ -64,20 +64,4 @@
 	
 	</select>
 	
-	<update id="updateSchedule" parameterType="com.hmc.vo.Schedule">
-	
-	</update>
-	
-	<delete id="deleteSchedule" parameterType="string">
-	
-	</delete>
-	
-	<select id="getAllSchedules" resultMap="ScheduleResultMap">
-	
-	</select>
-	
-	<select id="getScheduleByCode"  parameterType="string" resultMap="ScheduleResultMap">
-	
-	</select>
-	
 </mapper>
