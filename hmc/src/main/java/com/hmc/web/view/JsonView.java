@@ -1,4 +1,4 @@
-package com.sample.web.view;
+package com.hmc.web.view;
 
 
 import java.io.PrintWriter;
