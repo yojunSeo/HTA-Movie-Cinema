@@ -19,5 +19,6 @@ public class Notice {
 	private Date createdDate;
 	private Date modifiedDate;
 	private String status;
+	private int viewCnt;
 
 }

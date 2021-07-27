@@ -12,6 +12,7 @@
 		<result column="notice_created_date" property="createdDate"/>
 		<result column="notice_modified_date" property="modifiedDate"/>
 		<result column="notice_status" property="status"/>
+		<result column="notice_view_count" property="viewCnt"/>
 	</resultMap>
 	
 	<select id="getNoticeByCode" parameterType="string" resultMap="NoticeResultMap">
@@ -42,7 +43,8 @@
 			notice_title = #{title},		
 			notice_content = #{content},		
 			notice_status = #{status},
-			notice_modified_date = {modifiedDate}
+			notice_modified_date = {modifiedDate},
+			notice_review_count = #{viewCnt}
 		where
 			notice_code = #{code}			
 	</update>
