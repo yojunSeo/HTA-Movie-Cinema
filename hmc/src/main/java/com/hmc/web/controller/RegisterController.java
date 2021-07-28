@@ -31,7 +31,6 @@ public class RegisterController {
    
    @PostMapping("/form")
    public String register(Register register) {
-	   System.out.println("dsasdass");
 	   User user = new User();
 	   BeanUtils.copyProperties(register, user);
 	   return "redirect:/login/";
