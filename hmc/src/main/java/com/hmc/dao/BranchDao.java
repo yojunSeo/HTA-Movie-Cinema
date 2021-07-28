@@ -11,4 +11,6 @@ public interface BranchDao {
 	Branch getBranchDetail(String branchCode);
 	
 	void updateBranch(Branch branch);
+	
+	String getBranchNameByCode(String branchCode);
 }

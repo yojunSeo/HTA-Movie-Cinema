@@ -20,11 +20,29 @@
 		
 	<select id="getAllSeatTypes" resultType="com.hmc.vo.SeatType">
 		select
-			*
+			seat_type as type,
+			seat_price as price,
 		from 
 			t_seat_type
 		order by
 			seat_price 
+	</select>
+	
+	<select id="getSeatByCode" parameterType="string" resultType="hashmap">
+		select
+			seat_code	as seatCode,
+			branch_code as branchCode,
+			room_code 	as roomCode,
+			seat_row 	as seatRow,
+			seat_col 	as seatCol,
+			b.seat_type as type,
+			seat_price 	as price
+		from 
+			t_seat a, t_seat_type b
+		where
+			a.seat_type = b.seat_type
+		and
+			seat_code = #{value}
 	</select>
 	
 	<select id="getSeats" parameterType="map" resultMap="SeatResultMap">
@@ -71,7 +89,5 @@
 		where
 			booking_code = #{value}
 	</select>
-
-
 
 </mapper>

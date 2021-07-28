@@ -37,4 +37,12 @@
 			branch_code = #{code}
 	</update>
 	
+	<select id="getBranchNameByCode" parameterType="string" resultType="string">
+		select 
+			branch_name
+		from 
+			t_branch
+		where
+			branch_code = #{value}
+	</select>
 </mapper>

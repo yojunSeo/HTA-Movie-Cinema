@@ -1,6 +1,7 @@
 package com.hmc.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.hmc.vo.ScreenMovie;
 

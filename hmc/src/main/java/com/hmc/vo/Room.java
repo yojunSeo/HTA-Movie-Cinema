@@ -10,6 +10,7 @@ import lombok.ToString;
 public class Room {
 
 	private String code;
+	private String name;
 	private String branchCode;
 	private int totalSeat;
 	private String status;
