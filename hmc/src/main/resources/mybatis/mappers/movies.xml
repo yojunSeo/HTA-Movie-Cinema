@@ -5,9 +5,9 @@
 
 	<select id="getAllNonScreenMovie" resultType="com.hmc.vo.Movie">
 		select 
-    		mv.movie_code as code,
+    		mv.movie_code as movieCode,
     		mv.movie_release_date as releaseDate,
-    		mv.movie_name as name,
+    		mv.movie_name as movieName,
     		mv.movie_running_time as runningTime
 		from 
 			t_movie mv
