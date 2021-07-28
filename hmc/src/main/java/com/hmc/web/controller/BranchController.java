@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/branch")
+@RequestMapping("branch")
 public class BranchController {
 	
-	@GetMapping("")
+	@GetMapping("/")
 	public String allBranchInfo() {
 		
 		return "branch/main";
@@ -19,5 +19,18 @@ public class BranchController {
 	public String detailBranchInfo() {
 		
 		return "branch/detail";
+	}
+	
+
+	@GetMapping("/timetable")
+	public String timeBranch() {
+		
+		return "branch/time";
+	}
+	
+	@GetMapping("/price")
+	public String priceBranch() {
+		
+		return "branch/price";
 	}
 }

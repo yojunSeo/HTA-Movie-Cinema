@@ -66,7 +66,7 @@
 		var iwContent = '<div style="padding:10px;">Hello World! <br>'	+
 						'<a href="https://map.kakao.com/link/map/Hello World!,33.450701,126.570667" style="color:blue" target="_blank">큰지도보기</a>' +
 						'<a href="https://map.kakao.com/link/to/Hello World!,33.450701,126.570667" style="color:blue" target="_blank">길찾기</a><br/>' +
-						'<a href="detail" style="color:red" target="_blank">상세페이지</a>' +
+						'<a href="/hmc/branch/detail" style="color:red" target="_blank">상세페이지</a>' +
 						'</div>' // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
 	    iwPosition = new kakao.maps.LatLng(37.477041, 126.982026); //인포윈도우 표시 위치입니다
 

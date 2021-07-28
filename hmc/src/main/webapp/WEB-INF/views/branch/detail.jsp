@@ -7,8 +7,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-<link rel="stylesheet" href="/static/pc/dist/megabox.min.css">
+
 <title>영화관상세-HMC</title>
+<style type="text/css">
+	
+	.tab {
+		border-width: 0px 0px 2px 0px;
+		border-style: solid;
+		border-color: #FF243E;
+	}
+	.tab_selected {
+		border-width: 2px 2px 0px 2px;
+		border-style: solid;
+		border-color: #FF243E;
+		font-weight: bold;
+		color: #FF243E;
+	}	
+</style>
 </head>
 <body>
 	<div class="container">
@@ -17,10 +32,36 @@
 		</header>
 
 		<main class="mt-5">
+			<table class="table table-borderless" style="color:#FFFFFF; background-image: url(../resources/images/branch/thater_room.jpg); background-repeat: no-repeat; width:100%; height:200px;">
+				<tr><td class="text-end">
+					<button class="btn btn-outline-secondary">
+						<img alt="" src="../resources/images/branch/favorite.png" width="30px">
+						<img alt="" src="../resources/images/branch/unfavorite.png" width="30px">
+						 나의 지점 등록
+					</button>
+			  	</td></tr>
+				<tr>
+					<td class="align-middle text-center" style="">
+					<h2>지점 이름</h2>
+					</td>
+				</tr>
+			</table>
 			
-			<h2><i class="bi bi-camera-reels"></i> OOO지점</h2>
+			<!-- 탭 구현 -->
+			<div class="row fs-6 justify-content-center text-center" style="display: flex;">
+				<div class="col-4 p-2 tab_selected">
+					<a href="detail" class="btn">지점상세</a>
+				</div>
+				<div class="col-4 p-2 tab" >
+					<a href="timetable" class="btn">상영시간표</a>
+				</div>
+				<div class="col-4 p-2 tab">
+					<a href="price" class="btn">가격</a>
+				</div>
+			</div>
 			
-			<div class="row mt-5">
+			
+			<div class="row mt-5 p-5" style="background-color:#F2F2F2;">
 				<div style="font-style:italic; font-size: 30px">
 				<p>전세계 어디에서도 느껴 볼 수 없는 <strong>19,000watts</strong> 사운드 시스템<br /></p>
 				<p>롤링스톤즈가 고집한 최상의 파워앰프 <strong>E/V P3000</strong> 전세계 최초 영화관 사용<br /></p>
