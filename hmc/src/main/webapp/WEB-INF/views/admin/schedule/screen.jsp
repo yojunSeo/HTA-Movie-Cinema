@@ -26,7 +26,7 @@
       					<select class="form-control" name="movieCode" id="movie-code" >
         					<option selected disabled> 영화를 선택하세요</option>
         					<c:forEach var="movie" items="${movies }">
-        						<option value="${movie.code}">  ${movie.name }</option>        					
+        						<option value="${movie.movieCode}">  ${movie.movieName }</option>        					
         					</c:forEach>
       					</select>
     				</div>
