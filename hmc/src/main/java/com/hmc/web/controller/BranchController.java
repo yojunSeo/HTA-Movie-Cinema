@@ -20,4 +20,17 @@ public class BranchController {
 		
 		return "branch/detail";
 	}
+	
+
+	@GetMapping("/timetable")
+	public String timeBranch() {
+		
+		return "branch/time";
+	}
+	
+	@GetMapping("/price")
+	public String priceBranch() {
+		
+		return "branch/price";
+	}
 }
