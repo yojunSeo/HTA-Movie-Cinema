@@ -15,14 +15,13 @@
 		<result column="booking_total_price" property="totalPrice"/>
 		<result column="booking_status" property="status"/>
 	</resultMap>
-
 	
 	<insert id="insertBooking" parameterType="com.hmc.vo.Booking">
 		insert into t_booking
 			(booking_code, schedule_code, user_id, payment_code, 
 					booking_cnt, booking_price, booking_discount_price, booking_total_price)
 		values
-			('BK' || lpad(T_BOOKING_SEQ.nextval, 6,0), #{scheduleCode}, #{userId}, #{paymentCode} ,#{count}, #{price}, #{discountPrice}, #{totalPrice});
+			('BK' || lpad(T_BOOKING_SEQ.nextval, 6,0), #{scheduleCode}, #{userId}, #{paymentCode} ,#{count}, #{price}, #{discountPrice}, #{totalPrice})
 	</insert>
 
 	<update id="updateBooking" parameterType="com.hmc.vo.Booking">
@@ -43,6 +42,40 @@
 			booking_code desc
 	</select>
 	
+	<select id="getBookingDetailsByUserId" parameterType="string" resultType="hashmap">
+		select
+			booking_code 			as bookingcode,
+            sh.schedule_code 		as scheduleCode,
+            mv.movie_name 			as movieName,
+            sh.schedule_date as scheduleDate,
+            sh.schedule_start_time as startTime,
+            sh.schedule_end_time as endTime,
+            rm.room_name 			as roomName,
+            br.branch_name 			as branchName,
+            user_id 				as userId,
+            payment_code 			as paymentCode,
+            booking_date 			as bookingdate,
+            booking_cnt 			as count,
+            booking_price 			as price,
+            booking_discount_price 	as discountPrice,
+            booking_total_price 	as totalPrice,
+            booking_status as status
+		from 
+			t_booking bk, t_schedule sh, t_screen_movie sc, t_movie mv, t_room rm, t_branch br
+        where
+            bk.schedule_code = sh.schedule_code
+        and     
+            sh.room_code = rm.room_code
+        and
+            sh.branch_code = br.branch_code
+        and
+            sh.screen_code = sc.screen_code
+        and
+            sc.movie_code = mv.movie_code
+		order by
+			booking_code desc
+	</select>
+	
 	<select id="getBookingByCode" parameterType="string" resultMap="BookingResultMap">
 		select
 			*
@@ -51,6 +84,4 @@
 		where
 			booking_code = #{value}	
 	</select>
-
-
 </mapper>

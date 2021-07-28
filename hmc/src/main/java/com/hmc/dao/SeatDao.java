@@ -20,7 +20,7 @@ public interface SeatDao {
 	 * @param condition 영화관코드와 상영관 코드
 	 * @return 해당하는 좌석 목록
 	 */
-	List<Seat> getSeats(Map<String, String> condition);
+	List<Seat> getSeats(Map<String, Object> condition);
 	
 	/**
 	 * 
@@ -47,6 +47,6 @@ public interface SeatDao {
 	 * @return 해당하는 좌석예약정보
 	 */
 	SeatBooking getSeatBookingsByBooking(String bookingCode);
-
-
+	
+	Map<String, Object> getSeatByCode(String seatCode);
 }

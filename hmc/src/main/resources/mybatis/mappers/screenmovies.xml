@@ -6,15 +6,20 @@
 	<resultMap type="com.hmc.vo.ScreenMovie" id="ScreenMovieResultMap">
 		<id column="screen_code" property="code"/>
 		<result column="movie_code" property="movieCode"/>
+		<result column="movie_name" property="movieName"/>
+		<result column="movie_running_time" property="runningTime"/>
 		<result column="screen_start_date" property="startDate"/>
 		<result column="screen_end_date" property="endDate"/>
 	</resultMap>
 
 	<insert id="insertScreenMovie" parameterType="com.hmc.vo.ScreenMovie">
+		<selectKey keyProperty="code" resultType="string" order="BEFORE">
+			select 'SC' || lpad(T_SCREEN_SEQ.nextval, 6,0) from dual
+		</selectKey>
 		insert into t_screen_movie
-			(screen_code, movie_code, screen_start_date, screen_end_date)
+			(screen_code, movie_code, screen_start_date, screen_end_date , movie_name, movie_running_time)
 		values
-			('SC' || lpad(T_SCREEN_SEQ.nextval, 6,0), #{movieCode}, #{startDate}, #{endDate})
+			(#{code}, #{movieCode}, #{startDate}, #{endDate}, #{movieName}, #{runningTime})
 	</insert>
 	
 	<update id="updateScreenMovie" parameterType="com.hmc.vo.ScreenMovie">
@@ -34,20 +39,20 @@
 	</delete>
 	
 	<select id="getAllScreenMovies" resultMap="ScreenMovieResultMap">
-		select
+		select 
 			*
 		from 
 			t_screen_movie
 		order by 
-			screen_code
+			screen_code desc
 	</select>
 	
 	<select id="getScreenMovieByCode" parameterType="string" resultMap="ScreenMovieResultMap">
-		select
+		select 
 			*
 		from 
 			t_screen_movie
 		where
-			screen_code = #{value}
+    		screen_code = #{value}
 	</select>
 </mapper>

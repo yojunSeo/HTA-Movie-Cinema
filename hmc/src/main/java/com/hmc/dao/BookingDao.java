@@ -1,13 +1,13 @@
 package com.hmc.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.hmc.vo.Booking;
 
 public interface BookingDao {
 
 	/**
-
 	 * 예매정보를 데이터베이스에 저장한다.
 	 * @param booking 저장할 예매정보
 	 */
@@ -32,6 +32,6 @@ public interface BookingDao {
 	 * @return 해당하는 예매정보
 	 */
 	Booking getBookingByCode(String bookingCode);
-
-
+	
+	List<Map<String, Object>> getBookingDetailsByUserId(String userId);
 }

@@ -8,6 +8,7 @@
 		<result column="branch_code" property="branchCode"/>
 		<result column="room_total_seat" property="totalSeat"/>
 		<result column="room_status" property="status"/>
+		<result column="room_name" property="name"/>
 	</resultMap>
 	
 	<update id="updateRoom" parameterType="com.hmc.vo.Room">

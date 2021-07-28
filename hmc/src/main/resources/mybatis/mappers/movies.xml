@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hmc.dao.MovieDao">
+
+	<select id="getAllNonScreenMovie" resultType="com.hmc.vo.Movie">
+		select 
+    		mv.movie_code as code,
+    		mv.movie_release_date as releaseDate,
+    		mv.movie_name as name,
+    		mv.movie_running_time as runningTime
+		from 
+			t_movie mv
+		where 
+			mv.movie_code not in (select sc.movie_code from t_screen_movie sc)
+		order by 
+			movie_release_date desc
+	</select>
+	
+	<select id="getMovieInfoByCode" parameterType="string" resultType="com.hmc.vo.Movie">
+		select 
+    		movie_code as code,
+    		movie_release_date as releaseDate,
+    		movie_name as name,
+    		movie_running_time as runningTime
+		from 
+			t_movie
+		where 
+			movie_code = #{value}
+	</select>
+	
+	<select id="getAllMovies" resultType="com.hmc.vo.Movie">
+      select
+         movie_code          movieCode,
+         movie_release_date      releaseDate,
+         movie_name            movieName,
+         movie_running_time      runningTime,
+         movie_genre         genre,
+         movie_grade         grade,
+         movie_country         country,
+         movie_director         director,
+         movie_company         company,
+         movie_poster         poster,
+         movie_synopsis         synopsis,
+         movie_url            url,
+         movie_stillcut         stillcut,
+         movie_trailer         trailer,
+         movie_total_score      totalScore,
+         movie_review_cnt      reviewCnt
+      from
+         t_movie
+      order by movie_code desc
+   </select>
+   
+   <select id="getMovieByCode" parameterType="int" resultType="com.hmc.vo.Movie">
+       select
+            movie_code          movieCode,
+            movie_release_date      releaseDate,
+            movie_name            movieName,
+            movie_running_time      runningTime,
+            movie_genre         genre,
+            movie_grade         grade,
+            movie_country         country,
+            movie_director         director,
+            movie_company         company,
+            movie_poster         poster,
+            movie_synopsis         synopsis,
+            movie_url            url,
+            movie_stillcut         stillcut,
+            movie_trailer         trailer,
+            movie_total_score      totalScore,
+            movie_review_cnt      reviewCnt
+         from
+            T_MOVIE
+         where
+             movie_code = #{value}
+   </select>
+</mapper>
