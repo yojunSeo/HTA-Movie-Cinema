@@ -14,6 +14,7 @@ import com.hmc.service.ScheduleService;
 import com.hmc.vo.Branch;
 import com.hmc.vo.Movie;
 import com.hmc.vo.Schedule;
+import com.hmc.vo.ScheduleDetail;
 import com.hmc.vo.ScreenMovie;
 
 @Controller
@@ -38,7 +39,7 @@ public class AdminScheduleController {
 	@GetMapping("/list")
 	public String scheduleList(Model model) {
 		List<Branch> branchs = scheduleService.getAllBranchs();
-		List<Map<String, Object>> schedules = scheduleService.getAllSchedules();
+		List<ScheduleDetail> schedules = scheduleService.getAllSchedules();
 		List<ScreenMovie> movies = scheduleService.getAllScreenMovies();
 		model.addAttribute("branchs", branchs);
 		model.addAttribute("schedules", schedules);

@@ -23,7 +23,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hmc.service.ScheduleService;
 import com.hmc.vo.Movie;
 import com.hmc.vo.Room;
+import com.hmc.vo.Schedule;
+import com.hmc.vo.ScheduleDetail;
 import com.hmc.vo.ScreenMovie;
+import com.hmc.web.form.ScheduleForm;
+import com.hmc.web.util.DateUtils;
 
 @Controller
 @RequestMapping("/admin/rest")
@@ -52,7 +56,6 @@ public class AdminScheduleAjaxController {
 		screenMovie.setRunningTime(movie.getRunningTime());
 		scheduleService.insertScreenMovie(screenMovie);
 		ScreenMovie screen = scheduleService.getScreenMovieByCode(screenMovie.getCode());
-		System.out.println(screen);
 		return new ResponseEntity<ScreenMovie>(screen, HttpStatus.OK);
 	}
 	
@@ -62,7 +65,6 @@ public class AdminScheduleAjaxController {
 		if(rooms.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
-		System.out.println(rooms);
 		return new ResponseEntity<List<Room>>(rooms, HttpStatus.OK);
 	}
 	
@@ -87,30 +89,64 @@ public class AdminScheduleAjaxController {
 		
 		Date endTime = scheduleService.getEndTime(timeCondition);
 		String endTimeString = DATE_TIME_FORMAT.format(endTime);
-		System.out.println(endTimeString);
-		
 		return new ResponseEntity<String>(endTimeString, HttpStatus.OK);
 	}
 	
+	//@RequestMapping(path =  "/branchName", produces = "text/plain")
+	@RequestMapping("/branchName")
+	public @ResponseBody ResponseEntity<List<String>> branchName(@RequestParam("code") String branchCode){
+		String branchName = scheduleService.getBranchNameByCode(branchCode);
+		List<String> list = new ArrayList<String>();
+		list.add(branchName);
+		return new ResponseEntity<List<String>>(list, HttpStatus.OK);
+	}
+	
+	
 	@RequestMapping("/branchSchedule")
-	public @ResponseBody ResponseEntity<List<Map<String, Object>>> branchSchedule(
+	public @ResponseBody ResponseEntity<List<ScheduleDetail>> branchSchedule(
 					@RequestParam("branchCode") String branchCode, @RequestParam("screenDate") String screenDate){
 		
-		System.out.println(branchCode);
-		System.out.println(screenDate);
 		Map<String, Object> condition = new HashMap<String, Object>();
 		condition.put("branchCode", branchCode);
 		condition.put("screenDate", screenDate);
-		List<Map<String, Object>> schedules = scheduleService.getBranchSchedulesByDate(condition);
-		if(schedules.isEmpty()) {
-			String branchName = scheduleService.getBranchNameByCode(branchCode);
-			Map<String, Object> branchInfo = new HashMap<String, Object>();
-			branchInfo.put("branchName", branchName);
-			List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
-			list.add(branchInfo);
-			return new ResponseEntity<List<Map<String,Object>>>(list, HttpStatus.OK);
+		List<ScheduleDetail> schedules = scheduleService.getBranchSchedulesByDate(condition);
+		return new ResponseEntity<List<ScheduleDetail>>(schedules, HttpStatus.OK);
+	}
+	
+	@RequestMapping("/schedule/register")
+	public @ResponseBody ResponseEntity<List<String>> scheduleRegister(ScheduleForm scheduleForm) throws ParseException{
+		List<String> startTimes = scheduleForm.getStartTime();
+		List<String> endTimes = scheduleForm.getEndTime();
+		List<Date> startTimeDates = new ArrayList<Date>();
+		List<Date> endTimeDates = new ArrayList<Date>();
+		
+		for(String startTime : startTimes) {
+			Date startTimeDate = DateUtils.stringToDateTime(startTime);
+			startTimeDates.add(startTimeDate);
 		}
-		return new ResponseEntity<List<Map<String,Object>>>(schedules, HttpStatus.OK);
+		for(String endTime : endTimes) {
+			Date endTimeDate = DateUtils.stringToDateTime(endTime);
+			endTimeDates.add(endTimeDate);
+		}
+		
+		int totalSeat = scheduleService.getRoomByCode(scheduleForm.getRoomCode()).getTotalSeat();
+		// 인서트 여러번 수행하기
+		for(int i=0; i<endTimes.size(); i++) {
+			Schedule schedule = new Schedule();
+			schedule.setBranchCode(scheduleForm.getBranchCode());
+			schedule.setRoomCode(scheduleForm.getRoomCode());
+			schedule.setScheduleDate(scheduleForm.getScheduleDate());
+			schedule.setScreenCode(scheduleForm.getScreenCode());
+			schedule.setStartTime(startTimeDates.get(i));
+			schedule.setEndTime(endTimeDates.get(i));
+			schedule.setEmptySeat(totalSeat);
+			schedule.setTotalSeat(totalSeat);
+			scheduleService.insertSchedule(schedule);
+		}
+		List<String> info = new ArrayList<String>();
+		info.add(scheduleForm.getBranchCode());
+		info.add(DateUtils.dateToDateString(scheduleForm.getScheduleDate()));
+		return new ResponseEntity<List<String>>(info, HttpStatus.OK);
 	}
 
 

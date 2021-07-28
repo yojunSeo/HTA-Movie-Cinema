@@ -177,7 +177,7 @@
     	 function registerScreen(){
     		$.ajax({
     			type:"POST",
-    			url:"/hmc/admin/rest/screen/register",
+    			url:"../../rest/screen/register",
     			data: $('#form-screen-register').serialize(),
     			dataType: "json",
     			success: function(screen){

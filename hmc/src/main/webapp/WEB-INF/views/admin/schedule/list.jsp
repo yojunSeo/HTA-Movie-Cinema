@@ -83,13 +83,13 @@
 				<c:forEach var="schedule" items="${schedules }" >
 					<tr>
 						<td><input type="checkbox" id="checkbox-all-selected"></td>
-						<td class="text-center">${schedule.BRANCHNAME }</td>
-						<td class="text-center">${schedule.ROOMNAME }</td>
-						<td class="text-center">${schedule.MOVIENAME }</td>
-						<td class="text-center"><fmt:formatDate value="${schedule.SCHEDULEDATE }" pattern="yyyy-MM-dd"/></td>
-						<td class="text-center"><fmt:formatDate value="${schedule.STARTTIME }" pattern="HH:mm"/></td>
-						<td class="text-center"><fmt:formatDate value="${schedule.ENDTIME }" pattern="HH:mm"/></td>
-						<td class="text-center">${schedule.EMPTYSEAT }/${schedule.TOTALSEAT }</td>
+						<td class="text-center">${schedule.branchName }</td>
+						<td class="text-center">${schedule.roomName }</td>
+						<td class="text-center">${schedule.movieName }</td>
+						<td class="text-center"><fmt:formatDate value="${schedule.scheduleDate }" pattern="yyyy-MM-dd"/></td>
+						<td class="text-center"><fmt:formatDate value="${schedule.startTime }" pattern="HH:mm"/></td>
+						<td class="text-center"><fmt:formatDate value="${schedule.endTime }" pattern="HH:mm"/></td>
+						<td class="text-center">${schedule.emptySeat }/${schedule.totalSeat }</td>
 						<td class="text-center"><button class="btn btn-outline-warning btn-sm">수정</button></td>
 						<td class="text-center"><button class="btn btn-outline-danger btn-sm">삭제</button></td>
 					</tr>

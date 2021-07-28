@@ -15,6 +15,8 @@ import com.hmc.dao.ScreenMovieDao;
 import com.hmc.vo.Branch;
 import com.hmc.vo.Movie;
 import com.hmc.vo.Room;
+import com.hmc.vo.Schedule;
+import com.hmc.vo.ScheduleDetail;
 import com.hmc.vo.ScreenMovie;
 @Service
 public class ScheduleServiceImpl implements ScheduleService{
@@ -66,7 +68,7 @@ public class ScheduleServiceImpl implements ScheduleService{
 	}
 	
 	@Override
-	public List<Map<String, Object>> getAllSchedules() {
+	public List<ScheduleDetail> getAllSchedules() {
 		return scheduleDao.getAllSchedules();
 	}
 	
@@ -76,12 +78,22 @@ public class ScheduleServiceImpl implements ScheduleService{
 	}
 	
 	@Override
-	public List<Map<String, Object>> getBranchSchedulesByDate(Map<String, Object> condition) {
+	public List<ScheduleDetail> getBranchSchedulesByDate(Map<String, Object> condition) {
 		return scheduleDao.getBranchSchedulesByDate(condition);
 	}
 	
 	@Override
 	public String getBranchNameByCode(String branchCode) {
 		return branchDao.getBranchNameByCode(branchCode);
+	}
+	
+	@Override
+	public Room getRoomByCode(String roomCode) {
+		return roomDao.getRoomByCode(roomCode);
+	}
+	
+	@Override
+	public void insertSchedule(Schedule schedule) {
+		scheduleDao.insertSchedule(schedule);
 	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.hmc.vo.Schedule;
+import com.hmc.vo.ScheduleDetail;
 
 public interface ScheduleDao {
 
@@ -30,16 +31,16 @@ public interface ScheduleDao {
 	 * 모든 상영스케줄을 출력한다.
 	 * @return 모든 상영스케줄
 	 */
-	List<Map<String, Object>> getAllSchedules();
+	List<ScheduleDetail> getAllSchedules();
 	
 	/**
 	 * 스케줄코드를 전달받아 해당하는 상영정보를 반환한다.
 	 * @param scheduleCode 스케줄코드
 	 * @return 해당하는 상영정보
 	 */
-	Map<String, Object> getScheduleByCode(String scheduleCode);
+	ScheduleDetail getScheduleByCode(String scheduleCode);
 	
 	Date getEndTime(Map<String, Object> condition);
 	
-	List<Map<String, Object>> getBranchSchedulesByDate(Map<String, Object> condition);
+	List<ScheduleDetail> getBranchSchedulesByDate(Map<String, Object> condition);
 }

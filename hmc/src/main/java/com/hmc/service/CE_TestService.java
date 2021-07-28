@@ -8,6 +8,7 @@ import com.hmc.vo.Booking;
 import com.hmc.vo.Payment;
 import com.hmc.vo.Room;
 import com.hmc.vo.Schedule;
+import com.hmc.vo.ScheduleDetail;
 import com.hmc.vo.ScreenMovie;
 import com.hmc.vo.Seat;
 
@@ -19,13 +20,13 @@ public interface CE_TestService {
 
 	void createSchedule(Schedule schedule);
 	
-	List<Map<String, Object>> getAllSchedule();
+	List<ScheduleDetail> getAllSchedule();
 	
 	Date getEndTime(Map<String, Object> condition);
 	
 	ScreenMovie getScreenMovieByCode(String screenCode);
 
-	Map<String, Object> getScheduleByCode(String scheduleCode);
+	ScheduleDetail getScheduleByCode(String scheduleCode);
 	
 	List<Map<String, Object>> getMyBookingList(String userId);
 

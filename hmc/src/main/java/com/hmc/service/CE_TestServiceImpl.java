@@ -17,6 +17,7 @@ import com.hmc.vo.Booking;
 import com.hmc.vo.Payment;
 import com.hmc.vo.Room;
 import com.hmc.vo.Schedule;
+import com.hmc.vo.ScheduleDetail;
 import com.hmc.vo.ScreenMovie;
 import com.hmc.vo.Seat;
 
@@ -52,7 +53,7 @@ public class CE_TestServiceImpl implements CE_TestService{
 	}
 	
 	@Override
-	public List<Map<String, Object>> getAllSchedule() {
+	public List<ScheduleDetail> getAllSchedule() {
 		return scheduleDao.getAllSchedules();
 	}
 	
@@ -72,7 +73,7 @@ public class CE_TestServiceImpl implements CE_TestService{
 	}
 	
 	@Override
-	public Map<String, Object> getScheduleByCode(String scheduleCode) {
+	public ScheduleDetail getScheduleByCode(String scheduleCode) {
 		return scheduleDao.getScheduleByCode(scheduleCode);
 	}
 	

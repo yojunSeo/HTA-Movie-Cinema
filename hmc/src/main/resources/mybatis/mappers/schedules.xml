@@ -11,15 +11,16 @@
 		<result column="schedule_start_time" property="startTime"/>
 		<result column="schedule_end_time" property="endTime"/>
 		<result column="schedule_empty_seat" property="emptySeat"/>
+		<result column="schedule_total_seat" property="totalSeat"/>
 	</resultMap>
 	
 	<insert id="insertSchedule" parameterType="com.hmc.vo.Schedule">
 		insert into t_schedule
 			(schedule_code, screen_code, branch_code, room_code, schedule_date, 
-						schedule_start_time, schedule_end_time, schedule_empty_seat)
+						schedule_start_time, schedule_end_time, schedule_empty_seat, schedule_total_seat)
 		values
 			('SH' || lpad(T_SCHEDULE_SEQ.nextval, 6,0), #{screenCode}, #{branchCode}, #{roomCode}, 
-							#{scheduleDate}, #{startTime}, #{endTime}, #{emptySeat})
+							#{scheduleDate}, #{startTime}, #{endTime}, #{emptySeat}, #{totalSeat})
 	</insert>
 	
 	<update id="updateSchedule" parameterType="com.hmc.vo.Schedule">
@@ -43,7 +44,7 @@
 			schedule_code = #{value}
 	</delete>
 	
-	<select id="getAllSchedules" resultType="hashmap">
+	<select id="getAllSchedules" resultType="com.hmc.vo.ScheduleDetail">
 		select 
     		sh.schedule_code 		as scheduleCode,
     		sc.screen_code 			as screenCode,
@@ -57,7 +58,8 @@
     		sh.schedule_date 		as scheduleDate,
     		sh.schedule_start_time 	as startTime,
     		sh.schedule_end_time 	as endTime,
-    		sh.schedule_empty_seat 	as emptySeat
+    		sh.schedule_empty_seat 	as emptySeat,
+    		sh.schedule_total_seat 	as totalSeat
 		from 
     		t_schedule sh, t_screen_movie sc, t_branch br, t_room rm, t_movie mv
 		where
@@ -72,7 +74,7 @@
 			schedule_code desc
 	</select>
 	
-	<select id="getScheduleByCode"  parameterType="string" resultType="hashmap">
+	<select id="getScheduleByCode"  parameterType="string" resultType="com.hmc.vo.ScheduleDetail">
 		select 
     		sh.schedule_code 		as scheduleCode,
     		sc.screen_code 			as screenCode,
@@ -85,7 +87,8 @@
     		sh.schedule_date 		as scheduleDate,
     		sh.schedule_start_time 	as startTime,
     		sh.schedule_end_time 	as endTime,
-    		sh.schedule_empty_seat 	as emptySeat
+    		sh.schedule_empty_seat 	as emptySeat,
+    		sh.schedule_total_seat 	as totalSeat
 		from 
     		t_schedule sh, t_screen_movie sc, t_branch br, t_room rm, t_movie mv
 		where
@@ -107,7 +110,7 @@
 			dual
 	</select>
 	
-	<select id="getBranchSchedulesByDate" parameterType="map" resultType="hashmap">
+	<select id="getBranchSchedulesByDate" parameterType="map" resultType="com.hmc.vo.ScheduleDetail">
 		select  
     		sh.schedule_code 		as scheduleCode,
     		sc.screen_code 			as screenCode,
@@ -115,12 +118,12 @@
     		br.branch_code 			as branchCode,
     		br.branch_name 			as branchName,
     		rm.room_code 			as roomCode,
-    		rm.room_total_seat 		as totalSeat,
     		rm.room_name 			as roomName,
     		sh.schedule_date 		as scheduleDate,
     		sh.schedule_start_time 	as startTime,
     		sh.schedule_end_time 	as endTime,
-    		sh.schedule_empty_seat 	as emptySeat
+    		sh.schedule_empty_seat 	as emptySeat,
+    		sh.schedule_total_seat 	as totalSeat
 		from 
     		t_schedule sh, t_screen_movie sc, t_branch br, t_room rm
 		where

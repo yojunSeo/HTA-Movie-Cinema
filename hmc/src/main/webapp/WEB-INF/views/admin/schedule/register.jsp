@@ -5,24 +5,23 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <title>상영스케줄 등록-HMC</title>
 </head>
 <body>
-	<div class="container">
+<div class="container">
+	<header>
+	</header>
 
-		<header>
-		</header>
-
-		<main>
-			<div class="row my-3 ">
-				<div class="col">
-					<h2>상영스케줄 등록</h2>
-					<a href="list">스캐줄조회</a>
-				</div>
+	<main>
+		<div class="row my-3 ">
+			<div class="col">
+				<h2 class="fw-lighter">상영스케줄 등록</h2>
+				<a href="list">스캐줄조회</a>
 			</div>
-			<div class="row">
-				<div class="col-6">
+		</div>
+		<div class="row">
+			<div class="col-5">
 				<form id="schedule-form">
 					<div class="form-group col-12">
 						<div class="row mt-3" id="box-date">
@@ -56,76 +55,64 @@
 						<div id="box-time">
 							<div class="row mt-3" id="box-time-1">
 								<label>상영시간을 선택하세요.<span class="badge rounded-pill bg-primary mx-3" id="schedule-plus">추가</span></label>
-								<div class="col-5">
+								<div class="col-6">
 									<input id="start-time-1" type="datetime-local" class="form-control mt-2 w-30" name="startTime" placeholder="시작시간" />
 								</div>
-								<div class="col-5">
+								<div class="col-6">
 									<input id="end-time-1" type="datetime-local" class="form-control mt-2 w-30 mx-2" name="endTime" placeholder="종료시간" readonly />
 								</div>
 							</div>
 							<div class="row mt-3" id="box-time-2">
-								<div class="col-5">
+								<div class="col-6">
 									<input id="start-time-2" type="datetime-local" class="form-control mt-2 w-30" name="startTime" placeholder="시작시간" />
 								</div>
-								<div class="col-5">
+								<div class="col-6">
 									<input id="end-time-2" type="datetime-local" class="form-control mt-2 w-30 mx-2" name="endTime" placeholder="종료시간" readonly />
 								</div>
 							</div>
 							<div class="row mt-3" id="box-time-3">
-								<div class="col-5">
+								<div class="col-6">
 									<input id="start-time-3" type="datetime-local" class="form-control mt-2 w-30" name="startTime" placeholder="시작시간" />
 								</div>
-								<div class="col-5">
+								<div class="col-6">
 									<input id="end-time-3" type="datetime-local" class="form-control mt-2 w-30 mx-2" name="endTime" placeholder="종료시간" readonly />
 								</div>
 							</div>
 						</div>
 						<div class="row mt-3" id="schedule-submit">
-							<div class="col-6 text-end">
+							<div class="col-8"></div>
+							<div class="col-4 mt-3 ml-3">
 								<button type="button" class="btn btn-outline-danger" id="btn-cancel">취소</button>
-								<button type="submit" class="btn btn-outline-primary">등록</button>
+								<button type="button" class="btn btn-outline-primary" id="btn-submit">등록</button>
 							</div>
 						</div>
 					</div>
- 				</form>
- 			</div>
- 			<div class="col-1">
- 			</div>
- 			<!-- 상영시간표 띄우기 -->
- 			<div class="col-5 border p-3" id="schedule-box">
- 				<div class="row mb-3" id="schedule-info">
- 					<h3>[2021-07-31]</h3>
- 					<h4>HMC [왕십리점] 상영시간표</h4>
- 				</div>
+				</form>
+			</div>
+			<!-- 상영시간표 띄우기 -->
+			<div class="col-1"></div>
+ 			<div class="col-6 border p-3 ml-2" id="schedule-box">
+ 				<div class="row mb-3" id="schedule-info"></div>
  				<table class="table table-striped" id="schedule-table">
  					<thead>
  						<tr>
- 							<th>번호</th>
- 							<th>영화</th>
- 							<th>상영시간</th>
- 							<th>상영관</th>
- 							<th>예매현황</th>
+ 							<th class="text-center">영화</th>
+ 							<th class="text-center">상영시간</th>
+ 							<th class="text-center">상영관</th>
+ 							<th class="text-center">예매현황</th>
  						</tr>
  					</thead>
- 					<tbody>
- 						<tr>
- 							<td></td>
- 							<td>크루엘라</td>
- 							<td>19:30~20:~</td>
- 							<td>1관</td>
- 							<td>55/60</td>
- 						</tr>
+ 					<tbody id="schedule-tbody">
+
  					</tbody>
  				</table>
  			</div>
-			</div>
-		</main>
-
-		<footer>
-		</footer>
-
-	</div>
+		</div>
+	</main>
 	
+	<footer>
+	</footer>
+</div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 
@@ -147,9 +134,70 @@
 		
 		$('#schedule-box').hide();
 		
+		// ajax를 함수로 만들어놓을까? ##############################
+		// 상영시간표 띄우기##############################
+		function scheduleTableAjax(branchCode, screenDate){
+			console.log(branchCode);
+			console.log(screenDate);
+			$.ajax({
+				type:"GET",
+				url:"../rest/branchName",
+				data:{code:branchCode},
+				dataType:"json"
+//				dataType:"text",
+//				contentType: 'application/x-www-form-urlencoded; charset=euc-kr'
+			})
+			.done(function(name){
+				console.log(name);
+				var $info = $('#schedule-info').empty();
+				$info.append("<h3 class='fw-lighter mb-2'>[ "+screenDate+" ]</h3>");
+				$info.append("<h4 class='fw-lighter text-secondary'>HMC [<span class='fw-lighter text-danger'> "+name.pop()+" </span>] 상영시간표</h4>");
+				$('#schedule-info').append($info);
+				
+			})
+			$.ajax({
+				type:"GET",
+				url:"../rest/branchSchedule",
+				data:{branchCode:branchCode,screenDate:screenDate},
+				dataType:"json"
+			})
+			.done(function(schedules){
+				
+				if(schedules.length == 0){
+					var $tbody = $("#schedule-table tbody").empty();
+					var $tr = $("<tr></tr>")
+					$tr.append("<td class='text-center' colspan='4'>상영스케줄이 존재하지 않습니다.</td>")
+					$tbody.append($tr);
+					
+				} else{
+					var $tbody = $("#schedule-table tbody").empty();
+					
+					$.each(schedules, function(index, schedule){
+						var name = schedule.movieName;
+						var startTime = schedule.startTime;
+						var endTime = schedule.endTime;
+						var roomName = schedule.roomName;
+						var emptySeat = schedule.emptySeat;
+						var totalSeat = schedule.totalSeat;
+						
+						var $tr = $('<tr></tr>');
+						$("<td class='text-center'></td>").text(name).appendTo($tr);
+						$("<td class='text-center'></td>").text(startTime +" ~ "+endTime).appendTo($tr);
+						$("<td class='text-center'><span class='badge bg-warning text-dark'>"+roomName+"</span></td>").appendTo($tr);
+						$("<td class='text-center'><span class='badge bg-dark'>"+emptySeat+" / "+totalSeat+"</span></td>").appendTo($tr);
+
+						$tbody.append($tr);
+					})
+				}
+			})
+								
+			$('#schedule-box').show();
+		}
+		// ############ 여기까지 ##########################
+		
 		$('#screen-date').change(function(){
 			var screenDate = $('#screen-date').val();
-
+			
 			$.ajax({
 				type:"GET",
 				url:"../rest/screenDate",
@@ -157,12 +205,21 @@
 				dataType:"text"
 			})
 			.done(function(date){
-				$('#start-time').val(date);
+				$('#start-time-1').val(date);
+				$('#start-time-2').val(date);
+				$('#start-time-3').val(date);
 			})
+			// #### 여기서도 호출
+			// 상영날짜 중간에 변경하는 경우
+			if($('#box-branch').val()){
+				var branchCode = $('#box-branch').val();
+				scheduleTableAjax(branchCode, screenDate);
+			}
 		});
 		
 		$('#box-branch').change(function(){
 			var branchCode = $(this).val();
+			var screenDate = $('#screen-date').val();
 			
 			$.ajax({
 				type:"GET",
@@ -176,66 +233,38 @@
 				
  				$select.append("<option value='' selected disabled> 선택하세요</option>");
 				$.each(rooms, function(index, room){
-					$select.append("<option vlaue='"+room.code+"'>"+room.name+"</option");
+					$select.append("<option value='"+room.code+"'>"+room.name+"</option>");
 				})
 				$('#room-code').append($select);
 
 			$('#box-room').show();
 			});
+			
+			scheduleTableAjax(branchCode, screenDate);
 		});
 		
 		$('#box-room').change(function(){
 			$('#box-time-1').show();
-			// ####################### 상영시간표 띄우기 ################
-			var branchCode = $('#box-branch').val();
-			var screenDate = $('#screen-date').val();
-			
-			$.ajax({
-				type:"GET",
-				url:"../rest/branchSchedule",
-				data:{branchCode:branchCode,screenDate:screenDate},
-				dataType:"json"
-			})
-			.done(function(schedules){
-				if(schedules.length == 0){
-					console.log("스케줄 없음");
-				}else{
-					
-					var branchName;
-					
-					$.each(schedules, function(index, schedule){
-						branchName = schedule.BRANCHNAME;
-					})
-					console.log(branchName);
-					
-					var $info = $('#schedule-info').empty();
-					$info.append("");
-					
-					
-				}
-			})
-								
-			$('#schedule-box').show();
 		});
 		
 		$('#schedule-plus').click(function(){
 			// 1의 값이 있으면 2 띄우기
-			if(!$('#start-time-1').val()){
+			if(!$('#end-time-1').val()){
 				alert("첫번째로 추가할 상영시간을 먼저 입력하세요!");
 				$('#start-time-2').focus();
 				return false;
 				
-			}else if($('#start-time-1').val() && !$('#start-time-2').val()){
+			}else if($('#end-time-1').val() && !$('#end-time-2').val()){
 				$('#start-time-2').prop("disabled", false);
 				$('#end-time-2').prop("disabled", false);
 				$('#box-time-2').show();
 				
-			}else if($('#start-time-1').val() && $('#start-time-2').val()){
+			}else if($('#end-time-1').val() && $('#end-time-2').val()){
 				$('#start-time-3').prop("disabled", false);
 				$('#end-time-3').prop("disabled", false);
 				$('#box-time-3').show();
 			}
-			if($('#start-time-1').val() && $('#start-time-2').val() && $('#start-time-3').val()){
+			if($('#end-time-1').val() && $('#end-time-2').val() && $('#end-time-3').val()){
 				alert("상영시간은 최대 3개까지 추가가 가능합니다!");
 				return false;
 			}
@@ -255,7 +284,6 @@
 				dataType:"text"
 			})
 			.done(function(endTime){
-				console.log(endTime);
 				$endTime.val(endTime);
 			})
 		})
@@ -273,7 +301,7 @@
 			location.href = "/hmc/admin/schedule/list";
 		});
 		// 입력값 검사
-		$('#schedule-form').submit(function(){
+		$('#btn-submit').click(function(){
 			// 상영일자 입력확인
 			if(!$('#screen-date').val()){
 				alert("상영일자를 입력하세요!");
@@ -295,13 +323,13 @@
 				$('#movie-code').focus();
 				return false;
 			}
-			if(!$('#start-time').val()){
+			if(!$('#start-time-1').val()){
 				alert("시작시간을 입력하세요!");
-				$('#start-time').focus();
+				$('#start-time-1').focus();
 				return false;
 			}
 			// 시작시간 날짜랑 상영날짜랑 같아야한다.
-			var startTime = new Date($('#start-time').val());
+			var startTime = new Date($('#start-time-1').val());
 			
 			var startTimeMonth = startTime.getMonth();
 			var screenMonth = screenDate.getMonth();
@@ -313,9 +341,25 @@
 				$('#start-time').focus();
 				return false;
 			}
-			return true;
+			registerSchedule();
 		});
-
+		
+		function registerSchedule(){
+			$.ajax({
+				type:"POST",
+				url:"../rest/schedule/register",
+				data:$('#schedule-form').serialize(),
+				dataType:"json",
+				success:function(info){
+					console.log(info);
+					var screenDate = info.pop();
+					var branchCode = info.pop();
+					
+					scheduleTableAjax(branchCode, screenDate);
+				}
+			});
+		}
+		// 입력값 검사만 하면됨
 	})
 	</script>
 </body>
