@@ -38,4 +38,12 @@ public interface ScheduleService {
 	Room getRoomByCode(String roomCode);
 	
 	void insertSchedule(Schedule schedule);
+	
+	int getAllSchedulesCnt(Map<String, Object> condition);
+	
+	List<ScheduleDetail> getSchedules(Map<String, Object> condition);
+	
+	int getScreenMoviesCnt();
+	
+	List<ScreenMovie> getScreenMovies(Map<String, Object> condition);	
 }

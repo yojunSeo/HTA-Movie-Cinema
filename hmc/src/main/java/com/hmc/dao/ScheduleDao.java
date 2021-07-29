@@ -43,4 +43,8 @@ public interface ScheduleDao {
 	Date getEndTime(Map<String, Object> condition);
 	
 	List<ScheduleDetail> getBranchSchedulesByDate(Map<String, Object> condition);
+	
+	int getAllSchedulesCnt(Map<String, Object> condition);
+	
+	List<ScheduleDetail> getSchedules(Map<String, Object> condition);
 }

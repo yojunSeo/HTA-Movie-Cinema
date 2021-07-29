@@ -96,4 +96,24 @@ public class ScheduleServiceImpl implements ScheduleService{
 	public void insertSchedule(Schedule schedule) {
 		scheduleDao.insertSchedule(schedule);
 	}
+	
+	@Override
+	public int getAllSchedulesCnt(Map<String, Object> condition) {
+		return scheduleDao.getAllSchedulesCnt(condition);
+	}
+	
+	@Override
+	public List<ScheduleDetail> getSchedules(Map<String, Object> condition) {
+		return scheduleDao.getSchedules(condition);
+	}
+	
+	@Override
+	public List<ScreenMovie> getScreenMovies(Map<String, Object> condition) {
+		return screenDao.getScreenMovies(condition);
+	}
+	
+	@Override
+	public int getScreenMoviesCnt() {
+		return screenDao.getScreenMoviesCnt();
+	}
 }

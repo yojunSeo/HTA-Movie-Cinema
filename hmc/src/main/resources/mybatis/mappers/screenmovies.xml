@@ -55,4 +55,21 @@
 		where
     		screen_code = #{value}
 	</select>
+	
+	<select id="getScreenMoviesCnt" resultType="int">
+		select 
+			count(*)
+		from 
+			t_screen_movie
+	</select>
+	
+	<select id="getScreenMovies" parameterType="map" resultMap="ScreenMovieResultMap">
+		select 
+			* 
+		from 
+			(select row_number() over (order by screen_code desc) rn, screen_code,movie_code,movie_name,
+            movie_running_time, screen_start_date,screen_end_date from t_screen_movie )
+		where 
+			rn between #{beginIndex} and #{endIndex}
+	</select>
 </mapper>

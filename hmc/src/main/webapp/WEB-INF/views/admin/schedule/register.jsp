@@ -143,15 +143,14 @@
 				type:"GET",
 				url:"../rest/branchName",
 				data:{code:branchCode},
-				dataType:"json"
-//				dataType:"text",
-//				contentType: 'application/x-www-form-urlencoded; charset=euc-kr'
+//				dataType:"json"
+				dataType:"text"
 			})
 			.done(function(name){
 				console.log(name);
 				var $info = $('#schedule-info').empty();
 				$info.append("<h3 class='fw-lighter mb-2'>[ "+screenDate+" ]</h3>");
-				$info.append("<h4 class='fw-lighter text-secondary'>HMC [<span class='fw-lighter text-danger'> "+name.pop()+" </span>] 상영시간표</h4>");
+				$info.append("<h4 class='fw-lighter text-secondary'>HMC [<span class='fw-bold text-danger'> "+name+" </span>] 상영시간표</h4>");
 				$('#schedule-info').append($info);
 				
 			})

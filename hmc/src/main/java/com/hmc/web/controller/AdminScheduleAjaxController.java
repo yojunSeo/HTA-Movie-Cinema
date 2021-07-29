@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,10 +36,6 @@ public class AdminScheduleAjaxController {
 	
 	@Autowired
 	private ScheduleService scheduleService;
-	
-	private static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
-	private static SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-	private static SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 	
 	@RequestMapping("/screen/movie")
 	public @ResponseBody ResponseEntity<Movie> movieInfo(@RequestParam("code") String movieCode){
@@ -70,17 +67,17 @@ public class AdminScheduleAjaxController {
 	
 	@RequestMapping(path = "/screenDate", produces = "text/plain")
 	public @ResponseBody ResponseEntity<String> screenDate(@RequestParam("date") String screen) throws ParseException{
-		Date screenDate = DATE_FORMAT.parse(screen);
+		Date screenDate = DateUtils.stringToDate(screen);
 
-		String startTime = DATE_TIME_FORMAT.format(screenDate);
+		String startTime = DateUtils.dateToDateTimeString(screenDate);
 
 		return new ResponseEntity<String>(startTime, HttpStatus.OK);
 	}
 	
 	@RequestMapping(path =  "/endTime", produces = "text/plain")
 	public @ResponseBody ResponseEntity<String> endTime(@RequestParam("startTime") String start, @RequestParam("movieCode") String screenCode) throws ParseException{
-		Date startTime = DATE_TIME_FORMAT.parse(start);
-		String startTimeString = TIME_FORMAT.format(startTime);
+		Date startTime = DateUtils.stringToDateTime(start);;
+		String startTimeString = DateUtils.dateToSqlDateString(startTime);
 		ScreenMovie movie = scheduleService.getScreenMovieByCode(screenCode);
 		
 		Map<String, Object> timeCondition = new HashMap<String, Object>();
@@ -88,17 +85,14 @@ public class AdminScheduleAjaxController {
 		timeCondition.put("runningTime", movie.getRunningTime());
 		
 		Date endTime = scheduleService.getEndTime(timeCondition);
-		String endTimeString = DATE_TIME_FORMAT.format(endTime);
+		String endTimeString = DateUtils.dateToDateTimeString(endTime);
 		return new ResponseEntity<String>(endTimeString, HttpStatus.OK);
 	}
 	
-	//@RequestMapping(path =  "/branchName", produces = "text/plain")
-	@RequestMapping("/branchName")
-	public @ResponseBody ResponseEntity<List<String>> branchName(@RequestParam("code") String branchCode){
+	@RequestMapping(path = "/branchName", produces = "text/plain; charset=utf-8" )
+	public @ResponseBody ResponseEntity<String> branchName(@RequestParam("code") String branchCode){
 		String branchName = scheduleService.getBranchNameByCode(branchCode);
-		List<String> list = new ArrayList<String>();
-		list.add(branchName);
-		return new ResponseEntity<List<String>>(list, HttpStatus.OK);
+		return new ResponseEntity<String>(branchName, HttpStatus.OK);
 	}
 	
 	
