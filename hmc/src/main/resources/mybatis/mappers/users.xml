@@ -73,6 +73,25 @@
    			user_id 			= #{id}
    </update>
    
+   <select id="getUserFavoriteBranchs" parameterType="string" resultType="com.hmc.dto.UserFavoriteTheather">
+   		select 
+    		FAVORITE_BRANCH1 as branchCode1,
+    		b1.branch_name as branchName1,
+    		FAVORITE_BRANCH2,
+     		b2.branch_name as branchName2,
+    		FAVORITE_BRANCH3,
+     		b3.branch_name as branchName3
+		from 
+			t_user u, t_branch b1, t_branch b2, t_branch b3
+		where
+   		 	u. FAVORITE_BRANCH1 = b1.branch_code(+)
+		and
+    		u. FAVORITE_BRANCH2 = b2.branch_code(+)
+		and
+    		u. FAVORITE_BRANCH3 = b3.branch_code(+)
+		and 
+   			u.user_id = #{value}
+   </select>
    
    
 </mapper>

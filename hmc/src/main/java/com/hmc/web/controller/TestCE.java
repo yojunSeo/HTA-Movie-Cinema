@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.hmc.dto.ScheduleDetail;
 import com.hmc.service.CE_TestService;
 import com.hmc.vo.Booking;
 import com.hmc.vo.Payment;
 import com.hmc.vo.Room;
 import com.hmc.vo.Schedule;
-import com.hmc.vo.ScheduleDetail;
 import com.hmc.vo.ScreenMovie;
 import com.hmc.vo.Seat;
 

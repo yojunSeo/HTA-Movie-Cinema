@@ -1,4 +1,4 @@
-package com.hmc.vo;
+package com.hmc.dto;
 
 import java.util.Date;
 

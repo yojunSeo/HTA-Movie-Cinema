@@ -13,11 +13,11 @@ import com.hmc.dao.RoomDao;
 import com.hmc.dao.ScheduleDao;
 import com.hmc.dao.ScreenMovieDao;
 import com.hmc.dao.SeatDao;
+import com.hmc.dto.ScheduleDetail;
 import com.hmc.vo.Booking;
 import com.hmc.vo.Payment;
 import com.hmc.vo.Room;
 import com.hmc.vo.Schedule;
-import com.hmc.vo.ScheduleDetail;
 import com.hmc.vo.ScreenMovie;
 import com.hmc.vo.Seat;
 

@@ -4,8 +4,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.hmc.dto.ScheduleDetail;
 import com.hmc.vo.Schedule;
-import com.hmc.vo.ScheduleDetail;
 
 public interface ScheduleDao {
 

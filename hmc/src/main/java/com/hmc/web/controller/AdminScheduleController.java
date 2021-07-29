@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.hmc.service.ScheduleService;
+import com.hmc.dto.ScheduleDetail;
+import com.hmc.service.AdminScheduleService;
 import com.hmc.vo.Branch;
 import com.hmc.vo.Movie;
 import com.hmc.vo.Pagination;
 import com.hmc.vo.Schedule;
-import com.hmc.vo.ScheduleDetail;
 import com.hmc.vo.ScreenMovie;
 
 @Controller
@@ -28,7 +28,7 @@ public class AdminScheduleController {
 	private static final int PAGE_PER_PAGE_BLOCK = 5;
 	
 	@Autowired
-	private ScheduleService scheduleService;
+	private AdminScheduleService scheduleService;
 	
 	@GetMapping("/screen/list")
 	public String screenMovieList(@RequestParam(name = "page", required = false, defaultValue = "1")int pageNo, Model model) {

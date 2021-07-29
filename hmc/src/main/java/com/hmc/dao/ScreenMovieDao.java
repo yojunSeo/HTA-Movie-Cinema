@@ -37,4 +37,8 @@ public interface ScreenMovieDao {
 	 * @return 코드에 해당하는 상영중인 영화정보
 	 */
 	ScreenMovie getScreenMovieByCode(String screenMovieCode);
+	
+	int getScreenMoviesCnt();
+	
+	List<ScreenMovie> getScreenMovies(Map<String, Object> condition);
 }

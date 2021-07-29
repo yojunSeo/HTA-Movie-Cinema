@@ -59,20 +59,20 @@
 					<div class="row" >
 						<div class="col-2 p-0">
 							<p class="list-group-item list-group-item-action list-group-item-secondary border-0 m-0"><span class="fw-bold mx-3">MY 영화관</span></p>
-							<p class="list-group-item list-group-item-action list-group-item-secondary border-0 m-0"><span class="fw-bold mx-3">서울</span></p>
+							<p class="list-group-item list-group-item-action list-group-item-secondary border-0 m-0 active"><span class="fw-bold mx-3">서울</span></p>
 						</div>
-						<div class="col-2 p-0">
-							<p class="list-group-item list-group-item-action list-group-item-secondary border-0 m-0"><span class="fw-bold mx-3">왕십리점</span></p>
-							<p class="list-group-item list-group-item-action list-group-item-secondary border-0 m-0"><span class="fw-bold mx-3">왕십리점</span></p>
-							<p class="list-group-item list-group-item-action list-group-item-secondary border-0 m-0"><span class="fw-bold mx-3">왕십리점</span></p>
-							<p class="list-group-item list-group-item-action list-group-item-secondary border-0 m-0"><span class="fw-bold mx-3">왕십리점</span></p>
-							<p class="list-group-item list-group-item-action list-group-item-secondary border-0 m-0"><span class="fw-bold mx-3">왕십리점</span></p>
-							<p class="list-group-item list-group-item-action list-group-item-secondary border-0 m-0"><span class="fw-bold mx-3">왕십리점</span></p>
+						<div class="col-2 p-0" style="background-color: #FFFFFF">
+							<p class="list-group-item list-group-item-action border-0 m-0 active"><span class="fw-bold mx-3">강남역점</span></p>
+							<p class="list-group-item list-group-item-action border-0 m-0"><span class="fw-bold mx-3">왕십리점</span></p>
+							<p class="list-group-item list-group-item-action border-0 m-0"><span class="fw-bold mx-3">왕십리점</span></p>
+							<p class="list-group-item list-group-item-action border-0 m-0"><span class="fw-bold mx-3">왕십리점</span></p>
+							<p class="list-group-item list-group-item-action border-0 m-0"><span class="fw-bold mx-3">왕십리점</span></p>
+							<p class="list-group-item list-group-item-action border-0 m-0"><span class="fw-bold mx-3">왕십리점</span></p>
 						</div>
 						<div class="col-8 border-start border-secondary" style="background-color: #FFFFFF">
 							<div class="row m-3">
 								<ul class="list-group list-group-horizontal mx-4">
-								  <li class="list-group-item list-group-item-action boder-0 text-center" style="width: 70px;">
+								  <li class="list-group-item list-group-item-action boder-0 text-center active" style="width: 70px;">
 								  	<span class="fw-bold">7/29<small>목</small></span>
 								  </li>
 								  <li class="list-group-item list-group-item-action boder-0 text-center" style="width: 70px;">

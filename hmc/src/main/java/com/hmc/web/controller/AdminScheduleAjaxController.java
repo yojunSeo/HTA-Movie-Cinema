@@ -21,11 +21,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hmc.service.ScheduleService;
+import com.hmc.dto.ScheduleDetail;
+import com.hmc.service.AdminScheduleService;
 import com.hmc.vo.Movie;
 import com.hmc.vo.Room;
 import com.hmc.vo.Schedule;
-import com.hmc.vo.ScheduleDetail;
 import com.hmc.vo.ScreenMovie;
 import com.hmc.web.form.ScheduleForm;
 import com.hmc.web.util.DateUtils;
@@ -35,7 +35,7 @@ import com.hmc.web.util.DateUtils;
 public class AdminScheduleAjaxController {
 	
 	@Autowired
-	private ScheduleService scheduleService;
+	private AdminScheduleService scheduleService;
 	
 	@RequestMapping("/screen/movie")
 	public @ResponseBody ResponseEntity<Movie> movieInfo(@RequestParam("code") String movieCode){
