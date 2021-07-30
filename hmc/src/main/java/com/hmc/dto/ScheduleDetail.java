@@ -30,7 +30,7 @@ public class ScheduleDetail {
 	@DateTimeFormat(pattern = "HH:mm")
 	@JsonFormat(pattern = "HH:mm")
 	private Date startTime;
-	@DateTimeFormat(pattern = "HH:mm")
+	@DateTimeFormat(pattern = "z:mm")
 	@JsonFormat(pattern = "HH:mm")
 	private Date endTime;
 	private int emptySeat;

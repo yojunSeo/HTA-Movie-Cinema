@@ -16,6 +16,10 @@
         font-family: "Nanum Gothic", sans-serif;
         font-size: 20px;
       }
+      span.big{
+        font-family: "Nanum Gothic", sans-serif;
+        font-size: 20px;
+      }
       em{
       	font-family: "Nanum Gothic", sans-serif;
         font-size: 14px;
@@ -23,7 +27,7 @@
       p.small{
       font-size: 17px;
       }
-
+	  
       p.a {
         font-weight: 400;
       }
@@ -61,7 +65,6 @@
 						<div class="col-4 p-0" id="movie-zone">
 							<p class="list-group-item b small list-group-item-action  border-0 my-1" ><span class='badge rounded-pill bg-warning mx-3'>12</span>영화명</p>
 						</div>
-						
 						<div class="col-8 border-start border-secondary" style="background-color: #FFFFFF" id="schedule-area">
 							<div class="row m-3" id="date-zone">
 								<ul class="list-group list-group-horizontal mx-4">
@@ -88,6 +91,30 @@
 					</div>
 				</div>
 			</div>
+			<!-- ***********************모달시작******************************** -->
+			<div class="modal fade" id="cofirm-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header" id="schedule-detail-head" style="background-color: #666666">
+								<p class="modal-title text-white fw-bold" id="exampleModalLabel"><span class='badge rounded-pill bg-warning mx-3'>15</span>정글크루즈</p>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body" id="schedule-detail">
+								<p><span class="big fw-bolder">날짜</span> : 2021/07/31</p>
+								<p><span class="big fw-bolder">지점</span> : 왕십리점</p>
+								<p><span class="big fw-bolder">상영관</span> : 1관</p>
+								<p><span class="big fw-bolder">상영시간</span> : 18:30 ~ 20:55</p>
+								<p><span class="big fw-bolder">잔여좌석</span> : <span class="text-danger big fw-bolder">55</span> / 60</p>
+								<p><span class='badge rounded-pill bg-warning mx-3'>15</span> 본 영화는 15세 이상 관람가 영화입니다.</p>
+							</div>
+							<div class="modal-footer" id="schedule-detail-footer">
+								<button type="button" class="btn btn-dark" data-bs-dismiss="modal">취소</button>
+								<button type="button" id="go-booking" class="btn text-white" style="background-color: #FF243E" >인원/좌석 선택</button>
+							</div>
+						</div>
+				</div>
+			</div>
+			<!-- ***********************모달끝******************************** -->
 		</div>
 	</main>
 
@@ -100,6 +127,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 <script>
 $(function(){
+	
 	// 페이지 로딩시 바로 가지고 올 것
 	(function(){
 		$.getJSON("rest/movie/info",function(map){
@@ -186,14 +214,12 @@ $(function(){
 	function changeSchedule(){
 		var screenDate = $('#date-zone .active').data('screendate');
 		var screenCode = $('#movie-zone .active').data('screen-code');
-		console.log(screenDate,screenCode)
 		$.ajax({
 			type:"GET",
 			url:"rest/movie/getBranchSchedule",
 			data:{screenCode:screenCode,screenDate:screenDate},
 			dataType:"json"
 		}).done(function(branchs){
-			
 			if(branchs.length == 0){
 				$('#schedule-zone').empty();
 				var $div = "<div>";			
@@ -253,6 +279,63 @@ $(function(){
 	$('#branch-schedule').click(function(){
 		location.href = "/hmc/booking/schedule/branch";
 	});
+	
+	// 스케줄 선택했을때 모달 띄우면서 정보 확인 후 좌석창으로 이동
+	var todoModal = new bootstrap.Modal(document.getElementById("cofirm-modal"), {
+		keyboard: false
+	})
+	
+	$('#schedule-zone').on('click', 'li', function(){
+		var scheduleCode = $(this).data('schedule-code');
+		// 스크린 정보 가져가서 정보 받아와서 모달 띄우기
+		$.getJSON("rest/scheduleDetail?scheduleCode="+scheduleCode)
+			.done(function(schedule){
+				var grade = schedule.movieGrade;
+				var movieGrade;
+				var gradeClass;
+				if(grade == "12세이상관람가"){
+					movieGrade = 12;
+					gradeClass = "bg-warning";
+				}else if(grade == "15세이상관람가"){
+					movieGrade = 15;
+					gradeClass = "bg-success";
+				}else if(grade == "전체관람가"){
+					movieGrade = "All";
+					gradeClass = "bg-info";
+				}else{
+					movieGrade = "19";
+					gradeClass = "bg-danger";					
+				}
+				$('#schedule-detail-head').empty();
+				$header = "<p class='modal-title text-white fw-bold' id='exampleModalLabel'><span class='badge rounded-pill "+gradeClass+" mx-3'>"+movieGrade+"</span>"+schedule.movieName+"</p>";
+				$header += "<button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>";
+				$('#schedule-detail-head').append($header);
+				
+				$('#schedule-detail').empty();
+				$detail = "<p><span class='big fw-bolder'>날짜</span> : "+schedule.scheduleDate+"</p>";
+				$detail += "<p><span class='big fw-bolder'>지점</span> : "+schedule.branchName+"</p>";
+				$detail += "<p><span class='big fw-bolder'>상영관</span> : "+schedule.roomName+"</p>";
+				$detail += "<p><span class='big fw-bolder'>상영시간</span> : "+schedule.startTime+" ~ "+schedule.endTime+"</p>";
+				$detail += "<p><span class='big fw-bolder'>잔여좌석</span> : <span class='text-danger big fw-bolder'>"+schedule.emptySeat+"</span> / "+schedule.totalSeat+"</p>";
+				$detail += "<p><span class='badge rounded-pill "+gradeClass+" mx-3'>"+movieGrade+"</span> 본 영화는 "+grade+" 영화입니다.</p>";
+				$('#schedule-detail').append($detail);
+				
+				$('#schedule-detail-footer').empty();
+				$footer = "<button type='button' class='btn btn-dark' data-bs-dismiss='modal'>취소</button>";
+				$footer += "<button type='button' id='go-booking' class='btn text-white' style='background-color: #FF243E' data-schedulecode="+schedule.scheduleCode+" >인원/좌석 선택</button>";
+				$('#schedule-detail-footer').append($footer);
+				
+				todoModal.show();
+				
+			})
+	});
+	// 인원.좌석 선택 누르면 좌석창으로 이동
+	$('#schedule-detail-footer').on('click', '#go-booking',function(){
+		var scheduleCode = $(this).data('schedulecode');
+		console.log(scheduleCode);
+		location.href = "../seat?scheduleCode="+scheduleCode;
+	});
+	
 })
 </script>
 </body>

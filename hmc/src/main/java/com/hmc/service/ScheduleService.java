@@ -27,5 +27,7 @@ public interface ScheduleService {
 	
 	List<Map<String, Object>> getScreenSimpleInfo();
 	
+	ScheduleDetail getScheduleDetail(String scheduleCode);
+	
 	
 }

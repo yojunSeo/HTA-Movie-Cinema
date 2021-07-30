@@ -134,5 +134,11 @@ public class BookingScheduleRestController {
 		}
 		return new ResponseEntity<List<BranchDto>>(branchs, HttpStatus.OK);
 	}
+	
+	@GetMapping("/scheduleDetail")
+	public ResponseEntity<ScheduleDetail> getscheduleDetail(@RequestParam("scheduleCode")String scheduleCode){
+		ScheduleDetail schedule = scheduleService.getScheduleDetail(scheduleCode);
+		return new ResponseEntity<ScheduleDetail>(schedule,HttpStatus.OK);
+	}
 
 }

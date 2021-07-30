@@ -87,5 +87,10 @@ public class ScheduleServiceImpl implements ScheduleService{
 	public List<Map<String, Object>> getScreenSimpleInfo() {
 		return screenDao.getScreenSimpleInfo();
 	}
+	
+	@Override
+	public ScheduleDetail getScheduleDetail(String scheduleCode) {
+		return scheduleDao.getScheduleByCode(scheduleCode);
+	}
 
 }
