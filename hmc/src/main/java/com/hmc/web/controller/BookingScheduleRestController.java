@@ -68,7 +68,7 @@ public class BookingScheduleRestController {
 		condition.put("screenDate", DateUtils.dateToDateString(new Date()));
 		BranchScheduleDto branchSchedules = scheduleService.getBranchScheduleByOrderMovie(condition);
 		System.out.println(branchSchedules);
-		//param.put("schedules", branchSchedules);
+		param.put("schedules", branchSchedules);
 		// 사용자의 선호영화관 담기
 		return new ResponseEntity<Map<String,Object>>(param, HttpStatus.OK);
 	}

@@ -6,7 +6,7 @@
 		<id column="branchCode" property="branchCode"/>
 		<result column="branchName" property="branchName"/>
 		<result column="scheduleDate" property="screenDate"/>
-		<collection property="movies" ofType="com.hmc.dto.BranchScheduleDto.MoiveDto">
+		<collection property="movies" ofType="com.hmc.dto.MovieDto">
 			<id column="screenCode" property="screenCode"/>
 			<result column="movieName" property="movieName"/>
 			<collection property="schedules" ofType="com.hmc.dto.ScheduleDetail">

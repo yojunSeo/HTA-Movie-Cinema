@@ -80,30 +80,9 @@
 									<ul class="list-inline">
 										<li class="list-inline-item">
 											<button class="btn btn-outline-secondary position-relative lh-sm"  style="width:100px; height: 55px">
-												<span class="fw-bolder"><strong>9:25</strong><br/></span>
-												<span class="fw-bold"><em><em class="text-danger">55</em> / 60</em></span>
-												<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark">1관</span>
-											</button>
-										</li>
-										<li class="list-inline-item">
-											<button class="btn btn-outline-secondary position-relative lh-sm"  style="width:100px; height: 55px">
-												<span class="fw-bolder"><strong>11:25</strong><br/></span>
-												<span class="fw-bold"><em><em class="text-danger">55</em> / 60</em></span>
-												<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark">1관</span>
-											</button>
-										</li>
-										<li class="list-inline-item">
-											<button class="btn btn-outline-secondary position-relative lh-sm"  style="width:100px; height: 55px">
-												<span class="fw-bolder"><strong>14:00</strong><br/></span>
-												<span class="fw-bold"><em><em class="text-danger">55</em> / 60</em></span>
-												<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-info text-dark">2관</span>
-											</button>
-										</li>
-										<li class="list-inline-item">
-											<button class="btn btn-outline-secondary position-relative lh-sm"  style="width:100px; height: 55px">
-												<span class="fw-bolder"><strong>18:30</strong><br/></span>
-												<span class="fw-bold"><em><em class="text-danger">55</em> / 60</em></span>
-												<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-info text-dark">2관</span>
+												<span class="fw-bolder"><strong>시작시간</strong><br/></span>
+												<span class="fw-bold"><em><em class="text-danger">남은좌석</em> / 총좌석</em></span>
+												<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark">상영관이름</span>
 											</button>
 										</li>
 									</ul>
@@ -129,8 +108,9 @@ $(function(){
 	
 	// 페이지 로딩시 가장먼저 실행 (영화관별 이 가장먼저)
 	(function(){
+		var movies;
 		$.getJSON("rest/info", function(map){
-			console.log(map);
+			movies = map.schedules.movies;
 			if(map.defaultArea == "서울"){
 				// 선호영화관 없는 경우 그냥 서울을 ACTIVE 하고 모든 지점리스트를 표시한다.
 				$('#branch-area > p:eq(1)').addClass('active bg-secondary');
@@ -143,6 +123,7 @@ $(function(){
 				changeBranchZone(branchs);
 			}
 			$('#branch-zone p:first').addClass('active bg-secondary');
+			changeScheduleZone(movies);
 		});
 		
 		// 날짜 부분 생성 - 총 10일간을 보여준다.
@@ -196,20 +177,28 @@ $(function(){
 		$('#branch-zone').append($row);
 	}
 	
-	function changeScheduleZone(schedules){
+	function changeScheduleZone(movies){
 		$('#schedule-zone').empty();
 		var $schedules = "";
 		// 이중 each구문 가능..?
-		$.each(schedules, function(index, schedule){
+		$.each(movies, function(index, movie){
 			var $div = "<div>";
-			$div += "<p class='small ml-2 b'><span class='badge rounded-pill bg-success'>15</span>"+schedule.movieName+"</p>"
-			$div
-			
+			$div += "<p class='small ml-2 b'><span class='badge rounded-pill bg-success'>15</span>"+movie.movieName+"</p>"
+			$div += "<ul class='list-inline'>"
+			var schedules = movie.schedules;
+			$.each(schedules, function(index, schedule){
+				$div += "<li class='list-inline-item'>";
+				$div += "<button class='btn btn-outline-secondary position-relative lh-sm'  style='width:100px; height: 55px'>";
+				$div += "<span class='fw-bolder'><strong>"+schedule.startTime+"</strong><br/></span>";
+				$div += "<span class='fw-bold'><em><em class='text-danger'>"+schedule.emptySeat+"</em> / "+schedule.totalSeat+"</em></span>"
+				$div += "<span class='position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark'>"+schedule.roomName+"</span>";
+				$div += "</button>";
+				$div += "</li>";
+			})
+			$div += "</ul>";
 			$div += "</div>";
-			
-			
+			$schedules += $div;
 		})
-		
 		$('#schedule-zone').append($schedules);
 	}
 
