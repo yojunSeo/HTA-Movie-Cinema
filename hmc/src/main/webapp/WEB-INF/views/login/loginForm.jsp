@@ -20,6 +20,15 @@
 					<div class="row mt-5">
 						<p class="fw-bold">L.POINT, 롯데시네마 ID로 별도의 회원가입 없이 이용 가능합니다.</p>
 					</div>
+					<c:if test="${not empty error }">
+					<div class="row">
+						<div class="col">
+							<div class="alert alert-danger">
+								<strong>${error.title }</strong> ${error.message }
+							</div>
+						</div>
+					</div>
+					</c:if>
 					<div class="row mt-2 mb-5">
 						<form method="post" action="../login/">
 							<div class="row">

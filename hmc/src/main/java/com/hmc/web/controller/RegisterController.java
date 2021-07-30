@@ -27,13 +27,9 @@ public class RegisterController {
 	
 	@ExceptionHandler(UserRegisterException.class)
 	public String handleUserRegisterException(UserRegisterException ex, Model model) {
+		ex.printStackTrace();	// 예외처리 중간 과정 확인
 		model.addAttribute("error", ex);
-		return "form";
-	}
-	@ExceptionHandler(LoginException.class)
-	public String handleLoginException(LoginException ex, Model model) {
-		model.addAttribute("error", ex);
-		return "loginform";
+		return "register/registerForm";
 	}
 
 	private static Logger logger = LogManager.getLogger(RegisterController.class);

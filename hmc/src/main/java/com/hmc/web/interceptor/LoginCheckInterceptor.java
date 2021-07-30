@@ -29,7 +29,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 		
 		if (hasLoginUserAnnotation && SessionUtils.getAttribute("LOGINED_USER") == null) {
 			
-			response.sendRedirect("/hmc/login?error=deny");	
+			response.sendRedirect("/hmc/login/?error=deny");	
 			return false;
 		}
 		

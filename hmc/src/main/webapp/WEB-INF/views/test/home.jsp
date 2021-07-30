@@ -15,7 +15,7 @@
 	<a href="/hmc/test/seo">서요준 테스트페이지</a><br /><br />
 	<a href="/hmc/test/lim">임채은 테스트페이지</a><br /><br />
 	<a href="/hmc/text/lee">이지민 테스트페이지</a><br /><br />
-	
+	<p>${LOGINED_USER.name }</p>
 	<iframe width="320" height="180" src="https://www.youtube.com/embed/B1ustvQPSJ0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 </div>
