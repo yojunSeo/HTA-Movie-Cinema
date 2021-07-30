@@ -78,8 +78,8 @@
 			notice_title = #{title},		
 			notice_content = #{content},		
 			notice_status = #{status},
-			notice_modified_date = {modifiedDate},
-			notice_review_count = #{viewCnt}
+			notice_modified_date = #{modifiedDate},
+			notice_view_cnt = #{viewCnt}
 		where
 			notice_code = #{code}			
 	</update>

@@ -46,31 +46,26 @@
             <div class="row border border-top border-bottom bg-light">
             	<div class="row my-2 mx-5">
 	            	<div class="col-4 mt-3">
-	            		<p>영화관 | <span class="fw-bold">전체</span></p>
+	            		<p>영화관 | <span class="fw-bold">${notice.category }</span></p>
 	            	</div>
 	            	<div class="col-4 mt-3">
-	            		<p>등록일 | <span class="fw-bold"> 2021-04-21</span></p>
+	            		<p>등록일 | <span class="fw-bold"><fmt:formatDate value="${notice.createdDate }" pattern="yyyy-MM-dd"/></span></p>
 	            	</div>
 	            	<div class="col-4 mt-3">
-	            		<p>조회수 | <span class="fw-bold">6329</span></p>
+	            		<p>조회수 | <span class="fw-bold">${notice.viewCnt }</span></p>
 	            	</div>
             	</div>
             </div>
             <div class="row my-5">
             	<div class="col-7 offset-2">
-            		<div>안녕하십니까, 롯데시네마입니다. 
-            			KT 멤버십 영화 예매에 대한 적립 서비스가 아래와 같이운영됩니다. 
-            			ㆍ서비스 시작 일자 : 2021년 4월 28일(수) ~ ※ 관람일 기준이며, 이전 예매 내역 적립 불가
-
-
-
-						ㆍ서비스 대상 : KT멤버십 영화예매시 예매완료 수신번호를 입력한 고객 ※ 입력한 전화번호 기준으로 서비스 제공
+            		<div>
+            			${notice.content }
 
 					</div>
             	</div>
             </div>
             <div class="row offset-5">
-            	<a href="../cs/" class="btn btn-dark w-25">목록</a>
+            	<a href="../cs/home" class="btn btn-dark w-25">목록</a>
             </div>
 		</main>
 

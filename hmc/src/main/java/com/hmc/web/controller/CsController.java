@@ -76,7 +76,11 @@ public class CsController {
 	}
 	
 	@GetMapping("/noticeDetail")
-	public String noticeDetail() {
+	public String noticeDetail(@RequestParam("code") String code, Model model) {
+		Notice notice = noticeService.getNoticeByCode(code);
+		notice.setViewCnt(notice.getViewCnt()+1);
+		noticeService.updateNotice(notice);
+		model.addAttribute("notice", notice);
 		
 		return "cs/noticeDetail";
 	}

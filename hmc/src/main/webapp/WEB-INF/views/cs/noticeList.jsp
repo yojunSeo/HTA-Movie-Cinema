@@ -60,7 +60,7 @@
             	</form>
             </div>
             <div class="row">
-				<table class="table text-center">
+				<table class="table text-center" id="notice-table">
 					<thead >
 						<colgroup>
 							<col width="15%"/>
@@ -84,10 +84,10 @@
 							</c:when>
 							<c:otherwise>
 								<c:forEach var="notice" items="${notices }">
-									<tr>
+									<tr data-notice-code="${notice.code }">
 										<th scope="row">${notice.code }</th>
 										<td>${notice.category }</td>
-										<td class="${notice.status eq 'I' ? 'text-danger' : '' } text-start">${notice.title }</td>
+										<td class="${notice.status eq 'I' ? 'text-danger' : '' } text-start" >${notice.title }</td>
 										<td><fmt:formatDate value="${notice.createdDate }" pattern="yyyy-MM-dd"/></td>
 									</tr>
 								</c:forEach>
@@ -125,8 +125,15 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 
-	<script>
+<script>
+$(function(){
+	$("#notice-table tbody tr").click(function(){
+		var noticeCode = $(this).data('notice-code');
 		
-	</script>
+		location.href = "noticeDetail?code=" + noticeCode;
+		
+	})
+})
+</script>
 </body>
 </html>
