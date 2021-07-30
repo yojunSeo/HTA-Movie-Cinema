@@ -41,4 +41,6 @@ public interface ScreenMovieDao {
 	int getScreenMoviesCnt();
 	
 	List<ScreenMovie> getScreenMovies(Map<String, Object> condition);
+	
+	List<Map<String, Object>> getScreenSimpleInfo();
 }

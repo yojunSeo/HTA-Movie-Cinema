@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.hmc.dto.BranchScheduleDto;
+import com.hmc.dto.MovieScheduleDto;
 import com.hmc.dto.ScheduleDetail;
 import com.hmc.vo.Branch;
 import com.hmc.vo.User;
@@ -21,6 +22,10 @@ public interface ScheduleService {
 	BranchScheduleDto getBranchScheduleByOrderMovie(Map<String, Object> condition);
 	
 	List<ScheduleDetail> getSchedulesByMovieAndDate(Map<String, Object> condition);
+	
+	MovieScheduleDto getMoiveSchedulesByBranch(Map<String, Object> param);
+	
+	List<Map<String, Object>> getScreenSimpleInfo();
 	
 	
 }

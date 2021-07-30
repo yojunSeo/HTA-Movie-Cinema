@@ -317,6 +317,7 @@
 				$('#screen-date').focus();
 				return false;				
 			}
+			
 			if(!$('#movie-code').val()){
 				alert("영화를 선택하세요!");
 				$('#movie-code').focus();

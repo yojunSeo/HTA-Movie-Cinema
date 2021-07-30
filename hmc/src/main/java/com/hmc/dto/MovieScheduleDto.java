@@ -18,6 +18,7 @@ public class MovieScheduleDto {
 
 	private String screenCode;
 	private String movieName;
+	private String movieGrade;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date screenDate;

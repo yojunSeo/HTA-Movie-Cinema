@@ -17,6 +17,7 @@ import com.hmc.dao.ScheduleDtoDao;
 import com.hmc.dao.ScreenMovieDao;
 import com.hmc.dao.UserDao;
 import com.hmc.dto.BranchScheduleDto;
+import com.hmc.dto.MovieScheduleDto;
 import com.hmc.dto.ScheduleDetail;
 import com.hmc.vo.Branch;
 import com.hmc.vo.User;
@@ -75,6 +76,16 @@ public class ScheduleServiceImpl implements ScheduleService{
 	@Override
 	public List<ScheduleDetail> getSchedulesByMovieAndDate(Map<String, Object> condition) {
 		return scheduleDao.getSchedulesByMovieAndDate(condition);
+	}
+	
+	@Override
+	public MovieScheduleDto getMoiveSchedulesByBranch(Map<String, Object> param) {
+		return sDtoDao.getMoiveSchedulesByBranch(param);
+	}
+	
+	@Override
+	public List<Map<String, Object>> getScreenSimpleInfo() {
+		return screenDao.getScreenSimpleInfo();
 	}
 
 }

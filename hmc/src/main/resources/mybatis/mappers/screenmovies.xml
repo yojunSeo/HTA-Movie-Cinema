@@ -11,7 +11,7 @@
 		<result column="screen_start_date" property="startDate"/>
 		<result column="screen_end_date" property="endDate"/>
 	</resultMap>
-
+	
 	<insert id="insertScreenMovie" parameterType="com.hmc.vo.ScreenMovie">
 		<selectKey keyProperty="code" resultType="string" order="BEFORE">
 			select 'SC' || lpad(T_SCREEN_SEQ.nextval, 6,0) from dual
@@ -71,5 +71,18 @@
             movie_running_time, screen_start_date,screen_end_date from t_screen_movie )
 		where 
 			rn between #{beginIndex} and #{endIndex}
+	</select>
+	
+	<select id="getScreenSimpleInfo" resultType="hashmap">
+		select 
+			sc.screen_code as screenCode,
+            sc.movie_name as movieName,
+            mv.movie_grade as movieGrade
+		from 
+			t_screen_movie sc, t_movie mv
+        where 
+            sc.movie_code = mv.movie_code
+		order by 
+			screen_code desc
 	</select>
 </mapper>

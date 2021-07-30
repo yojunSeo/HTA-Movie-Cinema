@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hmc.dto.BranchDto;
 import com.hmc.dto.BranchScheduleDto;
 import com.hmc.dto.MovieDto;
+import com.hmc.dto.MovieScheduleDto;
 import com.hmc.dto.ScheduleDetail;
 import com.hmc.service.AdminScheduleService;
 import com.hmc.service.ScheduleService;
@@ -112,13 +114,25 @@ public class BookingScheduleRestController {
 	@GetMapping("/movie/info")
 	public ResponseEntity<Map<String, Object>> movieSheduleinfo(){
 		Map<String, Object> info = new HashMap<String, Object>();
-		List<ScreenMovie> movies = adminScheduleService.getAllScreenMovies();
+		List<Map<String, Object>> movies = scheduleService.getScreenSimpleInfo();
 		info.put("movies", movies);
-		ScreenMovie defaultMovie = movies.get(0);
-		Map<String, Object> condition = new HashMap<String, Object>();
-		condition.put("screen", value)
-		
+		Map<String, Object> defaultMovie = movies.get(0);
+		info.put("defaultMovie", defaultMovie);		
 		return new ResponseEntity<Map<String,Object>>(info,HttpStatus.OK);
+	}
+	
+	@GetMapping("/movie/getBranchSchedule")
+	public ResponseEntity<List<BranchDto>> getBranchSchedule(@RequestParam("screenCode")String screenCode,
+													@RequestParam("screenDate")String screenDate){
+		Map<String, Object> condition = new HashMap<String, Object>();
+		condition.put("screenCode", screenCode);
+		condition.put("screenDate", screenDate);
+		MovieScheduleDto msd = scheduleService.getMoiveSchedulesByBranch(condition);
+		List<BranchDto> branchs = new ArrayList<BranchDto>();
+		if(msd != null) {
+			branchs =msd.getBranchs();
+		}
+		return new ResponseEntity<List<BranchDto>>(branchs, HttpStatus.OK);
 	}
 
 }

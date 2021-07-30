@@ -212,7 +212,7 @@ $(function(){
 			$div += "<ul class='list-inline'>"
 			var schedules = movie.schedules;
 			$.each(schedules, function(index, schedule){
-				$div += "<li class='list-inline-item'>";
+				$div += "<li class='list-inline-item' data-schedule-code="+schedule.scheduleCode+">";
 				$div += "<button class='btn btn-outline-secondary position-relative lh-sm'  style='width:100px; height: 55px'>";
 				$div += "<span class='fw-bolder'><strong>"+schedule.startTime+"</strong><br/></span>";
 				$div += "<span class='fw-bold'><em><em class='text-danger'>"+schedule.emptySeat+"</em> / "+schedule.totalSeat+"</em></span>"
@@ -314,6 +314,11 @@ $(function(){
 		$('#schedule-select').append($div);
 	}
 
+	// 영화별 스케줄 보기로 이동
+	// 영화별 스케줄 보기로 이동
+	$('#movie-schdule').click(function(){
+		location.href = "/hmc/booking/schedule/movie";
+	});
 })
 
 </script>
