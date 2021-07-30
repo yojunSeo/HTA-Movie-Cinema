@@ -27,10 +27,10 @@
             		<a href="../cs/" class="btn">공지사항</a>
             	</div>
             	<div class="col-4">
-            		<a href="../cs/inqueryForm" class="btn fw-bold text-danger">1:1문의</a>
+            		<a href="../cs/inqueryForm" class="btn">1:1문의</a>
             	</div>
             	<div class="col-4">
-            		<a href="../cs/membership" class="btn">멤버십</a>
+            		<a href="../cs/membership" class="btn fw-bold text-danger">멤버십</a>
             	</div>
             </div>
             <div class="row my-2">

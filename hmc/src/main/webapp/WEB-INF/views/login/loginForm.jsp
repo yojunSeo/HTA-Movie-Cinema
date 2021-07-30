@@ -15,13 +15,13 @@
 		</header>
 
 		<main>
-			<div class="row mt-5" style="background-color: #E4E6E7;">
+			<div class="row mt-5" style="background-color: #F5F5F5;">
 				<div class="col-6">
 					<div class="row mt-5">
-						<p class="fw-bold">L.POINT, 롯데시네마 ID로 별도의 회원가입없이 이용 가능합니다.</p>
+						<p class="fw-bold">L.POINT, 롯데시네마 ID로 별도의 회원가입 없이 이용 가능합니다.</p>
 					</div>
 					<div class="row mt-2 mb-5">
-						<form method="post" action="login">
+						<form method="post" action="../login/">
 							<div class="row">
 								<div class="col-9">
 									<div class="row mb-2">
@@ -65,7 +65,7 @@
 					</div>
 				</div>
 				<div class="col-6 my-5">
-					<img src="../resources/images/loginAD.jpg" width=600 height="300"/>
+					<img src="../resources/images/login/loginAD.jpg" width=600 height="300"/>
 				</div>
 			</div>
 		</main>
@@ -78,8 +78,11 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 
-	<script>
-		
-	</script>
+<script>
+$(function(){
+	
+});
+	
+</script>
 </body>
 </html>

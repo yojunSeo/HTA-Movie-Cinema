@@ -35,7 +35,15 @@
 							<tr>
 								<th class="fw-lighter">아이디</th>
 								<td>
-									<input type="text" class="form-control w-50 bg-light" name="id" placeholder="아이디를 입력하세요.">
+								<div class="row">
+									<div class="col-6">
+										<input type="text" class="form-control bg-light" name="id" id="confirmId" placeholder="아이디를 입력하세요.">
+										<p class="text-danger" id="confirmIdResult"></p>
+									</div>
+									<div class="col-6">
+										<button type="button" class="btn btn-danger" id="btn-post-id">중복확인</button>
+									</div>
+								</div>
 								</td>
 							</tr>
 							<tr>
@@ -81,6 +89,7 @@
 								<th class="fw-lighter">휴대폰</th>
 								<td>
 									<input type="text" class="form-control w-50 bg-light" name="phone" placeholder="ex) 010-1111-1111">
+									<p class="text-danger">휴대폰 번호를 정확하게 입력하지 않을 경우 회원 혜택이 제한될 수 있습니다.</p>
 								</td>
 							</tr>
 						</tbody>
@@ -103,8 +112,33 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 
-	<script>
+<script>
+	$(function(){
+	
+		$("#btn-post-id").click(function(){
+			var userId = $("#confirmId").val();
+			
+			$.ajax({
+				type:"POST",
+				url: "confirm",
+				data:{id:userId},
+				dataType: 'text',
+				success: function(isExist){
+					console.log(isExist)
+					if(isExist == "false"){
+						$("#confirmIdResult").text("중복확인완료");
+					} else if(isExist == "true"){
+						$("#confirmIdResult").text("사용하실 수 없는 아이디 입니다.");
+					}
+				}
+				
+				
+			})
+			
+		})
 		
-	</script>
+	});
+	
+</script>
 </body>
 </html>

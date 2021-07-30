@@ -34,6 +34,24 @@
         or notice_status = 'I'    		
 	</select>
 	
+	<select id="getNoticesY" resultMap="NoticeResultMap">
+		select
+			*
+		from  
+			t_notice
+		where 
+            notice_status = 'Y'	
+	</select>
+	
+	<select id="getNoticesI" resultMap="NoticeResultMap">
+		select
+			*
+		from
+			t_notice
+		where 
+        	notice_status = 'I'  
+	</select>
+	
 	<update id="updateNotice" parameterType="com.hmc.vo.Notice">
 		update
 			t_notice

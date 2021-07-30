@@ -38,7 +38,7 @@
 		            		</div>
 		            		<div class="col-8">
 		            			<div class="row">
-		            				<input type="text" class="form-control w-100 mb-2 bg-light" name="name" placeholder="아이디를 입력하세요.">
+		            				<input type="text" class="form-control w-100 mb-2 bg-light" name="id" placeholder="아이디를 입력하세요.">
 		            			</div>
 		            			<div class="row">
 		            				<input type="text" class="form-control w-100 bg-light" name="email" placeholder="이메일을 입력하세요.">
