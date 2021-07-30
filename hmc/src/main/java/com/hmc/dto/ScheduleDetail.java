@@ -34,4 +34,5 @@ public class ScheduleDetail {
 	@JsonFormat(pattern = "HH:mm")
 	private Date endTime;
 	private int emptySeat;
+	private String movieGrade;
 }
