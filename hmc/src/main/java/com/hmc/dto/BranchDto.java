@@ -9,11 +9,10 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class MovieDto {
+public class BranchDto {
 	
-	private String screenCode;
-	private String movieName;
-	private String movieGrade;
+	private String branchCode;
+	private String branchName;
 	private List<ScheduleDetail> schedules;
 
 }

@@ -19,4 +19,8 @@ public interface ScheduleService {
 	List<ScheduleDetail> getBranchSchedulesByDate(Map<String, Object> condition);
 	
 	BranchScheduleDto getBranchScheduleByOrderMovie(Map<String, Object> condition);
+	
+	List<ScheduleDetail> getSchedulesByMovieAndDate(Map<String, Object> condition);
+	
+	
 }

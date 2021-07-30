@@ -71,5 +71,10 @@ public class ScheduleServiceImpl implements ScheduleService{
 	public BranchScheduleDto getBranchScheduleByOrderMovie(Map<String, Object> condition) {
 		return sDtoDao.getBranchSchedulesByMovie(condition);
 	}
+	
+	@Override
+	public List<ScheduleDetail> getSchedulesByMovieAndDate(Map<String, Object> condition) {
+		return scheduleDao.getSchedulesByMovieAndDate(condition);
+	}
 
 }

@@ -17,11 +17,16 @@ public class BookingScheduleController {
 	@Autowired
 	private ScheduleService scheduleService;
 	
-	@GetMapping("/")
-	public String scheduleHome() {
+	@GetMapping("/branch")
+	public String branchSchedule() {
 		User user = scheduleService.getUserById("lim");
 		SessionUtils.addAttribute("LOGINED_USER", user);
-		return "booking/schedule";
+		return "booking/branchschedule";
+	}
+	
+	@GetMapping("/movie")
+	public String movieSchedule() {
+		return "booking/movieschedule";
 	}
 
 }

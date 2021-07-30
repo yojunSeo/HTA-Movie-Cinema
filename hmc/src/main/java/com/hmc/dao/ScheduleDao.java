@@ -47,4 +47,6 @@ public interface ScheduleDao {
 	int getAllSchedulesCnt(Map<String, Object> condition);
 	
 	List<ScheduleDetail> getSchedules(Map<String, Object> condition);
+	
+	List<ScheduleDetail> getSchedulesByMovieAndDate(Map<String, Object> condition);
 }

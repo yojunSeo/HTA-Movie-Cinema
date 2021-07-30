@@ -9,6 +9,26 @@
 		<collection property="movies" ofType="com.hmc.dto.MovieDto">
 			<id column="screenCode" property="screenCode"/>
 			<result column="movieName" property="movieName"/>
+			<result column="movieGrade" property="movieGrade"/>
+			<collection property="schedules" ofType="com.hmc.dto.ScheduleDetail">
+				<id column="scheduleCode" property="scheduleCode"/>
+				<result column="roomCode" property="roomCode"/>
+				<result column="roomName" property="roomName"/>
+				<result column="startTime" property="startTime"/>
+				<result column="endTime" property="endTime"/>
+				<result column="emptySeat" property="emptySeat"/>
+				<result column="totalSeat" property="totalSeat"/>
+			</collection>
+		</collection>
+	</resultMap>
+	
+	<resultMap type="com.hmc.dto.MovieScheduleDto" id="branchScheduleMap">
+		<id column="screenCode" property="screenCode"/>
+		<result column="movieName" property="movieName"/>
+		<result column="screenDate" property="screenDate"/>
+		<collection property="branchs" ofType="com.hmc.dto.BranchDto">
+			<id column="branchCode" property="branchCode"/>
+			<result column="branchName" property="branchName"/>
 			<collection property="schedules" ofType="com.hmc.dto.ScheduleDetail">
 				<id column="scheduleCode" property="scheduleCode"/>
 				<result column="roomCode" property="roomCode"/>
@@ -27,6 +47,7 @@
     		br.branch_name 			as branchName,
     		sc.screen_code 			as screenCode,
     		sc.movie_name 			as movieName,
+            mv.movie_grade          as movieGrade,
             sh.schedule_code        as scheduleCode,
     		rm.room_code 			as roomCode,
     		rm.room_name 			as roomName,
@@ -36,13 +57,15 @@
     		sh.schedule_empty_seat 	as emptySeat,
     		sh.schedule_total_seat 	as totalSeat
 		from 
-    		t_schedule sh, t_screen_movie sc, t_branch br, t_room rm
+    		t_schedule sh, t_screen_movie sc, t_branch br, t_room rm, t_movie mv
 		where
     		sh.screen_code = sc.screen_code
 		and
    	 		sh.branch_code = br.branch_code
 		and
     		sh.room_code = rm.room_code
+        and
+            sc.movie_code = mv.movie_code
         and 
             br.branch_code = #{branchCode}
         and
