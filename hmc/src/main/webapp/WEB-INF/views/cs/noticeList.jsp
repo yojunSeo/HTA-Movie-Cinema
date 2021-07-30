@@ -24,7 +24,7 @@
             </div>
             <div class="row offset-2">
             	<div class="col-4">
-            		<a href="../cs/" class="btn fw-bold text-danger">공지사항</a>
+            		<a href="../cs/home" class="btn fw-bold text-danger">공지사항</a>
             	</div>
             	<div class="col-4">
             		<a href="../cs/inqueryForm" class="btn">1:1문의</a>
@@ -38,7 +38,7 @@
             	</div>
             </div>
 			<div class="row border my-5 bg-light">
-            	<form id="form-search" class="form-inline justify-content-center my-4 mx-4" method="get" action="#">
+            	<form id="form-search" class="form-inline justify-content-center my-4 mx-4" method="get" action="home">
             		<div class="row">
             			<div class="col-2">
             				<div>
@@ -54,14 +54,14 @@
             				<input type="text" class="form-control" name="keyword" value="${param.keyword }" placeholder="검색어를 입력해주세요.">
             			</div>
             			<div class="col-2">
-            				<button type="button" class="btn btn-dark">검색</button>
+            				<button type="submit" class="btn btn-dark">검색</button>
             			</div>
             		</div>
             	</form>
             </div>
             <div class="row">
 				<table class="table text-center">
-					<thead>
+					<thead >
 						<colgroup>
 							<col width="15%"/>
 							<col width="15%"/>
@@ -76,33 +76,45 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<th scope="row">1</th>
-							<td>전체</td>
-							<td class="text-danger text-start">KT 멤버십 영화예매 적립 서비스 안내</td>
-							<td>2021-04-21</td>
-						</tr>
-						<tr>
-							<th scope="row">2</th>
-							<td>전체</td>
-							<td class="text-start">수도권 거리두기 4단계 3인 이상 모임 제한 관련 안내</td>
-							<td>2021-11-21</td>
-						</tr>
-						<tr>
-							<th scope="row">2</th>
-							<td>전체</td>
-							<td class="text-start">수도권 거리두기 4단계 3인 이상 모임 제한 관련 안내</td>
-							<td>2021-11-21</td>
-						</tr>
-						<tr>
-							<th scope="row">2</th>
-							<td>전체</td>
-							<td class="text-start">수도권 거리두기 4단계 3인 이상 모임 제한 관련 안내</td>
-							<td>2021-11-21</td>
-						</tr>
+						<c:choose>
+							<c:when test="${empty notices }">
+								<tr>
+									<td colspan="4">검색결과가 존재하지 않습니다.</td>
+								</tr>
+							</c:when>
+							<c:otherwise>
+								<c:forEach var="notice" items="${notices }">
+									<tr>
+										<th scope="row">${notice.code }</th>
+										<td>${notice.category }</td>
+										<td class="${notice.status eq 'I' ? 'text-danger' : '' } text-start">${notice.title }</td>
+										<td><fmt:formatDate value="${notice.createdDate }" pattern="yyyy-MM-dd"/></td>
+									</tr>
+								</c:forEach>
+							</c:otherwise>
+						</c:choose>
 					</tbody>
 				</table>
 			</div>
+			<c:if test="${pagination.totalRows gt 0 }">
+				<div class="row mb-2">
+					<div class="col-12">
+						<ul class="pagination justify-content-center">
+							<li class="page-item ${pagination.pageNo le 1 ? 'disabled' : ''}">
+								<a class="page-link" href="home?page=${pagination.pageNo - 1 }">이전</a>
+							</li>
+							<c:forEach var="num" begin="${pagination.beginPage }" end="${pagination.endPage }">
+								<li class="page-item ${pagination.pageNo eq num ? 'active' : '' }">
+									<a class="page-link" href="home?page=${num }">${num }</a>
+								</li>
+							</c:forEach>
+							<li class="page-item ${pagination.pageNo ge pagination.totalPages ? 'disabled' : ''}">
+								<a class="page-link" href="home?page=${pagination.pageNo + 1 }">다음</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</c:if>
 		</main>
 
 		<footer>

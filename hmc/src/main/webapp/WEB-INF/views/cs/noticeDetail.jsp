@@ -24,7 +24,7 @@
             </div>
             <div class="row offset-2">
             	<div class="col-4">
-            		<a href="../cs/" class="btn fw-bold text-danger">공지사항</a>
+            		<a href="../cs/home" class="btn fw-bold text-danger">공지사항</a>
             	</div>
             	<div class="col-4">
             		<a href="../cs/inqueryForm" class="btn">1:1문의</a>

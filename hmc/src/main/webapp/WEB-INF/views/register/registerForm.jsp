@@ -79,7 +79,7 @@
 								<th class="fw-lighter">성별</th>
 								<td id="gender">
 									<div class="form-check form-check-inline">
-										<input class="form-check-input" type="radio" id="F" name="gender" value="F"> 
+										<input class="form-check-input" type="radio" id="F" name="gender" value="F" checked> 
 										<label class="form-check-label" for="inlineCheckbox1">여성</label>
 									</div>
 									<div class="form-check form-check-inline">
