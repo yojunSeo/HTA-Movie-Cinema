@@ -8,7 +8,10 @@
 }
 
 .footer {
-    padding-top: 80px;
+		position: relative;
+    width: 100%;
+    margin-top: 300px;
+    padding-bottom: 20px;
 }
 
 .footer .inner {
