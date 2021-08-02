@@ -12,13 +12,12 @@
 <title>영화관-HMC</title>
 
 </head>
-<%@ include file="../common/header.jsp" %>
+
 <body>
 	<div class="container">
 
 		<header>
-			<div class="row">
-			</div>
+			<%@ include file="../common/header.jsp" %>
 		</header>
 
 		<main class="mt-5">
@@ -49,6 +48,7 @@
 		</main>
 
 		<footer>
+			<%@ include file="../common/footer.jsp" %>
 		</footer>
 
 	</div>

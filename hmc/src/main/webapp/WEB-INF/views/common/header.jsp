@@ -39,7 +39,7 @@ a, a:link, a:visited, a:active, a:hover {
 
 .header .gnb {
     position: relative;
-    width: 980px;
+    width: 1280px;
     height: 70px;
     margin: 0 auto;
     border-bottom: 1px solid #B2B2B2;
