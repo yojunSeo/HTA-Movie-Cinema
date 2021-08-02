@@ -37,6 +37,52 @@
             	<div class="col-12 border-bottom border-1 border-dark">
             	</div>
             </div>
+            <div class="row my-3">
+				<img src="../resources/images/membership/membership.PNG" width=600 height="250"/>
+			</div>
+			<div class="row mt-3 rounded">
+				<div class="col-5 mx-5 my-3">
+					<div class="row offset-4">
+						<p><span class="fw-bold">${LOGINED_USER.name }</span>님은 <span class="badge rounded-pill bg-warning"> ${LOGINED_USER.grade }</span> 등급입니다.</p>
+					</div>
+					<div class="row">
+					</div>
+					<div class="row">
+					</div>
+				</div>
+			</div>
+			<div class="row my-3">
+				<h4>Friends 혜택</h4>
+			</div>
+			<div class="row">
+				<div class="col-4 border" style="background-color: #FFFCEF">
+					<div class="col-4 text-center my-2 mx-1">
+						<p class="badge rounded-pill bg-warning">Lv.1</p>
+					</div>
+					<div class="col-7 my-2 mx-1">
+						<p>직전 분기 2만원 이상 이용</p>
+						<p>영화 4천원 할인권 x 1매</p>
+					</div>
+				</div>
+				<div class="col-4 border" style="background-color: #FFFCEF">
+					<div class="col-4 text-center my-2 mx-1">
+						<p class="badge rounded-pill bg-warning">Lv.1</p>
+					</div>
+					<div class="col-7 my-2 mx-1">
+						<p>직전 분기 2만원 이상 이용</p>
+						<p>영화 4천원 할인권 x 1매</p>
+					</div>
+				</div>
+				<div class="col-4 border" style="background-color: #FFFCEF">
+					<div class="col-4 text-center my-2 mx-1">
+						<p class="badge rounded-pill bg-warning">Lv.1</p>
+					</div>
+					<div class="col-7 my-2 mx-1">
+						<p>직전 분기 2만원 이상 이용</p>
+						<p>영화 4천원 할인권 x 1매</p>
+					</div>
+				</div>
+			</div>
 		</main>
 
 		<footer>
