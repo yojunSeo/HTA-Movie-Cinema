@@ -16,7 +16,7 @@
 
 .footer .inner {
     position: relative;
-    width: 980px;
+    width: 1280px;
     margin: 0 auto;
 }
 

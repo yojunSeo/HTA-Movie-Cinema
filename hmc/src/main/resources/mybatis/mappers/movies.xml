@@ -21,7 +21,7 @@
 		select 
     		movie_code as code,
     		movie_release_date as releaseDate,
-    		movie_name as name,
+    		movie_name as movieName,
     		movie_running_time as runningTime
 		from 
 			t_movie
@@ -75,4 +75,19 @@
          where
              movie_code = #{value}
    </select>
+
+	<!-- 
+		com.sample.dao.ProductDao 매퍼인터페이스에 대한 매퍼파일(SQL이 정의된 파일) 정의
+	 -->
+	<insert id="insertMovie" parameterType="com.hmc.vo.User">
+		insert into t_movie
+		(movie_code, movie_release_date, movie_name, movie_running_time, movie_genre, movie_grade,
+		movie_country, movie_derector, movie_company, movie_poster, movie_synopsis, movie_url, 
+		movie_stillcut, movie_trailer, movie_total_score, movie_review_cnt)
+		values
+		(#{movieCode}, #{releaseDate}, #{movieName}, #{runningTime}, #{genre}, #{grade}, 
+		#{country}, #{director}, #{company}, #{poster}, #{synopsis}, #{url}, 
+		#{stillcut}, #{trailer}, #{totalScore}, #{reviewCnt})
+	</insert>
+
 </mapper>

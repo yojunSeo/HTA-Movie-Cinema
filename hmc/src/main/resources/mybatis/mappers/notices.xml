@@ -12,8 +12,25 @@
 		<result column="notice_created_date" property="createdDate"/>
 		<result column="notice_modified_date" property="modifiedDate"/>
 		<result column="notice_status" property="status"/>
-		<result column="notice_view_count" property="viewCnt"/>
+		<result column="notice_view_cnt" property="viewCnt"/>
 	</resultMap>
+	
+	<select id="getTotalRows" parameterType="map" resultType="int">
+		select
+			count(*)
+		from
+			t_notice
+		where
+				notice_status NOT IN ('N')
+			<choose>
+					<when test="opt != null and opt == 'title'">
+						and notice_title like '%' || #{keyword} || '%'
+					</when>
+					<when test="opt != null and opt == 'content'">
+						and notice_content like '%' || #{keyword} || '%'
+					</when>
+			</choose>			
+	</select>
 	
 	<select id="getNoticeByCode" parameterType="string" resultMap="NoticeResultMap">
 		select 
@@ -24,14 +41,32 @@
 			notice_code = #{value}		
 	</select>
 	
-	<select id="getAllNotices" resultMap="NoticeResultMap">
+	<select id="getAllNotices" parameterType="map" resultType="com.hmc.vo.Notice">
 		select
-			*
-		from
-			t_notice
+			notice_code as code, notice_category as category, notice_writer as writer, notice_title as title, notice_content as content, 
+			notice_created_date as createdDate, notice_modified_date as modifiedDate, notice_status as status, notice_view_cnt as viewCnt
+		from(
+			select
+				row_number() over (order by notice_code) rn,
+				notice_code, notice_category, notice_writer, notice_title, notice_content, notice_created_date, notice_modified_date,
+				notice_status, notice_view_cnt 
+			from
+				t_notice
+			where
+				notice_status NOT IN ( 'N')
+				<choose>
+					<when test="opt != null and opt == 'title'">
+						and notice_title like '%' || #{keyword} || '%'
+					</when>
+					<when test="opt != null and opt == 'content'">
+						and notice_content like '%' || #{keyword} || '%'
+					</when>
+				</choose>	
+			order by notice_status		
+		)  
 		where 
-            notice_status = 'Y'	
-        or notice_status = 'I'    		
+			rn between #{beginIndex} and #{endIndex}
+			
 	</select>
 	
 	<update id="updateNotice" parameterType="com.hmc.vo.Notice">
@@ -43,17 +78,17 @@
 			notice_title = #{title},		
 			notice_content = #{content},		
 			notice_status = #{status},
-			notice_modified_date = {modifiedDate},
-			notice_review_count = #{viewCnt}
+			notice_modified_date = #{modifiedDate},
+			notice_view_cnt = #{viewCnt}
 		where
 			notice_code = #{code}			
 	</update>
 	
 	<insert id="insertNotice" parameterType="com.hmc.vo.Notice">
 		insert into t_notice
-		(notice_code, notice_category, notice_writer, notice_title, notice_content)
+		(notice_code, notice_category, notice_writer, notice_title, notice_content, notice_status)
 		values
-		( 'NT' || lpad(T_NOTICE_SEQ.nextval, 6,0), #{category}, #{writer}, #{title}, #{content})
+		( 'NT' || lpad(T_NOTICE_SEQ.nextval, 6,0), #{category}, #{writer}, #{title}, #{content}, #{status})
 	</insert>
 	
 	<update id="deleteNotice" parameterType="com.hmc.vo.Notice">

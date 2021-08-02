@@ -25,8 +25,8 @@
                <p class="fw-bold">약관</p>
             </div>
             <div class="row mb-3">
-               <table class="table border-top border-3">
-                  <tbody>
+               <table class="table border-top border-3" id="table-agree-register">
+                  <thead>
                      <tr>
                         <td><input type="checkbox" id="check-all"></td>
                         <td class="fw-bold fs-6">전체동의</td>
@@ -34,6 +34,8 @@
                            <button type="button" class="btn btn-sm text-right">자세히</button>
                         </td>
                      </tr>
+                  </thead>
+                  <tbody>
                      <tr>
                         <td><input type="checkbox" id="check1"></td>
                         <td class="fw-bold fs-6 text-black-50">개인정보의 필수적인 사항에 대한 수집 이용 동의 (필수)</td>
@@ -67,7 +69,7 @@
             <div class="row my-3 text-center my-5">
                <div class="col-12">
                   <a href="../home" class="btn btn-dark btn-lg w-25">취소</a>
-                  <a href="form" class="btn btn-danger btn-lg w-25">다음</a>
+                  <a href="form" class="btn btn-danger btn-lg w-25" id="next">다음</a>
                </div>
             </div>
 		</main>
@@ -80,8 +82,52 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 
-	<script>
+<script>
+$(function(){
+	// 전체선택/전체해제
+	$("#check-all").change(function(){
+		var isChecked = $("#check-all").prop("checked");
+		$("#table-agree-register tbody :checkbox").prop("checked", isChecked);
+	});
+	
+	$("#table-agree-register tbody :checkbox").change(function(){
+		changeAllCheckedCheckbox();
+	});
+	
+	
+	// 선택개수에 따라 전체선택여부 변경
+	function changeAllCheckedCheckbox(){
 		
-	</script>
+		var checkboxAllCnt = $("#table-agree-register tbody :checkbox").length;
+		
+		if(checkboxAllCnt == 0){
+			$("#check-all").prop("checked",false);
+			return;
+		}
+		
+		var checkboxCheckedCnt = $("#table-agree-register tbody :checkbox:checked").length;
+		
+		if(checkboxAllCnt != checkboxCheckedCnt){
+			$("#check-all").prop("checked", false);
+		} else {
+			$("#check-all").prop("checked", true);
+		}
+	}
+	
+	$("#next").click(function(){
+		console.log($("#check1").prop("checked"));
+		if(!$("#check1").prop("checked")){
+			alert("필수약관에 동의하지 않으시면 회원가입이 불가합니다.");
+			return false;
+		}
+		if(!$("#check2").prop("checked")){
+			alert("필수약관에 동의하지 않으시면 회원가입이 불가합니다.");
+			return false;
+		}
+		return true;
+	})
+	
+});
+</script>
 </body>
 </html>

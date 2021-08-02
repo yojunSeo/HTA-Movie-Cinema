@@ -39,7 +39,7 @@ a, a:link, a:visited, a:active, a:hover {
 
 .header .gnb {
     position: relative;
-    width: 980px;
+    width: 1280px;
     height: 70px;
     margin: 0 auto;
     border-bottom: 1px solid #B2B2B2;
@@ -250,32 +250,27 @@ a, a:link, a:visited, a:active, a:hover {
 <header class="my-3">
 	<nav id="header_section" class="header ty3">
 		<h1 class="logo">
-			<a href="/hmc/test/home">시네마</a>
+			<a href="/hmc/home">시네마</a>
 		</h1>
 		<div class="gnb">
 		<%//<c:choose>
 		//	<c:when test="비로그인"> %>
-					<ul class="g_menu1" >	
-						<li class="gbar">
-							<img alt="" src="/hmc/resources/images/header/gnb_youtube.png">
-							<a href="">유튜브</a>
-						</li>
-					</ul>
+
 					<ul class="g_menu2" >
-						<li class="gbar"><a href="">맴버십</a></li>
-						<li class="gbar"><a href="">고객센터</a></li>
-						<li class="gbar"><a href="/hmc/login/loginform">로그인</a></li>
+						<li class="gbar"><a href="/hmc/cs/home">고객센터</a></li>
+						<li class="gbar"><a href="/hmc/login/">로그인</a></li>
 					</ul>
 					<ul class="g_menu3">
 						<li class="">
 							<img alt="" src="/hmc/resources/images/header/nav_side_my.png">
-							<a href="">회원가입</a>
+							<a href="/hmc/register/">회원가입</a>
 						</li>
 						<li class="">
 							<img alt="" src="/hmc/resources/images/header/nav_side_reserve.png">
 							<a href="">예매</a>
 						</li>
 					</ul>
+		<!-- 관리자 -->
 		<%/* 	<!--</c:when>
 			<c:when test="관리자">
 					<ul class="g_menu1" >	
@@ -327,25 +322,24 @@ a, a:link, a:visited, a:active, a:hover {
 		<div id="nav">
 			<ul>
 				<li class="dropdown">
-					<a href="/hmc/booking" class="dropbtn1">예매</a>
+					<a href="" class="dropbtn1">예매</a>
 					<div class="dropdown-content">
-						<a class="as" href="/hmc/booking/">예매하기</a>
-				    	<a class="as" href="/hmc/booking/">상영시간표</a>
-				    	<a class="as" href="/hmc/booking/">할인안내</a>
+						<a class="as" href="">예매하기</a>
+				    	<a class="as" href="/hmc/booking/schedule/branch">상영시간표</a>
 					</div>
 				</li>
 				<li class="dropdown">
-					<a href="/hmc/movie" class="dropbtn1">영화</a>
+					<a href="/hmc/movie/home" class="dropbtn1">영화</a>
 					<div class="dropdown-content">
-						<a class="as" href="/hmc/movie">홈</a>
-				    	<a class="as" href="/hmc/movie">현재상영작</a>
-				    	<a class="as" href="/hmc/movie">상영예정작</a>
+						<a class="as" href="/hmc/movie/home">홈</a>
+				    	<a class="as" href="/hmc/movie/now">현재상영작</a>
+				    	<a class="as" href="/hmc/movie/commingsoon">상영예정작</a>
 					</div>
 				</li>
 				<li class="dropdown">
-					<a href="/hmc/branch/main" class="dropbtn2">영화관</a>
+					<a href="/hmc/branch/" class="dropbtn2">영화관</a>
 					<div class="dropdown-content">
-						<a class="as" href="/hmc/branch/detail">지점상세</a>
+						<a class="as" href="/hmc/branch/">홈</a>
 				    	<a class="as" href="/hmc/branch/time">상영시간표</a>
 				    	<a class="as" href="/hmc/branch/price">가격</a>
 					</div>
@@ -353,17 +347,13 @@ a, a:link, a:visited, a:active, a:hover {
 				<li class="dropdown">
 					<a href="/hmc/event/main" class="dropbtn2">이벤트</a>
 					<div class="dropdown-content">
-						<a class="as" href="/hmc/event/main">영화관별보기</a>
+						<a class="as" href="/hmc/event/main">이벤트</a>
 					</div>
 				</li>
 				<li class="dropdown">
-					<a href="/hmc/store/main" class="dropbtn2">스토어</a>
+					<a href="/hmc/store/" class="dropbtn2">스토어</a>
 					<div class="dropdown-content">
-						<a class="as" href="/hmc/store/">베스트</a>
-				    	<a class="as" href="#">관람권</a>
-				    	<a class="as" href="#">스낵음료</a>
-				    	<a class="as" href="#">스낵음료</a>
-				    	<a class="as" href="#">스낵음료</a>
+						<a class="as" href="/hmc/store/">스토어</a>
 					</div>
 				</li>
 			</ul>

@@ -10,7 +10,15 @@
 
 <title>영화관상세-HMC</title>
 <style type="text/css">
-	
+
+	.banner {
+		position: relative;
+		width:100vw;
+		margin-left: calc(-49vw + 50%);
+		padding-right: 15px;
+		padding-left: 15px;
+		margin-right: auto;
+	}
 	.tab {
 		border-width: 0px 0px 2px 0px;
 		border-style: solid;
@@ -22,28 +30,40 @@
 		border-color: #FF243E;
 		font-weight: bold;
 		color: #FF243E;
-	}	
+	}
 </style>
 </head>
 <body>
 	<div class="container">
 
 		<header>
+			<%@ include file="../common/header.jsp" %>
 		</header>
 
 		<main class="mt-5">
-			<table class="table table-borderless" style="color:#FFFFFF; background-image: url(../resources/images/branch/thater_room.jpg); background-repeat: no-repeat; width:100%; height:200px;">
-				<tr><td class="text-end">
+			<table class="table table-borderless banner" style="color:#FFFFFF; background-image: url(../resources/images/branch/thater_room.png); background-repeat: no-repeat; width:98vw; height:280px;">
+				<colgroup>
+					<col width="15%">
+					<col width="60%">
+					<col width="15%">
+				</colgroup>
+				<tr>
+					<td></td>
+					<td class="text-end">
 					<button class="btn btn-outline-secondary">
 						<img alt="" src="../resources/images/branch/favorite.png" width="30px">
 						<img alt="" src="../resources/images/branch/unfavorite.png" width="30px">
 						 나의 지점 등록
 					</button>
-			  	</td></tr>
+			  		</td>
+			  		<td></td>
+			  	</tr>
 				<tr>
+					<td></td>
 					<td class="align-middle text-center" style="">
 					<h2>지점 이름</h2>
 					</td>
+					<td></td>
 				</tr>
 			</table>
 			
@@ -156,6 +176,7 @@
 		</main>
 
 		<footer>
+			<%@ include file="../common/footer.jsp" %>
 		</footer>
 
 	</div>

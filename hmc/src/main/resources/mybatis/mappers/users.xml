@@ -37,7 +37,35 @@
    		where
    			user_id = #{value}	
    </select>
+   
+   <select id="getUserByEmail" parameterType="string" resultMap="UserResultMap">
+   		select
+   			*
+   		from
+   			t_user
+   		where
+   			user_email = #{value}	 	
+   </select>
+   
+   <select id="getUserByPhone" parameterType="string" resultMap="UserResultMap">
+   		select
+   			*
+   		from
+   			t_user
+   		where
+   			user_phone = #{value}		
+   </select>	
    		
+   <select id="getUserByName" parameterType="string" resultMap="UserResultMap">
+   		select
+   			*
+   		from
+   			t_user
+   		where
+   			user_name = #{value}		
+   </select>
+   
+   
    <select id="getAllUsers" resultMap="UserResultMap">
    		select
    			*
@@ -46,6 +74,7 @@
    		where
    			user_status = 'Y'
    </select>
+   
    
    <update id="updateUser" parameterType="com.hmc.vo.User">
    		update
@@ -72,7 +101,6 @@
    		where 
    			user_id 			= #{id}
    </update>
-   
    
    
 </mapper>

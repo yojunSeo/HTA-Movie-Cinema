@@ -1,12 +1,13 @@
 package com.hmc.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.hmc.vo.Notice;
 
 public interface NoticeDao {
 	
-	List<Notice> getAllNotices();
+	List<Notice> getAllNotices(Map<String, Object> param);
 	
 	Notice getNoticeByCode(String code);
 	
@@ -15,5 +16,8 @@ public interface NoticeDao {
 	void deleteNotice(Notice notice);
 	
 	void updateNotice(Notice notice);
+	
+	int getTotalRows(Map<String, Object> param);
+	
 
 }
