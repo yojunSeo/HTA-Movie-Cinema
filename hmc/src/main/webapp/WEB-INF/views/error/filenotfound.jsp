@@ -13,6 +13,9 @@
 <%-- 상단 navbar UI완성되면 인클루드 처리 --%>
 <%-- <%@ include file="../common/nav.jsp" %> --%>
 <div class="container my-3">
+	<header>
+		<%@ include file="../common/header.jsp" %>
+	</header>
 	<main>
 		<div class="row mb-3">
 			<div class="col">
@@ -35,6 +38,9 @@
 			</div>
 		</div>
 	</main>
+	<footer>
+		<%@ include file="../common/footer.jsp" %>
+	</footer>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
