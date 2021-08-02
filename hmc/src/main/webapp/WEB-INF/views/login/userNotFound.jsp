@@ -16,20 +16,17 @@
 
 		<main>
 			<div class="row mb-3">
-               <p class="mt-5 fw-normal fs-4">비밀번호 찾기</p>
-            </div>
-            <div class="row mb-5">
-               <p class="fw-normal fs-3">임시 발급된 비밀번호입니다.</p>
-               <p class="fw-normal fs-3">반드시 비밀번호 변경해주세요.</p>
+               <p class="mt-5 fw-normal fs-4">회원정보 찾기</p>
             </div>
             <div class="row">
-            	<p class="fw-bold">임시 발급된 비밀번호</p>
+            	<p class="fw-bold">아이디/비밀번호 찾기 결과</p>
             </div>
             <div class="row mb-4">
             	<div class="col-12 border-bottom border-2 border-dark"></div>
             </div>
             <div class="row my-3">
-            	<p class="fw-bold text-danger fs-3">${findPwd }</p>
+            	<p class="fw-bold text-danger fs-3">${error.title }</p>
+            	<p class="fw-bold text-danger fs-3">${error.message }</p>
             </div>
             <div class="row">
             	<div class="col-12 border-bottom border-2 border-dark"></div>

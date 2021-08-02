@@ -21,6 +21,12 @@ public interface UserDao {
 	 * @param user 사용자 정보
 	 */
 	void deletedUser(User user);
+	
+	User getUserByEmail(String email);
+
+	User getUserByPhone(String phone);
+	
+	User getUserByName(String name);
 
 }
 

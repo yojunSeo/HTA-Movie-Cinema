@@ -28,7 +28,7 @@
             	<div class="col-12 border-bottom border-2 border-dark"></div>
             </div>
             <div class="row my-3">
-            	<p class="fw-bold">970602ljm@naver.com</p>
+            	<p class="fw-bold text-danger fs-3">${findId }</p>
             </div>
             <div class="row">
             	<div class="col-12 border-bottom border-2 border-dark"></div>

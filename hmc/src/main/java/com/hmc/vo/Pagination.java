@@ -11,7 +11,7 @@ public class Pagination {
 
 	// 현재 페이지번호
 	private int pageNo;
-	// 조회된 총 갯수
+	// 조회된 총 게시글 갯수
 	private int totalRows;
 	// 총 페이지 갯수
 	private int totalPages;
@@ -23,4 +23,5 @@ public class Pagination {
 	private int beginPage;
 	// 끝페이지번호
 	private int endPage;
+
 }
