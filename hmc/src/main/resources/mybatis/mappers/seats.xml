@@ -45,6 +45,23 @@
 			seat_code = #{value}
 	</select>
 	
+	<select id="getRoomSeats" parameterType="String" resultType="hashmap" >
+		select
+			seat_code	as seatCode, 
+			branch_code as branchCode,
+			room_code 	as roomCode,
+			seat_row 	as seatRow,
+			seat_col 	as seatCol,
+			b.seat_type as type,
+			seat_price 	as price
+		from 
+			t_seat a, t_seat_type b
+		where
+			a.seat_type = b.seat_type
+        and 
+            a.room_code = #{value}
+	</select>
+	
 	<select id="getSeats" parameterType="map" resultMap="SeatResultMap">
 		select
 			*

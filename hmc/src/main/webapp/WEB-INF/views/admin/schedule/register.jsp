@@ -312,11 +312,11 @@
 			var today = new Date();
 			var screenDate = new Date(screenDateString);
 			
-			if(today > screenDate){
+/* 			if(today > screenDate){
 				alert("이미 지난 날짜입니다!");
 				$('#screen-date').focus();
 				return false;				
-			}
+			} */
 			
 			if(!$('#movie-code').val()){
 				alert("영화를 선택하세요!");

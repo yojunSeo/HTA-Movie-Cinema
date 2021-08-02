@@ -15,11 +15,14 @@ import com.hmc.dao.RoomDao;
 import com.hmc.dao.ScheduleDao;
 import com.hmc.dao.ScheduleDtoDao;
 import com.hmc.dao.ScreenMovieDao;
+import com.hmc.dao.SeatDao;
 import com.hmc.dao.UserDao;
 import com.hmc.dto.BranchScheduleDto;
 import com.hmc.dto.MovieScheduleDto;
 import com.hmc.dto.ScheduleDetail;
 import com.hmc.vo.Branch;
+import com.hmc.vo.Seat;
+import com.hmc.vo.SeatBooking;
 import com.hmc.vo.User;
 
 @Service
@@ -37,6 +40,8 @@ public class ScheduleServiceImpl implements ScheduleService{
 	private UserDao userDao;
 	@Autowired
 	private ScheduleDtoDao sDtoDao;
+	@Autowired
+	private SeatDao seatDao;
 	
 	@Override
 	public List<Branch> getUserFavoriteBranchs(User user) {
@@ -92,5 +97,22 @@ public class ScheduleServiceImpl implements ScheduleService{
 	public ScheduleDetail getScheduleDetail(String scheduleCode) {
 		return scheduleDao.getScheduleByCode(scheduleCode);
 	}
+	
+	@Override
+	public List<Map<String, Object>> getBookingSeat(String scheduleCode) {
+		List<SeatBooking> bookedSeats = seatDao.getSeatBookingsBySchedule(scheduleCode);
+		List<Map<String, Object>> nonableSeats = new ArrayList<Map<String, Object>>();
+		for(SeatBooking bs : bookedSeats) {
+			Map<String, Object> seat = seatDao.getSeatByCode(bs.getScheduleCode());
+			nonableSeats.add(seat);
+		}
+		return nonableSeats;
+	}
+	
+	@Override
+	public List<Map<String, Object>> getRoomSeat(String roomCode) {
+		return seatDao.getRoomSeats(roomCode);
+	}
+	
 
 }
