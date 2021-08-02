@@ -12,6 +12,7 @@
 <title>영화관-HMC</title>
 
 </head>
+<%@ include file="../common/header.jsp" %>
 <body>
 	<div class="container">
 
