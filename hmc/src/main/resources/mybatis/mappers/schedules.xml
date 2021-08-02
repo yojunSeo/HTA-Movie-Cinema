@@ -11,15 +11,16 @@
 		<result column="schedule_start_time" property="startTime"/>
 		<result column="schedule_end_time" property="endTime"/>
 		<result column="schedule_empty_seat" property="emptySeat"/>
+		<result column="schedule_total_seat" property="totalSeat"/>
 	</resultMap>
 	
 	<insert id="insertSchedule" parameterType="com.hmc.vo.Schedule">
 		insert into t_schedule
 			(schedule_code, screen_code, branch_code, room_code, schedule_date, 
-						schedule_start_time, schedule_end_time, schedule_empty_seat)
+						schedule_start_time, schedule_end_time, schedule_empty_seat, schedule_total_seat)
 		values
 			('SH' || lpad(T_SCHEDULE_SEQ.nextval, 6,0), #{screenCode}, #{branchCode}, #{roomCode}, 
-							#{scheduleDate}, #{startTime}, #{endTime}, #{emptySeat})
+							#{scheduleDate}, #{startTime}, #{endTime}, #{emptySeat}, #{totalSeat})
 	</insert>
 	
 	<update id="updateSchedule" parameterType="com.hmc.vo.Schedule">
@@ -43,21 +44,55 @@
 			schedule_code = #{value}
 	</delete>
 	
-	<select id="getAllSchedules" resultType="hashmap">
+	<select id="getSchedules" parameterType="map" resultType="com.hmc.dto.ScheduleDetail">
+		select 
+			* 
+		from (
+			select 
+				row_number() over (order by sh.schedule_code desc) rn, sh.schedule_code as scheduleCode,
+    			sc.screen_code 			as screenCode,
+    			sc.movie_name 			as movieName,
+    			br.branch_code 			as branchCode,
+    			br.branch_name 			as branchName,
+    			rm.room_code 			as roomCode,
+    			rm.room_name 			as roomName,
+    			sh.schedule_date 		as scheduleDate,
+    			sh.schedule_start_time 	as startTime,
+    			sh.schedule_end_time 	as endTime,
+    			sh.schedule_empty_seat 	as emptySeat,
+    			sh.schedule_total_seat 	as totalSeat
+            
+ 			from 
+ 				t_schedule sh, t_screen_movie sc, t_branch br, t_room rm, t_movie mv
+			where
+    			sh.screen_code = sc.screen_code
+			and
+    			sc.movie_code = mv.movie_code
+			and
+   	 			sh.branch_code = br.branch_code
+			and
+    			sh.room_code = rm.room_code
+			)
+		where 
+			rn between #{beginIndex} and #{endIndex}
+	</select>
+	
+	<select id="getAllSchedules" resultType="com.hmc.dto.ScheduleDetail">
 		select 
     		sh.schedule_code 		as scheduleCode,
     		sc.screen_code 			as screenCode,
     		mv.movie_name 			as movieName,
     		mv.movie_running_time 	as runningTime,
+    		mv.movie_grade 			as movieGrade,
     		br.branch_code 			as branchCode,
     		br.branch_name 			as branchName,
     		rm.room_code 			as roomCode,
-    		rm.room_total_seat 		as totalSeat,
     		rm.room_name 			as roomName,
     		sh.schedule_date 		as scheduleDate,
     		sh.schedule_start_time 	as startTime,
     		sh.schedule_end_time 	as endTime,
-    		sh.schedule_empty_seat 	as emptySeat
+    		sh.schedule_empty_seat 	as emptySeat,
+    		sh.schedule_total_seat 	as totalSeat
 		from 
     		t_schedule sh, t_screen_movie sc, t_branch br, t_room rm, t_movie mv
 		where
@@ -72,12 +107,13 @@
 			schedule_code desc
 	</select>
 	
-	<select id="getScheduleByCode"  parameterType="string" resultType="hashmap">
+	<select id="getScheduleByCode"  parameterType="string" resultType="com.hmc.dto.ScheduleDetail">
 		select 
     		sh.schedule_code 		as scheduleCode,
     		sc.screen_code 			as screenCode,
     		mv.movie_name 			as movieName,
     		mv.movie_running_time 	as runningTime,
+    		mv.movie_grade 			as movieGrade,
     		br.branch_code 			as branchCode,
     		br.branch_name 			as branchName,
     		rm.room_code 			as roomCode,
@@ -85,7 +121,8 @@
     		sh.schedule_date 		as scheduleDate,
     		sh.schedule_start_time 	as startTime,
     		sh.schedule_end_time 	as endTime,
-    		sh.schedule_empty_seat 	as emptySeat
+    		sh.schedule_empty_seat 	as emptySeat,
+    		sh.schedule_total_seat 	as totalSeat
 		from 
     		t_schedule sh, t_screen_movie sc, t_branch br, t_room rm, t_movie mv
 		where
@@ -107,22 +144,23 @@
 			dual
 	</select>
 	
-	<select id="getBranchSchedulesByDate" parameterType="map" resultType="hashmap">
+	<select id="getBranchSchedulesByDate" parameterType="map" resultType="com.hmc.dto.ScheduleDetail">
 		select  
     		sh.schedule_code 		as scheduleCode,
     		sc.screen_code 			as screenCode,
     		sc.movie_name 			as movieName,
+    		mv.movie_grade 			as movieGrade,
     		br.branch_code 			as branchCode,
     		br.branch_name 			as branchName,
     		rm.room_code 			as roomCode,
-    		rm.room_total_seat 		as totalSeat,
     		rm.room_name 			as roomName,
     		sh.schedule_date 		as scheduleDate,
     		sh.schedule_start_time 	as startTime,
     		sh.schedule_end_time 	as endTime,
-    		sh.schedule_empty_seat 	as emptySeat
+    		sh.schedule_empty_seat 	as emptySeat,
+    		sh.schedule_total_seat 	as totalSeat
 		from 
-    		t_schedule sh, t_screen_movie sc, t_branch br, t_room rm
+    		t_schedule sh, t_screen_movie sc, t_branch br, t_room rm, t_movie mv
 		where
     		sh.screen_code = sc.screen_code
 		and
@@ -130,10 +168,53 @@
 		and
     		sh.room_code = rm.room_code
         and
+            sc.movie_code = mv.movie_code
+        and
             br.branch_code = #{branchCode}
         and
             sh.schedule_date = #{screenDate}
 		order by 
-			sh.branch_code asc
+			sh.branch_code asc, sh.room_code asc, sh.schedule_start_time asc
+	</select>
+	<select id="getAllSchedulesCnt" parameterType="map" resultType="int">
+		select 
+			count(*)
+		from 
+			t_schedule
+	</select>
+	
+	<select id="getSchedulesByMovieAndDate" parameterType="map" resultType="com.hmc.dto.ScheduleDetail">
+		select 
+    		sh.schedule_code 		as scheduleCode,
+    		sc.screen_code 			as screenCode,
+    		mv.movie_name 			as movieName,
+    		mv.movie_running_time 	as runningTime,
+    		mv.movie_grade 			as movieGrade, 
+    		br.branch_code 			as branchCode,
+    		br.branch_name 			as branchName,
+    		rm.room_code 			as roomCode,
+    		rm.room_name 			as roomName,
+    		sh.schedule_date 		as scheduleDate,
+    		sh.schedule_start_time 	as startTime,
+    		sh.schedule_end_time 	as endTime,
+    		sh.schedule_empty_seat 	as emptySeat,
+    		sh.schedule_total_seat 	as totalSeat
+		from 
+    		t_schedule sh, t_screen_movie sc, t_branch br, t_room rm, t_movie mv
+		where
+    		sh.screen_code = sc.screen_code
+		and
+    		sc.movie_code = mv.movie_code
+		and
+   	 		sh.branch_code = br.branch_code
+		and
+    		sh.room_code = rm.room_code
+        and 
+            sc.screen_code = #{screenCode}
+        and
+            sh.schedule_date = #{screenDate}
+		order by 
+			br.branch_name asc, rm.room_name asc, sh.schedule_start_time asc
+	
 	</select>
 </mapper>

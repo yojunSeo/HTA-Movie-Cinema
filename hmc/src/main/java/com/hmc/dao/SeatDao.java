@@ -49,4 +49,6 @@ public interface SeatDao {
 	SeatBooking getSeatBookingsByBooking(String bookingCode);
 	
 	Map<String, Object> getSeatByCode(String seatCode);
+	
+	List<Map<String, Object>> getRoomSeats(String roomCode);
 }

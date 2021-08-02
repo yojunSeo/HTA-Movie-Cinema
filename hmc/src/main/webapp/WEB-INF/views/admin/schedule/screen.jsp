@@ -19,7 +19,7 @@
       <main>
       	<div class="row">
       		<div class="col">
-			<h2>현재 상영중인 영화</h2>
+			<h2 class="fw-lighter">현재 상영중인 영화</h2>
 			<a href="../list">상영스케줄</a>
 				<form class="row mt-3" id="form-screen-register">
     				<div class="form-group col-md-3">
@@ -109,23 +109,25 @@
 			<button class="btn btn-outline-secondary btn-sm" id="btn-remove-checked-row">선택 삭제</button>
 		</div>
 		</div>
-				<div class="row mb-2">
-			<div class="col-12">
-				<ul class="pagination justify-content-center">
-					<li class="page-item ${pagination.pageNo le 1 ? 'disabled' : ''}">
-						<a class="page-link" href="javascript:goToPage(${pagination.pageNo - 1 })">이전</a>
-					</li>
-					<c:forEach var="num" begin="${pagination.beginPage }" end="${pagination.endPage }">
-						<li class="page-item ${pagination.pageNo eq num ? 'active' : '' }">
-							<a class="page-link" href="javascript:goToPage(${num })">${num }</a>
+		<c:if test="${pagination.totalRows gt 0 }">
+			<div class="row mb-2">
+				<div class="col-12">
+					<ul class="pagination justify-content-center">
+						<li class="page-item ${pagination.pageNo le 1 ? 'disabled' : ''}">
+							<a class="page-link" href="list?page=${pagination.pageNo - 1 }">이전</a>
 						</li>
-					</c:forEach>
-					<li class="page-item ${pagination.pageNo ge pagination.totalPages ? 'disabled' : ''}">
-						<a class="page-link" href="javascript:goToPage(${pagination.pageNo + 1 })">다음</a>
-					</li>
-				</ul>
+						<c:forEach var="num" begin="${pagination.beginPage }" end="${pagination.endPage }">
+							<li class="page-item ${pagination.pageNo eq num ? 'active' : '' }">
+								<a class="page-link" href="list?page=${num }">${num }</a>
+							</li>
+						</c:forEach>
+						<li class="page-item ${pagination.pageNo ge pagination.totalPages ? 'disabled' : ''}">
+							<a class="page-link" href="list?page=${pagination.pageNo + 1 }">다음</a>
+						</li>
+					</ul>
+				</div>
 			</div>
-		</div>
+		</c:if>
       </main>
 
       <footer>
@@ -177,7 +179,7 @@
     	 function registerScreen(){
     		$.ajax({
     			type:"POST",
-    			url:"/hmc/admin/rest/screen/register",
+    			url:"../../rest/screen/register",
     			data: $('#form-screen-register').serialize(),
     			dataType: "json",
     			success: function(screen){

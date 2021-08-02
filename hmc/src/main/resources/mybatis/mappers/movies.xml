@@ -21,7 +21,7 @@
 		select 
     		movie_code as code,
     		movie_release_date as releaseDate,
-    		movie_name as name,
+    		movie_name as movieName,
     		movie_running_time as runningTime
 		from 
 			t_movie

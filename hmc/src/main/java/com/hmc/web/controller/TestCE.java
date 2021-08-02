@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.hmc.dto.ScheduleDetail;
 import com.hmc.service.CE_TestService;
 import com.hmc.vo.Booking;
 import com.hmc.vo.Payment;
@@ -47,7 +48,7 @@ public class TestCE {
 		model.addAttribute("rooms", rooms);
 		
 		//logger.info("### 모든 상영정보 ###");
-		List<Map<String, Object>> schedules = service.getAllSchedule();
+		List<ScheduleDetail> schedules = service.getAllSchedule();
 		//logger.info(schedules);
 		model.addAttribute("schedules", schedules);
 
@@ -103,7 +104,7 @@ public class TestCE {
 		//logger.info("### 채은 테스트-예매 페이지 띄우기 ###");
 		
 		//logger.info("### 모든 상영정보 ###");
-		List<Map<String, Object>> schedules = service.getAllSchedule();
+		List<ScheduleDetail> schedules = service.getAllSchedule();
 		//logger.info(schedules);
 		model.addAttribute("schedules", schedules);
 		
@@ -117,15 +118,15 @@ public class TestCE {
 	
 	@GetMapping("/testBooking")
 	public String testBooking(@RequestParam("scheduleCode") String scheduleCode, Model model) {
-		Map<String, Object> schedule = service.getScheduleByCode(scheduleCode);
+		ScheduleDetail schedule = service.getScheduleByCode(scheduleCode);
 		//System.out.println(schedule);
 		
 		Map<String, Object> seatCondition = new HashMap<String, Object>();
 		//System.out.println(schedule.get("BRANCHCODE"));
 		//System.out.println(schedule.get("ROOMCODE"));
 		
-		seatCondition.put("branchCode", schedule.get("BRANCHCODE"));
-		seatCondition.put("roomCode", schedule.get("ROOMCODE"));
+		seatCondition.put("branchCode", schedule.getBranchCode());
+		seatCondition.put("roomCode", schedule.getRoomCode());
 		
 		List<Seat> seats = service.getSeats(seatCondition);
 		//System.out.println(seats);

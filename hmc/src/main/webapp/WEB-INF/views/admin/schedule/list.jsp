@@ -18,7 +18,7 @@
 
       <main>
          <div class="mt-3">
-			<h2>상영스케줄 조회/변경/삭제</h2>
+			<h2 class="fw-lighter">상영스케줄 조회/변경/삭제</h2>
 			<a href="screen/list">스크린영화</a>
 			<a href="register">스캐줄등록</a>
 		</div>
@@ -83,13 +83,13 @@
 				<c:forEach var="schedule" items="${schedules }" >
 					<tr>
 						<td><input type="checkbox" id="checkbox-all-selected"></td>
-						<td class="text-center">${schedule.BRANCHNAME }</td>
-						<td class="text-center">${schedule.ROOMNAME }</td>
-						<td class="text-center">${schedule.MOVIENAME }</td>
-						<td class="text-center"><fmt:formatDate value="${schedule.SCHEDULEDATE }" pattern="yyyy-MM-dd"/></td>
-						<td class="text-center"><fmt:formatDate value="${schedule.STARTTIME }" pattern="HH:mm"/></td>
-						<td class="text-center"><fmt:formatDate value="${schedule.ENDTIME }" pattern="HH:mm"/></td>
-						<td class="text-center">${schedule.EMPTYSEAT }/${schedule.TOTALSEAT }</td>
+						<td class="text-center">${schedule.branchName }</td>
+						<td class="text-center">${schedule.roomName }</td>
+						<td class="text-center">${schedule.movieName }</td>
+						<td class="text-center"><fmt:formatDate value="${schedule.scheduleDate }" pattern="yyyy-MM-dd"/></td>
+						<td class="text-center"><fmt:formatDate value="${schedule.startTime }" pattern="HH:mm"/></td>
+						<td class="text-center"><fmt:formatDate value="${schedule.endTime }" pattern="HH:mm"/></td>
+						<td class="text-center">${schedule.emptySeat }/${schedule.totalSeat }</td>
 						<td class="text-center"><button class="btn btn-outline-warning btn-sm">수정</button></td>
 						<td class="text-center"><button class="btn btn-outline-danger btn-sm">삭제</button></td>
 					</tr>
@@ -101,23 +101,25 @@
 			<button class="btn btn-outline-secondary btn-sm" id="btn-remove-checked-row">선택 삭제</button>
 		</div>
 		</div>
-		<div class="row mb-2">
-			<div class="col-12">
-				<ul class="pagination justify-content-center">
-					<li class="page-item ${pagination.pageNo le 1 ? 'disabled' : ''}">
-						<a class="page-link" href="javascript:goToPage(${pagination.pageNo - 1 })">이전</a>
-					</li>
-					<c:forEach var="num" begin="${pagination.beginPage }" end="${pagination.endPage }">
-						<li class="page-item ${pagination.pageNo eq num ? 'active' : '' }">
-							<a class="page-link" href="javascript:goToPage(${num })">${num }</a>
+		<c:if test="${pagination.totalRows gt 0 }">
+			<div class="row mb-2">
+				<div class="col-12">
+					<ul class="pagination justify-content-center">
+						<li class="page-item ${pagination.pageNo le 1 ? 'disabled' : ''}">
+							<a class="page-link" href="list?page=${pagination.pageNo - 1 }">이전</a>
 						</li>
-					</c:forEach>
-					<li class="page-item ${pagination.pageNo ge pagination.totalPages ? 'disabled' : ''}">
-						<a class="page-link" href="javascript:goToPage(${pagination.pageNo + 1 })">다음</a>
-					</li>
-				</ul>
+						<c:forEach var="num" begin="${pagination.beginPage }" end="${pagination.endPage }">
+							<li class="page-item ${pagination.pageNo eq num ? 'active' : '' }">
+								<a class="page-link" href="list?page=${num }">${num }</a>
+							</li>
+						</c:forEach>
+						<li class="page-item ${pagination.pageNo ge pagination.totalPages ? 'disabled' : ''}">
+							<a class="page-link" href="list?page=${pagination.pageNo + 1 }">다음</a>
+						</li>
+					</ul>
+				</div>
 			</div>
-		</div>
+		</c:if>
       </main>
 
       <footer>

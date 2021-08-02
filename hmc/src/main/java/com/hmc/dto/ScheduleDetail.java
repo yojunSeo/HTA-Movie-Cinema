@@ -1,4 +1,4 @@
-package com.hmc.vo;
+package com.hmc.dto;
 
 import java.util.Date;
 
@@ -13,22 +13,26 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Schedule {
+public class ScheduleDetail {
 
-	private String code;
+	private String scheduleCode;
 	private String screenCode;
+	private String movieName;
+	private int runningTime;
 	private String branchCode;
+	private String branchName;
 	private String roomCode;
+	private int totalSeat;
+	private String roomName;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date scheduleDate;
 	@DateTimeFormat(pattern = "HH:mm")
 	@JsonFormat(pattern = "HH:mm")
 	private Date startTime;
-	@DateTimeFormat(pattern = "HH:mm")
+	@DateTimeFormat(pattern = "z:mm")
 	@JsonFormat(pattern = "HH:mm")
 	private Date endTime;
 	private int emptySeat;
-	private int totalSeat;
-
+	private String movieGrade;
 }

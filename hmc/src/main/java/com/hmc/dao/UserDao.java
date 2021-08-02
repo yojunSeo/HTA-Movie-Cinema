@@ -2,6 +2,7 @@ package com.hmc.dao;
 
 
 import java.util.List;
+import java.util.Map;
 
 import com.hmc.vo.User;
 
@@ -20,7 +21,6 @@ public interface UserDao {
 	 * @param user 사용자 정보
 	 */
 	void deletedUser(User user);
-
 
 }
 
