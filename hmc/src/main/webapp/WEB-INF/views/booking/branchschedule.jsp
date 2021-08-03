@@ -43,10 +43,11 @@
 <div class="container-fluid">
 
 	<header>
+		<%@ include file="../common/header.jsp" %>
 	</header>
 
 	<main>
-		<div class="row my-5" style="background-color:#444444; height: 800px">
+		<div class="row my-5" style="background-color:#444444; height: 900px">
 			<div class="row my-5">
 				<div class="col-8 offset-2"  style="background-color:#E2E3E5;height: 600px">
 					<div class="row" id="schedule-kind">
@@ -120,6 +121,7 @@
 	</main>
 
 	<footer>
+		<%@ include file="../common/footer.jsp" %>
 	</footer>
 
 </div>

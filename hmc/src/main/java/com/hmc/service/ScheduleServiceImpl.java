@@ -103,7 +103,7 @@ public class ScheduleServiceImpl implements ScheduleService{
 		List<SeatBooking> bookedSeats = seatDao.getSeatBookingsBySchedule(scheduleCode);
 		List<Map<String, Object>> nonableSeats = new ArrayList<Map<String, Object>>();
 		for(SeatBooking bs : bookedSeats) {
-			Map<String, Object> seat = seatDao.getSeatByCode(bs.getScheduleCode());
+			Map<String, Object> seat = seatDao.getSeatByCode(bs.getSeatCode());
 			nonableSeats.add(seat);
 		}
 		return nonableSeats;

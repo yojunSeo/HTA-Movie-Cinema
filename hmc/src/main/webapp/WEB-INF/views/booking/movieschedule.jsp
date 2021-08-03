@@ -47,10 +47,11 @@
 <div class="container-fluid">
 
 	<header>
+		<%@ include file="../common/header.jsp" %>
 	</header>
 
 	<main>
-		<div class="row my-5" style="background-color:#444444; height: 800px">
+		<div class="row my-5" style="background-color:#444444; height: 900px">
 			<div class="row my-5">
 				<div class="col-8 offset-2"  style="background-color:#E2E3E5;height: 600px">
 					<div class="row" id="schedule-kind">
@@ -119,6 +120,7 @@
 	</main>
 
 	<footer>
+		<%@ include file="../common/footer.jsp" %>
 	</footer>
 
 </div>
@@ -156,9 +158,9 @@ $(function(){
 				}
 				
 				if(defaultMovie.SCREENCODE == movie.SCREENCODE){
-					$movie += "<p class='list-group-item b small list-group-item-action active border-0 mb-1' style='background-color:#ADB5BD;' data-screen-code='"+movie.SCREENCODE+"' data-movie-name='"+movie.MOVIENAME+"'><span class='badge rounded-pill "+gradeClass+" mx-3'>"+movieGrade+"</span>"+movie.MOVIENAME+"</p>";
+					$movie += "<p class='list-group-item b small list-group-item-action active border-0 m-0 p-2 mb-2' style='background-color:#ADB5BD;' data-screen-code='"+movie.SCREENCODE+"' data-movie-name='"+movie.MOVIENAME+"'><span class='badge rounded-pill "+gradeClass+" mx-3'>"+movieGrade+"</span>"+movie.MOVIENAME+"</p>";
 				}else{
-					$movie += "<p class='list-group-item b small list-group-item-action  border-0 mb-1' data-screen-code='"+movie.SCREENCODE+"' data-movie-name='"+movie.MOVIENAME+"'><span class='badge rounded-pill "+gradeClass+" mx-3'>"+movieGrade+"</span>"+movie.MOVIENAME+"</p>";
+					$movie += "<p class='list-group-item b small list-group-item-action  border-0 m-0 p-2 mb-2' data-screen-code='"+movie.SCREENCODE+"' data-movie-name='"+movie.MOVIENAME+"'><span class='badge rounded-pill "+gradeClass+" mx-3'>"+movieGrade+"</span>"+movie.MOVIENAME+"</p>";
 				}
 			})
 			$('#movie-zone').append($movie);

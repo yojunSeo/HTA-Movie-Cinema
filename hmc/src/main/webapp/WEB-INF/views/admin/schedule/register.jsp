@@ -11,6 +11,7 @@
 <body>
 <div class="container">
 	<header>
+		<%@ include file="../../common/header.jsp" %>
 	</header>
 
 	<main>
@@ -111,6 +112,7 @@
 	</main>
 	
 	<footer>
+		<%@ include file="../../common/footer.jsp" %>
 	</footer>
 </div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
