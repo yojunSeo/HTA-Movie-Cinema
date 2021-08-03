@@ -257,8 +257,8 @@ a, a:link, a:visited, a:active, a:hover {
 			<a href="/hmc/home">시네마</a>
 		</h1>
 		<div class="gnb">
-		<%//<c:choose>
-		//	<c:when test="비로그인"> %>
+		<c:choose>
+			<c:when test="${empty LOGINED_USER}">
 
 					<ul class="g_menu2" >
 						<li class="gbar"><a href="/hmc/cs/home">고객센터</a></li>
@@ -274,54 +274,26 @@ a, a:link, a:visited, a:active, a:hover {
 							<a href="">예매</a>
 						</li>
 					</ul>
-		<!-- 관리자 -->
-		<%/* 	<!--</c:when>
-			<c:when test="관리자">
-					<ul class="g_menu1" >	
-						<li class="gbar">
-							<img alt="" src="/hmc/resources/images/gnb_youtube.png">
-							<a href="">유튜브</a>
-						</li>
-					</ul>
-					<ul class="g_menu2" >
-						<li class="gbar"><a href="">관리자</a></li>
-						<li class="gbar"><a href="">로그인</a></li>
-					</ul>
-					<ul class="g_menu3">
-						<li class="">
-							<img alt="" src="/hmc/resources/images/nav_side_my.png">
-							<a href="">회원가입</a>
-						</li>
-						<li class="">
-							<img alt="" src="/hmc/resources/images/nav_side_reserve.png">
-							<a href="">예매</a>
-						</li>
-					</ul>
-				</c:when>
+		<!-- -->
+		</c:when>
 				<c:otherwise>	--로그인시
-					<ul class="g_menu1" >	
-						<li class="gbar">
-							<img alt="" src="/hmc/resources/images/gnb_youtube.png">
-							<a href="">유튜브</a>
-						</li>
-					</ul>
 					<ul class="g_menu2" >
-						<li class="gbar"><a href="">맴버십</a></li>
-						<li class="gbar"><a href="">고객센터</a></li>
-						<li class="gbar"><a href="">로그아웃</a></li>
+						<li class="gbar"><a href="/hmc/cs/home">고객센터</a></li>
+						<li class="gbar"><a href="/hmc/login/">로그인</a></li>
 					</ul>
 					<ul class="g_menu3">
 						<li class="">
-							<img alt="" src="/hmc/resources/images/nav_side_my.png">
-							<a href="">마이</a>
+							<img alt="" src="/hmc/resources/images/header/nav_side_my.png">
+							<a href="/hmc/register/">회원가입</a>
 						</li>
 						<li class="">
-							<img alt="" src="/hmc/resources/images/nav_side_reserve.png">
+							<img alt="" src="/hmc/resources/images/header/nav_side_reserve.png">
 							<a href="">예매</a>
 						</li>
 					</ul>
+
 				</c:otherwise>
-			</c:choose>  */ %>
+			</c:choose>
 		</div>
 		<div id="nav">
 			<ul>
