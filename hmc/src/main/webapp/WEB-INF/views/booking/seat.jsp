@@ -217,6 +217,12 @@ $(function(){
 				}
 				totalPrice();
 			}else{				
+				if($(this).hasClass('btn-outline-success')){
+					var confirmValue = confirm('장애인석을 예매할 경우 입장시 관련 증명서를 지참하셔야 합니다.');
+					if(!confirmValue){
+						return false;
+					}
+				}
 				var seatCode = $(this).attr('id');
 				$(this).removeClass('bg-light');
 				$(this).addClass('bg-danger text-white');
