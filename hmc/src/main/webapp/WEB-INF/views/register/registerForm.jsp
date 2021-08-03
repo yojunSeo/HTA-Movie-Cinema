@@ -12,6 +12,7 @@
 	<div class="container">
 
 		<header>
+			<%@ include file="../common/header.jsp" %>
 		</header>
 
 		<main>
@@ -105,8 +106,8 @@
 					</table>
 		            <div class="row my-3 text-center my-5">
 						<div class="col-12">
-							<a href="../home" class="btn btn-dark btn-lg w-25">취소</a>
-							<button type="submit" id="btn-save" class="btn btn-danger btn-lg w-25" disabled="disabled">다음</button>
+							<a href="../home" class="btn btn-dark btn-lg w-25 text-light">취소</a>
+							<button type="submit" id="btn-save" class="btn btn-danger btn-lg w-25 text-light" disabled="disabled">다음</button>
 						</div>
 					</div>
 				</form>
@@ -114,6 +115,7 @@
 		</main>
 
 		<footer>
+			<%@ include file="../common/footer.jsp" %>
 		</footer>
 
 	</div>

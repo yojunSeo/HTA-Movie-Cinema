@@ -12,6 +12,7 @@
 	<div class="container">
 
 		<header>
+			<%@ include file="../common/header.jsp" %>
 		</header>
 
 		<main>
@@ -41,17 +42,17 @@
             	<div class="col-12 border-bottom border-1 border-dark"></div>
             </div>
             <div class="row">
-            	<p class="fw-bold fs-6 mt-2">KT 멤버십 영화예매 적립 서비스 안내</p>
+		    	<p class="fw-bold fs-6 mt-2">${notice.title }</p>
             </div>
             <div class="row border border-top border-bottom bg-light">
             	<div class="row my-2 mx-5">
-	            	<div class="col-4 mt-3">
+	            	<div class="col-4 mt-2">
 	            		<p>영화관 | <span class="fw-bold">${notice.category }</span></p>
 	            	</div>
-	            	<div class="col-4 mt-3">
+	            	<div class="col-4 mt-2">
 	            		<p>등록일 | <span class="fw-bold"><fmt:formatDate value="${notice.createdDate }" pattern="yyyy-MM-dd"/></span></p>
 	            	</div>
-	            	<div class="col-4 mt-3">
+	            	<div class="col-4 mt-2">
 	            		<p>조회수 | <span class="fw-bold">${notice.viewCnt }</span></p>
 	            	</div>
             	</div>
@@ -60,16 +61,16 @@
             	<div class="col-7 offset-2">
             		<div>
             			${notice.content }
-
 					</div>
             	</div>
             </div>
             <div class="row offset-5">
-            	<a href="../cs/home" class="btn btn-dark w-25">목록</a>
+            	<a href="../cs/home" class="btn btn-dark w-25 text-light">목록</a>
             </div>
 		</main>
 
 		<footer>
+			<%@ include file="../common/footer.jsp" %>
 		</footer>
 
 	</div>

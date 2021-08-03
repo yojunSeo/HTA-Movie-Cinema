@@ -12,6 +12,7 @@
 	<div class="container">
 
 		<header>
+			<%@ include file="../common/footer.jsp" %>
 		</header>
 
 		<main>
@@ -41,6 +42,7 @@
 		</main>
 
 		<footer>
+			<%@ include file="../common/footer.jsp" %>
 		</footer>
 
 	</div>

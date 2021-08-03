@@ -52,7 +52,7 @@ public class LoginController {
 	@PostMapping("/")
 	public String login(@RequestParam("id") String userId, @RequestParam("password") String password) {
 		userService.login(userId, password);
-		return "redirect:../test/home";
+		return "redirect:../home";
 	}
 	
 	@GetMapping("/logOut")

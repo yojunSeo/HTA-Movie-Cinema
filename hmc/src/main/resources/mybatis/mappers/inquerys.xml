@@ -28,9 +28,9 @@
 	
 	<insert id="insertInquery" parameterType="com.hmc.vo.Inquery">
 		insert into t_inquery
-			(inquery_code, user_id, inquery_category, inquery_title, inquery_content, branch_code)
+			(inquery_code, user_id, inquery_category, inquery_title, inquery_content)
 		values
-			('IQ' || lpad(T_INQUERY_SEQ.nextval, 6,0), #{userId}, #{category}, #{title}, #{content}, #{branchCode})
+			('IQ' || lpad(T_INQUERY_SEQ.nextval, 6,0), #{userId}, #{category}, #{title}, #{content})
 	</insert>
 	
 	<update id="adminUpdateInquery" parameterType="com.hmc.vo.Inquery">
