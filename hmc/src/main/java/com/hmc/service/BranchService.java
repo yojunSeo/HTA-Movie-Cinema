@@ -1,6 +1,14 @@
 package com.hmc.service;
 
-public interface BranchService {
+import java.util.List;
 
-	void branchServiceTest();
+import com.hmc.vo.Branch;
+
+public interface BranchService {
+	
+	List<Branch> getAllBranch();
+	
+	
+	Branch getBranchDetailByCode(String branchCode);
+	
 }

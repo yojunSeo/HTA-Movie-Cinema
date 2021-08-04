@@ -8,6 +8,8 @@ public interface BranchDao {
 
 	List<Branch> getAllBranchs();
 	
+	List<Branch> getAllActiveBranchs();
+	
 	Branch getBranchDetail(String branchCode);
 	
 	void updateBranch(Branch branch);

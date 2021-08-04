@@ -15,4 +15,6 @@ public class Branch {
 	private int facility;
 	private String parking_info;
 	private String status;
+	private double latitude;
+	private double longitude;
 }
