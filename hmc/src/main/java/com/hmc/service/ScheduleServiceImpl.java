@@ -33,8 +33,6 @@ public class ScheduleServiceImpl implements ScheduleService{
 	@Autowired
 	private BranchDao branchDao;
 	@Autowired
-	private RoomDao roomDao;
-	@Autowired
 	private ScheduleDao scheduleDao;
 	@Autowired
 	private UserDao userDao;
@@ -114,5 +112,8 @@ public class ScheduleServiceImpl implements ScheduleService{
 		return seatDao.getRoomSeats(roomCode);
 	}
 	
-
+	@Override
+	public Map<String, Object> getSeatByCode(String seatCode) {
+		return seatDao.getSeatByCode(seatCode);
+	}
 }

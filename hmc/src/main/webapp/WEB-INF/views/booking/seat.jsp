@@ -120,7 +120,6 @@
 						<button class="btn btn-lg float-end mt-2 text-white" style="background-color:#FF243E "><span class="large">결제하기</span></button>
 						<button class="btn btn-light btn-lg float-end mt-2 mx-2"><span class="large">취소</span></button>
 						</p>
-		
 					</div>
 				</div>
 			</div>
@@ -143,7 +142,7 @@ $(function(){
 	var bookedSeats;
 	var selectedSeats = new Array();
 	
-	$.getJSON("seat/rest/info?code="+scheduleCode, function(result){
+	$.getJSON("book/rest/seat/info?code="+scheduleCode, function(result){
 		roomSeats = result.roomSeats;
 		bookedSeats = result.bookedSeats;
 		console.log(roomSeats);
@@ -289,7 +288,8 @@ $(function(){
 		console.log(scheduleCode);
 		console.log(selectedSeats);
 		var totalPrice = $('#booking-total span strong').text();
-		console.log(totalPrice);
+		
+		location.href = "book?code="+scheduleCode+"&seats="+selectedSeats;
 	})
 	$('#booking-total .btn-light').on('click', function(){
 		var confirmValue = confirm('예매를 취소하시겠습니까?');

@@ -87,7 +87,7 @@
    			user_point 			= #{point},	
    			favorite_branch1 	= #{favoriteBranch1},	
    			favorite_branch2 	= #{favoriteBranch2},	
-   			favorite_branch3 	= #{favoriteBranch3}
+   			favorite_branch3 	= #{favoriteBranch3},
    		where 
    			user_id = #{id}		
    </update>

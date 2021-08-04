@@ -43,4 +43,17 @@
 		where
 			payment_code = #{value}
 	</select>
+	 
+	<select id="getUserTotalPayment" parameterType="string" resultType="int">
+		select
+			sum(payment_price)
+		from 
+			t_payment
+		where
+			payment_status = 'Y'
+		and 
+			user_id = #{value}
+		and
+			to_char(payment_date, 'yyyy') = to_char(sysdate, 'yyyy')
+	</select>
 </mapper>

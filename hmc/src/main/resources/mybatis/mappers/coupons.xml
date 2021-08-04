@@ -48,4 +48,43 @@
 		where
 			coupon_code = #{value}
 	</delete>
+	
+	<select id="getAbleCouponByUserId" parameterType="string" resultType="hashmap">
+		select 
+			pc.published_code as publishedCode,
+			cp.coupon_code as couponCode,
+			pc.user_id as userId,
+			pc.published_given_date as givenDate,
+			pc.published_end_date as endDate,
+			cp.coupon_type as type,
+			cp.coupon_name as couponName
+		from 
+			t_published_coupon pc, t_coupon cp
+		where 
+			pc.coupon_code = cp.coupon_code
+		and  
+			sysdate between  pc.published_given_date and pc.published_end_date
+		and 
+			pc.published_used = 'N'
+		and 
+			user_id = #{value}
+	</select>
+	
+	<select id="getPublishedCouponByCode" parameterType="string" resultType="hashmap">
+		select  
+			pc.published_code as publishedCode,
+			cp.coupon_code as couponCode,
+			pc.user_id as userId,
+			pc.published_given_date as givenDate,
+			pc.published_end_date as endDate,
+			cp.coupon_type as type,
+			cp.coupon_name as couponName
+		from 
+			t_published_coupon pc, t_coupon cp
+		where 
+			pc.coupon_code = cp.coupon_code
+		and 
+			pc.published_code = #{value}
+	
+	</select>
 </mapper>
