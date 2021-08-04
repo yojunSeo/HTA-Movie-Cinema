@@ -51,6 +51,9 @@
 						</c:when>
 						<c:otherwise>
 							<div class="row text-center">
+								<c:if test="${LOGINED_USER.grade == 'NORMAL' }">
+									<p><span class="fw-bold">${LOGINED_USER.name }</span>님은 <span class="badge rounded-pill bg-dark text-light"> ${LOGINED_USER.grade }</span> 등급입니다.</p>
+								</c:if>
 								<c:if test="${LOGINED_USER.grade == 'BRONZE' }">
 									<p><span class="fw-bold">${LOGINED_USER.name }</span>님은 <span class="badge rounded-pill bg-success text-light"> ${LOGINED_USER.grade }</span> 등급입니다.</p>
 								</c:if>

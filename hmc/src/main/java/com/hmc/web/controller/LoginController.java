@@ -58,7 +58,7 @@ public class LoginController {
 	@GetMapping("/logOut")
 	public String logOut() {
 		SessionUtils.destroySession();
-		return"home";
+		return"redirect:home";
 	}
 	
 	@GetMapping("/findId")
