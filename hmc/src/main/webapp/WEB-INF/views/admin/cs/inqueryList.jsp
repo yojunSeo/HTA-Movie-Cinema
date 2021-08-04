@@ -16,7 +16,7 @@
 
 		<main>
 			<div class="row mb-3">
-               <p class="mt-5 fw-normal fs-4">1:1 문의</p>
+               <p class="mt-5 fw-normal fs-4">1:1 문의 관리</p>
             </div>
             <div class="row mb-2">
             	<div class="col-12 border-bottom border-1 border-secondary">

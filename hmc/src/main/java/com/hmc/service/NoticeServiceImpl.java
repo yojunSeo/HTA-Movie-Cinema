@@ -30,12 +30,12 @@ public class NoticeServiceImpl implements NoticeService {
 
 	@Override
 	public void insertNotice(Notice notice) {
-		
+		noticeDao.insertNotice(notice);
 	}
 
 	@Override
-	public void deleteNotice(Notice notice) {
-		noticeDao.deleteNotice(notice);
+	public void deleteNotice(String code) {
+		noticeDao.deleteNotice(code);
 	}
 
 	@Override

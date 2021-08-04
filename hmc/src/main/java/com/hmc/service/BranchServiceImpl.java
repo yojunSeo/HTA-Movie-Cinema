@@ -40,4 +40,10 @@ public class BranchServiceImpl implements BranchService{
 			System.out.println(fac);
 		}
 	}
+
+	@Override
+	public List<Branch> getAllBranchs() {
+		List<Branch> branchs = branchDao.getAllBranchs();
+		return branchs;
+	}
 }

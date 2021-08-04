@@ -47,13 +47,13 @@
 			notice_created_date as createdDate, notice_modified_date as modifiedDate, notice_status as status, notice_view_cnt as viewCnt
 		from(
 			select
-				row_number() over (order by notice_code) rn,
+				row_number() over (order by notice_status) rn,
 				notice_code, notice_category, notice_writer, notice_title, notice_content, notice_created_date, notice_modified_date,
 				notice_status, notice_view_cnt 
 			from
 				t_notice
 			where
-				notice_status NOT IN ( 'N')
+				notice_status NOT IN ('N')
 				<choose>
 					<when test="opt != null and opt == 'title'">
 						and notice_title like '%' || #{keyword} || '%'
@@ -66,6 +66,7 @@
 		)  
 		where 
 			rn between #{beginIndex} and #{endIndex}
+		order by notice_status	
 			
 	</select>
 	
@@ -91,13 +92,13 @@
 		( 'NT' || lpad(T_NOTICE_SEQ.nextval, 6,0), #{category}, #{writer}, #{title}, #{content}, #{status})
 	</insert>
 	
-	<update id="deleteNotice" parameterType="com.hmc.vo.Notice">
+	<update id="deleteNotice" parameterType="string">
 		update
 			t_notice
 		set
-			notice_status = #{status}
+			notice_status = 'N'
 		where
-			notice_code = #{code}			
+			notice_code = #{value}			
 	</update>
 
 </mapper>

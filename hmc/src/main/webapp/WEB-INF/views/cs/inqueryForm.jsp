@@ -77,12 +77,18 @@
 								</td>
 							</tr>
 							<tr>
-								<th class="fw-lighter">종류</th>
+								<th class="fw-lighter">영화관</th>
 								<td>
 									<div class="col-3">
 										<select class="form-control mr-2" name="branch" id="branch">
 											<option value="0" selected disabled="disabled">영화관 선택</option>
-											<option value="개인정보">개인정보</option>
+											<option value="신림점">신림점</option>
+											<option value="이태원점">이태원점</option>
+											<option value="왕십리점">왕십리점</option>
+											<option value="서울역점">서울역점</option>
+											<option value="강남역점">강남역점</option>
+											<option value="사당점">사당점</option>
+											<option value="목동점">목동점</option>
 										</select>
 									</div>
 								</td>
@@ -160,6 +166,12 @@
 			if(category == 0){
 				alert("분류는 필수 선택값입니다.");
 				$("#opt").focus();
+				return false;
+			}
+			var category = $("#branch option:selected").val();
+			if(category == 0){
+				alert("영화관은 필수 선택값입니다.");
+				$("#branch").focus();
 				return false;
 			}
 			var title = $.trim($("#title").val());

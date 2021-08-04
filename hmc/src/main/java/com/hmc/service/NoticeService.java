@@ -14,7 +14,7 @@ public interface NoticeService {
 
 	void insertNotice(Notice notice);
 
-	void deleteNotice(Notice notice);
+	void deleteNotice(String code);
 
 	void updateNotice(Notice notice);
 	
