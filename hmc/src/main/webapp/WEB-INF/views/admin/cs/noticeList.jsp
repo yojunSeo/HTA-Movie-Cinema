@@ -87,7 +87,7 @@
 				</table>
 			</div>
 			<div class="row">
-				<div class="col-11 text-end">
+				<div class="col-12 text-end">
 					<a href="insertNotice" class="btn btn-success">추가</a>
 				</div>
 			</div>

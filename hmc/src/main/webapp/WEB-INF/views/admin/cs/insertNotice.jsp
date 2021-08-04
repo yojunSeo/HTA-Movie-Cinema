@@ -34,7 +34,7 @@
 						<tbody>
 							<tr>
 								<th class="fw-lighter">중요도</th>
-								<td>
+								<td id="status">
 									<div class="form-check form-check-inline">
 										<input class="form-check-input" type="radio" name="status" value="Y"> 
 										<label class="form-check-label" for="inlineCheckbox1">보통</label>
@@ -53,7 +53,7 @@
 								<th class="fw-lighter">카테고리</th>
 								<td>
 									<div class="col-3">
-										<select class="form-control mr-2" name="category">
+										<select class="form-control mr-2" name="category" id="category">
 											<option value="0">카테고리 선택</option>
 											<option value="전체">전체</option>
 											<option value="신림점">신림점</option>
@@ -99,6 +99,36 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 
 <script>
+$(function(){
+	$("#notice-form").submit(function(){
+		var status = $("#status :radio:checked").length;
+		if(status == 0){
+			alert("중요도는 필수 선택값입니다.");
+			$("#status").focus();
+			return false;
+		}
+		var category = $("#category option:selected").val();
+		if(category == 0){
+			alert("카테고리는 필수 선택값입니다.");
+			$("#category").focus();
+			return false;
+		}
+		var title = $.trim($("#title").val());
+		if(!title){
+			alert("제목은 필수 입력값입니다.");
+			return false;
+		}
+		var content = $.trim($("#content").val());
+		if(!content){
+			alert("내용은 필수 입력값입니다.");
+			$("#content").focus();
+			return false;
+		}
+		return true;
+		
+	});
+})
 </script>
+
 </body>
 </html>
