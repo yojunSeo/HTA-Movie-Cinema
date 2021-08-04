@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hmc.dao.NoticeDao;
+import com.hmc.vo.Inquery;
 import com.hmc.vo.Notice;
 
 @Service
@@ -17,9 +18,7 @@ public class NoticeServiceImpl implements NoticeService {
 
 	@Override
 	public List<Notice> getAllNotices(Map<String, Object> param) {
-		System.out.println("impl들어옴");
 		List<Notice> notices = noticeDao.getAllNotices(param);
-		System.out.println("idao호출");
 		return notices;
 	}
 
@@ -49,5 +48,7 @@ public class NoticeServiceImpl implements NoticeService {
 		int rows = noticeDao.getTotalRows(param);
 		return rows;
 	}
+
+	
 
 }

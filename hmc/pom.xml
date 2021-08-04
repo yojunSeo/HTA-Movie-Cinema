@@ -24,6 +24,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<dependencies>
+		<!-- 메일전송을 위한 라이브러리 -->
 		<!-- 자바객체와 JSON간의 상호변환을 지원하는 라이브러리 -->
         <dependency>
 		  <groupId>org.json</groupId>

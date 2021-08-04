@@ -77,6 +77,17 @@
 								</td>
 							</tr>
 							<tr>
+								<th class="fw-lighter">종류</th>
+								<td>
+									<div class="col-3">
+										<select class="form-control mr-2" name="branch" id="branch">
+											<option value="0" selected disabled="disabled">영화관 선택</option>
+											<option value="개인정보">개인정보</option>
+										</select>
+									</div>
+								</td>
+							</tr>
+							<tr>
 								<th class="fw-lighter">제목</th>
 								<td>
 									<input type="text" class="form-control w-75 bg-light" name="title" id="title" placeholder="제목을 입력해주세요.">

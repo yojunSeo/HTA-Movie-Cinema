@@ -3,6 +3,7 @@ package com.hmc.service;
 import java.util.List;
 import java.util.Map;
 
+import com.hmc.vo.Inquery;
 import com.hmc.vo.Notice;
 
 public interface NoticeService {
@@ -18,5 +19,6 @@ public interface NoticeService {
 	void updateNotice(Notice notice);
 	
 	int getTotalRows(Map<String, Object> param);
+	
 
 }
