@@ -31,4 +31,6 @@ public interface PaymentDao {
 	 * @return 결제정보
 	 */
 	Payment getPaymentByCode(String paymentCode);
+	
+	int getUserTotalPayment(String userId);
 }

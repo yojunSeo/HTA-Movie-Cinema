@@ -27,7 +27,4 @@ public class User {
 	private String favoriteBranch2;
 	private String favoriteBranch3;
 	
-	
-	
-
 }

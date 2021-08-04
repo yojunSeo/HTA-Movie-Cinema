@@ -37,5 +37,5 @@ public interface ScheduleService {
 	// 룸코드를 받아서 해당하는 좌석정보들을 반환한다.
 	List<Map<String, Object>> getRoomSeat(String roomCode);
 	
-	
+	Map<String, Object> getSeatByCode(String seatCode);
 }
