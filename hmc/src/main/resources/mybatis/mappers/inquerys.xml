@@ -17,6 +17,49 @@
 		<result column="inquery_respond_status" property="respondStatus"/>
 	</resultMap>
 	
+	<select id="getTotalRows" parameterType="map" resultType="int">
+		select 
+			count(*)
+		from
+			t_inquery
+		where
+			inquery_respond_status = 'N'
+	</select>
+	
+	<select id="getAllInquerys" parameterType="map" resultType="com.hmc.vo.Inquery">
+		select
+			inquery_code as code,
+			user_id as userId,
+			inquery_category as category ,
+			inquery_title as title,
+			inquery_content as content,
+			branch_code as branchCode,
+			inquery_created_date as createdDate,
+			inquery_responder as responder,
+			inquery_respond_content as respondContent,
+			inquery_respond_date as respondDate,
+			inquery_respond_status as respondStatus
+		from(
+			select
+				row_number() over (order by inquery_code desc) rn,
+				inquery_code, user_id, inquery_category, inquery_title, inquery_content, branch_code, inquery_created_date,
+				inquery_responder, inquery_respond_content, inquery_respond_date, inquery_respond_status
+			from
+				t_inquery
+			where
+				inquery_respond_status = 'N'		
+		)	
+		where 
+			rn between #{beginIndex} and #{endIndex}
+			
+	</select>
+	
+	<select id="getInqueryByCode" parameterType="string" resultMap="InqueryResultMap">
+		select *
+		from t_inquery
+		where inquery_code = #{value}
+	</select>
+	
 	<select id="getAllInquerysByUserId" parameterType="string" resultMap="InqueryResultMap">
 		select
 			*
@@ -40,7 +83,7 @@
 			inquery_responder 		= #{responder},
 			inquery_respond_content = #{respondContent},
 			inquery_respond_date 	= #{respondDate},
-			inquery_respond_status 	= #{respondStatus}
+			inquery_respond_status 	= 'Y'
 		where
 			inquery_code 			= #{code}		
 	</update>

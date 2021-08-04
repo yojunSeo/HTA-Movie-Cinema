@@ -16,9 +16,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.hmc.service.BranchService;
+import com.hmc.service.InqueryService;
 import com.hmc.service.NoticeService;
+import com.hmc.vo.Inquery;
 import com.hmc.vo.Notice;
 import com.hmc.vo.Pagination;
+import com.hmc.vo.User;
+import com.hmc.web.util.SessionUtils;
 
 import oracle.jdbc.proxy.annotation.Post;
 
@@ -28,6 +33,13 @@ public class CsController {
 	
 	@Autowired
 	NoticeService noticeService;
+	
+	@Autowired
+	InqueryService inqueryService;
+	
+	@Autowired
+	BranchService branchService;
+	
 	
 	private static Logger logger = LogManager.getLogger(CsController.class);
 	// 한 페이지당 표시할 게시글 행의 개수
@@ -47,9 +59,9 @@ public class CsController {
 		}
 		param.put("beginIndex", (page-1)*ROWS_PER_PAGE+1);
 		param.put("endIndex", page*ROWS_PER_PAGE);
-		System.out.println(param);
+		
 		List<Notice> notices = noticeService.getAllNotices(param);
-		System.out.println("실행됨");
+		
 		model.addAttribute("notices", notices);
 		
 		int totalRows = noticeService.getTotalRows(param);
@@ -91,13 +103,21 @@ public class CsController {
 	}
 	
 	@GetMapping("/inqueryForm")
-	public String inqueryForm() {
+	public String inqueryForm(Model model) {
+		// 지점별 리스트 조회해서 외야함
 		return "cs/inqueryForm";
 	}
 	
 	@PostMapping("/submitInquery")
-	public String submitInquery() {
-		return "../home";
+	public String submitInquery(@RequestParam("opt") String category, @RequestParam("title") String title, @RequestParam("content") String content) {
+		Inquery inquery = new Inquery();
+		inquery.setCategory(category);
+		inquery.setTitle(title);
+		inquery.setContent(content);
+		User loginedUser = (User) SessionUtils.getAttribute("LOGINED_USER");
+		inquery.setUserId(loginedUser.getId());
+		inqueryService.insertInquery(inquery);
+		return "redirect:../home";
 	}
 
 }

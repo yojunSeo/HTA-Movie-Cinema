@@ -12,34 +12,20 @@
 	<div class="container">
 
 		<header>
-			<%@ include file="../common/header.jsp" %>
 		</header>
 
 		<main>
 			<div class="row mb-3">
-               <p class="mt-5 fw-normal fs-4">고객센터</p>
+               <p class="mt-5 fw-normal fs-4">공지사항 관리</p>
             </div>
             <div class="row mb-2">
             	<div class="col-12 border-bottom border-1 border-secondary">
             	</div>
             </div>
-            <div class="row offset-2">
-            	<div class="col-4">
-            		<a href="../cs/home" class="btn fw-bold text-danger">공지사항</a>
-            	</div>
-            	<div class="col-4">
-            		<a href="../cs/inqueryForm" class="btn">1:1문의</a>
-            	</div>
-            	<div class="col-4">
-            		<a href="../cs/membership" class="btn">멤버십</a>
-            	</div>
-            </div>
-            <div class="row my-2">
-            	<div class="col-12 border-bottom border-1 border-dark">
-            	</div>
+            <div class="row border my-5 bg-light">
             </div>
 			<div class="row border my-5 bg-light">
-            	<form id="form-search" class="form-inline justify-content-center my-4 mx-4" method="get" action="home">
+            	<form id="form-search" class="form-inline justify-content-center my-4 mx-4" method="get" action="noticeList">
             		<div class="row">
             			<div class="col-2">
             				<div>
@@ -62,11 +48,12 @@
             </div>
             <div class="row">
 				<table class="table text-center" id="notice-table">
-					<thead >
+					<thead>
 						<colgroup>
-							<col width="15%"/>
-							<col width="15%"/>
-							<col width="50%"/>
+							<col width="10%"/>
+							<col width="10%"/>
+							<col width="40%"/>
+							<col width="20%"/>
 							<col width="20%"/>
 						</colgroup>
 						<tr>
@@ -74,6 +61,7 @@
 							<th scope="col">구분</th>
 							<th scope="col">제목</th>
 							<th scope="col">등록일</th>
+							<th scope="col">비고</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -88,8 +76,9 @@
 									<tr data-notice-code="${notice.code }">
 										<th scope="row">${notice.code }</th>
 										<td>${notice.category }</td>
-										<td class="${notice.status eq 'I' ? 'text-danger' : '' } text-start" >${notice.title }</td>
+										<td class="${notice.status eq 'I' ? 'text-danger' : '' } text-start" id="goDetail">${notice.title }</td>
 										<td><fmt:formatDate value="${notice.createdDate }" pattern="yyyy-MM-dd"/></td>
+										<td><a class="btn btn-outline-danger mx-2 h-5">삭제</a><a href="noticeModify?code=${notice.code }" class="btn btn-outline-warning h-5">수정</a></td>
 									</tr>
 								</c:forEach>
 							</c:otherwise>
@@ -97,20 +86,25 @@
 					</tbody>
 				</table>
 			</div>
+			<div class="row">
+				<div class="col-11 text-end">
+					<a href="insertNotice" class="btn btn-success">추가</a>
+				</div>
+			</div>
 			<c:if test="${pagination.totalRows gt 0 }">
 				<div class="row mb-2">
 					<div class="col-12">
 						<ul class="pagination justify-content-center">
 							<li class="page-item ${pagination.pageNo le 1 ? 'disabled' : ''}">
-								<a class="page-link" href="home?page=${pagination.pageNo - 1 }">이전</a>
+								<a class="page-link" href="noticeList?page=${pagination.pageNo - 1 }">이전</a>
 							</li>
 							<c:forEach var="num" begin="${pagination.beginPage }" end="${pagination.endPage }">
 								<li class="page-item ${pagination.pageNo eq num ? 'active' : '' }">
-									<a class="page-link" href="home?page=${num }">${num }</a>
+									<a class="page-link" href="noticeList?page=${num }">${num }</a>
 								</li>
 							</c:forEach>
 							<li class="page-item ${pagination.pageNo ge pagination.totalPages ? 'disabled' : ''}">
-								<a class="page-link" href="home?page=${pagination.pageNo + 1 }">다음</a>
+								<a class="page-link" href="noticeList?page=${pagination.pageNo + 1 }">다음</a>
 							</li>
 						</ul>
 					</div>
@@ -119,7 +113,6 @@
 		</main>
 
 		<footer>
-			<%@ include file="../common/footer.jsp" %>
 		</footer>
 
 	</div>
@@ -129,11 +122,20 @@
 
 <script>
 $(function(){
-	$("#notice-table tbody tr").click(function(){
-		var noticeCode = $(this).data('notice-code');
+	$("#notice-table tbody tr #goDetail").click(function(){
+		var noticeCode = $(this).closest('tr').data('notice-code');
 		
 		location.href = "noticeDetail?code=" + noticeCode;
 		
+	});
+	
+	$("#notice-table tbody tr .btn-outline-danger").on('click',function(){
+		var returnValue = confirm("공지사항을 삭제하시겠습니까?");
+		if(returnValue){
+			var noticeCode = $(this).closest('tr').data('notice-code');
+			location.href = "noticeDelete?code="+noticeCode;
+		}
+			return false;
 	})
 })
 </script>

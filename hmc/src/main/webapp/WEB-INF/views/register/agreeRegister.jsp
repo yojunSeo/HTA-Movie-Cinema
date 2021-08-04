@@ -12,6 +12,7 @@
 	<div class="container">
 
 		<header>
+			<%@ include file="../common/header.jsp" %>
 		</header>
 
 		<main>
@@ -31,7 +32,7 @@
                         <td><input type="checkbox" id="check-all"></td>
                         <td class="fw-bold fs-6">전체동의</td>
                         <td>
-                           <button type="button" class="btn btn-sm text-right">자세히</button>
+                           <button type="button" class="btn btn-sm text-right" id="detail">자세히</button>
                         </td>
                      </tr>
                   </thead>
@@ -40,21 +41,21 @@
                         <td><input type="checkbox" id="check1"></td>
                         <td class="fw-bold fs-6 text-black-50">개인정보의 필수적인 사항에 대한 수집 이용 동의 (필수)</td>
                         <td>
-                           <button type="button" class="btn btn-sm text-right">자세히</button>
+                           <button type="button" class="btn btn-sm text-right" id="detail">자세히</button>
                         </td>
                      </tr>
                      <tr>
                         <td><input type="checkbox" id="check2"></td>
                         <td class="fw-bold fs-6 text-black-50">개인정보의 필수적인 제3자 제공에 대한 동의 (필수)</td>
                         <td>
-                           <button type="button" class="btn btn-sm text-right">자세히</button>
+                           <button type="button" class="btn btn-sm text-right" id="detail">자세히</button>
                         </td>
                      </tr>
                      <tr>
                         <td><input type="checkbox" id="check3"></td>
                         <td class="fw-bold fs-6 text-black-50">개인정보의 선택적인 제3자 제공에 대한 동의 <span class="text-danger">(선택)</span></td>
                         <td>
-                           <button type="button" class="btn btn-sm text-right">자세히</button>
+                           <button type="button" class="btn btn-sm text-right" id="detail">자세히</button>
                         </td>
                      </tr>
                   </tbody>
@@ -68,13 +69,32 @@
             </div>
             <div class="row my-3 text-center my-5">
                <div class="col-12">
-                  <a href="../home" class="btn btn-dark btn-lg w-25">취소</a>
-                  <a href="form" class="btn btn-danger btn-lg w-25" id="next">다음</a>
+                  <a href="../home" class="btn btn-dark btn-lg w-25 text-light">취소</a>
+                  <a href="form" class="btn btn-danger btn-lg w-25 text-light" id="next">다음</a>
                </div>
             </div>
+            <div class="modal fade" id="form-todo-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">이용약관</h5>
+						</div>
+						<div class="modal-body">
+							<div class="col-6 my-5">
+								<img src="../resources/images/agreeJoin/agreeJoin.PNG" width=450 height="400"/>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-bs-dismiss="modal">닫기</button>
+						</div>
+					</div>
+				</div>
+			</div>
 		</main>
 
 		<footer>
+			<%@ include file="../common/footer.jsp" %>
 		</footer>
 
 	</div>
@@ -125,7 +145,17 @@ $(function(){
 			return false;
 		}
 		return true;
+	});
+	
+	var modal = new bootstrap.Modal(document.getElementById("form-todo-modal"), {
+		keyboard: false
 	})
+	
+	$("#table-agree-register #detail").click(function(){
+		modal.show();
+	})
+	
+	
 	
 });
 </script>

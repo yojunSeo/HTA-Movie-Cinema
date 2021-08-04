@@ -12,6 +12,7 @@
 	<div class="container">
 
 		<header>
+			<%@ include file="../common/header.jsp" %>
 		</header>
 
 		<main>
@@ -55,19 +56,19 @@
 							<div class="d-flex justify-content-between mb-2">
 								<div class="text-secondary">- 아직 HMC회원이 아니신가요?</div>
 								<div class="w-25">
-									<a href="../register/" class="btn btn-danger btn-sm w-100">회원가입</a>
+									<a href="../register/" class="btn btn-danger btn-sm w-100 text-light">회원가입</a>
 								</div>
 							</div>
 							<div class="d-flex justify-content-between mb-2">
 								<div class="text-secondary">- 아이디를 잊으셨나요?</div>
 								<div class="w-25">
-									<a href="findId" class="btn btn-danger btn-sm w-100">아이디 찾기</a>
+									<a href="findId" class="btn btn-danger btn-sm w-100 text-light">아이디 찾기</a>
 								</div>
 							</div>
 							<div class="d-flex justify-content-between mb-2">
 								<div class="text-secondary">- 비밀번호를 잊으셨나요?</div>
 								<div class="w-25">
-									<a href="findPwd" class="btn btn-danger btn-sm w-100">비밀번호 찾기</a>
+									<a href="findPwd" class="btn btn-danger btn-sm w-100 text-light">비밀번호 찾기</a>
 								</div>
 							</div>
 						</div>
@@ -80,6 +81,7 @@
 		</main>
 
 		<footer>
+			<%@ include file="../common/footer.jsp" %>
 		</footer>
 
 	</div>
