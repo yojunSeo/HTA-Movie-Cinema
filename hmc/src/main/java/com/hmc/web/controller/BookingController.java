@@ -40,14 +40,8 @@ public class BookingController {
 	public String seatZone(@RequestParam("scheduleCode")String scheduleCode, Model model) {
 		// 스케줄 코드를 가져와서 맞는 좌석창을 띄워주는 일을 수행해야함
 		ScheduleDetail schedule = scheduleService.getScheduleDetail(scheduleCode);
-		// 예매불가능한 좌석들을 받아온다
-		List<Map<String, Object>> bookedSeats = scheduleService.getBookingSeat(scheduleCode);
-		// 스케줄에 해당하는 상영관의 좌석정보를 받아온다.
-		List<Map<String, Object>> roomSeats = scheduleService.getRoomSeat(schedule.getRoomCode());
-		
 		model.addAttribute("schedule", schedule);
-		model.addAttribute("bookedSeats", bookedSeats);
-		model.addAttribute("roomSeats", roomSeats);
+
 		return "booking/seat";
 	}
 

@@ -28,10 +28,10 @@ public class ScheduleDetail {
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date scheduleDate;
 	@DateTimeFormat(pattern = "HH:mm")
-	@JsonFormat(pattern = "HH:mm")
+	@JsonFormat(pattern = "HH:mm" , locale = "ko" , timezone = "Asia/Seoul")
 	private Date startTime;
-	@DateTimeFormat(pattern = "z:mm")
-	@JsonFormat(pattern = "HH:mm")
+	@DateTimeFormat(pattern = "HH:mm")
+	@JsonFormat(pattern = "HH:mm" , locale = "ko" , timezone = "Asia/Seoul")
 	private Date endTime;
 	private int emptySeat;
 	private String movieGrade;
