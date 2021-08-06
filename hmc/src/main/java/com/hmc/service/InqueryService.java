@@ -17,6 +17,10 @@ public interface InqueryService {
 	
 	int getTotalRows(Map<String, Object> param);
 	
+	List<Inquery> getAllInquerysY(Map<String, Object> param);
+	
+	int getTotalRowsY(Map<String, Object> param);
+	
 	Inquery getInqueryByCode(String code);
 
 }

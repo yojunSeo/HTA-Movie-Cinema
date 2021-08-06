@@ -8,5 +8,6 @@
 			identy_num as identyNum
 		from
 			t_facility
+		order by identyNum desc
 	</select>
 </mapper>

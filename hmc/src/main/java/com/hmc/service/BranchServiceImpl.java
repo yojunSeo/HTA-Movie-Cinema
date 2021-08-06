@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.hmc.dao.BranchDao;
 import com.hmc.dao.FacilityDao;
+import com.hmc.dto.BranchDetailDto;
 import com.hmc.vo.Branch;
 
 @Service
@@ -27,7 +28,7 @@ public class BranchServiceImpl implements BranchService{
 	}
 	
 	@Override
-	public Branch getBranchDetailByCode(String branchCode) {
+	public Branch getBranchByCode(String branchCode) {
 		
 		Branch branch = branchDao.getBranchDetail(branchCode);
 		
@@ -35,6 +36,20 @@ public class BranchServiceImpl implements BranchService{
 		
 	}
 	
+	@Override
+	public BranchDetailDto getBranchDetailByCode(String branchCode) {
+		
+		BranchDetailDto branchDto = branchDao.getBranchDetailDto(branchCode);
+		return branchDto;
+	}
+	
+	@Override
+	public List<Facility> getAllFacility() {
+		
+		List<Facility> facilities = facilityDao.getAllFacility();
+		
+		return facilities;
+	}
 
 		
 	

@@ -32,6 +32,8 @@ public class MovieController {
 	private MovieService movieService;
 	@Autowired
 	private MovieApiService movieApiService;
+
+	private String movieCode;
 	
 	/**
 	 * API 요청값 조회  및 저장
@@ -42,18 +44,9 @@ public class MovieController {
 	 */
 	@RequestMapping("/home")
 	public String MovieList (Movie movie) throws Exception{
-		try {
-			MovieApiService movieApiService = new MovieApiService();
-			// 상세정보api 조회
-			movieApiService.getMovieInfo();
-			// 순위정보api 조회
-			movieApiService.getMovieRanking();	
-			// db저장
-			movieService.saveMoviesFromApi();
-			
-			} catch (Exception e) {
-			}
-			
+	
+		movieService.saveMoviesFromApi();
+						
 		return "movie/home";
 	}
 	
@@ -65,12 +58,20 @@ public class MovieController {
 	 * @throws Exception
 	 */
 	@GetMapping("/detail")
-	public String detail (@RequestParam("movieCode") int movieCode, Model model) throws Exception {
+	public String detail (@RequestParam(value="movieCode", required = false) String movieCode, Model model) throws Exception {
 		
-		List<Movie> movie = movieApiService.getMovieInfo();
-		model.addAttribute("movie", movie);
+		model.addAttribute("movie", movieService.getMovieDetail(movieCode));
 		
 		return "movie/detail";
 	}
+	
+	@GetMapping("/now")
+	public String now (@RequestParam(value="rank", required = false, defaultValue = "10") int rank, Model model) throws Exception {
+		List<Movie> topMovies = movieService.getTopMovies(rank);
+		model.addAttribute("movie", topMovies);
+		return "movie/now";
+	}
+	
+	
 	
 }

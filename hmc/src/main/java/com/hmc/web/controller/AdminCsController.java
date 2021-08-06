@@ -76,12 +76,54 @@ public class AdminCsController {
 		return "admin/cs/inqueryList";
 	}
 	
+	@GetMapping("/incompleteInqueryList")
+	public String incompleteInquery(@RequestParam(name = "page", required = false, defaultValue = "1") int page, Model model) {
+		
+		Map<String,Object> param = new HashMap<String, Object>();
+		param.put("beginIndex", (page-1)*ROWS_PER_PAGE +1);
+		param.put("endIndex", page+ROWS_PER_PAGE);
+		
+		List<Inquery> inquerys = inqueryService.getAllInquerysY(param);
+		
+		model.addAttribute("inquerys", inquerys);
+		
+		int totalRows = inqueryService.getTotalRowsY(param);
+		int totalPages = (int) Math.ceil((double) totalRows/ROWS_PER_PAGE);
+		int totalPageBlocks = (int)Math.ceil((double)totalPages/PAGES_PER_PAGE_BLOCK);
+		int currentPageBlock = (int) Math.ceil((double)page/PAGES_PER_PAGE_BLOCK);
+		int beginPage = (currentPageBlock -1)*PAGES_PER_PAGE_BLOCK+1;
+		int endPage = currentPageBlock*PAGES_PER_PAGE_BLOCK;
+		if(currentPageBlock == totalPageBlocks) {
+			endPage = totalPages;
+		}
+		
+		Pagination pagination = new Pagination();
+		pagination.setPageNo(page);
+		pagination.setTotalRows(totalRows);
+		pagination.setTotalPages(totalPages);
+		pagination.setTotalPageBlocks(totalPageBlocks);
+		pagination.setCurrentPageBlock(currentPageBlock);
+		pagination.setBeginPage(beginPage);
+		pagination.setEndPage(endPage);
+		
+		model.addAttribute("pagination", pagination);
+		return "admin/cs/incompleteInqueryList";
+	}
+	
 	@GetMapping("/inqueryDetail")
 	public String inqueryDetail(@RequestParam("code") String code, Model model) {
 		Inquery inquery = inqueryService.getInqueryByCode(code);
 		model.addAttribute("inquery", inquery);
 		
 		return "admin/cs/inqueryDetail";
+	}
+	
+	@GetMapping("/incompleteInqueryDetail")
+	public String incompleteInqueryDetail(@RequestParam("code") String code, Model model) {
+		Inquery inquery = inqueryService.getInqueryByCode(code);
+		model.addAttribute("inquery", inquery);
+		
+		return "admin/cs/incompleteInqueryDetail";
 	}
 	
 	@PostMapping("/submitInquery")

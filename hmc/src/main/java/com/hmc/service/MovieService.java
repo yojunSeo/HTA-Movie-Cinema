@@ -6,12 +6,15 @@ import com.hmc.vo.Movie;
 
 public interface MovieService {
 	
-	Movie getMoviebyCode(int movieCode);
-	
-	void saveMoviesFromApi();
+		
+	void saveMoviesFromApi() throws Exception;
+		 
+	void insertMovie(Movie movie);
 
-	List<Movie> getMoiveInfo();
+	void updateMovie(Movie savedMovie);
 
-	List<Movie> getMovieRanking();
+	Movie getMovieDetail(String movieCode);
+
+	List<Movie> getTopMovies(int rank);
 	
 }

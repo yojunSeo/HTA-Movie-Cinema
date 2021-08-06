@@ -33,5 +33,7 @@ public class Movie {
 	private String trailer;
 	private int totalScore;
 	private int reviewCnt;
+	private String rank;
+	private String audiAcc;
 
 }

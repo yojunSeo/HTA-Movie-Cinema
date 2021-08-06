@@ -125,7 +125,7 @@
 				$(".list-group-item").css("background-color","none").css("color","#black");
 				$(this).css("background-color","#FF243E").css("color","#FFFFFF");
 				
-				position = positions.find(position => position.code === $(this).data('branch-code') )
+				position = positions.find(position => position.code === $(this).data('branch-code'));
 				
 				kakao.maps.event.trigger(position.marker, 'click');
 			})
@@ -174,7 +174,7 @@
 						dataType : "json", // 응답데이터 타입
 						success : function(branch) {
 							iwContent = '<div class="customoverlay">' +
-									    '  <a href="">' +
+									    '  <a href="/hmc/branch/detail?code=' + branch.code + '">' +
 									    '    <span class="title">' + branch.name + '</span>' +
 									    '  </a>' +
 									    '</div>';

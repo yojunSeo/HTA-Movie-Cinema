@@ -10,12 +10,13 @@ public interface MovieDao {
 	
 	Movie getMovieInfoByCode(String movieCode);
 	
-	List<Movie> getAllMovies();
-	   
-	List<Movie> getRankingMovies();
-	   
-	Movie getMovieByCode(int movieCode);
-	   
 	void insertMovie(Movie movie);
+
+	void updateMovie(Movie savedMovie);
+
+	List<Movie> getTopMovies(int rank);
+
+
+	
 
 }
