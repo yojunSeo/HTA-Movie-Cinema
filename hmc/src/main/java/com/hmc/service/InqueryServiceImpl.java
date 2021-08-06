@@ -51,4 +51,16 @@ public class InqueryServiceImpl implements InqueryService {
 		return inquery;
 	}
 
+	@Override
+	public List<Inquery> getAllInquerysY(Map<String, Object> param) {
+		List<Inquery> inquerys = inqueryDao.getAllInquerysY(param);
+		return inquerys;
+	}
+
+	@Override
+	public int getTotalRowsY(Map<String, Object> param) {
+		int rows = inqueryDao.getTotalRowsY(param);
+		return rows;
+	}
+
 }
