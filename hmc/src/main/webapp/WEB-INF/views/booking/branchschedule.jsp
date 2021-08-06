@@ -140,7 +140,6 @@ $(function(){
 			if(map.defaultArea == "서울"){
 				// 선호영화관 없는 경우 그냥 서울을 ACTIVE 하고 모든 지점리스트를 표시한다.
 				$('#branch-area > p:eq(1)').addClass('active').css('background-color', '#ADB5BD');
-				console.log(allbranchs);
 				changeBranchZone(allbranchs);
 			}else{
 				// 선호영화관이 있는경우 MY영화관 ACTIVE 하고 선호지점리스트 표시
@@ -203,12 +202,19 @@ $(function(){
 	
 	function changeBranchZone(branchs){
 		$('#branch-zone').empty();
-		
 		var $row = "";
-		$.each(branchs, function(index, branch){
-			$row += "<p class='list-group-item list-group-item-action border-0 m-0' data-branch-name='"+branch.name+"' data-branch-code='"+branch.code+"'><span class='fw-bold mx-3'>"+branch.name+"</span></p>"
-		})
-		$('#branch-zone').append($row);
+		
+		if(branchs.length ==0){
+			$row += "<p class='list-group-item list-group-item-action border-0 m-0'><span class='fw-bold mx-3'>MY 영화관이 없습니다.</span></p>"
+			$('#branch-zone').append($row);
+		}else{
+			$.each(branchs, function(index, branch){
+				$row += "<p class='list-group-item list-group-item-action border-0 m-0' data-branch-name='"+branch.name+"' data-branch-code='"+branch.code+"'><span class='fw-bold mx-3'>"+branch.name+"</span></p>"
+			})
+			$('#branch-zone').append($row);
+			$('#branch-zone p:first').addClass('active').css('background-color', '#ADB5BD');
+		}
+		changeScheduleSelect();
 	}
 	
 	function changeScheduleZone(movies){
@@ -273,21 +279,11 @@ $(function(){
 			dataType:"json"
 		})
 		.done(function(branchs){
-			if(branchs.length ==0){
-				$('#branch-zone').empty();
-				var $row = "";
-				$row += "<p class='list-group-item list-group-item-action border-0 m-0'><span class='fw-bold mx-3'>MY 영화관이 없습니다.</span></p>"
-				$('#branch-zone').append($row);
-			}else{
-				changeBranchZone(branchs);				
-				$('#branch-zone p:first').addClass('active').css('background-color', '#ADB5BD');
-			}
-			
+			changeBranchZone(branchs);				
 		});
 		var branchCode = $('#branch-zone .active').data('branch-code');
 		var screenDate = $('#date-zone .active').data('screendate');
 		getMovieScheduleByDateAndBranch(branchCode,screenDate);
-		changeScheduleSelect();
 	})
 	
 	
@@ -332,8 +328,12 @@ $(function(){
 	// 상단 바꾸기
 	function changeScheduleSelect(){
 		var selectBranch = $('#branch-zone .active').data('branch-name');
+		if(!selectBranch){
+			selectBranch = "영화관을 선택하세요.";
+		}
 		var selectdate = $('#date-zone .active').data('screendate');
 		var selectday = $('#date-zone .active').data('screen-day');
+		console.log(selectBranch)
 		$('#schedule-select').empty();
 		var $div = "<div class='col-4 text-center' style='background-color:#D2D2D2'><p class='fs-5 b my-2'>"+selectBranch+"</p></div>";
 		$div += "<div class='col-8 text-center border' style='background-color:#D2D2D2'><p class='fs-5 b my-2'>"+selectdate+"("+selectday+")</p></div>"

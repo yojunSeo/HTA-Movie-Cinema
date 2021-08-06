@@ -42,6 +42,22 @@
 		</collection>
 	</resultMap>
 	
+	<select id="getBranchMovies" parameterType="string" resultType="string">
+		select distinct
+			movie_name,
+			m.screen_code
+		from 
+			t_branch b, t_schedule s, t_screen_movie m
+		where
+			s.branch_code = b.branch_code
+		and
+			s.screen_code = m.screen_code
+		and
+			b.branch_code = #{value}
+		and 
+			s.schedule_date > to_char(sysdate-1, 'yyyy/MM/dd')
+	</select>
+	
 	<select id="getBranchSchedulesByMovie" parameterType="map" resultMap="branchScheduleMap">
 		select 
             br.branch_code 			as branchCode,

@@ -16,6 +16,7 @@ import com.hmc.dto.BookingDto;
 import com.hmc.dto.ScheduleDetail;
 import com.hmc.service.BookingService;
 import com.hmc.service.ScheduleService;
+import com.hmc.vo.ScreenMovie;
 import com.hmc.vo.User;
 import com.hmc.web.annotation.LoginUser;
 
@@ -28,13 +29,26 @@ public class BookingController {
 	@Autowired
 	private BookingService bookingServcie;
 	
+	/*
+	Map<String, Object> result = scheduleService.allAboutSchedule();
+	model.addAttribute("defalutArea", result.get("defalutArea"));
+	model.addAttribute("branchs", result.get("branchs"));
+	model.addAttribute("movies", result.get("movies"));
+	 * 
+	 */
+	
+	@GetMapping("/schedule")
+	public String allSchedule(Model model) {
+		return "booking/totalschedule";
+	}
+	
 	@GetMapping("/schedule/branch")
-	public String branchSchedule(@LoginUser User user) {
+	public String branchSchedule() {
 		return "booking/branchschedule";
 	}
 	
 	@GetMapping("/schedule/movie")
-	public String movieSchedule(@LoginUser User user) {
+	public String movieSchedule() {
 		return "booking/movieschedule";
 	}
 	

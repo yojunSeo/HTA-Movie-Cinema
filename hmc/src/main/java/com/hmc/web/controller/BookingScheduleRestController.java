@@ -16,6 +16,7 @@ import com.hmc.dto.MovieDto;
 import com.hmc.dto.ScheduleDetail;
 import com.hmc.service.ScheduleService;
 import com.hmc.vo.Branch;
+import com.hmc.vo.ScreenMovie;
 
 @RestController
 @RequestMapping("/booking/schedule/rest")
@@ -60,6 +61,12 @@ public class BookingScheduleRestController {
 	public ResponseEntity<ScheduleDetail> getscheduleDetail(@RequestParam("scheduleCode")String scheduleCode){
 		ScheduleDetail schedule = scheduleService.getScheduleDetail(scheduleCode);
 		return new ResponseEntity<ScheduleDetail>(schedule,HttpStatus.OK);
+	}
+	
+	@GetMapping("/branch/screenMovie")
+	public List<ScreenMovie> getBranchScreenMovies(@RequestParam("branch")String branchCode){
+		List<ScreenMovie> movies = scheduleService.getBranchMovies(branchCode);
+		return movies;
 	}
 
 }
