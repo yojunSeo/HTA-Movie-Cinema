@@ -259,7 +259,6 @@ a, a:link, a:visited, a:active, a:hover {
 		<div class="gnb">
 		<c:choose>
 			<c:when test="${empty LOGINED_USER}">
-
 					<ul class="g_menu2" >
 						<li class="gbar"><a href="/hmc/cs/home">고객센터</a></li>
 						<li class="gbar"><a href="/hmc/login/">로그인</a></li>
@@ -274,7 +273,7 @@ a, a:link, a:visited, a:active, a:hover {
 							<a href="">예매</a>
 						</li>
 					</ul>
-		</c:when>
+			</c:when>
 				<c:otherwise>	<!--로그인시-->
 					<ul class="g_menu2" >
 						<li class="gbar"><a href="/hmc/cs/home">고객센터</a></li>
@@ -290,7 +289,6 @@ a, a:link, a:visited, a:active, a:hover {
 							<a href="">예매</a>
 						</li>
 					</ul>
-
 				</c:otherwise>
 			</c:choose>
 		</div>
@@ -315,8 +313,6 @@ a, a:link, a:visited, a:active, a:hover {
 					<a href="/hmc/branch/" class="dropbtn2">영화관</a>
 					<div class="dropdown-content">
 						<a class="as" href="/hmc/branch/">영화관찾기</a>
-				    	<a class="as" href="/hmc/branch/time">상영시간표</a>
-				    	<a class="as" href="/hmc/branch/price">가격</a>
 					</div>
 				</li>
 				<li class="dropdown">
@@ -334,5 +330,4 @@ a, a:link, a:visited, a:active, a:hover {
 			</ul>
 		</div>
 	</nav>
-	
 </header>
