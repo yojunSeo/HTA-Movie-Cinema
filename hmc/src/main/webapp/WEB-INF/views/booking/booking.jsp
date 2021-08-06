@@ -74,7 +74,7 @@
 						<div class="col-4 border-end border-secondary" style="height: 600px">
 							<div id="booking-info">
 								<img class="mt-3 offset-3" src="https://caching.lottecinema.co.kr//Media/MovieFile/MovieImg/202107/17616_104_1.jpg" width="150px" height="230px">
-								<p class="mx-2"><span class='badge bg-warning rounded-pill mx-3' data-movie-grade="${schedule.movieGrade }">12</span>${schedule.movieName }</p>
+								<p class="mx-2"><span class='badge rounded-pill mx-3' data-movie-grade="${schedule.movieGrade }">12</span>${schedule.movieName }</p>
 								<p class="mx-5"><span class="large">일시 : </span><span class="fw-bold"><fmt:formatDate value="${schedule.scheduleDate }" pattern="yyyy-MM-dd"/> / </span><span><fmt:formatDate value="${schedule.startTime }" pattern="HH:mm"/> ~ <fmt:formatDate value="${schedule.endTime }" pattern="HH:mm"/></span></p>
 								<p class="mx-5"><span class="large">영화관 : </span><span>${schedule.branchName } / ${schedule.roomName }</span></p>
 								<p class="mx-5"><span class="large">인원 : </span><span>${seatCnt } 명</span></p>
@@ -105,10 +105,11 @@
 						<!-- 결제수단 및 결제 -->
 						<div class="col-4" style="height: 600px" id="payment" data-booking-info="${schedule.movieName } / ${seatCnt}인">
 							<p class="mt-5">예상 적립포인트 : <strong>0</strong> point</p>
-							<p>현재 등급 : <span class="large badge rounded-pill bg-secondary">${user.grade }</span></p>
-							<p>결제 후 예상 등급 : <span class="large badge rounded-pill bg-warning text-dark"></span></p>
-							<p style="height: 300px"></p>
-							<button class="btn btn-outline-danger" style="background-color: #FF243E; width: 390px; height: 50px" ><span class="large text-white fw-bold">결제하기</span></button>
+							<p>현재 등급 : <span class="large badge rounded-pill">${user.grade }</span></p>
+							<p>결제 후 예상 등급 : <span class="large badge rounded-pill"></span></p>
+							<p style="height: 250px"></p>
+							<button class="btn btn-outline-secondary" style="background-color: #FFFFFF; width: 390px; height: 50px" ><span class="large fw-bold">취소하기</span></button>
+							<button class="btn btn-outline-danger mt-2" style="background-color: #FF243E; width: 390px; height: 50px" ><span class="large text-white fw-bold">결제하기</span></button>
 						</div>
 					</div>
 					<div class="row" style="background-color: #000000" id="booking-total">
@@ -132,7 +133,7 @@
 			</div>
 		</div>
 	</main>
-	<form action="success" method="post" id="booking-form">
+	<form action="book/success" method="post" id="booking-form">
 		<input type="hidden" name="exceptGrade" value="" />
 		<input type="hidden" name="scheduleCode" value="${schedule.scheduleCode }" />
 		<input type="hidden" name="seatCode" value="${param.seats }" />
@@ -140,6 +141,8 @@
 		<input type="hidden" name="disCountPrice" value="" />
 		<input type="hidden" name="totalPrice" value="" />
 		<input type="hidden" name="savedPoint" value="" />
+		<input type="hidden" name="usedPoint" value="" />
+		<input type="hidden" name="usedCoupon" value="" />
 	</form>
 	<footer>
 		<%@ include file="../common/footer.jsp" %>
@@ -154,9 +157,38 @@ $(function(){
 	var basePrice = parseInt($('#base-price').data('base-price')); 
 	var discountPrice = parseInt($('#discount-price').text());
 	var totalPrice = parseInt($('#total-price').text());
+	
+	pointAndGrade();
+	changeDiscountPrice();
+	changeTotalPrice();
+	
+	var mgrade = $('#booking-info p:first span').data('movie-grade');
+	var movieGrade;
+	var gradeClass;
+	if(mgrade == "12세이상관람가"){
+		movieGrade = 12;
+		gradeClass = "bg-warning";
+	}else if(mgrade == "15세이상관람가"){
+		movieGrade = 15;
+		gradeClass = "bg-success";
+	}else if(mgrade == "전체관람가"){
+		movieGrade = "All";
+		gradeClass = "bg-info";
+	}else{
+		movieGrade = "19";
+		gradeClass = "bg-danger";					
+	}
+	
+	$('#booking-info p:first span').text(movieGrade);
+	$('#booking-info p:first span').addClass(gradeClass);
+	
+	var ugrade = $('#payment p:eq(1) span').text();
+	changeUserGradeColor(ugrade);	
+	
 	// 쿠폰 사용하기
 	$('#user-coupon').on('change', function(){
 		var couponCode = $('#user-coupon').val();
+		$('#booking-form :input:eq(8)').val(couponCode);
 		var seats = $('#booking-info p:last span').data('seat-code');
 		$.ajax({
 			type:"GET",
@@ -167,6 +199,7 @@ $(function(){
 			$('#coupon-discount').text(discountPrice);
 			changeDiscountPrice();
 			changeTotalPrice();
+			
 		});
 	});
 		
@@ -210,6 +243,7 @@ $(function(){
 		$('#discount-price').text("");
 		var couponDiscount = parseInt($('#coupon-discount').text());
 		var pointDiscount = parseInt($('#point-discount').text());
+		$('#booking-form :input:eq(7)').val(pointDiscount);
 		discountPrice =  couponDiscount + pointDiscount;
 		$('#discount-price').text(discountPrice.toLocaleString());
 	}
@@ -227,15 +261,25 @@ $(function(){
 			$('#total-price').text((basePrice-parseInt($('#coupon-discount').text())).toLocaleString());
 			return false;
 		}
-		$("#booking-form");
-		$("#booking-form");
+		$('#booking-form :input:eq(4)').val(discountPrice);
+		$('#booking-form :input:eq(5)').val(basePrice - discountPrice);
 		$('#total-price').text(totalPrice.toLocaleString());
 		pointAndGrade();
 	}
 	
-	$('#payment button').on('click', function(){
-		iamport();
-	})
+	$('#payment .btn-outline-danger').on('click', function(){
+		//iamport();
+		var msg = '결제가 완료되었습니다.';
+    	alert(msg);
+    	$('#booking-form').submit();
+	});
+	$('#payment .btn-outline-secondary').on('click', function(){
+		var confirmValue = confirm("결제를 취소하고 상영스케줄페이지로 돌아가시겠습니까?");
+		if(confirmValue){
+			location.href = "schedule/branch";
+		}
+		return false;
+	});
 	
 	// 예상 포인트와 예상 등급 산정하기
 	function pointAndGrade(){
@@ -248,8 +292,12 @@ $(function(){
 		}).done(function(result){
 			var savePoint = result.savePoint;
 			var expectGrade = result.expectGrade;
+			var gradeColor = result.gradeColor;
 			$('#payment p:eq(0) strong').text(savePoint);
 			$('#payment p:eq(2) span').text(expectGrade);
+			$('#payment p:eq(2) span').addClass(gradeColor);
+			$('#booking-form :input:eq(0)').val(expectGrade);
+			$('#booking-form :input:eq(6)').val(savePoint);
 		})
 	}
 	
@@ -268,14 +316,28 @@ $(function(){
 		}, function(rsp) {
 		    if ( rsp.success ) {
 		    	var msg = '결제가 완료되었습니다.';
+		    	alert(msg);
 		    	$('#booking-form').submit();
-		    	return;
 		    } else {
-		    	 var msg = '결제에 실패하였습니다.';
-		         msg += '에러내용 : ' + rsp.error_msg;
+		    	var msg = '결제에 실패하였습니다.';
+		        msg += '에러내용 : ' + rsp.error_msg;
+		    	alert(msg);
 		    }
-		    alert(msg);
 		});
+	}
+	
+	function changeUserGradeColor(ugrade){
+		var gradeColor = "bg-dark";
+		if(ugrade == "BRONZE"){
+			gradeColor = "bg-success";
+		}else if(ugrade == "SILVER"){
+			gradeColor = "bg-secondary";
+		}else if(ugrade == "GOLD"){
+			gradeColor = "bg-warning";
+		}else if(ugarde == "PLATINUM"){
+			gradeColor = "bg-primary";
+		}
+		$('#payment p:eq(1) span').addClass(gradeColor);
 	}
 	
 })

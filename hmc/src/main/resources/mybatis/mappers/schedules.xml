@@ -106,8 +106,17 @@
 		order by 
 			schedule_code desc
 	</select>
-	
-	<select id="getScheduleByCode"  parameterType="string" resultType="com.hmc.dto.ScheduleDetail">
+	 
+	<select id="getScheduleByCode" parameterType="string" resultMap="ScheduleResultMap">
+		select 
+			*
+		from
+			t_schedule
+		where 
+			schedule_code = #{value}
+	</select>
+	 
+	<select id="getScheduleDetailByCode"  parameterType="string" resultType="com.hmc.dto.ScheduleDetail">
 		select 
     		sh.schedule_code 		as scheduleCode,
     		sc.screen_code 			as screenCode,
