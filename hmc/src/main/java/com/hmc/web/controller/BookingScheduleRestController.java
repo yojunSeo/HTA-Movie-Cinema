@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hmc.dto.BranchDto;
+import com.hmc.dto.BranchScheduleDto;
 import com.hmc.dto.MovieDto;
 import com.hmc.dto.ScheduleDetail;
 import com.hmc.service.ScheduleService;
@@ -64,9 +65,20 @@ public class BookingScheduleRestController {
 	}
 	
 	@GetMapping("/branch/screenMovie")
-	public List<ScreenMovie> getBranchScreenMovies(@RequestParam("branch")String branchCode){
-		List<ScreenMovie> movies = scheduleService.getBranchMovies(branchCode);
+	public List<Map<String, Object>> getBranchScreenMovies(@RequestParam("branch")String branchCode){
+		List<Map<String, Object>> movies = scheduleService.getBranchMovies(branchCode);
 		return movies;
+	}
+	
+	@GetMapping("/schedule")
+	public BranchScheduleDto getSchedules(@RequestParam("branch")String branchCode, @RequestParam("screenDate")String screenDate,
+																	@RequestParam("screenMovie")String screenMovie){
+		BranchScheduleDto schedules = new BranchScheduleDto();
+		BranchScheduleDto bschedules = scheduleService.getSchedules(branchCode, screenMovie, screenDate);
+		if(bschedules != null) {
+			schedules = bschedules;
+		}
+		return schedules;
 	}
 
 }

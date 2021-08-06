@@ -12,6 +12,10 @@
       	font-family: "Nanum Gothic", sans-serif;
         font-size: 17px;
       }
+      span.big{
+      	font-family: "Nanum Gothic", sans-serif;
+        font-size: 20px;
+      }
       p {
         font-family: "Nanum Gothic", sans-serif;
         font-size: 20px;
@@ -67,13 +71,15 @@
 							<p class="list-group-item list-group-item-action border-0 m-0"><span class="fw-bold mx-3">지점이름</span></p>
 						</div>
 						<!-- 영화-->						
-						<div class="col-4 border-start border-secondary" style="background-color: #FFFFFF" id="movie-zone">
-							<p class="list-group-item b small list-group-item-action  border-0 my-1" ><span class='badge rounded-pill bg-warning mx-3'>12</span>영화명</p>
+						<div class="col-4 border-start border-secondary p-0" style="background-color: #FFFFFF" id="movie-zone">
 						</div>
 							<!-- 날짜/ 스케줄 -->
 						<div class="col-4 border-start border-secondary" style="background-color: #FFFFFF" id="schedule-area">
 							<div class="row" id="date-zone">
 								<!-- 날짜존 -->
+							</div>
+							<div class="row mt-3" id="schedule-zone">
+								<!-- 스케줄존 -->
 							</div>
 						</div>
 					</div>
@@ -122,14 +128,17 @@ $(function(){
 			console.log(map);
 			var defaultArea = map.defaultArea;
 			if(defaultArea == '서울'){
-				$('#branch-area p:last').addClass('active').css('background-color', '#ADB5BD');
+				$('#branch-area p:last').addClass('active').css('background-color', '#FF243E');
 				changeBranchZone(map.allBranchs);
 			}else{
-				$('#branch-area p:first').addClass('active').css('background-color', '#ADB5BD');
+				$('#branch-area p:first').addClass('active').css('background-color', '#FF243E');
 				changeBranchZone(map.favoriteBranchs);
 			}
-			$('#branch-zone p:first').addClass('active').css('background-color', '#ADB5BD');
+			$('#branch-zone p:first').addClass('active').css('background-color', '#FF243E');
 			changerHeader();
+			var branchCode = $('#branch-zone .active').data('branch-code');
+			changeMovieZone(branchCode);
+			changeSchedule();
 		});
 		
 		// 날짜 총 7일간 보여줌
@@ -148,7 +157,7 @@ $(function(){
 			var dayOfWeek = weekOfDay[date.getDay()];
 			
 			if(date.getDate() == today.getDate() && date.getMonth() == today.getMonth()){
-				$ul += "<li class='list-group-item list-group-item-action boder-0 text-center active' style='background-color:#ADB5BD; width: 59px'  data-screen-day='"+dayOfWeek+"' data-screendate='"+date.getFullYear()+"/"+(date.getMonth()+1)+"/"+date.getDate()+"'>";				
+				$ul += "<li class='list-group-item list-group-item-action boder-0 text-center active text-dark' style='background-color:#DFDFDF; width: 59px'  data-screen-day='"+dayOfWeek+"' data-screendate='"+date.getFullYear()+"/"+(date.getMonth()+1)+"/"+date.getDate()+"'>";				
 			}else{
 				$ul += "<li class='list-group-item list-group-item-action boder-0 text-center' data-screen-day='"+dayOfWeek+"' data-screendate='"+date.getFullYear()+"/"+(date.getMonth()+1)+"/"+date.getDate()+"' style='width: 59px;'>";
 			}
@@ -168,7 +177,7 @@ $(function(){
 	})();
 	
 	$('#branch-area p').on('click', function(){
-		$(this).addClass('active').css('background-color', '#ADB5BD');
+		$(this).addClass('active').css('background-color', '#FF243E');
 		$(this).siblings().removeClass('active').css('background-color', "#FFFFFF");
 		var area = $(this).text();
 		$.ajax({
@@ -182,23 +191,73 @@ $(function(){
 	})
 	
 	$('#branch-zone').on('click', 'p', function(){
-		$(this).addClass('active').css('background-color', '#ADB5BD');
+		$(this).addClass('active').css('background-color', '#FF243E');
 		$(this).siblings().removeClass('active').css('background-color', "#FFFFFF");
 		changerHeader();
+		var branchCode = $(this).data('branch-code');
+		changeMovieZone(branchCode);
+		changeSchedule();
 	})
 	
 	$('#date-zone').on('click', 'li', function(){
-		$(this).addClass('active').css('background-color', '#ADB5BD');
+		$(this).addClass('active text-dark').css('background-color', '#DFDFDF');
 		$(this).siblings().removeClass('active').css('background-color', "#FFFFFF");
 		changerHeader();
-		
+		changeSchedule();
+	})
+	
+	$('#movie-zone').on('click', 'p', function(){
+		$(this).addClass('active text-dark').css('background-color', '#DFDFDF');
+		$(this).siblings().removeClass('active').css('background-color', "#FFFFFF");
+		changerHeader();
+		changeSchedule();
 	})
 	
 	function changeMovieZone(branch){
-		$.ajax({
-			type:"GET",
-			url:""
-		})
+		if(branch){
+			$.ajax({
+				type:"GET",
+				url:"schedule/rest/branch/screenMovie",
+				data:{branch:branch},
+				dataType:"json"
+			}).done(function(movies){
+				$('#movie-zone').empty();
+				var $row = "";
+				if(movies.length == 0){
+					$row += "<p class='list-group-item list-group-item-action text-center  border-0 mt-5'><span class='big'>현재상영중인 영화가 없습니다.</span></p>"
+					$('#movie-zone').append($row);
+				}else{
+					$row += "<p class='small text-danger text-center'><small>* 선택하신 상영관에서 현재 상영중인 영화 목록입니다.</small></p>"
+					$.each(movies, function(index, movie){
+						var movieName = movie.MOVIENAME;
+						var screenCode = movie.SCREENCODE;
+						var grade = movie.MOVIEGRADE;
+						var movieGrade;
+						var gradeClass;
+						if(grade == "12세이상관람가"){
+							movieGrade = 12;
+							gradeClass = "bg-warning";
+						}else if(grade == "15세이상관람가"){
+							movieGrade = 15;
+							gradeClass = "bg-success";
+						}else if(grade == "전체관람가"){
+							movieGrade = "All";
+							gradeClass = "bg-info";
+						}else{
+							movieGrade = "19";
+							gradeClass = "bg-danger";					
+						}
+						$row += "<p class='list-group-item b list-group-item-action  border-0 my-2' data-screen-code='"+screenCode+"' ><span class='badge rounded-pill "+gradeClass+" mx-3'>"+movieGrade+"</span><span>"+movieName+"</span></p>"
+					})
+					$('#movie-zone').append($row);
+				}
+			})
+		}else{
+			$('#movie-zone').empty();
+			var $row = "";
+			$row += "<p class='list-group-item list-group-item-action text-center border-0 mt-5'><span class='big'>영화관을 선택해주세요.</span></p>"
+			$('#movie-zone').append($row);
+		}
 	}
 	
 	function changeBranchZone(branchs){
@@ -206,16 +265,19 @@ $(function(){
 		var $row = "";
 
 		if(branchs.length == 0){
-			$row += "<p class='list-group-item list-group-item-action border-0 m-0'><span class='fw-bold mx-3'>MY 영화관이 없습니다.</span></p>"
+			$row += "<p class='list-group-item list-group-item-action disabled border-0 m-0'><span class='fw-bold mx-3'>MY 영화관이 없습니다.</span></p>"
 			$('#branch-zone').append($row);
 		}else{
 			$.each(branchs, function(index, branch){
 				$row += "<p class='list-group-item list-group-item-action border-0 m-0' data-branch-name='"+branch.name+"' data-branch-code='"+branch.code+"'><span class='fw-bold mx-3'>"+branch.name+"</span></p>"
 			})
 			$('#branch-zone').append($row);
-			$('#branch-zone p:first').addClass('active').css('background-color', '#ADB5BD');
+			$('#branch-zone p:first').addClass('active').css('background-color', '#FF243E');
 		}
 		changerHeader();
+		var branch = $('#branch-zone .active').data('branch-code');
+		changeMovieZone(branch);
+		changeSchedule();
 	}
 	
 	function changerHeader(){
@@ -223,7 +285,7 @@ $(function(){
 		if(selectedBranch == ""){
 			selectedBranch = "영화관 선택";
 		}
-		var selectedMovie = $('#movie-zone .active').text();
+		var selectedMovie = $('#movie-zone .active span:last').text();
 		var selectedDate = $('#date-zone ul .active').data('screendate');
 		if(selectedBranch){
 			$('#schedule-kind p:eq(0) small').text(selectedBranch);		
@@ -234,6 +296,131 @@ $(function(){
 			$('#schedule-kind p:eq(2) small').text(selectedDate);
 		}
 	}
+	
+	function changeSchedule(){
+		var branch = $('#branch-zone .active').data('branch-code');
+		var screenDate = $('#date-zone ul .active').data('screendate');
+		var screenMovie = $('#movie-zone .active').data('screen-code');
+		if(!screenMovie){
+			screenMovie = null;
+		}
+		$.ajax({
+			type:"GET",
+			url:"schedule/rest/schedule",
+			data:{branch:branch,screenDate:screenDate,screenMovie:screenMovie},
+			dataType:"json"
+		}).done(function(result){
+			var movies = result.movies;
+			changeScheduleZone(movies);
+		})
+	}
+
+	function changeScheduleZone(movies){
+		if(!movies){
+			$('#schedule-zone').empty();
+			var $div = "<div>";			
+			$div += "<p class='text-center mt-5 '>상영스케줄이 존재하지 않습니다.</p>";
+			$div += "</div>";
+			$('#schedule-zone').append($div);
+		}else{
+			$('#schedule-zone').empty();
+			var $schedules = "";
+			// 이중 each구문 가능..?
+			$.each(movies, function(index, movie){
+				var $div = "<div>";
+					var grade = movie.movieGrade;
+					var movieGrade;
+					var gradeClass;
+					if(grade == "12세이상관람가"){
+						movieGrade = 12;
+						gradeClass = "bg-warning";
+					}else if(grade == "15세이상관람가"){
+						movieGrade = 15;
+						gradeClass = "bg-success";
+					}else if(grade == "전체관람가"){
+						movieGrade = "All";
+						gradeClass = "bg-info";
+					}else{
+						movieGrade = "19";
+						gradeClass = "bg-danger";					
+					}
+				$div += "<p class='small ml-2 b'><span class='badge rounded-pill "+gradeClass+" mx-2'>"+movieGrade+"</span>"+movie.movieName+"</p>"
+				$div += "<ul class='list-inline'>"
+				var schedules = movie.schedules;
+				$.each(schedules, function(index, schedule){
+					$div += "<li class='list-inline-item' data-schedule-code="+schedule.scheduleCode+">";
+					$div += "<button class='btn btn-outline-secondary position-relative lh-sm'  style='width:100px; height: 55px'>";
+					$div += "<span class='fw-bolder'><strong>"+schedule.startTime+"</strong><br/></span>";
+					$div += "<span class='fw-bold'><em><em class='text-danger'>"+schedule.emptySeat+"</em> / "+schedule.totalSeat+"</em></span>"
+					$div += "<span class='position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark'>"+schedule.roomName+"</span>";
+					$div += "</button>";
+					$div += "</li>";
+				})
+				$div += "</ul>";
+				$div += "</div>";
+				$schedules += $div;
+				})
+			$('#schedule-zone').append($schedules);
+		}
+	}
+	
+	// 모달부분 시작
+	// 스케줄 선택했을때 모달 띄우면서 정보 확인 후 좌석창으로 이동
+	var todoModal = new bootstrap.Modal(document.getElementById("cofirm-modal"), {
+		keyboard: false
+	})
+	
+	$('#schedule-zone').on('click', 'li', function(){
+		var scheduleCode = $(this).data('schedule-code');
+		console.log(scheduleCode);
+		// 스크린 정보 가져가서 정보 받아와서 모달 띄우기
+		$.getJSON("schedule/rest/scheduleDetail?scheduleCode="+scheduleCode)
+			.done(function(schedule){
+				var grade = schedule.movieGrade;
+				var movieGrade;
+				var gradeClass;
+				if(grade == "12세이상관람가"){
+					movieGrade = 12;
+					gradeClass = "bg-warning";
+				}else if(grade == "15세이상관람가"){
+					movieGrade = 15;
+					gradeClass = "bg-success";
+				}else if(grade == "전체관람가"){
+					movieGrade = "All";
+					gradeClass = "bg-info";
+				}else{
+					movieGrade = "19";
+					gradeClass = "bg-danger";					
+				}
+				$('#schedule-detail-head').empty();
+				$header = "<p class='modal-title text-white fw-bold' id='exampleModalLabel'><span class='badge rounded-pill "+gradeClass+" mx-3'>"+movieGrade+"</span>"+schedule.movieName+"</p>";
+				$header += "<button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>";
+				$('#schedule-detail-head').append($header);
+				
+				$('#schedule-detail').empty();
+				$detail = "<p><span class='big fw-bolder'>날짜</span> : "+schedule.scheduleDate+"</p>";
+				$detail += "<p><span class='big fw-bolder'>지점</span> : "+schedule.branchName+"</p>";
+				$detail += "<p><span class='big fw-bolder'>상영관</span> : "+schedule.roomName+"</p>";
+				$detail += "<p><span class='big fw-bolder'>상영시간</span> : "+schedule.startTime+" ~ "+schedule.endTime+"</p>";
+				$detail += "<p><span class='big fw-bolder'>잔여좌석</span> : <span class='text-danger big fw-bolder'>"+schedule.emptySeat+"</span> / "+schedule.totalSeat+"</p>";
+				$detail += "<p><span class='badge rounded-pill "+gradeClass+" mx-3'>"+movieGrade+"</span> 본 영화는 "+grade+" 영화입니다.</p>";
+				$('#schedule-detail').append($detail);
+				
+				$('#schedule-detail-footer').empty();
+				$footer = "<button type='button' class='btn btn-dark' data-bs-dismiss='modal'>취소</button>";
+				$footer += "<button type='button' id='go-booking' class='btn text-white' style='background-color: #FF243E' data-schedulecode="+schedule.scheduleCode+" >인원/좌석 선택</button>";
+				$('#schedule-detail-footer').append($footer);
+				
+				todoModal.show();
+				
+			})
+	});
+	// 인원.좌석 선택 누르면 좌석창으로 이동
+	$('#schedule-detail-footer').on('click', '#go-booking',function(){
+		var scheduleCode = $(this).data('schedulecode');
+		console.log(scheduleCode);
+		location.href = "seat?scheduleCode="+scheduleCode;
+	});
 })
 </script>
 </body>

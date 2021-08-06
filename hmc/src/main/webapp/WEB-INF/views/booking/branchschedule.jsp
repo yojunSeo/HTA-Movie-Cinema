@@ -218,6 +218,7 @@ $(function(){
 	}
 	
 	function changeScheduleZone(movies){
+		console.log(movies);
 		$('#schedule-zone').empty();
 		var $schedules = "";
 		

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<mapper namespace="com.hmc.dao.ScheduleDtoDao">
+<mapper namespace="com.hmc.dao.ScheduleDtoDao"> 
 	<resultMap type="com.hmc.dto.BranchScheduleDto" id="branchScheduleMap">
 		<id column="branchCode" property="branchCode"/>
 		<result column="branchName" property="branchName"/>
@@ -41,22 +41,6 @@
 			</collection>
 		</collection>
 	</resultMap>
-	
-	<select id="getBranchMovies" parameterType="string" resultType="string">
-		select distinct
-			movie_name,
-			m.screen_code
-		from 
-			t_branch b, t_schedule s, t_screen_movie m
-		where
-			s.branch_code = b.branch_code
-		and
-			s.screen_code = m.screen_code
-		and
-			b.branch_code = #{value}
-		and 
-			s.schedule_date > to_char(sysdate-1, 'yyyy/MM/dd')
-	</select>
 	
 	<select id="getBranchSchedulesByMovie" parameterType="map" resultMap="branchScheduleMap">
 		select 
@@ -118,5 +102,38 @@
             sc.screen_code = #{screenCode}
         and
             sh.schedule_date = #{screenDate}
+	</select>
+	
+	<select id="getBranchSchedulesByMovieAndDate" parameterType="map" resultMap="branchScheduleMap">
+		select 
+            br.branch_code 			as branchCode,
+    		br.branch_name 			as branchName,
+    		sc.screen_code 			as screenCode,
+    		sc.movie_name 			as movieName,
+            mv.movie_grade          as movieGrade,
+            sh.schedule_code        as scheduleCode,
+    		rm.room_code 			as roomCode,
+    		rm.room_name 			as roomName,
+    		sh.schedule_date 		as scheduleDate,
+    		sh.schedule_start_time 	as startTime,
+    		sh.schedule_end_time 	as endTime,
+    		sh.schedule_empty_seat 	as emptySeat,
+    		sh.schedule_total_seat 	as totalSeat
+		from 
+    		t_schedule sh, t_screen_movie sc, t_branch br, t_room rm, t_movie mv
+		where
+    		sh.screen_code = sc.screen_code
+		and
+   	 		sh.branch_code = br.branch_code
+		and
+    		sh.room_code = rm.room_code
+        and
+            sc.movie_code = mv.movie_code
+        and 
+            sc.screen_code = #{screenCode}
+        and
+            sh.schedule_date = #{screenDate}
+        and
+            br.branch_code = #{branchCode}
 	</select>
 </mapper>

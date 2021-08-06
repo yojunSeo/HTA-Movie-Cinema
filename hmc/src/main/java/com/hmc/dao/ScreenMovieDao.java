@@ -43,4 +43,6 @@ public interface ScreenMovieDao {
 	List<ScreenMovie> getScreenMovies(Map<String, Object> condition);
 	
 	List<Map<String, Object>> getScreenSimpleInfo();
+	
+	List<Map<String, Object>> getBranchMovies(String branchCode);
 }

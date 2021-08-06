@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.hmc.dto.BranchDto;
+import com.hmc.dto.BranchScheduleDto;
 import com.hmc.dto.MovieDto;
 import com.hmc.dto.ScheduleDetail;
 import com.hmc.vo.Branch;
@@ -38,6 +39,8 @@ public interface ScheduleService {
 	
 	Map<String, Object> allAboutSchedule();
 	
-	List<ScreenMovie> getBranchMovies(String branchCode);
+	List<Map<String, Object>> getBranchMovies(String branchCode);
+	
+	BranchScheduleDto getSchedules(String branchCode, String screenCode, String screenDate);
 	
 }

@@ -44,6 +44,26 @@ public class ScheduleServiceImpl implements ScheduleService{
 	private SeatDao seatDao;
 	
 	@Override
+	public BranchScheduleDto getSchedules(String branchCode, String screenCode, String screenDate) {
+		// 영화관코드와 날짜는 무조건 존재 근데 screencode는 없을수도 있다
+		BranchScheduleDto branchSchedules = new BranchScheduleDto();
+		Map<String, Object> param = new HashMap<String, Object>();
+		if(!screenCode.equals("")) {
+			// 전부 다 존재할 때
+			param.put("branchCode", branchCode);
+			param.put("screenDate", screenDate);
+			param.put("screenCode", screenCode);
+			branchSchedules = sDtoDao.getBranchSchedulesByMovieAndDate(param);
+		}else {
+			// 영화관코드와 날짜만 존재할때
+			param.put("branchCode", branchCode);
+			param.put("screenDate", screenDate);
+			branchSchedules = sDtoDao.getBranchSchedulesByMovie(param);
+		}
+		return branchSchedules;
+	}
+	
+	@Override
 	public Map<String, Object> allAboutSchedule() {
 		User user = (User)SessionUtils.getAttribute("LOGINED_USER");
 		// 만약 로그인 안되어 있거나 선호영화관이 없을떄
@@ -106,12 +126,8 @@ public class ScheduleServiceImpl implements ScheduleService{
 	}
 	
 	@Override
-	public List<ScreenMovie> getBranchMovies(String branchCode) {
-		List<String> movieName = sDtoDao.getBranchMovies(branchCode);
-		List<ScreenMovie> screenMovies = new ArrayList<ScreenMovie>();
-		for(String name : movieName) {
-			ScreenMovie movie = screenDao.getScreenMovieByCode(name);
-		}
+	public List<Map<String, Object>> getBranchMovies(String branchCode) {
+		List<Map<String, Object>> screenMovies = screenDao.getBranchMovies(branchCode);
 		return screenMovies;
 	}
 	

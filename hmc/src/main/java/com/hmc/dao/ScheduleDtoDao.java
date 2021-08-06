@@ -12,5 +12,6 @@ public interface ScheduleDtoDao {
 	
 	MovieScheduleDto getMoiveSchedulesByBranch(Map<String, Object> param);
 	
-	List<String> getBranchMovies(String branchCode);
+	BranchScheduleDto getBranchSchedulesByMovieAndDate(Map<String, Object> param);
+	
 }

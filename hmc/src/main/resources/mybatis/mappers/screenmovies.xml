@@ -85,4 +85,25 @@
 		order by 
 			screen_code desc
 	</select>
+	
+	<select id="getBranchMovies" parameterType="string" resultType="hashmap">
+		select distinct
+			sc.screen_code as screenCode,
+            sc.movie_name as movieName,
+            mv.movie_grade as movieGrade
+		from 
+			t_screen_movie sc, t_movie mv, t_branch br, t_schedule sh
+        where 
+            sc.movie_code = mv.movie_code
+        and
+        	sh.branch_code = br.branch_code
+        and
+            sh.screen_code = sc.screen_code
+        and
+            br.branch_code = #{value}
+        and 
+            sh.schedule_date > to_char(sysdate-1, 'yyyy/MM/dd')
+		order by 
+			sc.screen_code desc
+	</select>
 </mapper>
