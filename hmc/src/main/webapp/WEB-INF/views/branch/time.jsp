@@ -68,18 +68,26 @@
 			<!-- 탭 구현 -->
 			<div class="row fs-6 justify-content-center text-center" style="display: flex;">
 				<div class="col-4 p-2 tab">
-					<a href="detail" class="btn">지점상세</a>
+					<a href="detail?code=${branchDeatil.code}" class="btn">지점상세</a>
 				</div>
 				<div class="col-4 p-2 tab_selected" >
-					<a href="timetable" class="btn">상영시간표</a>
+					<a href="timetable?code=${branchDeatil.code}" class="btn">상영시간표</a>
 				</div>
 				<div class="col-4 p-2 tab">
-					<a href="price" class="btn">가격</a>
+					<a href="price?code=${branchDeatil.code}" class="btn">가격</a>
 				</div>
 			</div>
 			
-			<div class="mt-5 border p-3" style="height:1000px;">
-				<p class="fs-1"> 여기에 상영시간표 구현해야함</p>
+			<div class="mt-5 p-3" style="height:1000px;">
+				<div class="row">
+					<div class="col-10">
+						<table class="table table-border">
+							<tr id="day-selector">
+								
+							</tr>
+						</table>
+					</div>
+				</div>
 			</div>
 
 

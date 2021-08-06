@@ -12,6 +12,16 @@
 		<result column="branch_longitude" property="longitude" />
 	</resultMap>
 	
+	<resultMap  type="com.hmc.dto.BranchDetailDto" id="branchDeatilResultMap">
+		<id column="branch_code" property="branchCode" />
+		<result column="branch_name" property="branchName"/> 
+		<result column="branch_info" property="branchInfo"/>
+		<result column="branch_facility" property="facility"/>
+		<result column="branch_parking_info" property="parkingInfo"/>
+		<result column="branch_total_room" property="totalRoom"/>
+		<result column="branch_total_seat" property="totalSeat"/>
+	</resultMap>
+	
 	<select id="getAllBranchs" resultMap="branchResultMap">
 		select
 			*
@@ -32,7 +42,6 @@
 			branch_name
 	</select>
 	
-	<!-- 이건 나중에 상영관수, 좌석수 등 join해서 뽑아야 할듯 -->
 	<select id="getBranchDetail" parameterType="string" resultMap="branchResultMap">
 		select
 			*
@@ -40,6 +49,21 @@
 			t_branch
 		where
 			branch_code = #{value}
+	</select>
+	
+	<select id="getBranchDetailDto" parameterType="string" resultMap="branchDeatilResultMap">
+		select 
+			A.*, B.total_room, B.total_seat
+		from 
+			t_branch A, 
+			(select 
+				branch_code, count(*) total_room, sum(room_total_seat) total_seat
+            from 
+            	t_room
+            group by branch_code) B
+		where
+			A.branch_code = B.branch_code
+			and	A.branch_code = #{value}
 	</select>
 	
 	<update id="updateBranch" parameterType="com.hmc.vo.Branch">
