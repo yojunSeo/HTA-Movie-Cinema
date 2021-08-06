@@ -28,7 +28,29 @@
 		border-color: #FF243E;
 		font-weight: bold;
 		color: #FF243E;
-	}	
+	}
+	
+	.calendar-btn {
+		background-color: transparent;
+		border: none;
+		font-size: 15px;
+		font-weight:bold;
+	}
+	.calendar-btn .dayNumber {
+		font-size: 18px;
+		height:30px;
+		width:30px;
+		text-align:center;
+		line-height:30px;
+		margin: 0px;
+	}
+	.calendar-btn .circle {
+		width:30px;
+		height:30px;
+		border-radius:50%;
+		background:#FF243E;
+		color: white;
+	}
 </style>
 </head>
 <body>
@@ -79,13 +101,21 @@
 			</div>
 			
 			<div class="mt-5 p-3" style="height:1000px;">
-				<div class="row">
-					<div class="col-10">
-						<table class="table table-border">
-							<tr id="day-selector">
-								
-							</tr>
-						</table>
+				<div class="row justify-content-center">
+					<div class="col-6">
+					  <div class="btn-group" role="group" aria-label="First group">
+						<button type="button" class="calendar-btn">
+							<p>8월</p>
+							<p class="circle dayNumber">1</p>
+							<p>오늘</p>
+						</button>
+						<button type="button" class="calendar-btn">
+							<p>8월</p>
+							<p class="dayNumber">2</p>
+							<p>토</p>
+						</button>
+					    
+					  </div>
 					</div>
 				</div>
 			</div>
@@ -103,7 +133,17 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
 
 	<script>
-		
+		$(function() {
+			var todayDate = new Date();
+			var year = todayDate.getYear;
+			var month = todayDate.getMonth;
+			var day = todayDate.getDay;
+			
+			console.log(todayDate);
+			console.log(year);
+			console.log(month);
+			console.log(day);
+		});
 	</script>
 </body>
 </html>

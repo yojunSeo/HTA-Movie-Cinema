@@ -9,6 +9,7 @@ import com.hmc.dao.BranchDao;
 import com.hmc.dao.FacilityDao;
 import com.hmc.dto.BranchDetailDto;
 import com.hmc.vo.Branch;
+import com.hmc.vo.Facility;
 
 @Service
 public class BranchServiceImpl implements BranchService{
