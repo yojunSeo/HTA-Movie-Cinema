@@ -278,7 +278,7 @@ a, a:link, a:visited, a:active, a:hover {
 				<c:otherwise>	<!--로그인시-->
 					<ul class="g_menu2" >
 						<li class="gbar"><a href="/hmc/cs/home">고객센터</a></li>
-						<li class="gbar"><a href="/hmc/logOut/">로그아웃</a></li>
+						<li class="gbar"><a href="/hmc/login/logOut">로그아웃</a></li>
 					</ul>
 					<ul class="g_menu3">
 						<li class="">
