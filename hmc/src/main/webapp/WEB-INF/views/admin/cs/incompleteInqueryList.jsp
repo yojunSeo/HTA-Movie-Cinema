@@ -24,10 +24,10 @@
             </div>
             <div class="row mt-5">
             	<div class="d-grid gap-2 col-6">
-            		<a href="inqueryList" class="btn btn-danger">미답변 문의</a>
+            		<a href="inqueryList" class="btn btn-dark">미답변 문의</a>
             	</div>
             	<div class="d-grid gap-2 col-6">
-            		<a href="incompleteInqueryList" class="btn btn-dark">답변완료 문의</a>
+            		<a href="incompleteInqueryList" class="btn btn-danger">답변완료 문의</a>
             	</div>
             </div>
             <div class="row border my-5 bg-light">
@@ -54,7 +54,7 @@
 						<c:choose>
 							<c:when test="${empty inquerys }">
 								<tr>
-									<td colspan="4">답변예정인 문의가 존재하지 않습니다.</td>
+									<td colspan="4">답변완료된 문의가 존재하지 않습니다.</td>
 								</tr>
 							</c:when>
 							<c:otherwise>
@@ -77,15 +77,15 @@
 					<div class="col-12">
 						<ul class="pagination justify-content-center">
 							<li class="page-item ${pagination.pageNo le 1 ? 'disabled' : ''}">
-								<a class="page-link" href="inqueryList?page=${pagination.pageNo - 1 }">이전</a>
+								<a class="page-link" href="imcompleteInqueryList?page=${pagination.pageNo - 1 }">이전</a>
 							</li>
 							<c:forEach var="num" begin="${pagination.beginPage }" end="${pagination.endPage }">
 								<li class="page-item ${pagination.pageNo eq num ? 'active' : '' }">
-									<a class="page-link" href="inqueryList?page=${num }">${num }</a>
+									<a class="page-link" href="imcompleteInqueryList?page=${num }">${num }</a>
 								</li>
 							</c:forEach>
 							<li class="page-item ${pagination.pageNo ge pagination.totalPages ? 'disabled' : ''}">
-								<a class="page-link" href="inqueryList?page=${pagination.pageNo + 1 }">다음</a>
+								<a class="page-link" href="imcompleteInqueryList?page=${pagination.pageNo + 1 }">다음</a>
 							</li>
 						</ul>
 					</div>
@@ -105,7 +105,7 @@
 $(function(){
 	$("#inquery-table tr").click(function(){
 		var inqueryCode = $(this).data('inquery-code');
-		location.href = "inqueryDetail?code="+inqueryCode;
+		location.href = "incompleteInqueryDetail?code="+inqueryCode;
 	})
 })
 </script>
