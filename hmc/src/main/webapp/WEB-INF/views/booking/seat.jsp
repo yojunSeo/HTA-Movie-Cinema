@@ -187,7 +187,7 @@ $(function(){
 		}
 		nonabledSeat(bookedSeats);
 		chageGrade();
-		// 커플석일때는 옆자리 같이선택되게 하는것과 / 장애인석 선택했을때 알림창
+		// 커플석일때는 옆자리 같이선택되게 하는것과 
 	}); 
 	
 	function nonabledSeat(bookedSeats){
@@ -197,6 +197,24 @@ $(function(){
 			var nonabled = document.getElementById(val);
 			nonabled.disabled = true;
 		}		
+	}
+	// 커플석일때의 처리
+	// 선택한 좌석의 아이디 받아오기
+	function coupleSeat(seatCode){
+		// 컨펌창 띄워서 커플석인거 알려주고 확인
+		//무조건 옆에자리 같이선택되게 하고 인원이 선택한 자리수만큼 인원수 바꿔주기
+		var confirmValue = confirm('본 좌석은 커플석으로 두 좌석씩 예매가 가능합니다.');
+		if(!confirmValue){
+			return false;
+		}
+		$.ajax({
+			type:"GET",
+			url:"book/rest/coupleSeat",
+			data:{seat:seatCode},
+			dataType:"json"
+		}).done(function(otherSeat){
+			console.log(otherSeat);
+		})
 	}
 	
 	// 버튼 클릭했을때 상태 변경

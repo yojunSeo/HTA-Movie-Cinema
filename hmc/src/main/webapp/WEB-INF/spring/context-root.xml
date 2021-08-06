@@ -4,13 +4,15 @@
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xmlns:util="http://www.springframework.org/schema/util"
 	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
-		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+		 http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
 
 	<!-- 빈 오토와이어링을 지원하는 객체를 스프링 컨테이너에 등록함 -->
 	<context:annotation-config/>
@@ -19,7 +21,7 @@
 	<context:component-scan base-package="com.hmc.service"/>
 	
 	<!-- 환경설정정보가 정의된 properties 파일정보 스프링 빈으로 등록 -->
-   <context:property-placeholder location="classpath:/spring/*.properties" />
+   <context:property-placeholder location="classpath:/spring/membership.properties" />
 	
 	<!-- commons-dbcp2 라이브러리를 이용한 커넥션풀을 스프링의 빈으로 등록 -->
 	<bean id="dataSource" 
@@ -34,6 +36,52 @@
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
 		p:dataSource-ref="dataSource"/>
 
+	<util:map id="membershipMap">
+		<entry>
+			<key><value>BRONZE</value></key>
+			<bean class="com.hmc.dto.Membership">
+				<property name="cp5000" value="${bronze.cp5000}"></property>
+				<property name="cpMovie" value="${bronze.cpMovie}"></property>
+				<property name="cp5000Repeat" value="${bronze.cp5000Repeat}"></property>
+				<property name="cpMovieRepeat" value="${bronze.cpMovieRepeat}"></property>
+				<property name="savedPoint" value="${bronze.savedPoint}"></property>
+				<property name="savedRate" value="${bronze.savedRate}"></property>
+			</bean>
+		</entry>
+		<entry>
+			<key><value>SILVER</value></key>
+			<bean class="com.hmc.dto.Membership">
+				<property name="cp5000" value="${silver.cp5000}"></property>
+				<property name="cpMovie" value="${silver.cpMovie}"></property>
+				<property name="cp5000Repeat" value="${silver.cp5000Repeat}"></property>
+				<property name="cpMovieRepeat" value="${silver.cpMovieRepeat}"></property>
+				<property name="savedPoint" value="${silver.savedPoint}"></property>
+				<property name="savedRate" value="${silver.savedRate}"></property>
+			</bean>
+		</entry>
+		<entry>
+			<key><value>GOLD</value></key>
+			<bean class="com.hmc.dto.Membership">
+				<property name="cp5000" value="${gold.cp5000}"></property>
+				<property name="cpMovie" value="${gold.cpMovie}"></property>
+				<property name="cp5000Repeat" value="${gold.cp5000Repeat}"></property>
+				<property name="cpMovieRepeat" value="${gold.cpMovieRepeat}"></property>
+				<property name="savedPoint" value="${gold.savedPoint}"></property>
+				<property name="savedRate" value="${gold.savedRate}"></property>
+			</bean>
+		</entry>
+		<entry>
+			<key><value>PLATINUM</value></key>
+			<bean class="com.hmc.dto.Membership">
+				<property name="cp5000" value="${platinum.cp5000}"></property>
+				<property name="cpMovie" value="${platinum.cpMovie}"></property>
+				<property name="cp5000Repeat" value="${platinum.cp5000Repeat}"></property>
+				<property name="cpMovieRepeat" value="${platinum.cpMovieRepeat}"></property>
+				<property name="savedPoint" value="${platinum.savedPoint}"></property>
+				<property name="savedRate" value="${platinum.savedRate}"></property>
+			</bean>
+		</entry>
+	</util:map>
 	<!-- Spring AOP 설정을 사용해서 선언적 트랜잭션 처리 -->
 	<!-- 
  	<tx:advice id="txAdvice" transaction-manager="transactionManager">

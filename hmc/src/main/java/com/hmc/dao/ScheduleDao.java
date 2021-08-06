@@ -38,7 +38,7 @@ public interface ScheduleDao {
 	 * @param scheduleCode 스케줄코드
 	 * @return 해당하는 상영정보
 	 */
-	ScheduleDetail getScheduleByCode(String scheduleCode);
+	ScheduleDetail getScheduleDetailByCode(String scheduleCode);
 	
 	Date getEndTime(Map<String, Object> condition);
 	
@@ -49,4 +49,6 @@ public interface ScheduleDao {
 	List<ScheduleDetail> getSchedules(Map<String, Object> condition);
 	
 	List<ScheduleDetail> getSchedulesByMovieAndDate(Map<String, Object> condition);
+	
+	Schedule getScheduleByCode(String scheduleCode);
 }

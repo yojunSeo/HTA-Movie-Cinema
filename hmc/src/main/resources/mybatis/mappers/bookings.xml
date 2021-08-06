@@ -17,11 +17,16 @@
 	</resultMap>
 	
 	<insert id="insertBooking" parameterType="com.hmc.vo.Booking">
+		<selectKey keyProperty="code" resultType="string" order="BEFORE">
+			select 
+				'BK' || lpad(T_BOOKING_SEQ.nextval, 6,0)
+			from dual
+		</selectKey>
 		insert into t_booking
 			(booking_code, schedule_code, user_id, payment_code, 
 					booking_cnt, booking_price, booking_discount_price, booking_total_price)
 		values
-			('BK' || lpad(T_BOOKING_SEQ.nextval, 6,0), #{scheduleCode}, #{userId}, #{paymentCode} ,#{count}, #{price}, #{discountPrice}, #{totalPrice})
+			(#{code}, #{scheduleCode}, #{userId}, #{paymentCode} ,#{count}, #{price}, #{discountPrice}, #{totalPrice})
 	</insert>
 
 	<update id="updateBooking" parameterType="com.hmc.vo.Booking">

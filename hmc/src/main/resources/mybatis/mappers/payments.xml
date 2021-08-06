@@ -10,12 +10,17 @@
 		<result column="payment_way" property="way"/>
 		<result column="payment_status" property="status"/>
 	</resultMap>
-	
+
 	<insert id="insertPayment" parameterType="com.hmc.vo.Payment">
+		<selectKey keyProperty="code" resultType="string" order="BEFORE">
+			select 
+				'PM' || lpad(T_PAYMENT_SEQ.nextval, 6,0)
+			from dual
+		</selectKey>
 		insert into t_payment
-		(payment_code, user_id, payment_price, payment_way)
+			(payment_code, user_id, payment_price, payment_way)
 		values
-		('PM' || lpad(T_PAYMENT_SEQ.nextval, 6,0), #{userId},  #{price}, #{way})
+			(#{code}, #{userId}, #{price}, #{way})
 	</insert>
 	
 	<update id="updatePaymentStatus" parameterType="com.hmc.vo.Payment">
