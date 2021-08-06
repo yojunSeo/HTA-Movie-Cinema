@@ -17,77 +17,67 @@
 			movie_release_date desc
 	</select>
 	
-	<select id="getMovieInfoByCode" parameterType="string" resultType="com.hmc.vo.Movie">
-		select 
-    		movie_code as code,
-    		movie_release_date as releaseDate,
-    		movie_name as movieName,
-    		movie_running_time as runningTime
-		from 
-			t_movie
-		where 
-			movie_code = #{value}
-	</select>
-	
-	<select id="getAllMovies" resultType="com.hmc.vo.Movie">
-      select
-         movie_code          movieCode,
-         movie_release_date      releaseDate,
-         movie_name            movieName,
-         movie_running_time      runningTime,
-         movie_genre         genre,
-         movie_grade         grade,
-         movie_country         country,
-         movie_director         director,
-         movie_company         company,
-         movie_poster         poster,
-         movie_synopsis         synopsis,
-         movie_url            url,
-         movie_stillcut         stillcut,
-         movie_trailer         trailer,
-         movie_total_score      totalScore,
-         movie_review_cnt      reviewCnt
-      from
-         t_movie
-      order by movie_code desc
-   </select>
-   
-   <select id="getMovieByCode" parameterType="int" resultType="com.hmc.vo.Movie">
+      
+    <select id="getMovieInfoByCode" parameterType="String" resultType="com.hmc.vo.Movie">
        select
-            movie_code          movieCode,
+            movie_code         		movieCode,
             movie_release_date      releaseDate,
-            movie_name            movieName,
+            movie_name            	movieName,
             movie_running_time      runningTime,
-            movie_genre         genre,
-            movie_grade         grade,
-            movie_country         country,
-            movie_director         director,
-            movie_company         company,
-            movie_poster         poster,
-            movie_synopsis         synopsis,
-            movie_url            url,
-            movie_stillcut         stillcut,
-            movie_trailer         trailer,
-            movie_total_score      totalScore,
-            movie_review_cnt      reviewCnt
+            movie_genre         	genre,
+            movie_grade         	grade,
+            movie_country         	country,
+            movie_director         	director,
+            movie_company         	company,
+            movie_poster         	poster,
+            movie_synopsis         	synopsis,
+            movie_url            	url,
+            movie_stillcut         	stillcut,
+            movie_trailer         	trailer,
+            movie_total_score      	totalScore,
+            movie_review_cnt      	reviewCnt,
+            movie_rank				rank,
+            movie_audiacc			audeAcc
          from
             T_MOVIE
          where
              movie_code = #{value}
-   </select>
+    </select>
 
-	<!-- 
-		com.sample.dao.ProductDao 매퍼인터페이스에 대한 매퍼파일(SQL이 정의된 파일) 정의
-	 -->
-	<insert id="insertMovie" parameterType="com.hmc.vo.User">
+	<insert id="insertMovie" parameterType="com.hmc.vo.Movie">
 		insert into t_movie
 		(movie_code, movie_release_date, movie_name, movie_running_time, movie_genre, movie_grade,
-		movie_country, movie_derector, movie_company, movie_poster, movie_synopsis, movie_url, 
-		movie_stillcut, movie_trailer, movie_total_score, movie_review_cnt)
+		movie_country, movie_director, movie_company, movie_poster, movie_synopsis, movie_url, 
+		movie_stillcut, movie_trailer, movie_total_score, movie_review_cnt, movie_rank, movie_audiacc)
 		values
 		(#{movieCode}, #{releaseDate}, #{movieName}, #{runningTime}, #{genre}, #{grade}, 
 		#{country}, #{director}, #{company}, #{poster}, #{synopsis}, #{url}, 
-		#{stillcut}, #{trailer}, #{totalScore}, #{reviewCnt})
+		#{stillcut}, #{trailer}, #{totalScore}, #{reviewCnt}, #{rank}, #{audiAcc})
 	</insert>
+	
+	 <update id="updateMovie" parameterType="com.hmc.vo.Movie">
+		update
+			t_movie
+		set
+			movie_rank = #{rank}
+		where
+			movie_code = #{movieCode}
+	</update>
+	
+	<select id="getTopMovies" parameterType="com.hmc.vo.Movie">
+		select
+			movie_code         		movieCode,
+	        movie_release_date      releaseDate,
+	        movie_name            	movieName,
+	        movie_poster         	poster,
+	        movie_rank				rank,
+        from
+            T_MOVIE
+        where
+            movie_code = #{value}
+        order by 
+			movie_release_date desc
+	</select> 
+	
 
 </mapper>
