@@ -79,7 +79,7 @@ html, body {
 		<header><%@ include file="../common/header.jsp"%></header>
 
 		<main>
-			<div class="row mt-5">
+			<div class="row mt-2">
 				<div class="col">
 					<div class="swiper-container mySwiper">
 						<div class="swiper-wrapper">

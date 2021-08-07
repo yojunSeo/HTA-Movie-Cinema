@@ -20,11 +20,14 @@ html, body {
 	width: 100vw;
 	margin-left: calc(-50vw + 50%);
 	height: 350px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .box2 {
 	margin-top: 100px;
-	margin-left: 335px;
+	margin-left: 240px;
 	width: 1280px;
 	height: 400px;
 	padding: 20px;
@@ -35,18 +38,36 @@ html, body {
 /* 	border: 3px solid black; */
 }
 
-.nav-link {
-	color: #000000;
-	background-color: #000000;
-	border-bottom: 3px solid #FF243E;
-}
 .dropdown:hover .dropdown-menu {
     display: block;
     margin-top: 0;
     border: none;
     outline: none;
+    color: #000000;
+    backgrone-color: #FFFFFF;
 }
 
+.nav-tabs, .nav-item .nav-link {
+	border: none;
+	outline: none;
+}
+.nav-link, .nav-link:hover {
+	color: #000000;
+}
+.nav-link.active {
+	font-weight : bold;
+}
+.dropdown-item, .dropdown-item:hover {
+	color: #000000;
+	border: none;
+	outline: none;
+	background-color: #FFFFFF;
+}
+.dropdown-item.active {
+	font-weight : bold;
+	color: #000000;
+	background-color: #FFFFFF;
+}
 </style>  
 <body>
 	<div class="container">
@@ -75,30 +96,43 @@ html, body {
 			<div class="row mb-3">
 				<div class="col" style="margin-top: 120px;">
 					<ul class="nav nav-tabs nav-justified">
-						<li class="nav-item dropdown"><a
-							class="nav-link dropdown-toggle active" aria-current="page" data-bs-toggle="dropdown"
-							href="#payment" role="button" aria-expanded="false">결제내역</a>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle active" data-bs-toggle="dropdown"
+							href="#" role="button" aria-expanded="false">결제내역</a>
 							<ul class="dropdown-menu">
-								<li><a class="dropdown-item" href="#">예매내역</a></li>
-								<li><a class="dropdown-item" href="#">구매/선물내역</a></li>
+								<li><a class="dropdown-item active" id="booking-tab" href="#booking" data-bs-toggle="tab" 
+								data-bs-target="#booking">예매내역</a></li>
+								<li><a class="dropdown-item" id="payment-tab" href="#payment" data-bs-toggle="tab" 
+								data-bs-target="#payment">구매/선물내역</a></li>
 							</ul>
 						</li>
-						<li class="nav-item"><a class="nav-link" href="#coupon">쿠폰함</a></li>
-						<li class="nav-item"><a class="nav-link" href="#event">My이벤트</a></li>
-						<li class="nav-item"><a class="nav-link" href="#inquery">1:1문의</a></li>
+						<li class="nav-item"><a class="nav-link" id="coupon-tab" href="#coupon" data-bs-toggle="tab" 
+								data-bs-target="#coupon">쿠폰함</a></li>
+						<li class="nav-item"><a class="nav-link" id="event-tab" href="#event" data-bs-toggle="tab" 
+								data-bs-target="#event">My이벤트</a></li>
+						<li class="nav-item"><a class="nav-link" id="inquery-tab" href="#inquery" data-bs-toggle="tab" 
+								data-bs-target="#inquery">1:1문의</a></li>
 						<li class="nav-item dropdown"><a
-							class="nav-link dropdown-toggle active" aria-current="page" data-bs-toggle="dropdown"
-							href="#myinfo" role="button" aria-expanded="false">My정보관리</a>
+							class="nav-link dropdown-toggle" aria-current="page" data-bs-toggle="dropdown"
+							href="#" role="button" aria-expanded="false">My정보관리</a>
 							<ul class="dropdown-menu">
-								<li><a class="dropdown-item" href="#">회원정보변경</a></li>
-								<li><a class="dropdown-item" href="#">비밀번호변경</a></li>
-								<li><a class="dropdown-item" href="#">회원탈퇴</a></li>
+								<li><a class="dropdown-item" id="usermodify-tab" href="#usermodify" data-bs-toggle="tab" 
+								data-bs-target="#usermodify">회원정보변경</a></li>
+								<li><a class="dropdown-item" id="pwdchange-tab" href="#pwdchange" data-bs-toggle="tab" 
+								data-bs-target="#pwdchange">비밀번호변경</a></li>
+								<li><a class="dropdown-item" id="userexit-tab" href="#userexit" data-bs-toggle="tab" 
+								data-bs-target="#userexit">회원탈퇴</a></li>
 							</ul>
 					</ul>
 					<div class="tab-content mt-3" id="myTabContent"> 
+						<div class="tab-pane show active" id="booking" role="tabpanel"
+							aria-labelledby="booking-tab">
+							<h3>예매내역 화면</h3>
+
+						</div>
 						<div class="tab-pane fade" id="payment" role="tabpanel"
 							aria-labelledby="payment-tab">
-							<h3>결제내역 화면</h3>
+							<h3>구매/선물내역 화면</h3>
 
 						</div>
 						<div class="tab-pane fade" id="coupon" role="tabpanel"
@@ -113,77 +147,27 @@ html, body {
 						</div>
 						<div class="tab-pane fade" id="inquery" role="tabpanel"
 							aria-labelledby="inquery-tab">
-							<h3>1:1문의 화면</h3>
+							<h3>1:1:문의 화면</h3>
 
 						</div>
-						<div class="tab-pane fade" id="myinfo" role="tabpanel"
-							aria-labelledby="myinfo-tab">
-							<h3>My정보관리</h3>
+						<div class="tab-pane fade" id="usermodify" role="tabpanel"
+							aria-labelledby="usermodify-tab">
+							<h3>회원정보변경 화면</h3>
+
+						</div>
+						<div class="tab-pane fade" id="pwdchange" role="tabpanel"
+							aria-labelledby="pwdchange-tab">
+							<h3>비밀번호변경 화면</h3>
+
+						</div>
+						<div class="tab-pane fade" id="userexit" role="tabpanel"
+							aria-labelledby="userexit-tab">
+							<h3>회원탈퇴 화면</h3>
 
 						</div>
 					</div>
 				</div>
 			</div>
-<!-- 			<div class="row mb-3"> -->
-<!-- 				<div class="col" style="margin-top: 120px;"> -->
-<!-- 					<ul class="nav nav-tabs nav-justified" id="myTab" role="tablist"> -->
-<!-- 						<li class="nav-item active" role="presentation"> -->
-<!-- 							<button class="nav-link" id="payment-tab" data-bs-toggle="tab" -->
-<!-- 								data-bs-target="#payment" type="button" role="tab" -->
-<!-- 								aria-controls="payment" aria-selected="false">결제내역</button> -->
-							
-<!-- 						</li> -->
-<!-- 						<li class="nav-item" role="presentation"> -->
-<!-- 							<button class="nav-link" id="coupon-tab" data-bs-toggle="tab" -->
-<!-- 								data-bs-target="#coupon" type="button" role="tab" -->
-<!-- 								aria-controls="coupon" aria-selected="false">쿠폰함</button> -->
-<!-- 						</li> -->
-<!-- 						<li class="nav-item" role="presentation"> -->
-<!-- 							<button class="nav-link" id="event-tab" data-bs-toggle="tab" -->
-<!-- 								data-bs-target="#event" type="button" role="tab" -->
-<!-- 								aria-controls="event" aria-selected="false">My이벤트</button> -->
-<!-- 						</li> -->
-<!-- 						<li class="nav-item" role="presentation"> -->
-<!-- 							<button class="nav-link" id="inquery-tab" data-bs-toggle="tab" -->
-<!-- 								data-bs-target="#inquery" type="button" role="tab" -->
-<!-- 								aria-controls="inquery" aria-selected="false">1:1문의</button> -->
-<!-- 						</li> -->
-<!-- 						<li class="nav-item" role="presentation"> -->
-<!-- 							<button class="nav-link" id="myinfo-tab" data-bs-toggle="tab" -->
-<!-- 								data-bs-target="#myinfo" type="button" role="tab" -->
-<!-- 								aria-controls="myinfo" aria-selected="false">My정보관리</button> -->
-<!-- 						</li> -->
-<!-- 					</ul> -->
-<!-- 					<div class="tab-content mt-3" id="myTabContent"> -->
-<!-- 						<div class="tab-pane fade" id="payment" role="tabpanel" -->
-<!-- 							aria-labelledby="payment-tab"> -->
-<!-- 							<h3>결제내역 화면</h3> -->
-
-<!-- 						</div> -->
-<!-- 						<div class="tab-pane fade" id="coupon" role="tabpanel" -->
-<!-- 							aria-labelledby="coupon-tab"> -->
-<!-- 							<h3>쿠폰함 화면</h3> -->
-
-<!-- 						</div> -->
-<!-- 						<div class="tab-pane fade" id="event" role="tabpanel" -->
-<!-- 							aria-labelledby="event-tab"> -->
-<!-- 							<h3>My이벤트 화면</h3> -->
-
-<!-- 						</div> -->
-<!-- 						<div class="tab-pane fade" id="inquery" role="tabpanel" -->
-<!-- 							aria-labelledby="inquery-tab"> -->
-<!-- 							<h3>1:1문의 화면</h3> -->
-
-<!-- 						</div> -->
-<!-- 						<div class="tab-pane fade" id="myinfo" role="tabpanel" -->
-<!-- 							aria-labelledby="myinfo-tab"> -->
-<!-- 							<h3>My정보관리</h3> -->
-
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
-
 		</main>
 
 		<footer><%@ include file="../common/footer.jsp"%></footer>
@@ -200,25 +184,37 @@ html, body {
 		
 		// 각각의 탭이 화면에 표시될 때 show.bs.tab 이벤트가 발생함.
 		// 각각의 탭이 화면에 표시될 때 브라우져 쿠키에 사용자정의 쿠키값을 저장함
-		$("#payment-tab").on("show.bs.tab", function() {
+		$("#booking-tab").on("show.bs.tab", function() {
 			// 브라우저 쿠키에 step=level1 값을 저장하고, 만료시간을 1시간 후로 설정한다.
 			setCookie("step", "level1", 1)		
 		})
-		$("#coupon-tab").on("show.bs.tab", function() {
+		$("#payment-tab").on("show.bs.tab", function() {
 			// 브라우저 쿠키에 step=level2 값을 저장하고, 만료시간을 1시간 후로 설정한다.
 			setCookie("step", "level2", 1)		
 		})
-		$("#event-tab").on("show.bs.tab", function() {
+		$("#coupon-tab").on("show.bs.tab", function() {
 			// 브라우저 쿠키에 step=level3 값을 저장하고, 만료시간을 1시간 후로 설정한다.
 			setCookie("step", "level3", 1)		
+		})
+		$("#event-tab").on("show.bs.tab", function() {
+			// 브라우저 쿠키에 step=level4 값을 저장하고, 만료시간을 1시간 후로 설정한다.
+			setCookie("step", "level4", 1)		
 		})
 		$("#inquery-tab").on("show.bs.tab", function() {
-			// 브라우저 쿠키에 step=level3 값을 저장하고, 만료시간을 1시간 후로 설정한다.
-			setCookie("step", "level3", 1)		
+			// 브라우저 쿠키에 step=level5 값을 저장하고, 만료시간을 1시간 후로 설정한다.
+			setCookie("step", "level5", 1)		
 		})
-		$("#myinfo-tab").on("show.bs.tab", function() {
-			// 브라우저 쿠키에 step=level3 값을 저장하고, 만료시간을 1시간 후로 설정한다.
-			setCookie("step", "level3", 1)		
+		$("#usermodify-tab").on("show.bs.tab", function() {
+			// 브라우저 쿠키에 step=level6 값을 저장하고, 만료시간을 1시간 후로 설정한다.
+			setCookie("step", "level6", 1)		
+		})
+		$("#pwdchange-tab").on("show.bs.tab", function() {
+			// 브라우저 쿠키에 step=level7 값을 저장하고, 만료시간을 1시간 후로 설정한다.
+			setCookie("step", "level7", 1)		
+		})
+		$("#userexit-tab").on("show.bs.tab", function() {
+			// 브라우저 쿠키에 step=level8 값을 저장하고, 만료시간을 1시간 후로 설정한다.
+			setCookie("step", "level8", 1)		
 		})
 
 		// 브라우져 쿠키에 값을 저장한다.
@@ -256,12 +252,22 @@ html, body {
 			
 			// 웹페이지가 로딩될 때 쿠키값을 사용해서 구현할 내용을 코딩한다.
 			if (step == "" || step == "level1") {
-				$("#home-tab").trigger('click');
+				$("#booking-tab").trigger('click');
 			} else if (step == "level2") {
-				$("#profile-tab").trigger('click');
+				$("#payment-tab").trigger('click');
 			} else if (step == "level3") {
-				$("#contact-tab").trigger('click');
-			}
+				$("#coupon-tab").trigger('click');
+			} else if (step == "level4") {
+				$("#event-tab").trigger('click');
+			} else if (step == "level5") {
+				$("#inquery-tab").trigger('click');
+			} else if (step == "level6") {
+				$("#usermodify-tab").trigger('click');
+			} else if (step == "level7") {
+				$("#pwdchange-tab").trigger('click');
+			} else if (step == "level8") {
+				$("#userexit-tab").trigger('click');
+			} 
 		})();	
 	})	
 	</script>

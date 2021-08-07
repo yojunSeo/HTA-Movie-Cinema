@@ -20,8 +20,6 @@ import com.hmc.service.MovieService;
 import com.hmc.vo.Movie;
 import com.hmc.web.util.SessionUtils;
 
-
-
 @Controller
 @RequestMapping("/movie")
 public class MovieController {
