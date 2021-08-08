@@ -1,5 +1,7 @@
 package com.hmc.web.controller;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -28,7 +31,7 @@ public class AdminScheduleController {
 		model.addAttribute("pagination", result.get("pagination"));
 		model.addAttribute("movies", result.get("movies"));
 		model.addAttribute("screens", result.get("screens"));
-		
+		model.addAttribute("today", new Date());
 		return "admin/schedule/screen";
 	}
 	
@@ -42,12 +45,28 @@ public class AdminScheduleController {
 	}
 	
 	@GetMapping("/list")
-	public String scheduleListPagination(@RequestParam(name = "page", required = false, defaultValue = "1") int pageNo, Model model) {
-		Map<String, Object> result =  scheduleService.scheduleListPagination(pageNo);
+	public String scheduleListPagination(@RequestParam(name = "page", required = false, defaultValue = "1") int pageNo,@RequestParam(name="branch", required = false) String branchCode, @RequestParam(name="room", required = false) String roomCode, 
+			@RequestParam(name="movie", required = false) String screenCode, @RequestParam(name="screenDate", required = false) String screenDate, Model model) {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("pageNo", pageNo);
+		if(branchCode != null) {
+			param.put("branch", branchCode);			
+		}
+		if(roomCode != null) {
+			param.put("room", roomCode);
+		}
+		if(screenCode != null) {
+			param.put("screen", screenCode);
+		}
+		if(screenDate != "") {
+			param.put("screenDate", screenDate);
+		}
+		Map<String, Object> result = scheduleService.searchSchedule(param);
 		model.addAttribute("branchs", result.get("branchs"));
 		model.addAttribute("schedules", result.get("schedules"));
 		model.addAttribute("movies", result.get("movies"));
 		model.addAttribute("pagination", result.get("pagination"));
 		return "admin/schedule/list";
 	}
+
 }

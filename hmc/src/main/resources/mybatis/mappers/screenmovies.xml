@@ -43,6 +43,10 @@
 			*
 		from 
 			t_screen_movie
+        where
+        <![CDATA[ 
+        sysdate < screen_end_date
+        ]]>
 		order by 
 			screen_code desc
 	</select>
@@ -105,5 +109,19 @@
             sh.schedule_date > to_char(sysdate-1, 'yyyy/MM/dd')
 		order by 
 			sc.screen_code desc
+	</select>
+	
+	<select id="getScreenMovieWithoutSchedule" resultType="string">
+		select 
+			screen_code 
+		from 
+			t_screen_movie
+		where 
+			screen_code not in (select distinct 
+									sh.screen_code 
+								from 
+									t_schedule sh 
+								where 
+									sh.schedule_date >= to_char(sysdate-1, 'yyyy/MM/dd'))
 	</select>
 </mapper>

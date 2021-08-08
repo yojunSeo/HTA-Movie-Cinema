@@ -45,4 +45,6 @@ public interface ScreenMovieDao {
 	List<Map<String, Object>> getScreenSimpleInfo();
 	
 	List<Map<String, Object>> getBranchMovies(String branchCode);
+	
+	List<String> getScreenMovieWithoutSchedule();
 }

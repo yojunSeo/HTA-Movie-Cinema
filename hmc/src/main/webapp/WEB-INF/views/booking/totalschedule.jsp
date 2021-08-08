@@ -22,6 +22,10 @@
       }
       em{
       	font-family: "Nanum Gothic", sans-serif;
+        font-size: 12px;
+      }
+      span.small{
+      	font-family: "Nanum Gothic", sans-serif;
         font-size: 14px;
       }
       p.small{
@@ -71,14 +75,14 @@
 							<p class="list-group-item list-group-item-action border-0 m-0"><span class="fw-bold mx-3">지점이름</span></p>
 						</div>
 						<!-- 영화-->						
-						<div class="col-4 border-start border-secondary p-0" style="background-color: #FFFFFF" id="movie-zone">
+						<div class="col-4 border-start border-secondary p-0" style="background-color: #FFFFFF; height:700px; overflow-y: scroll;" id="movie-zone">
 						</div>
 							<!-- 날짜/ 스케줄 -->
 						<div class="col-4 border-start border-secondary" style="background-color: #FFFFFF" id="schedule-area">
 							<div class="row" id="date-zone">
 								<!-- 날짜존 -->
 							</div>
-							<div class="row mt-3" id="schedule-zone">
+							<div class="row mt-3" id="schedule-zone" tabindex="0" style="height: 600px;overflow-y: scroll;">
 								<!-- 스케줄존 -->
 							</div>
 						</div>
@@ -193,10 +197,11 @@ $(function(){
 	$('#branch-zone').on('click', 'p', function(){
 		$(this).addClass('active').css('background-color', '#FF243E');
 		$(this).siblings().removeClass('active').css('background-color', "#FFFFFF");
-		changerHeader();
+		$('#movie-zone p').removeClass('active').css('background-color', "#FFFFFF");
 		var branchCode = $(this).data('branch-code');
 		changeMovieZone(branchCode);
 		changeSchedule();
+		changerHeader();
 	})
 	
 	$('#date-zone').on('click', 'li', function(){
@@ -212,6 +217,28 @@ $(function(){
 		changerHeader();
 		changeSchedule();
 	})
+	
+	// 자주쓰는 함수 
+	// 영화등급 넣으면 등급이름과 색 반환해줌
+	function getMovieGrade(grade){
+		var movieGrade;
+		var gradeClass;
+		if(grade == "12세이상관람가"){
+			movieGrade = 12;
+			gradeClass = "bg-warning";
+		}else if(grade == "15세이상관람가"){
+			movieGrade = 15;
+			gradeClass = "bg-success";
+		}else if(grade == "전체관람가"){
+			movieGrade = "All";
+			gradeClass = "bg-info";
+		}else{
+			movieGrade = "19";
+			gradeClass = "bg-danger";					
+		}
+		var result = {movieGrade:movieGrade , gradeClass:gradeClass}
+		return result;
+	}
 	
 	function changeMovieZone(branch){
 		if(branch){
@@ -232,21 +259,9 @@ $(function(){
 						var movieName = movie.MOVIENAME;
 						var screenCode = movie.SCREENCODE;
 						var grade = movie.MOVIEGRADE;
-						var movieGrade;
-						var gradeClass;
-						if(grade == "12세이상관람가"){
-							movieGrade = 12;
-							gradeClass = "bg-warning";
-						}else if(grade == "15세이상관람가"){
-							movieGrade = 15;
-							gradeClass = "bg-success";
-						}else if(grade == "전체관람가"){
-							movieGrade = "All";
-							gradeClass = "bg-info";
-						}else{
-							movieGrade = "19";
-							gradeClass = "bg-danger";					
-						}
+						var result = getMovieGrade(grade);
+						var movieGrade = result.movieGrade;
+						var gradeClass = result.gradeClass;
 						$row += "<p class='list-group-item b list-group-item-action  border-0 my-2' data-screen-code='"+screenCode+"' ><span class='badge rounded-pill "+gradeClass+" mx-3'>"+movieGrade+"</span><span>"+movieName+"</span></p>"
 					})
 					$('#movie-zone').append($row);
@@ -286,6 +301,9 @@ $(function(){
 			selectedBranch = "영화관 선택";
 		}
 		var selectedMovie = $('#movie-zone .active span:last').text();
+		if(selectedMovie == ""){
+			selectedMovie = "영화 선택";
+		}
 		var selectedDate = $('#date-zone ul .active').data('screendate');
 		if(selectedBranch){
 			$('#schedule-kind p:eq(0) small').text(selectedBranch);		
@@ -329,30 +347,18 @@ $(function(){
 			$.each(movies, function(index, movie){
 				var $div = "<div>";
 					var grade = movie.movieGrade;
-					var movieGrade;
-					var gradeClass;
-					if(grade == "12세이상관람가"){
-						movieGrade = 12;
-						gradeClass = "bg-warning";
-					}else if(grade == "15세이상관람가"){
-						movieGrade = 15;
-						gradeClass = "bg-success";
-					}else if(grade == "전체관람가"){
-						movieGrade = "All";
-						gradeClass = "bg-info";
-					}else{
-						movieGrade = "19";
-						gradeClass = "bg-danger";					
-					}
+					var result = getMovieGrade(grade);
+					var movieGrade = result.movieGrade;
+					var gradeClass = result.gradeClass;
 				$div += "<p class='small ml-2 b'><span class='badge rounded-pill "+gradeClass+" mx-2'>"+movieGrade+"</span>"+movie.movieName+"</p>"
 				$div += "<ul class='list-inline'>"
 				var schedules = movie.schedules;
 				$.each(schedules, function(index, schedule){
-					$div += "<li class='list-inline-item' data-schedule-code="+schedule.scheduleCode+">";
-					$div += "<button class='btn btn-outline-secondary position-relative lh-sm'  style='width:100px; height: 55px'>";
-					$div += "<span class='fw-bolder'><strong>"+schedule.startTime+"</strong><br/></span>";
+					$div += "<li class='list-inline-item mb-3 mx-1' data-schedule-code="+schedule.scheduleCode+">";
+					$div += "<button class='btn btn-outline-secondary position-relative lh-sm p-0'  style='width:80px; height: 45px'>";
+					$div += "<span class='fw-bolder small text-dark'>"+schedule.startTime+"<br/></span>";
 					$div += "<span class='fw-bold'><em><em class='text-danger'>"+schedule.emptySeat+"</em> / "+schedule.totalSeat+"</em></span>"
-					$div += "<span class='position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark'>"+schedule.roomName+"</span>";
+					$div += "<span class='position-absolute top-0 start-100 p-1 translate-middle badge rounded-pill bg-secondary text-right' style='width:30px; height; 10px'>"+schedule.roomName+"</span>";
 					$div += "</button>";
 					$div += "</li>";
 				})
@@ -377,21 +383,9 @@ $(function(){
 		$.getJSON("schedule/rest/scheduleDetail?scheduleCode="+scheduleCode)
 			.done(function(schedule){
 				var grade = schedule.movieGrade;
-				var movieGrade;
-				var gradeClass;
-				if(grade == "12세이상관람가"){
-					movieGrade = 12;
-					gradeClass = "bg-warning";
-				}else if(grade == "15세이상관람가"){
-					movieGrade = 15;
-					gradeClass = "bg-success";
-				}else if(grade == "전체관람가"){
-					movieGrade = "All";
-					gradeClass = "bg-info";
-				}else{
-					movieGrade = "19";
-					gradeClass = "bg-danger";					
-				}
+				var result = getMovieGrade(grade);
+				var movieGrade = result.movieGrade;
+				var gradeClass = result.gradeClass;
 				$('#schedule-detail-head').empty();
 				$header = "<p class='modal-title text-white fw-bold' id='exampleModalLabel'><span class='badge rounded-pill "+gradeClass+" mx-3'>"+movieGrade+"</span>"+schedule.movieName+"</p>";
 				$header += "<button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>";

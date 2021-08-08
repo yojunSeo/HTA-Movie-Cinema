@@ -42,6 +42,19 @@ public class AdminScheduleServiceImpl implements AdminScheduleService{
 	private RoomDao roomDao;
 	@Autowired
 	private ScheduleDao scheduleDao;
+	
+	@Override
+	public void deleteScreenMovie(String screenCode) {
+		screenDao.deleteScreenMovie(screenCode);
+	}
+	
+	@Override
+	public void updateScreenMovieEndTime(String screenCode, String endDate) throws ParseException {
+		Date screenEndDate = DateUtils.stringToDate(endDate);
+		ScreenMovie screenMovie = screenDao.getScreenMovieByCode(screenCode);
+		screenMovie.setEndDate(screenEndDate);
+		screenDao.updateScreenMovie(screenMovie);
+	}
 
 	@Override
 	public List<ScreenMovie> getAllScreenMovies() {
@@ -76,6 +89,53 @@ public class AdminScheduleServiceImpl implements AdminScheduleService{
 	@Override
 	public List<ScreenMovie> getScreenMovies(Map<String, Object> condition) {
 		return screenDao.getScreenMovies(condition);
+	}
+	
+	@Override
+	public Map<String, Object> searchSchedule(Map<String, Object> param) {
+		int pageNo = Integer.parseInt(param.get("pageNo").toString());
+		// 해당 페이지에 해당하는 스케줄 조회
+		param.put("beginIndex", (pageNo-1)*ROWS_PER_PAGE +1);
+		param.put("endIndex", pageNo*ROWS_PER_PAGE);
+		List<ScheduleDetail> schedules = scheduleDao.getSchedules(param);
+		// 페이징 처리
+		// 총 행의 갯수 구하기
+		int totalRows = scheduleDao.getAllSchedulesCnt(param);
+		System.out.println(totalRows);
+		// 총 페이지 갯수 구하기
+		int totalPages = (int)Math.ceil((double)totalRows/ROWS_PER_PAGE);
+		// 총 페이지 블록갯수 
+		int totalBlocks = (int)Math.ceil((double)totalPages/PAGE_PER_PAGE_BLOCK);
+		// 요청한 페이지번호가 속하는 페이지 블록 계산
+		int currentBlock = (int)Math.ceil((double)pageNo/PAGE_PER_PAGE_BLOCK);
+		// 현재 페이지 블록의 시작과 끝 페이지 번호계산
+		int beginPage = (currentBlock-1)*PAGE_PER_PAGE_BLOCK + 1;
+		int endPage = currentBlock*PAGE_PER_PAGE_BLOCK;
+		if(currentBlock == totalBlocks) {
+			endPage = totalPages;
+		}
+		Pagination pagination = new Pagination();
+		pagination.setBeginPage(beginPage);
+		pagination.setCurrentPageBlock(currentBlock);
+		pagination.setEndPage(endPage);
+		pagination.setPageNo(pageNo);
+		pagination.setTotalPageBlocks(totalBlocks);
+		pagination.setTotalPages(totalPages);
+		pagination.setTotalRows(totalRows);
+		
+		List<Branch> branchs = branchDao.getAllBranchs();
+		List<ScreenMovie> movies = screenDao.getAllScreenMovies();
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("branchs", branchs);
+		result.put("schedules", schedules);
+		result.put("movies", movies);
+		result.put("pagination", pagination);
+		result.put("branch", param.get("branch"));
+		result.put("screen", param.get("screen"));
+		result.put("room", param.get("room"));
+		result.put("screenDate", param.get("screenDate"));
+		return result;
 	}
 	
 	@Override
@@ -225,5 +285,10 @@ public class AdminScheduleServiceImpl implements AdminScheduleService{
 		info.add(scheduleForm.getBranchCode());
 		info.add(DateUtils.dateToDateString(scheduleForm.getScheduleDate()));
 		return info;
+	}
+	
+	@Override
+	public List<String> getScreenMovieWithoutSchedule() {
+		return screenDao.getScreenMovieWithoutSchedule();
 	}
 }

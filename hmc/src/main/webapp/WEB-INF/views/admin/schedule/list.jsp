@@ -25,29 +25,27 @@
 		</div>
 		<div class="row mb-2">
 				<div class="col-12">
+				${param.page }
 					<form id="form-search" class="form-inline justify-content-end" method="get" action="list">
-						<input type="hidden" name="no" value="" />
-						<input type="hidden" name="page" value="${pagination.pageNo }">
-						<select class="form-control mr-4" name="opt" id="branch">
+						<input type="hidden" name="page" value="${pagination.pageNo }" id="page-no">
+						<select class="form-control mr-4" name="branch" id="branch-search">
 							<option selected disabled> 영화관</option>
 							<c:forEach var="branch" items="${branchs }">
-								<option value="${branch.code }"> ${branch.name }</option>
+								<option value="${branch.code }" ${param.branch eq branch.code ? 'selected' : '' }> ${branch.name }</option>
 							</c:forEach>
 						</select>
-						<select class="form-control mr-4" name="opt" id="room">
+						<select class="form-control mr-4" name="room" id="room-search">
 							<option selected disabled> 상영관</option>
-							<option> 1관</option>
-							<option> 2관</option>
-							<option> 3관</option>
 						</select>
-						<select class="form-control mr-4" name="opt" id="movie">
+						<select class="form-control mr-4" name="movie" id="movie-search">
 							<option selected disabled> 영화</option>
 							<c:forEach var="movie" items="${movies }">
-								<option value="${movie.code }"> ${movie.movieName }</option>
+								<option value="${movie.code }" ${param.movie eq movie.code ? 'selected' : ''}> ${movie.movieName }</option>
 							</c:forEach>
 						</select>
-						<input type="date" class="form-control mr-2" name="screenDate" value="" id="date">
-						<button type="button" class="btn btn-outline-primary" onclick="submitForm()">조회</button>
+						<input type="date" class="form-control mr-2" name="screenDate" id="date-search" value="${param.screenDate }">
+						<button type="button" class="btn btn-outline-primary" >조회</button>
+						<button type="button" class="btn btn-outline-warning" >초기화</button>
 					</form>
 				</div>
 			</div>
@@ -103,19 +101,19 @@
 		</div>
 		</div>
 		<c:if test="${pagination.totalRows gt 0 }">
-			<div class="row mb-2">
+			<div class="row mb-2" id="page-zone">
 				<div class="col-12">
 					<ul class="pagination justify-content-center">
 						<li class="page-item ${pagination.pageNo le 1 ? 'disabled' : ''}">
-							<a class="page-link" href="list?page=${pagination.pageNo - 1 }">이전</a>
+							<a class="page-link" data-pageno="${pagination.pageNo - 1 }">이전</a>
 						</li>
 						<c:forEach var="num" begin="${pagination.beginPage }" end="${pagination.endPage }">
 							<li class="page-item ${pagination.pageNo eq num ? 'active' : '' }">
-								<a class="page-link" href="list?page=${num }">${num }</a>
+								<a class="page-link" data-pageno="${num }">${num }</a>
 							</li>
 						</c:forEach>
 						<li class="page-item ${pagination.pageNo ge pagination.totalPages ? 'disabled' : ''}">
-							<a class="page-link" href="list?page=${pagination.pageNo + 1 }">다음</a>
+							<a class="page-link" data-pageno="${pagination.pageNo + 1 }">다음</a>
 						</li>
 					</ul>
 				</div>
@@ -132,8 +130,40 @@
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
 
-   <script>
-      
-   </script>
+<script>
+$(function(){
+	
+	$()();
+	
+	$('#branch-search').on('change', function(){
+		var branchCode =$(this).val();
+		$.ajax({
+			type:'GET',
+			url:"../rest/branch",
+			data:{code:branchCode},
+			dataType:"json"
+		}).done(function(rooms){
+			var $select = $('#room-search').empty();
+				$select.append("<option value='' selected disabled> 상영관</option>");
+			$.each(rooms, function(index, room){
+				$select.append("<option value='"+room.code+"' ${param.room eq room.code ? 'selected' : '' }>"+room.name+"</option>");
+			})
+			$('#room-code').append($select);
+		})
+	});
+	
+	$('#form-search .btn-outline-primary').on('click',function(){
+		$("#form-search").submit();
+	})
+	
+	$('#page-zone').on('click', 'a', function(){
+		var pageNo = $(this).data('pageno');
+		$('#form-search :input:first').val(pageNo);
+		$("#form-search").submit();
+	})
+	
+	
+})
+</script>
 </body>
 </html>
