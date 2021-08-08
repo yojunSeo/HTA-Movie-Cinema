@@ -55,7 +55,10 @@
 						</div>
 						<div id="box-time">
 							<div class="row mt-3" id="box-time-1">
-								<label>상영시간을 선택하세요.<span class="badge rounded-pill bg-primary mx-3" id="schedule-plus">추가</span></label>
+								<label>상영시간을 선택하세요.
+									<span class="badge rounded-pill bg-primary mx-3" id="schedule-plus">추가</span>
+									<span class="badge rounded-pill bg-danger" id="schedule-minus">삭제</span>
+								</label>
 								<div class="col-6">
 									<input id="start-time-1" type="datetime-local" class="form-control mt-2 w-30" name="startTime" placeholder="시작시간" />
 								</div>
@@ -132,8 +135,8 @@
 		$('#box-time-3').hide();
 		$('#start-time-3').prop("disabled", true)
 		$('#end-time-3').prop("disabled", true)
-		$('#schedule-submit').hide();
 		
+		$('#schedule-submit').hide();
 		$('#schedule-box').hide();
 		
 		// ajax를 함수로 만들어놓을까? ##############################
@@ -271,6 +274,25 @@
 			}
 		})
 		
+		$('#schedule-minus').click(function(){
+			// 1개만 있으면 삭제 안됨
+			if($('#start-time-2').prop("disabled")){
+				alert("상영시간은 최소 1개이상 입력해야합니다.");
+				return false;
+			}
+			// 제일 밑에거부터 삭제해줘야한다. -> hide하고 disabled처리 한다는 뜻
+			if(!$('#start-time-3').prop("disabled")){
+				$('#box-time-3').hide();
+				$('#start-time-3').prop("disabled", true);
+				$('#end-time-3').prop("disabled", true);
+			}else{
+				$('#box-time-2').hide();
+				$('#start-time-2').prop("disabled", true);
+				$('#end-time-2').prop("disabled", true);
+			}
+			
+		})
+		
 		$(":input[name=startTime]").change(function(){
 			
 			var startTime = $(this).val();
@@ -325,24 +347,48 @@
 				$('#movie-code').focus();
 				return false;
 			}
-			if(!$('#start-time-1').val()){
+			
+			if(!$('#room-code').val()){
+				alert("상영관을 선택하세요!");
+				$('#room-code').focus();
+				return false;
+			}
+			if(!$('#end-time-1').val()){
 				alert("시작시간을 입력하세요!");
 				$('#start-time-1').focus();
 				return false;
 			}
-			// 시작시간 날짜랑 상영날짜랑 같아야한다.
-			var startTime = new Date($('#start-time-1').val());
 			
-			var startTimeMonth = startTime.getMonth();
-			var screenMonth = screenDate.getMonth();
-			var startTimeMonthDate = startTime.getDate();
-			var screenDate = screenDate.getDate();
-			
-			if(startTimeMonth != screenMonth || startTimeMonthDate != screenDate){
-				alert("상영날짜와 상영시간은 같은 날이여야 합니다!");
-				$('#start-time').focus();
+			if(!$('#end-time-2').val() && !$('#start-time-2').prop("disabled")){
+				alert("시작시간을 입력하세요!");
+				$('#start-time-2').focus();
 				return false;
 			}
+			
+			if(!$('#end-time-3').val() && !$('#start-time-3').prop("disabled")){
+				alert("시작시간을 입력하세요!");
+				$('#start-time-3').focus();
+				return false;
+			}
+
+			// 시작시간 날짜랑 상영날짜랑 같아야한다.
+			var startTime1 = new Date($('#start-time-1').val());
+			var startTime2 = new Date($('#start-time-2').val());
+			var startTime3 = new Date($('#start-time-3').val());
+			var startTimes = [startTime1, startTime2,startTime3];
+			$.each(startTimes, function(index, startTime){
+				var screenDate = new Date($('#screen-date').val());
+				var startTimeMonth = startTime.getMonth();
+				var screenMonth = screenDate.getMonth();
+				var startTimeMonthDate = startTime.getDate();
+				var screenDate = screenDate.getDate();
+				if(startTimeMonth != screenMonth || startTimeMonthDate != screenDate){
+					alert("상영날짜와 상영시간은 같은 날이여야 합니다!");
+					$('#start-time').focus();
+					return false;
+				}
+			})
+			
 			registerSchedule();
 		});
 		

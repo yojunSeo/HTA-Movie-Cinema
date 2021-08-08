@@ -68,5 +68,12 @@ public class AdminScheduleController {
 		model.addAttribute("pagination", result.get("pagination"));
 		return "admin/schedule/list";
 	}
+	
+	@GetMapping("/delete")
+	public String deleteSchedule(@RequestParam("schedule")String scheduleCode) {
+		scheduleService.deleteSchedule(scheduleCode);
+		return "redirect:list";
+	}
+	
 
 }

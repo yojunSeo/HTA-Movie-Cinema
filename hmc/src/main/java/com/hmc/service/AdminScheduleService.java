@@ -46,4 +46,6 @@ public interface AdminScheduleService {
 	void deleteScreenMovie(String screenCode);
 	
 	void updateScreenMovieEndTime(String screenCode, String endDate) throws ParseException;
+	
+	void deleteSchedule(String scheduleCode);
 }

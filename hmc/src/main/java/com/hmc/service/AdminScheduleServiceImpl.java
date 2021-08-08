@@ -62,6 +62,11 @@ public class AdminScheduleServiceImpl implements AdminScheduleService{
 	}
 	
 	@Override
+	public void deleteSchedule(String scheduleCode) {
+		scheduleDao.deleteSchedule(scheduleCode);
+	}
+	
+	@Override
 	public Movie getMovieInfoByCode(String movieCode) {
 		return movieDao.getMovieInfoByCode(movieCode);
 	}
@@ -131,10 +136,6 @@ public class AdminScheduleServiceImpl implements AdminScheduleService{
 		result.put("schedules", schedules);
 		result.put("movies", movies);
 		result.put("pagination", pagination);
-		result.put("branch", param.get("branch"));
-		result.put("screen", param.get("screen"));
-		result.put("room", param.get("room"));
-		result.put("screenDate", param.get("screenDate"));
 		return result;
 	}
 	
