@@ -38,9 +38,9 @@ public class EventServiceImpl implements EventService {
 	}
 	
 	@Override
-	public int eventListPage(Map<String, Object> param) {
-		int rows = eventDao.eventListPage(param);
-		return rows;
+	public List<Event> eventListPage(Map<String, Object> param) {
+		List<Event> events = eventDao.eventListPage(param);
+		return events;
 	}
 	
 	@Override
@@ -67,4 +67,9 @@ public class EventServiceImpl implements EventService {
 		return eventDao.getEventByCode(eventCode);
 	}
 	
+	@Override
+	public int getTotalRows(Map<String, Object> param) {
+		int rows = eventDao.getTotalRows(param);
+		return rows;
+	}
 }

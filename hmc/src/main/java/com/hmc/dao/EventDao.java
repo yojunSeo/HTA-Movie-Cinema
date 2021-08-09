@@ -46,7 +46,7 @@ public interface EventDao {
 	 * @param param
 	 * @return
 	 */
-	int eventListPage(Map<String, Object> param);
+	List<Event> eventListPage(Map<String, Object> param);
 	
-	
+	int getTotalRows(Map<String, Object> param);
 }

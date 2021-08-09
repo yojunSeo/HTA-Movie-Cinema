@@ -17,13 +17,13 @@ public interface EventService {
 	
 	void updateEvent(Event event);
 	
-	int eventListPage(Map<String, Object> param);
+	List<Event> eventListPage(Map<String, Object> param);
 	
 	Event getEventByCode(String code);
 	
 	Event getEventDetail(String eventCode);
 	
-	
+	int getTotalRows(Map<String, Object> param);
 	
 	
 }

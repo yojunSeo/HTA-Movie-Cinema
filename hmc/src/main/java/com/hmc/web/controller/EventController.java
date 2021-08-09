@@ -30,7 +30,7 @@ public class EventController {
 	private static final int PAGES_PER_PAGE_BLOCK = 5;
 	
 	
-	@GetMapping("/event/main")
+	@GetMapping("/event/home")
 	public String eventHome(@RequestParam(name = "page", required = false, defaultValue = "1") int page, 
 							@RequestParam(name = "opt", required = false) String searchOption, 
 							@RequestParam(name = "keyword", required = false) String searchKeyword, 
@@ -53,7 +53,7 @@ public class EventController {
 		
 		model.addAttribute("events", events);
 		
-		int totalRows = eventService.eventListPage(param);
+		int totalRows = eventService.getTotalRows(param);
 		int totalPages = (int) Math.ceil((double) totalRows/ROWS_PER_PAGE);
 		int totalPageBlocks = (int)Math.ceil((double)totalPages/PAGES_PER_PAGE_BLOCK);
 		int currentPageBlock = (int) Math.ceil((double)page/PAGES_PER_PAGE_BLOCK);

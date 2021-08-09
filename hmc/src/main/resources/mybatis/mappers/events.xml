@@ -15,13 +15,35 @@
 		<result column="event_status" property="status"/>
 	</resultMap>
 	
-	<select id="eventListPage" resultType="int" parameterType="map">
-		select 
+	<select id="getTotalRows" parameterType="map" resultType="int">
+		select
 			count(*)
 		from
 			t_event
+		where
+		 	event_status NOT IN ('N')
+	</select>
+	
+	<select id="eventListPage" resultType="com.hmc.vo.Event" parameterType="map">
+		select 
+			event_code code, coupon_code couponCode, event_title title, event_content content, 
+			event_writer writer, event_start_date startDate, event_end_date endDate, 
+			event_coupon_amount couponAmount, event_status status
+		from(
+			select
+				row_number() over (order by event_status) rn,
+				event_code, coupon_code, event_title, event_content, event_writer,
+				event_start_date, event_end_date, event_coupon_amount, event_status
+			from
+				t_event
+			where
+				event_status NOT IN ('N')
+			order by event_status
+		
+		)
 		where 
-			event_status not in ('N')
+			rn between #{beginIndex} and #{endIndex}
+		order by event_status
 	</select>
 	
 	
