@@ -74,18 +74,35 @@
 				<tr>
 					<td></td>
 					<td class="text-end">
-					<button class="btn btn-outline-secondary">
-						<img alt="" src="../resources/images/branch/favorite.png" width="30px">
-						<img alt="" src="../resources/images/branch/unfavorite.png" width="30px">
-						 나의 지점 등록
-					</button>
+						<c:choose>
+							<c:when test="${empty LOGINED_USER}">	<!-- 로그인이 안되어 있을때 -->
+								<button class="btn btn-outline-secondary">
+									<img alt="" src="../resources/images/branch/unfavorite.png" width="30px">
+									나의 영화관 등록
+								</button>
+							</c:when>
+							<c:when test="${LOGINED_USER.favoriteBranch1 == branchCode || LOGINED_USER.favoriteBranch1 == branchCode || LOGINED_USER.favoriteBranch1 == branchCode}">
+								<!-- 로그인 되어있고 나의 영화관 일때 -->
+								<span class="p-3 mt-2">
+									<img alt="" src="../resources/images/branch/favorite.png" width="30px">
+									나의 영화관
+								</span>
+							</c:when>
+							<c:otherwise>
+								<!-- 로그인 되어 있고 나의 영화관이 아닐때 -->
+								<button class="btn btn-outline-secondary">
+									<img alt="" src="../resources/images/branch/unfavorite.png" width="30px">
+									나의 영화관 등록
+								</button>
+							</c:otherwise>
+						</c:choose>
 			  		</td>
 					<td></td>
 			  	</tr>
 				<tr>
 					<td></td>
 					<td class="align-middle text-center" style="">
-					<h2>지점 이름</h2>
+					<h2>${branchDetail.name }</h2>
 					</td>
 					<td></td>
 				</tr>
@@ -290,8 +307,7 @@
 
 						TTdiv += '<div class="col-2 mt-3 d-grid gap-4">';
 						TTdiv += '<button id="movie-time-item" class="btn btn-outline-secondary position-relative"'
-						 	  +  ' data-end-time="' + schedule.endTime + '" data-schedule-code="' + schedule.scheduleCode + '"'
-						 	  +  ' tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Disabled popover">';
+						 	  +  ' data-end-time="' + schedule.endTime + '" data-schedule-code="' + schedule.scheduleCode + '">';
 						if(schedule.roomName == "3D관") {
 							TTdiv += '<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">' + schedule.roomName + '</span>';
 						} else {
@@ -299,7 +315,7 @@
 						}
 						TTdiv += '<p style="margin:0px;">' + schedule.startTime +'</p>'
 						TTdiv += '<pstyle="margin:0px;">' + schedule.emptySeat + '/'+ schedule.totalSeat +'</p>'
-						TTdiv += '</button>'
+						TTdiv += '</button>';
 						TTdiv += '</div>'
 					})
 					TTdiv += '</div></div>';
@@ -307,9 +323,15 @@
 				})
 			}
 			
+			var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+			var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+			  return new bootstrap.Popover(popoverTriggerEl)
+			})
+			
 			// 마우스 엔터
 			$("#movie-time").on('mouseenter', '.btn-outline-secondary', function() {
 				var endTime = $(this).data("end-time");
+				$(this)
 				
 			})
 			
