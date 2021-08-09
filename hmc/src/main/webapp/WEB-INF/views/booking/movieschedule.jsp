@@ -250,7 +250,7 @@ $(function(){
 				$div += "<ul class='list-inline'>";
 				var schedules = branch.schedules;
 				$.each(schedules, function(index, schedule){
-					$div += "<li class='list-inline-item' data-schedule-code="+schedule.scheduleCode+">";
+					$div += "<li class='list-inline-item mt-2' data-schedule-code="+schedule.scheduleCode+">";
 					$div += "<button class='btn btn-outline-secondary position-relative lh-sm'  style='width:100px; height: 55px'>"
 					$div += "<span class='fw-bolder'><strong>"+schedule.startTime+"</strong><br/></span>"
 					$div += "<span class='fw-bold'><em><em class='text-danger'>"+schedule.emptySeat+"</em> / "+schedule.totalSeat+"</em></span>"
