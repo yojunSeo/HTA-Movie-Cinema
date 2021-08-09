@@ -82,7 +82,9 @@ public class BranchController {
 	
 
 	@GetMapping("/timetable")
-	public String timeBranch(@RequestParam("code") String branchCode) {
+	public String timeBranch(@RequestParam("code") String branchCode, Model model) {
+		
+		model.addAttribute("branchCode", branchCode);
 		
 		return "branch/time";
 	}
