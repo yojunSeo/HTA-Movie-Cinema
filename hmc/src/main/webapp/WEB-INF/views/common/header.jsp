@@ -316,9 +316,9 @@ a, a:link, a:visited, a:active, a:hover {
 					</div>
 				</li>
 				<li class="dropdown">
-					<a href="/hmc/event/main" class="dropbtn2">이벤트</a>
+					<a href="/hmc/event/home" class="dropbtn2">이벤트</a>
 					<div class="dropdown-content">
-						<a class="as" href="/hmc/event/main">이벤트</a>
+						<a class="as" href="/hmc/event/home">이벤트</a>
 					</div>
 				</li>
 				<li class="dropdown">
