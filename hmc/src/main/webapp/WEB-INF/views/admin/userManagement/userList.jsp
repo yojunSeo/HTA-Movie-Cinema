@@ -47,12 +47,12 @@
             	</form>
             </div>
             <div class="row">
-				<table class="table text-center" id="notice-table">
+				<table class="table text-center" id="user-table">
 					<thead>
 						<colgroup>
 							<col width="10%"/>
 							<col width="10%"/>
-							<col width="40%"/>
+							<col width="10%"/>
 							<col width="20%"/>
 							<col width="20%"/>
 						</colgroup>
@@ -76,20 +76,29 @@
 									<tr data-user-code="${user.id }">
 										<th scope="row">${user.id }</th>
 										<td>${user.name }</td>
-										<td class="${user.status eq 'N' ? 'text-danger' : '' } text-start" id="goDetail">${user.status }</td>
+										<c:choose>
+											<c:when test="${user.status == 'N' }">
+												<td class="text-danger text-center" id="goDetail">탈퇴한 회원</td>
+											</c:when>
+											<c:otherwise>
+												<td class="text-success text-center" id="goDetail">사용중인 회원</td>
+											</c:otherwise>
+										</c:choose>
 										<td><fmt:formatDate value="${user.createdDate }" pattern="yyyy-MM-dd"/></td>
-										<td><a class="btn btn-outline-danger mx-2 h-5">탈퇴</a><a href="userModify?code=${user.id }" class="btn btn-outline-warning h-5">수정</a></td>
+										<c:choose>
+											<c:when test="${user.status == 'Y' }">
+												<td><a href="userModify?code=${user.id }" class="btn btn-outline-warning h-5">수정</a><a class="btn btn-outline-danger mx-2 h-5">탈퇴</a></td>
+											</c:when>
+											<c:otherwise>
+												<td><a class="btn btn-outline-success mx-2 h-5">회원권한 부여</a></td>
+											</c:otherwise>
+										</c:choose>
 									</tr>
 								</c:forEach>
 							</c:otherwise>
 						</c:choose>
 					</tbody>
 				</table>
-			</div>
-			<div class="row">
-				<div class="col-12 text-end">
-					<a href="insertNotice" class="btn btn-success">추가</a>
-				</div>
 			</div>
 			<c:if test="${pagination.totalRows gt 0 }">
 				<div class="row mb-2">
@@ -122,18 +131,18 @@
 
 <script>
 $(function(){
-	$("#notice-table tbody tr #goDetail").click(function(){
-		var noticeCode = $(this).closest('tr').data('notice-code');
+	$("#user-table tbody tr #goDetail").click(function(){
+		var userCode = $(this).closest('tr').data('user-code');
 		
-		location.href = "noticeDetail?code=" + noticeCode;
+		location.href = "userDetail?id=" + userCode;
 		
 	});
 	
-	$("#notice-table tbody tr .btn-outline-danger").on('click',function(){
-		var returnValue = confirm("공지사항을 삭제하시겠습니까?");
+	$("#user-table tbody tr .btn-outline-danger").on('click',function(){
+		var returnValue = confirm("해당 회원을 탈퇴처리하시겠습니까?");
 		if(returnValue){
-			var noticeCode = $(this).closest('tr').data('notice-code');
-			location.href = "noticeDelete?code="+noticeCode;
+			var userCode = $(this).closest('tr').data('user-code');
+			location.href = "userDelete?code="+userCode;
 		}
 			return false;
 	})

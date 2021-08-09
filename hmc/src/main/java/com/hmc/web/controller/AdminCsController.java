@@ -242,7 +242,7 @@ public class AdminCsController {
 	}
 	
 	@GetMapping("/userList")
-public String userList(@RequestParam(name = "page", required = false, defaultValue = "1") int page, @RequestParam(name = "opt", required = false) String searchOption, @RequestParam(name = "keyword", required = false) String searchKeyword, Model model) {
+	public String userList(@RequestParam(name = "page", required = false, defaultValue = "1") int page, @RequestParam(name = "opt", required = false) String searchOption, @RequestParam(name = "keyword", required = false) String searchKeyword, Model model) {
 		
 		Map<String,Object> param = new HashMap<String, Object>();
 		
@@ -280,5 +280,15 @@ public String userList(@RequestParam(name = "page", required = false, defaultVal
 		
 		return "admin/userManagement/userList";
 	}
+	
+	@GetMapping("/userDetail")
+	public String userDetail(@RequestParam("id") String id, Model model) {
+		User user = userService.getUserById(id);
+		model.addAttribute("user", user);
+		
+		return "admin/userManagement/userDetail";
+	}
+	
+	
 
 }

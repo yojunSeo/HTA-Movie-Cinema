@@ -40,5 +40,7 @@ public interface UserService {
 	List<User> AdminGetAllUsers(Map<String, Object> param);
 	
 	int getTotalRows(Map<String, Object> param);
+	
+	User getUserById(String userId);
 
 }

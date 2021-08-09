@@ -81,7 +81,7 @@
 		from
 			t_user
 		where
-				user_status = 'Y'
+			user_status in ('Y','N')
 			<choose>
 					<when test="opt != null and opt == 'userId'">
 						and user_id like '%' || #{keyword} || '%'
@@ -107,7 +107,7 @@
 			from
 				t_user
 			where
-				user_status = 'Y'
+				user_status in ('Y','N')
 				<choose>
 					<when test="opt != null and opt == 'userId'">
 						and user_id like '%' || #{keyword} || '%'
