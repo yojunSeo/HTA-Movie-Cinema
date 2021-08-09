@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.hmc.service.BranchService;
 import com.hmc.service.InqueryService;
 import com.hmc.service.NoticeService;
+import com.hmc.service.UserService;
 import com.hmc.vo.Inquery;
 import com.hmc.vo.Notice;
 import com.hmc.vo.Pagination;
@@ -36,6 +37,9 @@ public class AdminCsController {
 	
 	@Autowired
 	NoticeService noticeService;
+	
+	@Autowired
+	UserService userService;
 	
 	// 한 페이지당 표시할 게시글 행의 개수
 	private static final int ROWS_PER_PAGE = 10;
@@ -235,6 +239,46 @@ public class AdminCsController {
 		
 		noticeService.insertNotice(notice);
 		return"redirect:noticeList";
+	}
+	
+	@GetMapping("/userList")
+public String userList(@RequestParam(name = "page", required = false, defaultValue = "1") int page, @RequestParam(name = "opt", required = false) String searchOption, @RequestParam(name = "keyword", required = false) String searchKeyword, Model model) {
+		
+		Map<String,Object> param = new HashMap<String, Object>();
+		
+		if(searchOption != null && searchKeyword != null ) {
+			page=1;
+			param.put("opt", searchOption);
+			param.put("keyword", searchKeyword);
+		}
+		param.put("beginIndex", (page-1)*ROWS_PER_PAGE+1);
+		param.put("endIndex", page*ROWS_PER_PAGE);
+		
+		List<User> users = userService.AdminGetAllUsers(param);
+		
+		model.addAttribute("users", users);
+		
+		int totalRows = userService.getTotalRows(param);
+		int totalPages = (int) Math.ceil((double) totalRows/ROWS_PER_PAGE);
+		int totalPageBlocks = (int)Math.ceil((double)totalPages/PAGES_PER_PAGE_BLOCK);
+		int currentPageBlock = (int) Math.ceil((double)page/PAGES_PER_PAGE_BLOCK);
+		int beginPage = (currentPageBlock -1)*PAGES_PER_PAGE_BLOCK+1;
+		int endPage = currentPageBlock*PAGES_PER_PAGE_BLOCK;
+		if(currentPageBlock == totalPageBlocks) {
+			endPage = totalPages;
+		}
+		Pagination pagination = new Pagination();
+		pagination.setPageNo(page);
+		pagination.setTotalRows(totalRows);
+		pagination.setTotalPages(totalPages);
+		pagination.setTotalPageBlocks(totalPageBlocks);
+		pagination.setCurrentPageBlock(currentPageBlock);
+		pagination.setBeginPage(beginPage);
+		pagination.setEndPage(endPage);
+		
+		model.addAttribute("pagination", pagination);
+		
+		return "admin/userManagement/userList";
 	}
 
 }

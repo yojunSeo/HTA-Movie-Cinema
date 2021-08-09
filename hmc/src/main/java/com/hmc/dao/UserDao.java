@@ -4,6 +4,7 @@ package com.hmc.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.hmc.vo.Notice;
 import com.hmc.vo.User;
 
 public interface UserDao {
@@ -27,6 +28,10 @@ public interface UserDao {
 	User getUserByPhone(String phone);
 	
 	User getUserByName(String name);
+	
+	List<User> AdminGetAllUsers(Map<String, Object> param);
+	
+	int getTotalRows(Map<String, Object> param);
 
 }
 
