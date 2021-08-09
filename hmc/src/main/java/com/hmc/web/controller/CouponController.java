@@ -5,11 +5,16 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hmc.dao.CouponDao;
 import com.hmc.service.CouponService;
 import com.hmc.vo.Coupon;
 import com.hmc.vo.Event;
@@ -20,6 +25,9 @@ public class CouponController {
 	
 	@Autowired
 	private CouponService couponService;
+	
+	@Autowired
+	private CouponDao couponDao;
 	
 	// 한 페이지당 표시할 게시글 행의 개수
 	private static final int ROWS_PER_PAGE = 10;
@@ -81,6 +89,13 @@ public class CouponController {
 		return "coupon/detail";
 	}
 	
+	@RequestMapping("/coupon/add")
+	public @ResponseBody ResponseEntity<Coupon> add(Coupon coupon){
+		couponDao.insertCoupon(coupon);
+		Coupon savedCoupon = couponDao.getCouponByCode(coupon.getCode());
+		
+		return new ResponseEntity<Coupon>(savedCoupon, HttpStatus.OK);
+	}
 	
 	
 	
