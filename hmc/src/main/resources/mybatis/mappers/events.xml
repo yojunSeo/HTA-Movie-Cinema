@@ -15,6 +15,16 @@
 		<result column="event_status" property="status"/>
 	</resultMap>
 	
+	<select id="eventListPage" resultType="int" parameterType="map">
+		select 
+			count(*)
+		from
+			t_event
+		where 
+			event_status not in ('N')
+	</select>
+	
+	
 	<insert id="insertEvent" parameterType="com.hmc.vo.Event">
 		insert into t_event
 			(event_code, coupon_code, event_title, event_content,event_writer, 
@@ -63,5 +73,6 @@
 		where 
 			event_code = #{value}
 	</select>
+	
 	
 </mapper>
