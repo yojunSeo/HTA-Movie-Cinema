@@ -70,13 +70,13 @@
 			<!-- 탭 구현 -->
 			<div class="row fs-6 justify-content-center text-center" style="display: flex;">
 				<div class="col-4 p-2 tab_selected">
-					<a href="detail?code=${branchDeatil.code}" class="btn">지점상세</a>
+					<a href="detail?code=${branchDetail.branchCode}" class="btn">지점상세</a>
 				</div>
 				<div class="col-4 p-2 tab" >
-					<a href="timetable?code=${branchDeatil.code}" class="btn">상영시간표</a>
+					<a href="timetable?code=${branchDetail.branchCode}" class="btn">상영시간표</a>
 				</div>
 				<div class="col-4 p-2 tab">
-					<a href="price?code=${branchDeatil.code}" class="btn">가격</a>
+					<a href="price?code=${branchDetail.branchCode}" class="btn">가격</a>
 				</div>
 			</div>
 			

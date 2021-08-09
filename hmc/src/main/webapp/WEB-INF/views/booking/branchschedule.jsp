@@ -280,7 +280,7 @@ $(function(){
 		$('#schedule-zone').append($div);
 	}
 	$('#branch-area').on('click', '.list-group-item', function(){
-		// my영화관이나 서울을클릭한다. -> active 변경시키고
+		// my영화관이나 서울을 클릭한다. -> active 변경시키고
 		$(this).closest('p').addClass('active').css('background-color', '#ADB5BD');
 		$(this).siblings('p').removeClass('active').css('background-color', '#FFFFFF');
 		var text = $(this).text();
