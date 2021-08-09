@@ -29,7 +29,6 @@
 		font-weight: bold;
 		color: #FF243E;
 	}
-	
 	.calendar-btn {
 		background-color: transparent;
 		margin-left: 20px;
@@ -37,7 +36,6 @@
 		border: none;
 		text-align: center;
 		font-size: 18px;
-		
 	}
 	.calendar-btn p {
 		margin: 0px;
@@ -177,9 +175,6 @@
 						</div>
 				</div>
 			</div>
-			
-
-
 		</main>
 
 		<footer>
@@ -257,7 +252,6 @@
 				getMovieScheduleByDateAndBranch(branchCode, selectDay);
 			})
 			
-			
 			// 지점코드와 상영일로 스케줄 불러오기
 			function getMovieScheduleByDateAndBranch(branchCode, screenDate){
 				$.ajax({
@@ -293,15 +287,18 @@
 					// 3D, 2D 여부 처리 어케 해야할지
 					// var += '<p id="movie-type">2D</p>'
 					$.each(movie.schedules, function(index, schedule) {
+
 						TTdiv += '<div class="col-2 mt-3 d-grid gap-4">';
-						TTdiv += '<button id="movie-time-item" class="btn btn-outline-secondary position-relative" data-schedule-code="' + schedule.scheduleCode + '">' ;
+						TTdiv += '<button id="movie-time-item" class="btn btn-outline-secondary position-relative"'
+						 	  +  ' data-end-time="' + schedule.endTime + '" data-schedule-code="' + schedule.scheduleCode + '"'
+						 	  +  ' tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Disabled popover">';
 						if(schedule.roomName == "3D관") {
 							TTdiv += '<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">' + schedule.roomName + '</span>';
 						} else {
 							TTdiv += '<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark">' + schedule.roomName + '</span>';
 						}
-						TTdiv += '<p id="time" style="margin:0px;" data-end-time="' + schedule.endTime + '">' + schedule.startTime +'</p>'
-						TTdiv += '<p id="seat" style="margin:0px;">' + schedule.emptySeat + '/'+ schedule.totalSeat +'</p>'
+						TTdiv += '<p style="margin:0px;">' + schedule.startTime +'</p>'
+						TTdiv += '<pstyle="margin:0px;">' + schedule.emptySeat + '/'+ schedule.totalSeat +'</p>'
 						TTdiv += '</button>'
 						TTdiv += '</div>'
 					})
@@ -310,10 +307,9 @@
 				})
 			}
 			
-			// 오버레이 띄우기
-			$(document).on('mouseover', '#movie-time-item', function() {
-				var endTime = $('this > #time').data("end-time");
-				var $div;
+			// 마우스 엔터
+			$("#movie-time").on('mouseenter', '.btn-outline-secondary', function() {
+				var endTime = $(this).data("end-time");
 				
 			})
 			
@@ -322,7 +318,7 @@
 			keyboard: false
 			})
 			
-			$(document).on('click', '#movie-time-item', function() {
+			$("#movie-time").on('click', '.btn-outline-secondary', function() {
 				var schCode = $(this).data("schedule-code");
 				
 				$.getJSON("../booking/schedule/rest/scheduleDetail?scheduleCode=" + schCode)
