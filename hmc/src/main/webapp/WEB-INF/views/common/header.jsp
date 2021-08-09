@@ -297,7 +297,7 @@ a, a:link, a:visited, a:active, a:hover {
 				<li class="dropdown">
 					<a href="" class="dropbtn1">예매</a>
 					<div class="dropdown-content">
-						<a class="as" href="">예매하기</a>
+						<a class="as" href="/hmc/booking/schedule">예매하기</a>
 				    	<a class="as" href="/hmc/booking/schedule/branch">상영시간표</a>
 					</div>
 				</li>

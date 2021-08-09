@@ -21,6 +21,7 @@ import com.hmc.dto.MovieDto;
 import com.hmc.dto.MovieScheduleDto;
 import com.hmc.dto.ScheduleDetail;
 import com.hmc.vo.Branch;
+import com.hmc.vo.ScreenMovie;
 import com.hmc.vo.SeatBooking;
 import com.hmc.vo.User;
 import com.hmc.web.util.DateUtils;
@@ -43,15 +44,56 @@ public class ScheduleServiceImpl implements ScheduleService{
 	private SeatDao seatDao;
 	
 	@Override
+	public BranchScheduleDto getSchedules(String branchCode, String screenCode, String screenDate) {
+		// 영화관코드와 날짜는 무조건 존재 근데 screencode는 없을수도 있다
+		BranchScheduleDto branchSchedules = new BranchScheduleDto();
+		Map<String, Object> param = new HashMap<String, Object>();
+		if(!screenCode.equals("")) {
+			// 전부 다 존재할 때
+			param.put("branchCode", branchCode);
+			param.put("screenDate", screenDate);
+			param.put("screenCode", screenCode);
+			branchSchedules = sDtoDao.getBranchSchedulesByMovieAndDate(param);
+		}else {
+			// 영화관코드와 날짜만 존재할때
+			param.put("branchCode", branchCode);
+			param.put("screenDate", screenDate);
+			branchSchedules = sDtoDao.getBranchSchedulesByMovie(param);
+		}
+		return branchSchedules;
+	}
+	
+	@Override
+	public Map<String, Object> allAboutSchedule() {
+		User user = (User)SessionUtils.getAttribute("LOGINED_USER");
+		// 만약 로그인 안되어 있거나 선호영화관이 없을떄
+		List<Branch> branchs = new ArrayList<Branch>();
+		String defaultArea = "서울";
+		if(user == null || getUserFavoriteBranchs(user).size() == 0) {
+			branchs = branchDao.getAllActiveBranchs();
+		}else {
+			branchs = getUserFavoriteBranchs(user);
+			defaultArea = "MY 영화관";
+		}
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("defalutArea", defaultArea);
+		result.put("branchs", branchs);
+		result.put("movies", screenDao.getAllScreenMovies());
+		return result;
+	}
+	
+	@Override
 	public List<Branch> getUserFavoriteBranchs(User user) {
 		List<Branch> branchs = new ArrayList<Branch>();
-		String branchCode1 = user.getFavoriteBranch1();
-		String branchCode2 = user.getFavoriteBranch2();
-		String branchCode3 = user.getFavoriteBranch3();
-		String[] branchCodes = {branchCode1,branchCode2,branchCode3};
-		for(String code : branchCodes) {
-			if(code != null) {
-				branchs.add(branchDao.getBranchDetail(code));
+		if(user != null) {
+			String branchCode1 = user.getFavoriteBranch1();
+			String branchCode2 = user.getFavoriteBranch2();
+			String branchCode3 = user.getFavoriteBranch3();
+			String[] branchCodes = {branchCode1,branchCode2,branchCode3};
+			for(String code : branchCodes) {
+				if(code != null) {
+					branchs.add(branchDao.getBranchDetail(code));
+				}
 			}
 		}
 		return branchs;
@@ -81,6 +123,12 @@ public class ScheduleServiceImpl implements ScheduleService{
 			nonableSeats.add(seat);
 		}
 		return nonableSeats;
+	}
+	
+	@Override
+	public List<Map<String, Object>> getBranchMovies(String branchCode) {
+		List<Map<String, Object>> screenMovies = screenDao.getBranchMovies(branchCode);
+		return screenMovies;
 	}
 	
 	@Override
@@ -139,7 +187,6 @@ public class ScheduleServiceImpl implements ScheduleService{
 		condition.put("branchCode", defaultBranch);
 		condition.put("screenDate", DateUtils.dateToDateString(new Date()));
 		BranchScheduleDto branchSchedules = sDtoDao.getBranchSchedulesByMovie(condition);
-		System.out.println(branchSchedules);
 		param.put("schedules", branchSchedules);
 		return param;
 	}
@@ -155,9 +202,6 @@ public class ScheduleServiceImpl implements ScheduleService{
 			List<Branch> myBranchs = getUserFavoriteBranchs(user);
 			if(user != null || myBranchs.size()!=0) {
 				branchs = myBranchs;
-			}else {
-				// 로그인 안했거나 my영화관이 없는경우
-				branchs = branchDao.getAllBranchs();
 			}
 		}
 		return branchs;

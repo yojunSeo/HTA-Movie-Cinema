@@ -60,18 +60,16 @@
 		<div class="row mt-3">
 			<table class="table table-hover" id="table-screen-movies">
 				<colgroup>
-					<col width="3%">
 					<col width="10%">
 					<col width="10%">
 					<col width="*%">
-					<col width="10%">
+					<col width="8%">
 					<col width="20%">
-					<col width="20%">
-					<col width="10%">
+					<col width="24%">
+					<col width="8%">
 				</colgroup>
   				<thead>
     				<tr>
-    					<th><input type="checkbox" id="checkbox-all-selected"></th>
      	 				<th scope="col" class="text-center">스크린코드</th>
       					<th scope="col" class="text-center">영화코드</th>
       					<th scope="col" class="text-center">제목</th>
@@ -85,19 +83,18 @@
   					<c:choose>
   						<c:when test="${empty screens}">
   							<tr>
-  								<td colspan="8" class="text-center" id="no-screen-movie">현재 상영중인 영화가 없습니다.</td>
+  								<td colspan="7" class="text-center" id="no-screen-movie">현재 상영중인 영화가 없습니다.</td>
   							</tr>
   						</c:when>
   						<c:otherwise>
   							<c:forEach var="screen" items="${screens }">
-			   	 				<tr>
-			   	 					<td><input type="checkbox" name="screenCode" value="${screen.code }" /></td>
+			   	 				<tr data-screen-code="${screen.code }">
 			      					<td class="text-center">${screen.code }</td>
 			      					<td class="text-center">${screen.movieCode }</td>
 				      				<td class="text-center">${screen.movieName }</td>
 				      				<td class="text-center">${screen.runningTime }</td>
 				      				<td class="text-center"><fmt:formatDate value="${screen.startDate }" pattern="yyyy-MM-dd"/></td>
-				      				<td class="text-center"><fmt:formatDate value="${screen.endDate }" pattern="yyyy-MM-dd"/> </td>
+				      				<td class="text-center"><input class="text-center" type="date" name="endDate" value="<fmt:formatDate value="${screen.endDate }" pattern="yyyy-MM-dd"/>"><button class="btn btn-outline-warning btn-sm mx-3">수정</button></td>
 				      				<td class="text-center"><button class="btn btn-outline-danger btn-sm">삭제</button></td>
 				    			</tr>
   							</c:forEach>
@@ -105,10 +102,6 @@
   					</c:choose>
 	  			</tbody>
 			</table>
-		<div class="text-right">
-			<button class="btn btn-outline-secondary btn-sm" id="btn-remove-all-row">전체 삭제</button>
-			<button class="btn btn-outline-secondary btn-sm" id="btn-remove-checked-row">선택 삭제</button>
-		</div>
 		</div>
 		<c:if test="${pagination.totalRows gt 0 }">
 			<div class="row mb-2">
@@ -178,6 +171,52 @@
     		registerScreen();
     		
     	 });
+    	 
+    	 // 어제이후로 등록된 스케줄이 없는것들만 삭제가능
+    	 // 아닌것들은 알림창 띄움
+    	 $('#table-screen-movies tbody').on('click','.btn-outline-danger',function(){
+    		var tr = $(this).closest('tr');
+    		var screenCode = tr.data('screen-code');
+    		var endDate = new Date($(this).closest('td').prev().text());
+    		var today = new Date();
+    		$.getJSON('../../rest/movie/isDeleteable', function(result){
+				var index = result.indexOf(screenCode);
+				if(index == -1){
+					alert('해당 영화는 등록된 스케줄이 존재합니다.');
+					return false;
+				}
+				else {
+    				var confirmValue = confirm('해당영화를 상영영화에서 내리시겠습니까?');
+					if(confirmValue){
+						$.ajax({
+							type:"GET",
+							url:"../../rest/movie/delete",
+							data:{screenCode:screenCode},
+							dataType:'json'
+						})
+						tr.remove();
+					}
+				}
+    		 });
+    	 })
+    	 
+    	 $('#table-screen-movies tbody').on('click','.btn-outline-warning',function(){
+    		var endDate = $(this).prev().val();
+    		var startDate = $(this).closest('td').prev().text();
+    		var screenCode = $(this).closest('tr').data('screen-code');
+    		if(startDate > endDate){
+    			alert('상영종료일이 시작일보다 빠를수 없습니다.');
+    			return false;
+    		}
+    		$.ajax({
+    			type:"GET",
+    			url:"../../rest/movie/update",
+    			data:{screenCode:screenCode,endDate:endDate},
+    			dataType:'json'
+    		})
+    		alert('상영종료일이 변경되었습니다.');
+    	 });
+    	 
     	 function registerScreen(){
     		$.ajax({
     			type:"POST",
@@ -186,7 +225,6 @@
     			dataType: "json",
     			success: function(screen){
     				var $tr = $("<tr></tr>");
-    				$tr.append("<td><input type=\"checkbox\" name=\"screenCode\" value=\""+screen.code+"\" /></td>")
     				$tr.append("<td class=\"text-center\">"+screen.code+"</td>")
     				$tr.append("<td class=\"text-center\">"+screen.movieCode+"</td>")
     				$tr.append("<td class=\"text-center\">"+screen.movieName+"</td>")
