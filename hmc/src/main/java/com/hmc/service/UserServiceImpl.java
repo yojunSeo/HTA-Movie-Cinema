@@ -2,6 +2,8 @@ package com.hmc.service;
 
 
 
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -117,6 +119,18 @@ public class UserServiceImpl implements UserService {
 		userDao.updateUser(userById);
 		
 		return TemporaryPwd;
+	}
+
+	@Override
+	public List<User> AdminGetAllUsers(Map<String, Object> param) {
+		List<User> users = userDao.AdminGetAllUsers(param);
+		return users;
+	}
+
+	@Override
+	public int getTotalRows(Map<String, Object> param) {
+		int totalRows = userDao.getTotalRows(param);
+		return totalRows;
 	}
 
 	
