@@ -28,6 +28,10 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 		}
 		
 		if (hasLoginUserAnnotation && SessionUtils.getAttribute("LOGINED_USER") == null) {
+			String returnUri = request.getRequestURI();
+			String returnParameter = request.getQueryString();
+			SessionUtils.addAttribute("returnUri", returnUri.replace("/hmc", ""));
+			SessionUtils.addAttribute("returnParameter", returnParameter);
 			
 			response.sendRedirect("/hmc/login/?error=deny");	
 			return false;

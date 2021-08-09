@@ -50,11 +50,12 @@
 				<table class="table text-center" id="user-table">
 					<thead>
 						<colgroup>
-							<col width="10%"/>
-							<col width="10%"/>
+							<col width="15%"/>
+							<col width="15%"/>
+							<col width="20%"/>
 							<col width="10%"/>
 							<col width="20%"/>
-							<col width="20%"/>
+							<col width="15%"/>
 						</colgroup>
 						<tr>
 							<th scope="col">아이디</th>
@@ -62,6 +63,7 @@
 							<th scope="col">탈퇴여부</th>
 							<th scope="col">가입일</th>
 							<th scope="col">비고</th>
+							<th scope="col">관리자</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -74,25 +76,26 @@
 							<c:otherwise>
 								<c:forEach var="user" items="${users }">
 									<tr data-user-code="${user.id }">
-										<th scope="row">${user.id }</th>
+										<td scope="row">${user.id }</td>
 										<td>${user.name }</td>
 										<c:choose>
 											<c:when test="${user.status == 'N' }">
-												<td class="text-danger text-center" id="goDetail">탈퇴한 회원</td>
+												<td class="text-danger text-center fw-bold" id="goDetail">탈퇴한 회원</td>
 											</c:when>
 											<c:otherwise>
-												<td class="text-success text-center" id="goDetail">사용중인 회원</td>
+												<td class="text-success text-center fw-bold" id="goDetail">사용중인 회원</td>
 											</c:otherwise>
 										</c:choose>
 										<td><fmt:formatDate value="${user.createdDate }" pattern="yyyy-MM-dd"/></td>
 										<c:choose>
 											<c:when test="${user.status == 'Y' }">
-												<td><a href="userModify?code=${user.id }" class="btn btn-outline-warning h-5">수정</a><a class="btn btn-outline-danger mx-2 h-5">탈퇴</a></td>
+												<td><a href="userModify?id=${user.id }" class="btn btn-outline-warning h-5">수정</a><a class="btn btn-outline-danger mx-2 h-5">탈퇴</a></td>
 											</c:when>
 											<c:otherwise>
 												<td><a class="btn btn-outline-success mx-2 h-5">회원권한 부여</a></td>
 											</c:otherwise>
 										</c:choose>
+										<td><a class="btn btn-outline-primary mx-2 h-5 ${user.adminYN == 'N' ? '' : 'disabled' }">관리자권한</a></td>
 									</tr>
 								</c:forEach>
 							</c:otherwise>
@@ -142,7 +145,25 @@ $(function(){
 		var returnValue = confirm("해당 회원을 탈퇴처리하시겠습니까?");
 		if(returnValue){
 			var userCode = $(this).closest('tr').data('user-code');
-			location.href = "userDelete?code="+userCode;
+			location.href = "userDelete?id="+userCode;
+		}
+			return false;
+	})
+	
+	$("#user-table tbody tr .btn-outline-success").on('click', function(){
+		var returnValue = confirm("해당 회원의 회원권한을 복구시키시겠습니까?");
+		if(returnValue){
+			var userCode = $(this).closest('tr').data('user-code');
+			location.href = "userRollback?id="+userCode;
+		}
+			return false;
+	})
+	
+	$("#user-table tbody tr .btn-outline-primary").on('click', function(){
+		var returnValue = confirm("해당 회원을 관리자로 지정하시겠습니까?");
+		if(returnValue){
+			var userCode = $(this).closest('tr').data('user-code');
+			location.href = "setAdmin?id="+userCode;
 		}
 			return false;
 	})

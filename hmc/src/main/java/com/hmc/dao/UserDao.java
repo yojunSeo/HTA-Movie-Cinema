@@ -32,6 +32,10 @@ public interface UserDao {
 	List<User> AdminGetAllUsers(Map<String, Object> param);
 	
 	int getTotalRows(Map<String, Object> param);
+	
+	void rollbackUser(User user);
+	
+	void setAdmin(User user);
 
 }
 

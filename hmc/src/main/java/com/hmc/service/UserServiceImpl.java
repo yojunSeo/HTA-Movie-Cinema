@@ -139,6 +139,17 @@ public class UserServiceImpl implements UserService {
 		return user;
 	}
 
+	@Override
+	public void rollbackUser(User user) {
+		userDao.rollbackUser(user);
+		
+	}
+
+	@Override
+	public void setAdmin(User user) {
+		userDao.setAdmin(user);
+	}
+
 	
 
 }
