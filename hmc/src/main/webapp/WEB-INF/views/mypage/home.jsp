@@ -27,7 +27,7 @@ html, body {
 
 .box2 {
 	margin-top: 100px;
-	margin-left: 240px;
+	margin-left: 220px;
 	width: 1280px;
 	height: 400px;
 	padding: 20px;

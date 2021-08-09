@@ -73,6 +73,9 @@ html, body {
 	color: #FF243E;
 	background: #FF243E;
 }
+.overbox{
+	color: #FFF;
+}
 </style>
 <body>
 	<div class="container">

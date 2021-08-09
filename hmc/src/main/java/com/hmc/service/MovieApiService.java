@@ -44,44 +44,44 @@ public class MovieApiService {
 			if (savedMovie == null) {
 				String movieName = movieObject.get("movieNm").getAsString();
 
-				System.out.println("###############53번째라인:무비코드 " + movieCode + ", 무비네임 " + movieName);
+				System.out.println("###############45번째라인:무비코드 " + movieCode + ", 무비네임 " + movieName);
 
 				Movie movie = new Movie();
 				movie.setMovieCode(movieCode);
 				movie.setMovieName(movieName);
 				
 				movieDao.insertMovie(movie);
-				System.out.println("#############60번째라인: "+movie);
+				System.out.println("#############53번째라인: "+movie);
 			}		
-			if (savedMovie == null) {
+			if (savedMovie != null) {
 				Movie movie = new Movie();
 				JsonObject movieInfo = getMovieDetail(movieCode);
 				//relaseDate가 null이면 어떻게 해야하는지? 저장안하고 넘길방법은 없는지? 
-//				String releaseDate = movieInfo.get("openDt").getAsString();
-//				System.out.println("########## 67번째 라인 date" +releaseDate);
-//								
-//				DateFormatter formatter = new DateFormatter("yyyyMMdd");
-//				if (releaseDate !=null ) {
-//					Date date = formatter.parse(releaseDate, Locale.KOREA);
-//					movie.setReleaseDate(date);
-//				}
+				String releaseDate = movieInfo.get("openDt").getAsString();
+				System.out.println("########## 67번째 라인 date" +releaseDate);
+								
+				DateFormatter formatter = new DateFormatter("yyyyMMdd");
+				if (releaseDate !=null ) {
+					Date date = formatter.parse(releaseDate, Locale.KOREA);
+					movie.setReleaseDate(date);
+				}
 				int runningTime = movieInfo.get("showTm").getAsInt();
-				System.out.println("############74번째라인:러닝타임"+runningTime); //-->ok
+				System.out.println("############68번째라인: 러닝타임"+runningTime); //-->ok
 				String genre = ((JsonObject) (movieInfo.get("genres").getAsJsonArray().get(0))).get("genreNm").getAsString();
-				System.out.println("##########76번째라인:장르"+genre); //->ok
+				System.out.println("##########70번째라인:장르 "+genre); //->ok
 				String grade = ((JsonObject) (movieInfo.get("audits").getAsJsonArray().get(1))).get("watchGradeNm").getAsString();
-				System.out.println("##########78번째라인:등급 "+grade);
+				System.out.println("##########72번째라인:등급  "+grade);
 				String country = ((JsonObject) (movieInfo.get("nations").getAsJsonArray().get(0))).get("nationNm").getAsString();
-				System.out.println("##########80번째라인:국가 "+country);
+				System.out.println("##########74번째라인:국가 "+country);
 				String director = ((JsonObject) (movieInfo.get("directors").getAsJsonArray().get(0))).get("peopleNm").getAsString();
-				System.out.println("##########82번째라인:감독"+director);
+				System.out.println("##########76번째라인:감독"+director);
 				String company = ((JsonObject) (movieInfo.get("companys").getAsJsonArray().get(1))).get("companyNm").getAsString();
-				System.out.println("##########84번째라인:제작사 "+company);
+				System.out.println("##########78번째라인:제작사 "+company);
 				//String rank = ((JsonObject) (boxofficeType.get("rank"))).getAsString();
 				//String audAcc = ((JsonObject) (boxofficeType.get("audiAcc"))).getAsString();
 
-				System.out.println("##################상세정보조회목록#############"+movieCode + ", " + runningTime+ ", " + genre+ ", " 
-						 + country+ ", " + director);
+				//System.out.println("##################상세정보조회목록#############"+movieCode + ", " + runningTime+ ", " + genre+ ", " 
+				//		 + country+ ", " + director);
 
 				movie.setMovieCode(movieCode);
 				movie.setRunningTime(runningTime);
