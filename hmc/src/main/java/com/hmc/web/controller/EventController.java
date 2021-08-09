@@ -45,12 +45,8 @@ public class EventController {
 		param.put("beginIndex", (page-1)*ROWS_PER_PAGE+1);
 		param.put("endIndex", page*ROWS_PER_PAGE);
 		System.out.println(param);
-		List<Event> notices = eventService.getAllEventList(param);
+		List<Event> events = eventService.eventListPage(param);
 		System.out.println("실행됨");
-		model.addAttribute("notices", notices);
-		
-		List<Event> events = eventService.getAllEventList(param);
-		
 		model.addAttribute("events", events);
 		
 		int totalRows = eventService.getTotalRows(param);
