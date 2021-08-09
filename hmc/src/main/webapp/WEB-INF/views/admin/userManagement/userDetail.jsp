@@ -78,10 +78,10 @@
 							<th scope="row">상태</th>
 							<c:choose>
 								<c:when test="${user.status == 'Y'}">
-									<td class="text-success">사용중인 회원</td>
+									<td class="text-success fw-bold">사용중인 회원</td>
 								</c:when>
 								<c:otherwise>
-									<td class="text-danger">탈퇴한 회원</td>
+									<td class="text-danger fw-bold">탈퇴한 회원</td>
 								</c:otherwise>
 							</c:choose>
 						</tr>
@@ -90,8 +90,8 @@
 							</c:when>
 							<c:otherwise>
 								<tr>
-									<th scope="row">탈퇴날짜</th>
-									<td>${user.withdrawalDate }</td>
+									<th scope="row">탈퇴일</th>
+									<td><fmt:formatDate value="${user.withdrawalDate }" pattern="yyyy-MM-dd"/></td>
 								</tr>
 							</c:otherwise>
 						</c:choose>
@@ -99,10 +99,12 @@
 							<th scope="row">관리자여부</th>
 							<c:choose>
 								<c:when test="${user.adminYN == 'Y' }">
-									<td></td>
+									<td class="text-primary fw-bold">${user.adminYN }</td>
 								</c:when>
+								<c:otherwise>
+									<td class="text-danger fw-bold">${user.adminYN }</td>
+								</c:otherwise>
 							</c:choose>
-								<td>${user.adminYN }</td>
 						</tr>
 					</tbody>
 				</table>
@@ -120,8 +122,8 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 
-	<script>
-		
-	</script>
+<script>
+
+</script>
 </body>
 </html>

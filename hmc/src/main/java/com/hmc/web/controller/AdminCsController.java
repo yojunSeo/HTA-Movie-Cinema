@@ -289,6 +289,47 @@ public class AdminCsController {
 		return "admin/userManagement/userDetail";
 	}
 	
+	@GetMapping("/userDelete")
+	public String userDelte(@RequestParam("id") String id) {
+		User user = userService.getUserById(id);
+		user.setWithdrawalDate(new Date());
+		
+		userService.deleteUser(user);
+		return "redirect:userList";
+	}
+	
+	@GetMapping("/userRollback")
+	public String userRollback(@RequestParam("id") String id) {
+		User user = userService.getUserById(id);
+		userService.rollbackUser(user);
+		return"redirect:userList";
+		
+	}
+	
+	@GetMapping("/setAdmin")
+	public String setAdmin(@RequestParam("id") String id) {
+		User user = userService.getUserById(id);
+		userService.setAdmin(user);
+		return"redirect:userList";
+		
+	}
+	
+	@GetMapping("/userModify")
+	public String userModify(@RequestParam("id") String id, Model model) {
+		User user = userService.getUserById(id);
+		model.addAttribute("user", user);
+		return"admin/userManagement/userModify";
+	}
+	
+	@PostMapping("/userModify")
+	public String userModify(@RequestParam("id") String id, @RequestParam("grade") String grade, @RequestParam("point") int point) {
+		User user = userService.getUserById(id);
+		user.setGrade(grade);
+		user.setPoint(point);
+		userService.updateUser(user);
+		return "redirect:userList";
+	}
+	
 	
 
 }

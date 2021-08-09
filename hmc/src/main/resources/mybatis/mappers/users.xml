@@ -142,10 +142,29 @@
    		update
    			t_user
    		set
-   			user_status 		= #{status},	
-   			user_withdrawal_Date = #{withdrawalDate}	
+   			user_status 		= 'N',	
+   			user_withdrawal_date = #{withdrawalDate}	
    		where 
    			user_id 			= #{id}
+   </update>
+   
+   <update id="rollbackUser" parameterType="com.hmc.vo.User">
+   		update
+   			t_user
+   		set
+   			user_status				= 'Y',
+   			user_withdrawal_date	= null
+   		where
+   			user_id					= #{id}		
+   </update>
+   
+   <update id="setAdmin" parameterType="com.hmc.vo.User">
+   		update
+   			t_user
+   		set
+   			admin_yn				= 'Y'
+   		where
+   			user_id					= #{id}		
    </update>
    
    

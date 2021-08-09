@@ -42,5 +42,9 @@ public interface UserService {
 	int getTotalRows(Map<String, Object> param);
 	
 	User getUserById(String userId);
+	
+	void rollbackUser(User user);
+	
+	void setAdmin(User user);
 
 }
