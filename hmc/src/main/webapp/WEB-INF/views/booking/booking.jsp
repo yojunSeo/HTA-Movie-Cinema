@@ -334,7 +334,7 @@ $(function(){
 			gradeColor = "bg-secondary";
 		}else if(ugrade == "GOLD"){
 			gradeColor = "bg-warning";
-		}else if(ugarde == "PLATINUM"){
+		}else if(ugrade == "PLATINUM"){
 			gradeColor = "bg-primary";
 		}
 		$('#payment p:eq(1) span').addClass(gradeColor);

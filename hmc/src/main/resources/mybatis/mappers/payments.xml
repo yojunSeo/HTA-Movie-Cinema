@@ -51,7 +51,7 @@
 	 
 	<select id="getUserTotalPayment" parameterType="string" resultType="int">
 		select
-			sum(payment_price)
+			nvl(sum(payment_price), 0)
 		from 
 			t_payment
 		where
