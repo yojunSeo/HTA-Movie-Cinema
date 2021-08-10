@@ -76,17 +76,20 @@ public class CouponController {
 		return "coupon/list";
 	}
 	
-	@GetMapping("/coupon/detail")
-	public String eventDetail(@RequestParam("code") String couponCode, Model model) {
-		
-		Coupon coupon = couponService.getCouponDetail(couponCode);
-		System.out.println("디테일 실행");
-		model.addAttribute("coupon", coupon);
+	@RequestMapping("/coupon/detail")
+	public @ResponseBody ResponseEntity<Coupon> detail(@RequestParam("code") String couponCode) {
+		System.out.println(couponCode + "1234");
+		Coupon savedCoupon = couponDao.getCouponByCode(couponCode);
+		System.out.println("디테일 실행됨");
+		if(savedCoupon == null) {
+			System.out.println("디테일 실패");
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 
 		
 		
 		
-		return "coupon/detail";
+		return new ResponseEntity<>(savedCoupon, HttpStatus.OK);
 	}
 	
 	@RequestMapping("/coupon/add")
@@ -100,6 +103,7 @@ public class CouponController {
 	
 	@RequestMapping("/coupon/modify")
 	public @ResponseBody ResponseEntity<Coupon> modify(Coupon coupon) {
+		System.out.println("수정 실행");
 		Coupon savedCoupon = couponDao.getCouponByCode(coupon.getCode());
 		if (savedCoupon == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -114,6 +118,17 @@ public class CouponController {
 		return new ResponseEntity<>(savedCoupon, HttpStatus.OK);
 	}
 	
-	
+	@RequestMapping("/coupon/delete")
+	public @ResponseBody ResponseEntity<Void> delete(@RequestParam("code") String couponCode) {
+		System.out.println("딜리트");
+		Coupon savedCoupon = couponDao.getCouponByCode(couponCode);
+		if (savedCoupon == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
+		couponDao.deleteCoupon(couponCode);
+		
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 	
 }

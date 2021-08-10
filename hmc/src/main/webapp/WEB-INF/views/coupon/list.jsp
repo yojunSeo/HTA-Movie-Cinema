@@ -25,7 +25,7 @@
 		<div class="row mb-3">
 			<div class="col">
 				<div class="border p-2 bg-light">
-					<table class="table" id="coupon-table">
+					<table class="table" id="table-coupon">
 						<colgroup>
 							<col width="10%">
 							<col width="*">
@@ -56,6 +56,8 @@
 											</td>						
 											<td>${coupons.type }</td>					
 											<td>${event.code }</td>		
+											<td><button id="btn-coupon-modify" class="btn btn-outline-primary btn-sm rm-2" data-coupon-code="${coupon.code }">수정</button>
+											<button id="btn-coupon-delete" class="btn btn-outline-danger btn-sm rm-2" data-coupon-code="${coupon.code }">삭제</button></td>
 										</tr>			
 									</c:forEach>
 								</c:otherwise>
@@ -147,6 +149,7 @@ $(function(){
 	
 	// 새 쿠폰 등록
 	$("#btn-open-coupon-modal").click(function(){
+		console.log("등록 실행");
 		requestURI = "/hmc/coupon/add";
 		request = "등록"
 		
@@ -177,7 +180,34 @@ $(function(){
 	})
 	
 	
+	// 수정버튼
+	$("#btn-coupon-modify").click(function(){
+		request = "수정";
+		requestURI = "/hmc/coupon/modify";
+		$("#btn-post-coupon").text("수정");
+		$(":input:disabled").prop("disabled", false);
+		
+		console.log("수정 실행12346");
+		event.preventDefault();
+		console.log("수정 실행1234");
+		$.getJSON("/hmc/coupon/detail?code=" + $(this).data("coupon-code"))
+			.done(function(coupons) {
+			})
+		
+	})
 	
+	// 삭제버튼
+	$("#btn-coupon-delete").click(function() {
+		var $tr = $(this).closest("tr");
+		$.ajax({
+			type: "GET",
+			url: "/hmc/coupon/delete",
+			data: {no: $(this).data("coupon-code")},
+			success: function() {
+				$tr.remove();
+			}
+		});
+	});
 	
 	function makeRow(coupon) {
 		var row = "<tr  class='align-middle' id='coupon-"+coupon.code+"'>"
