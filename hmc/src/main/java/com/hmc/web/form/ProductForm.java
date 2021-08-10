@@ -1,6 +1,6 @@
-package com.hmc.vo;
+package com.hmc.web.form;
 
-import java.sql.Date;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,15 +9,14 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Product {
-
-	private String code;
+public class ProductForm {
+	
+	private String productCode;
 	private String category;
 	private String name;
 	private int price;
 	private int discountRate;
 	private int stock;
 	private String memo;
-	private String imageFileName;
-	private Date createdDate;
+	private MultipartFile imageFile;
 }
