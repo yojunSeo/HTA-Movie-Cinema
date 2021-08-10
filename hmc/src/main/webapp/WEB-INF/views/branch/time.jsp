@@ -248,17 +248,21 @@
 				$(".calendar-btn p:contains('오늘')").css("color","red").prev().css("color","red");
 			}
 			
+			
+			var branchCode = $("#movie-time").data("branch-code");
+			
+			
 			// 선택일이 없을 경우(페이지 초기) 첫번째 일자(오늘)을 선택함
 			if(!$selectDayBtn) {
 				if($("#day-selector-number").text() == today.getDate()) {
 					$("#day-selector-number").addClass('circle');
 					$selectDayBtn = $("#day-selector-number").closest(".calendar-btn");
 					selectDay = $selectDayBtn.data("date");
+					
+					getMovieScheduleByDateAndBranch(branchCode, selectDay);
 				}
 			}
-			
-			var branchCode = $("#movie-time").data("branch-code");
-			
+
 			// click 이벤트가 발생할 경우 실행되는 기능
 			$(".calendar-btn").click(function() {
 				$selectDayBtn.find("#day-selector-number").removeClass('circle');
@@ -268,6 +272,7 @@
 				$(this).find("#day-selector-number").addClass('circle');
 				getMovieScheduleByDateAndBranch(branchCode, selectDay);
 			})
+			
 			
 			// 지점코드와 상영일로 스케줄 불러오기
 			function getMovieScheduleByDateAndBranch(branchCode, screenDate){
@@ -371,7 +376,7 @@
 				})
 				bookingModal.show();
 			})
-	
+			
 			
 		});
 	</script>
