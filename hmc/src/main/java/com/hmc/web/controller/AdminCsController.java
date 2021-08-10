@@ -52,7 +52,7 @@ public class AdminCsController {
 		
 		Map<String,Object> param = new HashMap<String, Object>();
 		param.put("beginIndex", (page-1)*ROWS_PER_PAGE +1);
-		param.put("endIndex", page+ROWS_PER_PAGE);
+		param.put("endIndex", page*ROWS_PER_PAGE);
 		
 		List<Inquery> inquerys = inqueryService.getAllInquerys(param);
 		
@@ -86,7 +86,7 @@ public class AdminCsController {
 		
 		Map<String,Object> param = new HashMap<String, Object>();
 		param.put("beginIndex", (page-1)*ROWS_PER_PAGE +1);
-		param.put("endIndex", page+ROWS_PER_PAGE);
+		param.put("endIndex", page*ROWS_PER_PAGE);
 		
 		List<Inquery> inquerys = inqueryService.getAllInquerysY(param);
 		

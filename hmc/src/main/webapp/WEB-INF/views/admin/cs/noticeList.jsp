@@ -112,6 +112,7 @@
                </div>
             </div>
          </div>
+         </div>
 		</main>
 	</div>
 	
@@ -160,6 +161,8 @@ $(function(){
 		alert("공지사항이 추가되었습니다.");
 		location.href = "noticeList";
 	}
+	
+	
 })
 </script>
 </body>
