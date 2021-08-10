@@ -27,5 +27,6 @@ public class MypageController {
 		model.addAttribute("bookings", bookingService.getUserBookingDetail(user.getId()));
 		return "mypage/home";
 	}
+
 	
 }

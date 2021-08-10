@@ -145,7 +145,6 @@ html, body {
 						<div class="tab-pane fade" id="event" role="tabpanel"
 							aria-labelledby="event-tab">
 							<h3>My이벤트 화면</h3>
-
 						</div>
 						<div class="tab-pane fade" id="usermodify" role="tabpanel"
 							aria-labelledby="usermodify-tab">

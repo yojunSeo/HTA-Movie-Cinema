@@ -53,6 +53,7 @@
 		select
 			booking_code 			as bookingcode,
             sh.schedule_code 		as scheduleCode,
+            sc.screen_code			as screenCode,
             sc.movie_name 			as movieName,
             sh.schedule_date as scheduleDate,
             sh.schedule_start_time as startTime,

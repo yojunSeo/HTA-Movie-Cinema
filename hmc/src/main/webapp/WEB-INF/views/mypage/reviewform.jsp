@@ -15,14 +15,12 @@
 		</header>
 
 		<main>
-					<div class="main-section1">
+			<div class="main-section1">
 			<div class="rating-part">
 				<div style="clear: both;"></div>
 				<div class="reviews">
 					<h1>Reviews</h1>
 				</div>
-				
-				<c:if test="${not empty LOGIN_USER}">
 				<form class="row justify-content-center mb-5 position-relative" action="/sb/product/itemDetail" method="post">
 				<input type="hidden" name="no" value="${product.no }">
 				 
@@ -45,9 +43,6 @@
 				 </div>
 				 
 				</form>
-				</c:if>
-				
-				
 				<div class="comment-part">
 					<c:forEach var="review" items="${reviews }">
 					
