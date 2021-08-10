@@ -347,30 +347,6 @@ html, body {
 		})
 	</script>
 	<script>
-		// 	$.ajax({
-		// 		type: "GET",
-		// 		url: "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json",
-		// 	    data: {key:"b5dd3da81db2d6020a6151195126a153", targetDt:dateString},
-		// 	    dataType: 'json',
-		// 	    success: function(boxoffice) {
 
-		// 	    	var boxofficeList = boxoffice.boxOfficeResult.dailyBoxOfficeList;
-
-		// 	    	$.each(boxofficeList, function(index, item){
-		// 	    		var $tr = $("<tr></tr>");
-		// 	    		$("<td></td>").text(item.rank).appendTo($tr);
-		// 	    		$("<td></td>").text(item.movieNm).appendTo($tr);
-		// 	    		$("<td></td>").text(item.openDt).appendTo($tr);
-		// 	    		$("<td></td>").text(item.salesShare).appendTo($tr);
-
-		// 	    		$tbody.append($tr);
-
-		// 	    	})
-		// // 		},
-		// // 		error: function(){
-		// // 			alert("박스오피스 조회중 오류가 발생하였습니다.");
-		// 		}	
-		// 	});
-		
  	</script>
 </html>

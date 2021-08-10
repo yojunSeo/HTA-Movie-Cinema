@@ -59,18 +59,18 @@
 		update
 			t_movie
 		set
-			movie_rank = #{value}
+			movie_rank = #{rank}
 		where
-			movie_code = #{value}
+			movie_code = #{movieCode}
 	</update>
 	
-	<select id="getTopMovies" parameterType="com.hmc.vo.Movie">
+	<select id="getTopMovies" resultType="com.hmc.vo.Movie">
 		select
 			movie_code         		movieCode,
 	        movie_release_date      releaseDate,
 	        movie_name            	movieName,
 	        movie_poster         	poster,
-	        movie_rank				rank,
+	        movie_rank				rank
         from
             T_MOVIE
         where
