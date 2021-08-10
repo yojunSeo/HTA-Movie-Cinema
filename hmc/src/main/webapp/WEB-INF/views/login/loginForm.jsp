@@ -30,6 +30,15 @@
 						</div>
 					</div>
 					</c:if>
+					<c:if test="${param.error eq 'admin' }">
+					<div class="row">
+						<div class="col">
+							<div class="alert alert-danger" role="alert">
+								요청한 서비스는 관리자 인증 후 사용가능합니다.
+							</div>
+						</div>
+					</div>
+					</c:if>
 					<c:if test="${not empty error }">
 					<div class="row">
 						<div class="col">

@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.hmc.service.AdminScheduleService;
 import com.hmc.vo.Branch;
 import com.hmc.vo.ScreenMovie;
+import com.hmc.vo.User;
+import com.hmc.web.annotation.LoginAdmin;
 
 @Controller
 @RequestMapping("/admin/schedule")
@@ -25,7 +27,7 @@ public class AdminScheduleController {
 	private AdminScheduleService scheduleService;
 	
 	@GetMapping("/screen/list")
-	public String screenMovieList(@RequestParam(name = "page", required = false, defaultValue = "1")int pageNo, Model model) {
+	public String screenMovieList(@LoginAdmin User admin, @RequestParam(name = "page", required = false, defaultValue = "1")int pageNo, Model model) {
 		
 		Map<String, Object> result = scheduleService.screenMovieList(pageNo);
 		model.addAttribute("pagination", result.get("pagination"));
@@ -36,7 +38,7 @@ public class AdminScheduleController {
 	}
 	
 	@GetMapping("/register")
-	public String scheduleRegisterForm(Model model) {
+	public String scheduleRegisterForm(@LoginAdmin User admin, Model model) {
 		List<Branch> branchs = scheduleService.getAllBranchs();
 		List<ScreenMovie> movies = scheduleService.getAllScreenMovies();
 		model.addAttribute("branchs", branchs);
@@ -45,7 +47,7 @@ public class AdminScheduleController {
 	}
 	
 	@GetMapping("/list")
-	public String scheduleListPagination(@RequestParam(name = "page", required = false, defaultValue = "1") int pageNo,@RequestParam(name="branch", required = false) String branchCode, @RequestParam(name="room", required = false) String roomCode, 
+	public String scheduleListPagination(@LoginAdmin User admin, @RequestParam(name = "page", required = false, defaultValue = "1") int pageNo,@RequestParam(name="branch", required = false) String branchCode, @RequestParam(name="room", required = false) String roomCode, 
 			@RequestParam(name="movie", required = false) String screenCode, @RequestParam(name="screenDate", required = false) String screenDate, Model model) {
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("pageNo", pageNo);
@@ -70,7 +72,7 @@ public class AdminScheduleController {
 	}
 	
 	@GetMapping("/delete")
-	public String deleteSchedule(@RequestParam("schedule")String scheduleCode) {
+	public String deleteSchedule(@LoginAdmin User admin, @RequestParam("schedule")String scheduleCode) {
 		scheduleService.deleteSchedule(scheduleCode);
 		return "redirect:list";
 	}
