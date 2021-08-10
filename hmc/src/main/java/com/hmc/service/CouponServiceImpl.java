@@ -2,6 +2,7 @@ package com.hmc.service;
 
 import java.lang.module.FindException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -82,4 +83,69 @@ public class CouponServiceImpl implements CouponService{
 		
 		publishedCouponDao.updatePublishedCouponStatusToY("PC000027");
 	}
+	
+	@Override
+	public List<Coupon> couponListPage(Map<String, Object> param) {
+		List<Coupon> coupons = couponDao.couponListPage(param);
+		return coupons;
+	}
+	
+	@Override
+	public void deleteCoupon(String couponCode) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public List<Map<String, Object>> getAbleCouponByUserId(String userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public Coupon getCouponByCode(String couponCode) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public List<Coupon> getCouponNonMappingEvent() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public Map<String, Object> getPublishedCouponByCode(String publishedId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public int getTotalRows(Map<String, Object> param) {
+		int rows = couponDao.getTotalRows(param);
+		return rows;
+	}
+	
+	@Override
+	public void insertCoupon(Coupon coupon) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void updateCoupon(Coupon coupon) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public Coupon getCouponDetail(String couponCode) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+	
+	
+	
 }

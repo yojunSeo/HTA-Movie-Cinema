@@ -9,6 +9,31 @@
 		<result column="event_code" property="eventCode" />
 	</resultMap>
 	
+	<select id="getTotalRows" parameterType="map" resultType="int">
+		select
+			count(*)
+		from
+			t_coupon
+	</select>
+	
+	<select id="couponListPage" resultType="com.hmc.vo.Coupon" parameterType="map">
+		select
+			coupon_code code,
+			coupon_type type,
+			coupon_name name,
+			event_code eventCode
+		from(
+			select
+				row_number() over (order by coupon_code) rn,
+				coupon_code , coupon_type,coupon_name, event_code
+			from
+				t_coupon
+		)
+		
+		where
+			rn between #{beginIndex} and #{endIndex}
+	</select>
+	
 	<insert id="insertCoupon" parameterType="com.hmc.vo.Coupon">
 		insert into t_coupon
 			(coupon_code, coupon_type, coupon_name)
