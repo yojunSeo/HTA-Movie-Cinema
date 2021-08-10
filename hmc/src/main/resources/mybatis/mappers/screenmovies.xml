@@ -106,7 +106,7 @@
         and
             br.branch_code = #{value}
         and 
-            sh.schedule_date > to_char(sysdate-1, 'yyyy/MM/dd')
+            sh.schedule_start_time >= to_char(sysdate + round(540/1440, 5))
 		order by 
 			sc.screen_code desc
 	</select>
@@ -122,6 +122,6 @@
 								from 
 									t_schedule sh 
 								where 
-									sh.schedule_date >= to_char(sysdate-1, 'yyyy/MM/dd'))
+									sh.schedule_date >= to_char((sysdate + round(540/1440, 5))-1, 'yyyy/MM/dd')))
 	</select>
 </mapper>

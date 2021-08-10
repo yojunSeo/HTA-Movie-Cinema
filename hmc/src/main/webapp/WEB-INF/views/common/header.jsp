@@ -280,10 +280,20 @@ a, a:link, a:visited, a:active, a:hover {
 						<li class="gbar"><a href="/hmc/login/logOut">로그아웃</a></li>
 					</ul>
 					<ul class="g_menu3">
-						<li class="">
-							<img alt="" src="/hmc/resources/images/header/nav_side_my.png">
-							<a href="/hmc/mypage/">내정보</a>
-						</li>
+						<c:choose>
+							<c:when test="${LOGINED_USER.adminYN eq 'Y' }">
+								<li class="">
+									<img alt="" src="/hmc/resources/images/header/nav_side_my.png">
+									<a href="/hmc/admin/main">관리자</a>
+								</li>							
+							</c:when>
+							<c:otherwise>
+								<li class="">
+									<img alt="" src="/hmc/resources/images/header/nav_side_my.png">
+									<a href="/hmc/mypage/home">내정보</a>
+								</li>
+							</c:otherwise>
+						</c:choose>
 						<li class="">
 							<img alt="" src="/hmc/resources/images/header/nav_side_reserve.png">
 							<a href="">예매</a>

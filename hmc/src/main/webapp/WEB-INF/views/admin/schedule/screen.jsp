@@ -11,124 +11,124 @@
 <title>상영영화 관리-HMC</title>
 </head>
 <body>
-   <div class="container">
-
-      <header>
-      	<%@ include file="../../common/header.jsp" %>
-      </header>
-
-      <main>
-      	<div class="row">
-      		<div class="col">
-			<h2 class="fw-lighter">현재 상영중인 영화</h2>
-			<a href="../list">상영스케줄</a>
-				<form class="row mt-3" id="form-screen-register">
-    				<div class="form-group col-md-3">
-      					<select class="form-control" name="movieCode" id="movie-code" >
-        					<option selected disabled> 영화를 선택하세요</option>
-        					<c:forEach var="movie" items="${movies }">
-        						<option value="${movie.movieCode}">  ${movie.movieName }</option>        					
-        					</c:forEach>
-      					</select>
-    				</div>
-   					<div class="col-2">
-      					<input type="text" class="form-control" id="movie-running-time" placeholder="러닝타임" readonly>
-    				</div>
-    				<div class="col-3">
-    				<div class="input-group">
-    					<div class="input-group-prepend">
-    						<div class="input-group-text">시작일</div>
-    					</div>
-    			  		<input type="date" class="form-control" id="screen-start-date" name="startDate" readonly>
-    			  	</div>
-    				</div>
-    				<div class="col-3">
-    					<div class="input-group">
-    						<div class="input-group-prepend">
-    							<div class="input-group-text">종료일</div>
-    						</div>
-    			  			<input type="date" class="form-control" id="screen-end-date" name="endDate">
-    			  		</div>
-    				</div>
-    				<div class="col-1">
-    			  		<button class="btn btn-outline-primary" type="button" id="screen-register-button">추가</button>
-    				</div>
-				</form>
-		</div>
-      	</div>
-		<!-- screen-moive테이블 시작 -->
-		<div class="row mt-3">
-			<table class="table table-hover" id="table-screen-movies">
-				<colgroup>
-					<col width="10%">
-					<col width="10%">
-					<col width="*%">
-					<col width="8%">
-					<col width="20%">
-					<col width="24%">
-					<col width="8%">
-				</colgroup>
-  				<thead>
-    				<tr>
-     	 				<th scope="col" class="text-center">스크린코드</th>
-      					<th scope="col" class="text-center">영화코드</th>
-      					<th scope="col" class="text-center">제목</th>
-      					<th scope="col" class="text-center">러닝타임</th>
-      					<th scope="col" class="text-center">시작일</th>
-    	  				<th scope="col" class="text-center">종료일</th>
-    	  				<th scope="col" class="text-center"></th>
- 	   				</tr>
-  				</thead>
-  				<tbody>
-  					<c:choose>
-  						<c:when test="${empty screens}">
-  							<tr>
-  								<td colspan="7" class="text-center" id="no-screen-movie">현재 상영중인 영화가 없습니다.</td>
-  							</tr>
-  						</c:when>
-  						<c:otherwise>
-  							<c:forEach var="screen" items="${screens }">
-			   	 				<tr data-screen-code="${screen.code }">
-			      					<td class="text-center">${screen.code }</td>
-			      					<td class="text-center">${screen.movieCode }</td>
-				      				<td class="text-center">${screen.movieName }</td>
-				      				<td class="text-center">${screen.runningTime }</td>
-				      				<td class="text-center"><fmt:formatDate value="${screen.startDate }" pattern="yyyy-MM-dd"/></td>
-				      				<td class="text-center"><input class="text-center" type="date" name="endDate" value="<fmt:formatDate value="${screen.endDate }" pattern="yyyy-MM-dd"/>"><button class="btn btn-outline-warning btn-sm mx-3">수정</button></td>
-				      				<td class="text-center"><button class="btn btn-outline-danger btn-sm">삭제</button></td>
-				    			</tr>
-  							</c:forEach>
-  						</c:otherwise>
-  					</c:choose>
-	  			</tbody>
-			</table>
-		</div>
-		<c:if test="${pagination.totalRows gt 0 }">
-			<div class="row mb-2">
-				<div class="col-12">
-					<ul class="pagination justify-content-center">
-						<li class="page-item ${pagination.pageNo le 1 ? 'disabled' : ''}">
-							<a class="page-link" href="list?page=${pagination.pageNo - 1 }">이전</a>
-						</li>
-						<c:forEach var="num" begin="${pagination.beginPage }" end="${pagination.endPage }">
-							<li class="page-item ${pagination.pageNo eq num ? 'active' : '' }">
-								<a class="page-link" href="list?page=${num }">${num }</a>
-							</li>
-						</c:forEach>
-						<li class="page-item ${pagination.pageNo ge pagination.totalPages ? 'disabled' : ''}">
-							<a class="page-link" href="list?page=${pagination.pageNo + 1 }">다음</a>
-						</li>
-					</ul>
+   <div class="container-fluid">
+		<main>
+			<div class="container-fluid mt-5">
+				<div class="row">
+					<div class="col-2">
+						<%@include file ="../sidebar.jsp"%>
+					</div>
+					<div class="col-10">
+				      	<div class="row mt-3">
+				      		<div class="col">
+							<h3>현재 상영중인 영화</h3>
+								<form class="row mt-3" id="form-screen-register">
+				    				<div class="form-group col-md-3">
+				      					<select class="form-control" name="movieCode" id="movie-code" >
+				        					<option selected disabled> 영화를 선택하세요</option>
+				        					<c:forEach var="movie" items="${movies }">
+				        						<option value="${movie.movieCode}">  ${movie.movieName }</option>        					
+				        					</c:forEach>
+				      					</select>
+				    				</div>
+				   					<div class="col-2">
+				      					<input type="text" class="form-control" id="movie-running-time" placeholder="러닝타임" readonly>
+				    				</div>
+				    				<div class="col-3">
+				    				<div class="input-group">
+				    					<div class="input-group-prepend">
+				    						<div class="input-group-text">시작일</div>
+				    					</div>
+				    			  		<input type="date" class="form-control" id="screen-start-date" name="startDate" readonly>
+				    			  	</div>
+				    				</div>
+				    				<div class="col-3">
+				    					<div class="input-group">
+				    						<div class="input-group-prepend">
+				    							<div class="input-group-text">종료일</div>
+				    						</div>
+				    			  			<input type="date" class="form-control" id="screen-end-date" name="endDate">
+				    			  		</div>
+				    				</div>
+				    				<div class="col-1">
+				    			  		<button class="btn btn-outline-primary" type="button" id="screen-register-button">추가</button>
+				    				</div>
+								</form>
+						</div>
+				      	</div>
+						<!-- screen-moive테이블 시작 -->
+						<div class="row mt-3">
+							<table class="table table-hover" id="table-screen-movies">
+								<colgroup>
+									<col width="10%">
+									<col width="10%">
+									<col width="*%">
+									<col width="8%">
+									<col width="20%">
+									<col width="24%">
+									<col width="8%">
+								</colgroup>
+				  				<thead>
+				    				<tr>
+				     	 				<th scope="col" class="text-center">스크린코드</th>
+				      					<th scope="col" class="text-center">영화코드</th>
+				      					<th scope="col" class="text-center">제목</th>
+				      					<th scope="col" class="text-center">러닝타임</th>
+				      					<th scope="col" class="text-center">시작일</th>
+				    	  				<th scope="col" class="text-center">종료일</th>
+				    	  				<th scope="col" class="text-center"></th>
+				 	   				</tr>
+				  				</thead>
+				  				<tbody>
+				  					<c:choose>
+				  						<c:when test="${empty screens}">
+				  							<tr>
+				  								<td colspan="7" class="text-center" id="no-screen-movie">현재 상영중인 영화가 없습니다.</td>
+				  							</tr>
+				  						</c:when>
+				  						<c:otherwise>
+				  							<c:forEach var="screen" items="${screens }">
+							   	 				<tr data-screen-code="${screen.code }">
+							      					<td class="text-center">${screen.code }</td>
+							      					<td class="text-center">${screen.movieCode }</td>
+								      				<td class="text-center">${screen.movieName }</td>
+								      				<td class="text-center">${screen.runningTime }</td>
+								      				<td class="text-center"><fmt:formatDate value="${screen.startDate }" pattern="yyyy-MM-dd"/></td>
+								      				<td class="text-center"><input class="text-center" type="date" name="endDate" value="<fmt:formatDate value="${screen.endDate }" pattern="yyyy-MM-dd"/>"><button class="btn btn-outline-warning btn-sm mx-3">수정</button></td>
+								      				<td class="text-center"><button class="btn btn-outline-danger btn-sm">삭제</button></td>
+								    			</tr>
+				  							</c:forEach>
+				  						</c:otherwise>
+				  					</c:choose>
+					  			</tbody>
+							</table>
+						</div>
+						<c:if test="${pagination.totalRows gt 0 }">
+							<div class="row mb-2">
+								<div class="col-12">
+									<ul class="pagination justify-content-center">
+										<li class="page-item ${pagination.pageNo le 1 ? 'disabled' : ''}">
+											<a class="page-link" href="list?page=${pagination.pageNo - 1 }">이전</a>
+										</li>
+										<c:forEach var="num" begin="${pagination.beginPage }" end="${pagination.endPage }">
+											<li class="page-item ${pagination.pageNo eq num ? 'active' : '' }">
+												<a class="page-link" href="list?page=${num }">${num }</a>
+											</li>
+										</c:forEach>
+										<li class="page-item ${pagination.pageNo ge pagination.totalPages ? 'disabled' : ''}">
+											<a class="page-link" href="list?page=${pagination.pageNo + 1 }">다음</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</c:if>
+					
+					
+					</div>
 				</div>
 			</div>
-		</c:if>
-      </main>
-
-      <footer>
-      	<%@ include file="../../common/footer.jsp" %>
-      </footer>
-
-   </div>
+		</main>
+	</div>
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
    <script>

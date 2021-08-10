@@ -9,115 +9,115 @@
 <title>상영스케줄 등록-HMC</title>
 </head>
 <body>
-<div class="container">
-	<header>
-		<%@ include file="../../common/header.jsp" %>
-	</header>
-
-	<main>
-		<div class="row my-3 ">
-			<div class="col">
-				<h2 class="fw-lighter">상영스케줄 등록</h2>
-				<a href="list">스캐줄조회</a>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-5">
-				<form id="schedule-form">
-					<div class="form-group col-12">
-						<div class="row mt-3" id="box-date">
-							<label>상영일자를 선택하세요.</label>
-							<input type="date" class="form-control mt-2 w-100" name="scheduleDate" id="screen-date" />
-						</div>
-						<div class="row mt-3" id="box-movie">
-							<label>영화를 선택하세요.</label>
-							<select class="form-control mt-2 w-100" name="screenCode" id="movie-code">
-								<option value="" selected disabled> 선택하세요</option>
-								<c:forEach var="movie" items="${movies }">
-									<option value="${movie.code }"> ${movie.movieName }</option>
-								</c:forEach>
-							</select>
-						</div>
-						<div class="row mt-3">
-							<label>영화관을 선택하세요.</label>
-							<select class="form-control mt-2 w-100" name="branchCode" id="box-branch">
-								<option value="" selected disabled> 선택하세요</option>
-								<c:forEach var="branch" items="${branchs }">
-									<option value="${branch.code }"> ${branch.name }</option>
-								</c:forEach>
-							</select>
-						</div>
-						<div class="row mt-3" id="box-room">
-							<label>상영관을 선택하세요.</label>
-							<select class="form-control mt-2 w-100" name="roomCode" id="room-code">
-							
-							</select>
-						</div>
-						<div id="box-time">
-							<div class="row mt-3" id="box-time-1">
-								<label>상영시간을 선택하세요.
-									<span class="badge rounded-pill bg-primary mx-3" id="schedule-plus">추가</span>
-									<span class="badge rounded-pill bg-danger" id="schedule-minus">삭제</span>
-								</label>
-								<div class="col-6">
-									<input id="start-time-1" type="datetime-local" class="form-control mt-2 w-30" name="startTime" placeholder="시작시간" />
-								</div>
-								<div class="col-6">
-									<input id="end-time-1" type="datetime-local" class="form-control mt-2 w-30 mx-2" name="endTime" placeholder="종료시간" readonly />
-								</div>
-							</div>
-							<div class="row mt-3" id="box-time-2">
-								<div class="col-6">
-									<input id="start-time-2" type="datetime-local" class="form-control mt-2 w-30" name="startTime" placeholder="시작시간" />
-								</div>
-								<div class="col-6">
-									<input id="end-time-2" type="datetime-local" class="form-control mt-2 w-30 mx-2" name="endTime" placeholder="종료시간" readonly />
-								</div>
-							</div>
-							<div class="row mt-3" id="box-time-3">
-								<div class="col-6">
-									<input id="start-time-3" type="datetime-local" class="form-control mt-2 w-30" name="startTime" placeholder="시작시간" />
-								</div>
-								<div class="col-6">
-									<input id="end-time-3" type="datetime-local" class="form-control mt-2 w-30 mx-2" name="endTime" placeholder="종료시간" readonly />
-								</div>
+	<div class="container-fluid">
+		<main>
+			<div class="container-fluid mt-5">
+				<div class="row">
+					<div class="col-2">
+						<%@include file ="../sidebar.jsp"%>
+					</div>
+					<div class="col-10">
+						<div class="row my-3 ">
+							<div class="col">
+								<h3>상영스케줄 등록</h3>
 							</div>
 						</div>
-						<div class="row mt-3" id="schedule-submit">
-							<div class="col-8"></div>
-							<div class="col-4 mt-3 ml-3">
-								<button type="button" class="btn btn-outline-danger" id="btn-cancel">취소</button>
-								<button type="button" class="btn btn-outline-primary" id="btn-submit">등록</button>
+						<div class="row">
+							<div class="col-5">
+								<form id="schedule-form">
+									<div class="form-group col-12">
+										<div class="row mt-3" id="box-date">
+											<label>상영일자를 선택하세요.</label>
+											<input type="date" class="form-control mt-2 w-100" name="scheduleDate" id="screen-date" />
+										</div>
+										<div class="row mt-3" id="box-movie">
+											<label>영화를 선택하세요.</label>
+											<select class="form-control mt-2 w-100" name="screenCode" id="movie-code">
+												<option value="" selected disabled> 선택하세요</option>
+												<c:forEach var="movie" items="${movies }">
+													<option value="${movie.code }"> ${movie.movieName }</option>
+												</c:forEach>
+											</select>
+										</div>
+										<div class="row mt-3">
+											<label>영화관을 선택하세요.</label>
+											<select class="form-control mt-2 w-100" name="branchCode" id="box-branch">
+												<option value="" selected disabled> 선택하세요</option>
+												<c:forEach var="branch" items="${branchs }">
+													<option value="${branch.code }"> ${branch.name }</option>
+												</c:forEach>
+											</select>
+										</div>
+										<div class="row mt-3" id="box-room">
+											<label>상영관을 선택하세요.</label>
+											<select class="form-control mt-2 w-100" name="roomCode" id="room-code">
+											
+											</select>
+										</div>
+										<div id="box-time">
+											<div class="row mt-3" id="box-time-1">
+												<label>상영시간을 선택하세요.
+													<span class="badge rounded-pill bg-primary mx-3" id="schedule-plus">추가</span>
+													<span class="badge rounded-pill bg-danger" id="schedule-minus">삭제</span>
+												</label>
+												<div class="col-6">
+													<input id="start-time-1" type="datetime-local" class="form-control mt-2 w-30" name="startTime" placeholder="시작시간" />
+												</div>
+												<div class="col-6">
+													<input id="end-time-1" type="datetime-local" class="form-control mt-2 w-30 mx-2" name="endTime" placeholder="종료시간" readonly />
+												</div>
+											</div>
+											<div class="row mt-3" id="box-time-2">
+												<div class="col-6">
+													<input id="start-time-2" type="datetime-local" class="form-control mt-2 w-30" name="startTime" placeholder="시작시간" />
+												</div>
+												<div class="col-6">
+													<input id="end-time-2" type="datetime-local" class="form-control mt-2 w-30 mx-2" name="endTime" placeholder="종료시간" readonly />
+												</div>
+											</div>
+											<div class="row mt-3" id="box-time-3">
+												<div class="col-6">
+													<input id="start-time-3" type="datetime-local" class="form-control mt-2 w-30" name="startTime" placeholder="시작시간" />
+												</div>
+												<div class="col-6">
+													<input id="end-time-3" type="datetime-local" class="form-control mt-2 w-30 mx-2" name="endTime" placeholder="종료시간" readonly />
+												</div>
+											</div>
+										</div>
+										<div class="row mt-3" id="schedule-submit">
+											<div class="col-8"></div>
+											<div class="col-4 mt-3 ml-3">
+												<button type="button" class="btn btn-outline-danger" id="btn-cancel">취소</button>
+												<button type="button" class="btn btn-outline-primary" id="btn-submit">등록</button>
+											</div>
+										</div>
+									</div>
+								</form>
 							</div>
+							<!-- 상영시간표 띄우기 -->
+							<div class="col-1 p-0"></div>
+				 			<div class="col-6 border p-3 ml-2" id="schedule-box">
+				 				<div class="row mb-3" id="schedule-info"></div>
+				 				<table class="table table-striped" id="schedule-table">
+				 					<thead>
+				 						<tr>
+				 							<th class="text-center">영화</th>
+				 							<th class="text-center">상영시간</th>
+				 							<th class="text-center">상영관</th>
+				 							<th class="text-center">예매현황</th>
+				 						</tr>
+				 					</thead>
+				 					<tbody id="schedule-tbody">
+				
+				 					</tbody>
+				 				</table>
+				 			</div>
 						</div>
 					</div>
-				</form>
+				</div>
 			</div>
-			<!-- 상영시간표 띄우기 -->
-			<div class="col-1"></div>
- 			<div class="col-6 border p-3 ml-2" id="schedule-box">
- 				<div class="row mb-3" id="schedule-info"></div>
- 				<table class="table table-striped" id="schedule-table">
- 					<thead>
- 						<tr>
- 							<th class="text-center">영화</th>
- 							<th class="text-center">상영시간</th>
- 							<th class="text-center">상영관</th>
- 							<th class="text-center">예매현황</th>
- 						</tr>
- 					</thead>
- 					<tbody id="schedule-tbody">
-
- 					</tbody>
- 				</table>
- 			</div>
-		</div>
-	</main>
-	
-	<footer>
-		<%@ include file="../../common/footer.jsp" %>
-	</footer>
-</div>
+		</main>
+	</div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 
@@ -148,7 +148,6 @@
 				type:"GET",
 				url:"../rest/branchName",
 				data:{code:branchCode},
-//				dataType:"json"
 				dataType:"text"
 			})
 			.done(function(name){

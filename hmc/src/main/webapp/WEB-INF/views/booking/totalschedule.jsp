@@ -328,6 +328,7 @@ $(function(){
 			data:{branch:branch,screenDate:screenDate,screenMovie:screenMovie},
 			dataType:"json"
 		}).done(function(result){
+			console.log(result);
 			var movies = result.movies;
 			changeScheduleZone(movies);
 		})

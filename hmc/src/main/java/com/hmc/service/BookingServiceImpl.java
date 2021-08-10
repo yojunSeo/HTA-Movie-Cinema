@@ -127,8 +127,8 @@ public class BookingServiceImpl implements BookingService{
 		if(book.getUsedCoupon() != null) {
 			publishedCouponDao.updatePublishedCouponStatusToY(book.getUsedCoupon());
 		}
-		// 포인트 사용한만큼 사용자포인트에서 차감
-		user.setPoint(user.getPoint() - book.getUsedPoint());
+		// 포인트 사용한만큼 사용자포인트에서 차감 // 적립예정포인트 적립하기
+		user.setPoint(user.getPoint() - book.getUsedPoint() + book.getSavedPoint());
 		// 만약 사용자의 현재등급이랑 예상등급이 다르다면!
 		if(!book.getExceptGrade().equals(user.getGrade())) {
 			insertGradeCouponAndPoint(book.getExceptGrade(), user);

@@ -11,120 +11,116 @@
 <title>상영스케줄 조회-HMC</title>
 </head>
 <body>
-   <div class="container">
-
-      <header>
-      	<%@ include file="../../common/header.jsp" %>
-      </header>
-
-      <main>
-         <div class="mt-3">
-			<h2 class="fw-lighter">상영스케줄 조회/변경/삭제</h2>
-			<a href="screen/list">스크린영화</a>
-			<a href="register">스캐줄등록</a>
-		</div>
-		<div class="row mb-2">
-				<div class="col-12">
-					<form id="form-search" class="form-inline justify-content-end" method="get" action="list">
-						<input type="hidden" name="page" value="${pagination.pageNo }" id="page-no">
-						<select class="form-control mr-4" name="branch" id="branch-search">
-							<option selected disabled> 영화관</option>
-							<c:forEach var="branch" items="${branchs }">
-								<option value="${branch.code }" ${param.branch eq branch.code ? 'selected' : '' }> ${branch.name }</option>
-							</c:forEach>
-						</select>
-						<select class="form-control mr-4" name="room" id="room-search">
-							<option selected disabled> 상영관</option>
-						</select>
-						<select class="form-control mr-4" name="movie" id="movie-search">
-							<option selected disabled> 영화</option>
-							<c:forEach var="movie" items="${movies }">
-								<option value="${movie.code }" ${param.movie eq movie.code ? 'selected' : ''}> ${movie.movieName }</option>
-							</c:forEach>
-						</select>
-						<input type="date" class="form-control mr-2" name="screenDate" id="date-search" value="${param.screenDate }">
-						<button type="button" class="btn btn-outline-primary" >조회</button>
-						<button type="button" class="btn btn-outline-success mx-2" >초기화</button>
-					</form>
+   <div class="container-fluid">
+		<main>
+			<div class="container-fluid mt-5">
+				<div class="row">
+					<div class="col-2">
+						<%@include file ="../sidebar.jsp"%>
+					</div>
+					<div class="col-10">
+						<div class="mt-3">
+							<h3>상영스케줄 조회/변경/삭제</h3>
+						</div>
+						<div class="row mb-2">
+							<div class="col-12">
+								<form id="form-search" class="form-inline justify-content-end" method="get" action="list">
+									<input type="hidden" name="page" value="${pagination.pageNo }" id="page-no">
+									<select class="form-control mr-4" name="branch" id="branch-search">
+										<option selected disabled> 영화관</option>
+										<c:forEach var="branch" items="${branchs }">
+											<option value="${branch.code }" ${param.branch eq branch.code ? 'selected' : '' }> ${branch.name }</option>
+										</c:forEach>
+									</select>
+									<select class="form-control mr-4" name="room" id="room-search">
+										<option selected disabled> 상영관</option>
+									</select>
+									<select class="form-control mr-4" name="movie" id="movie-search">
+										<option selected disabled> 영화</option>
+										<c:forEach var="movie" items="${movies }">
+											<option value="${movie.code }" ${param.movie eq movie.code ? 'selected' : ''}> ${movie.movieName }</option>
+										</c:forEach>
+									</select>
+									<input type="date" class="form-control mr-2" name="screenDate" id="date-search" value="${param.screenDate }">
+									<button type="button" class="btn btn-outline-primary" >조회</button>
+									<button type="button" class="btn btn-outline-success mx-2" >초기화</button>
+								</form>
+							</div>
+						</div>
+						<!-- 상영스케줄 테이블 시작 -->
+						<div class="row">
+						<table class="table table-hover" id="schedule-table">
+							<colgroup>
+								<col width="10%">
+								<col width="10%">
+								<col width="*%">
+								<col width="10%">
+								<col width="10%">
+								<col width="10%">
+								<col width="*%">
+								<col width="7%">
+							</colgroup>
+							<thead>
+								<tr>
+									<th class="text-center">영화관</th>
+									<th class="text-center">상영관</th>
+									<th class="text-center">영화</th>
+									<th class="text-center">상영일자</th>
+									<th class="text-center">시작</th>
+									<th class="text-center">종료</th>
+									<th class="text-center">예매</th>
+									<th class="text-center"></th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:choose>
+									<c:when test="${empty schedules}">
+										<tr>
+											<td colspan="10" class="text-center">해당 조건으로 조회된 스케줄이 없습니다.</td>
+										</tr>
+									</c:when>
+									<c:otherwise>
+										<c:forEach var="schedule" items="${schedules }" >
+											<tr data-schedule-code="${schedule.scheduleCode }">
+												<td class="text-center">${schedule.branchName }</td>
+												<td class="text-center">${schedule.roomName }</td>
+												<td class="text-center">${schedule.movieName }</td>
+												<td class="text-center"><fmt:formatDate value="${schedule.scheduleDate }" pattern="yyyy-MM-dd"/></td>
+												<td class="text-center"><fmt:formatDate value="${schedule.startTime }" pattern="HH:mm"/></td>
+												<td class="text-center"><fmt:formatDate value="${schedule.endTime }" pattern="HH:mm"/></td>
+												<td class="text-center"><span id="empty-seat">${schedule.emptySeat }</span> / <span id="total-seat">${schedule.totalSeat }</span></td>
+												<td class="text-center"><button class="btn btn-outline-danger btn-sm">삭제</button></td>
+											</tr>
+										</c:forEach>
+									</c:otherwise>
+								</c:choose>
+							</tbody>
+						</table>
+						</div>
+						<c:if test="${pagination.totalRows gt 0 }">
+							<div class="row mb-2" id="page-zone">
+								<div class="col-12">
+									<ul class="pagination justify-content-center">
+										<li class="page-item ${pagination.pageNo le 1 ? 'disabled' : ''}">
+											<a class="page-link" data-pageno="${pagination.pageNo - 1 }">이전</a>
+										</li>
+										<c:forEach var="num" begin="${pagination.beginPage }" end="${pagination.endPage }">
+											<li class="page-item ${pagination.pageNo eq num ? 'active' : '' }">
+												<a class="page-link" data-pageno="${num }">${num }</a>
+											</li>
+										</c:forEach>
+										<li class="page-item ${pagination.pageNo ge pagination.totalPages ? 'disabled' : ''}">
+											<a class="page-link" data-pageno="${pagination.pageNo + 1 }">다음</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</c:if>
+					</div>
 				</div>
 			</div>
-		<!-- 상영스케줄 테이블 시작 -->
-		<div class="row">
-		<table class="table table-hover" id="schedule-table">
-			<colgroup>
-				<col width="10%">
-				<col width="10%">
-				<col width="*%">
-				<col width="10%">
-				<col width="10%">
-				<col width="10%">
-				<col width="*%">
-				<col width="7%">
-			</colgroup>
-			<thead>
-				<tr>
-					<th class="text-center">영화관</th>
-					<th class="text-center">상영관</th>
-					<th class="text-center">영화</th>
-					<th class="text-center">상영일자</th>
-					<th class="text-center">시작</th>
-					<th class="text-center">종료</th>
-					<th class="text-center">예매</th>
-					<th class="text-center"></th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:choose>
-					<c:when test="${empty schedules}">
-						<tr>
-							<td colspan="10" class="text-center">해당 조건으로 조회된 스케줄이 없습니다.</td>
-						</tr>
-					</c:when>
-					<c:otherwise>
-						<c:forEach var="schedule" items="${schedules }" >
-							<tr data-schedule-code="${schedule.scheduleCode }">
-								<td class="text-center">${schedule.branchName }</td>
-								<td class="text-center">${schedule.roomName }</td>
-								<td class="text-center">${schedule.movieName }</td>
-								<td class="text-center"><fmt:formatDate value="${schedule.scheduleDate }" pattern="yyyy-MM-dd"/></td>
-								<td class="text-center"><fmt:formatDate value="${schedule.startTime }" pattern="HH:mm"/></td>
-								<td class="text-center"><fmt:formatDate value="${schedule.endTime }" pattern="HH:mm"/></td>
-								<td class="text-center"><span id="empty-seat">${schedule.emptySeat }</span> / <span id="total-seat">${schedule.totalSeat }</span></td>
-								<td class="text-center"><button class="btn btn-outline-danger btn-sm">삭제</button></td>
-							</tr>
-						</c:forEach>
-					</c:otherwise>
-				</c:choose>
-			</tbody>
-		</table>
-		</div>
-		<c:if test="${pagination.totalRows gt 0 }">
-			<div class="row mb-2" id="page-zone">
-				<div class="col-12">
-					<ul class="pagination justify-content-center">
-						<li class="page-item ${pagination.pageNo le 1 ? 'disabled' : ''}">
-							<a class="page-link" data-pageno="${pagination.pageNo - 1 }">이전</a>
-						</li>
-						<c:forEach var="num" begin="${pagination.beginPage }" end="${pagination.endPage }">
-							<li class="page-item ${pagination.pageNo eq num ? 'active' : '' }">
-								<a class="page-link" data-pageno="${num }">${num }</a>
-							</li>
-						</c:forEach>
-						<li class="page-item ${pagination.pageNo ge pagination.totalPages ? 'disabled' : ''}">
-							<a class="page-link" data-pageno="${pagination.pageNo + 1 }">다음</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</c:if>
-      </main>
-
-      <footer>
-      	<%@ include file="../../common/footer.jsp" %>
-      </footer>
-
-   </div>
-   
+		</main>
+	</div>
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
 
