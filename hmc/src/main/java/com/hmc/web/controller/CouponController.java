@@ -77,10 +77,10 @@ public class CouponController {
 	}
 	
 	@GetMapping("/coupon/detail")
-	public String eventDetail(@RequestParam("no") String couponCode, Model model) {
+	public String eventDetail(@RequestParam("code") String couponCode, Model model) {
 		
 		Coupon coupon = couponService.getCouponDetail(couponCode);
-		
+		System.out.println("디테일 실행");
 		model.addAttribute("coupon", coupon);
 
 		
@@ -91,10 +91,27 @@ public class CouponController {
 	
 	@RequestMapping("/coupon/add")
 	public @ResponseBody ResponseEntity<Coupon> add(Coupon coupon){
+		System.out.println("쿠폰등록");
 		couponDao.insertCoupon(coupon);
 		Coupon savedCoupon = couponDao.getCouponByCode(coupon.getCode());
 		
 		return new ResponseEntity<Coupon>(savedCoupon, HttpStatus.OK);
+	}
+	
+	@RequestMapping("/coupon/modify")
+	public @ResponseBody ResponseEntity<Coupon> modify(Coupon coupon) {
+		Coupon savedCoupon = couponDao.getCouponByCode(coupon.getCode());
+		if (savedCoupon == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		savedCoupon.setCode(coupon.getCode());
+		savedCoupon.setType(coupon.getType());
+		savedCoupon.setName(coupon.getName());
+		savedCoupon.setEventCode(coupon.getEventCode());
+		
+		couponDao.updateCoupon(savedCoupon);
+		
+		return new ResponseEntity<>(savedCoupon, HttpStatus.OK);
 	}
 	
 	
