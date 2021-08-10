@@ -48,5 +48,7 @@ public interface UserService {
 	void setAdmin(User user);
 	
 	void removeAdmin(User user);
+	
+	Map<String, Object> getUserExpectedGrade();
 
 }

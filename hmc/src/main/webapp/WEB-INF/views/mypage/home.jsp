@@ -1,3 +1,4 @@
+<%@page import="com.fasterxml.jackson.annotation.JsonInclude.Include"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <!doctype html>
@@ -73,18 +74,22 @@ html, body {
 	<div class="container">
 	<header><%@ include file="../common/header.jsp"%></header>
 		<main>
-			<div class="box row mb-5">
+			<div class="box row mb-5 ">
 				<div class="box1">
-					<div class="box2 col-9 rounded-3">
-						<table>
+					<div class="box2 col-9 rounded-3 border border-2">
+						<table id="user-info-table">
 							<tr style="vertical-align: top">
 								<td style="width: 750px; height:350px; border-right: 1px solid lightgray; padding-right: 12px; text-align: justify">
-									멤버십 등급${saveduser.grade }
-									<div class="mt-2" style="font-size: 25px;">
-										<strong>회원${saveduser.name }</strong>님 반가워요!
+									<span class="large badge rounded-pill">${LOGINED_USER.grade }</span>
+									<div class="my-4" style="font-size: 25px;">
+										<strong>${LOGINED_USER.name }</strong>님 반가워요!
 									</div>
-									<div class="mt-5">
-										${saveduser.name }회원님의 잔여포인트는 ${saveduser.point }점입니다.
+									<div class="text-center my-3">
+										<p class="fs-5 mt-3">현재 보유 포인트는 <strong><fmt:formatNumber>${LOGINED_USER.point }</fmt:formatNumber></strong> 점 입니다.</p>
+										<p class="fs-5 mt-3"><span class="large badge bg-success rounded-pill">BRONZE</span> 등급까지 <strong id="remain-price">40,000원</strong> 원 남았어요!</p>
+										<p class="my-5"></p>
+										<p class="my-5"></p>
+										<p id="membership"><span class="large badge rounded-pill text-white m-3 p-2" style="background-color: #FF243E">Membership 페이지 가기</span></p>
 									</div>
 									</td>
 								<td style="padding-left: 20px">My영화관</td>
@@ -110,8 +115,7 @@ html, body {
 								data-bs-target="#coupon">쿠폰함</a></li>
 						<li class="nav-item"><a class="nav-link" id="event-tab" href="#event" data-bs-toggle="tab" 
 								data-bs-target="#event">My이벤트</a></li>
-						<li class="nav-item"><a class="nav-link" id="inquery-tab" href="#inquery" data-bs-toggle="tab" 
-								data-bs-target="#inquery">1:1문의</a></li>
+						<li class="nav-item"><a class="nav-link" href="/hmc/cs/inqueryForm">1:1문의</a></li>
 						<li class="nav-item dropdown"><a
 							class="nav-link dropdown-toggle" aria-current="page" data-bs-toggle="dropdown"
 							href="#" role="button" aria-expanded="false">My정보관리</a>
@@ -127,13 +131,11 @@ html, body {
 					<div class="tab-content mt-3" id="myTabContent"> 
 						<div class="tab-pane show active" id="booking" role="tabpanel"
 							aria-labelledby="booking-tab">
-							<h3>예매내역 화면</h3>
-
+							<%@include file ="booking.jsp"%>
 						</div>
 						<div class="tab-pane fade" id="payment" role="tabpanel"
 							aria-labelledby="payment-tab">
-							<h3>구매/선물내역 화면</h3>
-
+							<%@include file ="gift.jsp"%>
 						</div>
 						<div class="tab-pane fade" id="coupon" role="tabpanel"
 							aria-labelledby="coupon-tab">
@@ -143,11 +145,6 @@ html, body {
 						<div class="tab-pane fade" id="event" role="tabpanel"
 							aria-labelledby="event-tab">
 							<h3>My이벤트 화면</h3>
-
-						</div>
-						<div class="tab-pane fade" id="inquery" role="tabpanel"
-							aria-labelledby="inquery-tab">
-							<h3>1:1:문의 화면</h3>
 
 						</div>
 						<div class="tab-pane fade" id="usermodify" role="tabpanel"
@@ -163,7 +160,6 @@ html, body {
 						<div class="tab-pane fade" id="userexit" role="tabpanel"
 							aria-labelledby="userexit-tab">
 							<h3>회원탈퇴 화면</h3>
-
 						</div>
 					</div>
 				</div>
@@ -181,6 +177,19 @@ html, body {
 	
 	<script type="text/javascript">
 	$(function() {
+		var ugrade = $('#user-info-table .badge').text();
+		var color = changeUserGradeColor(ugrade);
+		$('#user-info-table .badge:first').addClass(color);
+		
+		$.getJSON("rest/user/grade", function(result){
+			console.log(result)
+			var nextGrade = result.nextGrade;
+			var remainPrice = parseInt(result.remainPrice).toLocaleString();
+			var color = changeUserGradeColor(nextGrade);
+			$('#user-info-table .badge:eq(1)').addClass(color);
+			$('#user-info-table #remain-price').text(remainPrice);
+			
+		});
 		
 		// 각각의 탭이 화면에 표시될 때 show.bs.tab 이벤트가 발생함.
 		// 각각의 탭이 화면에 표시될 때 브라우져 쿠키에 사용자정의 쿠키값을 저장함
@@ -269,6 +278,26 @@ html, body {
 				$("#userexit-tab").trigger('click');
 			} 
 		})();	
+		
+		function changeUserGradeColor(ugrade){
+			
+			var gradeColor = "bg-dark";
+			if(ugrade == "BRONZE"){
+				gradeColor = "bg-success";
+			}else if(ugrade == "SILVER"){
+				gradeColor = "bg-secondary";
+			}else if(ugrade == "GOLD"){
+				gradeColor = "bg-warning";
+			}else if(ugrade == "PLATINUM"){
+				gradeColor = "bg-primary";
+			}
+			return gradeColor;
+		}
+		
+		$('#membership').on('click',function(){
+			location.href = "/hmc/cs/membership";
+		})
+		
 	})	
 	</script>
 </body>

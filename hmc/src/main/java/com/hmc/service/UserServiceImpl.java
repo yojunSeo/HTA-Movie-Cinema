@@ -2,6 +2,7 @@ package com.hmc.service;
 
 
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -10,10 +11,12 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hmc.dao.PaymentDao;
 import com.hmc.dao.UserDao;
 import com.hmc.exception.FindException;
 import com.hmc.exception.LoginException;
 import com.hmc.exception.UserRegisterException;
+import com.hmc.vo.Payment;
 import com.hmc.vo.User;
 import com.hmc.web.util.SessionUtils;
 
@@ -22,6 +25,35 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	UserDao userDao;
+	@Autowired
+	PaymentDao paymentDao;
+	
+	@Override
+	public Map<String, Object> getUserExpectedGrade() {
+		Map<String, Object> result = new HashMap<String, Object>();
+		User user = (User)SessionUtils.getAttribute("LOGINED_USER");
+		int nowPaymentPrice = paymentDao.getUserTotalPayment(user.getId());
+		int remainPrice = 0;
+		String userGrade = user.getGrade();
+		String nextGrade = null;
+		if(nowPaymentPrice < 200000) {
+			nextGrade = "BRONZE";
+			remainPrice = 200000 - nowPaymentPrice;
+		}else if(nowPaymentPrice <400000) {
+			nextGrade = "SILVER";
+			remainPrice = 400000 - nowPaymentPrice;
+		}else if(nowPaymentPrice < 700000) {
+			nextGrade = "GOLD";
+			remainPrice = 700000 - nowPaymentPrice;
+		}else if(nowPaymentPrice < 1000000) {
+			nextGrade = "PLATINUM";
+			remainPrice = 1000000 - nowPaymentPrice;
+		}
+		
+		result.put("nextGrade", nextGrade);
+		result.put("remainPrice", remainPrice);
+		return result;
+	}
 	
 
 	@Override

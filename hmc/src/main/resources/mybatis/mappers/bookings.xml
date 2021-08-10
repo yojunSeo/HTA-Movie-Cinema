@@ -43,6 +43,8 @@
 			*
 		from 
 			t_booking
+		where
+			user_id = #{value}
 		order by
 			booking_code desc
 	</select>
@@ -51,7 +53,7 @@
 		select
 			booking_code 			as bookingcode,
             sh.schedule_code 		as scheduleCode,
-            mv.movie_name 			as movieName,
+            sc.movie_name 			as movieName,
             sh.schedule_date as scheduleDate,
             sh.schedule_start_time as startTime,
             sh.schedule_end_time as endTime,
@@ -66,7 +68,7 @@
             booking_total_price 	as totalPrice,
             booking_status as status
 		from 
-			t_booking bk, t_schedule sh, t_screen_movie sc, t_movie mv, t_room rm, t_branch br
+			t_booking bk, t_schedule sh, t_screen_movie sc, t_room rm, t_branch br
         where
             bk.schedule_code = sh.schedule_code
         and     
@@ -76,7 +78,7 @@
         and
             sh.screen_code = sc.screen_code
         and
-            sc.movie_code = mv.movie_code
+            bk.user_id = #{value}
 		order by
 			booking_code desc
 	</select>
