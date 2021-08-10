@@ -21,7 +21,7 @@
 		from
 			t_notice
 		where
-				notice_status NOT IN ('N')
+				notice_status in ('Y','I')
 			<choose>
 					<when test="opt != null and opt == 'title'">
 						and notice_title like '%' || #{keyword} || '%'
@@ -47,7 +47,7 @@
 			notice_created_date as createdDate, notice_modified_date as modifiedDate, notice_status as status, notice_view_cnt as viewCnt
 		from(
 			select
-				row_number() over (order by notice_status) rn,
+				row_number() over (order by notice_status, notice_code) rn,
 				notice_code, notice_category, notice_writer, notice_title, notice_content, notice_created_date, notice_modified_date,
 				notice_status, notice_view_cnt 
 			from
@@ -62,12 +62,9 @@
 						and notice_content like '%' || #{keyword} || '%'
 					</when>
 				</choose>	
-			order by notice_status		
 		)  
 		where 
 			rn between #{beginIndex} and #{endIndex}
-		order by notice_status	
-			
 	</select>
 	
 	<update id="updateNotice" parameterType="com.hmc.vo.Notice">

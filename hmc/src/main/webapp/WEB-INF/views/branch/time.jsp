@@ -29,15 +29,19 @@
 		font-weight: bold;
 		color: #FF243E;
 	}
-	
 	.calendar-btn {
 		background-color: transparent;
+		margin-left: 20px;
+		margin-right: 20px;
 		border: none;
-		font-size: 15px;
-		font-weight:bold;
+		text-align: center;
+		font-size: 18px;
+	}
+	.calendar-btn p {
+		margin: 0px;
 	}
 	.calendar-btn .dayNumber {
-		font-size: 18px;
+		font-size: 20px;
 		height:30px;
 		width:30px;
 		text-align:center;
@@ -70,18 +74,35 @@
 				<tr>
 					<td></td>
 					<td class="text-end">
-					<button class="btn btn-outline-secondary">
-						<img alt="" src="../resources/images/branch/favorite.png" width="30px">
-						<img alt="" src="../resources/images/branch/unfavorite.png" width="30px">
-						 나의 지점 등록
-					</button>
-					<td></td>
+						<c:choose>
+							<c:when test="${empty LOGINED_USER}">	<!-- 로그인이 안되어 있을때 -->
+								<button class="btn btn-outline-secondary">
+									<img alt="" src="../resources/images/branch/unfavorite.png" width="30px">
+									나의 영화관 등록
+								</button>
+							</c:when>
+							<c:when test="${LOGINED_USER.favoriteBranch1 == branchCode || LOGINED_USER.favoriteBranch1 == branchCode || LOGINED_USER.favoriteBranch1 == branchCode}">
+								<!-- 로그인 되어있고 나의 영화관 일때 -->
+								<span class="p-3 mt-2">
+									<img alt="" src="../resources/images/branch/favorite.png" width="30px">
+									나의 영화관
+								</span>
+							</c:when>
+							<c:otherwise>
+								<!-- 로그인 되어 있고 나의 영화관이 아닐때 -->
+								<button class="btn btn-outline-secondary">
+									<img alt="" src="../resources/images/branch/unfavorite.png" width="30px">
+									나의 영화관 등록
+								</button>
+							</c:otherwise>
+						</c:choose>
 			  		</td>
+					<td></td>
 			  	</tr>
 				<tr>
 					<td></td>
 					<td class="align-middle text-center" style="">
-					<h2>지점 이름</h2>
+					<h2>${branchDetail.name }</h2>
 					</td>
 					<td></td>
 				</tr>
@@ -90,37 +111,87 @@
 			<!-- 탭 구현 -->
 			<div class="row fs-6 justify-content-center text-center" style="display: flex;">
 				<div class="col-4 p-2 tab">
-					<a href="detail?code=${branchDeatil.code}" class="btn">지점상세</a>
+					<a href="detail?code=${branchCode}" class="btn">지점상세</a>
 				</div>
 				<div class="col-4 p-2 tab_selected" >
-					<a href="timetable?code=${branchDeatil.code}" class="btn">상영시간표</a>
+					<a href="timetable?code=${branchCode}" class="btn">상영시간표</a>
 				</div>
 				<div class="col-4 p-2 tab">
-					<a href="price?code=${branchDeatil.code}" class="btn">가격</a>
+					<a href="price?code=${branchCode}" class="btn">가격</a>
 				</div>
 			</div>
 			
-			<div class="mt-5 p-3" style="height:1000px;">
+			<div class="row mt-5 p-3" >
+				<!-- 날짜 선택 -->
 				<div class="row justify-content-center">
-					<div class="col-6">
-					  <div class="btn-group" role="group" aria-label="First group">
-						<button type="button" class="calendar-btn">
-							<p>8월</p>
-							<p class="circle dayNumber">1</p>
-							<p>오늘</p>
-						</button>
-						<button type="button" class="calendar-btn">
-							<p>8월</p>
-							<p class="dayNumber">2</p>
-							<p>토</p>
-						</button>
+					<div class="col-10 p-2" style="border-top: solid 1px black; border-bottom: solid 1px black; ">
+					  <div class="btn-group text-center" id="box-day-selector" style="left:11%;">
 					    
 					  </div>
 					</div>
 				</div>
+				<!-- 관람등급 -->
+				<div class="row justify-content-center" >
+					<div class="col-10 text-end p-3" style="background-color:#F2F2F2; font-size:13px;">
+						<span class="badge rounded-pill bg-info">All</span> 전체 관람가 
+						<span class="badge rounded-pill bg-warning ms-2">12</span> 12세 관람가 
+						<span class="badge rounded-pill bg-success ms-2">15</span> 15세 관람가 
+						<span class="badge rounded-pill bg-danger ms-2">19</span> 청소년 관람불가 
+					</div>
+				</div>
+				<!-- 상영 영화 -->
+				<div class="row justify-content-center">
+					<div class="col-10" id="movie-time" data-branch-code="${branchCode}">
+
+					</div>
+				</div>
 			</div>
-
-
+			
+			<div class="modal fade" id="booking-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header" style="background-color: #666666">
+								<p class="modal-title text-white fw-bold fs-3" id="modalLabel"><span class='badge rounded-pill mx-3' id="modalGrade"></span><span id="modalMovieName"></span></p>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<table class="table table-bordered text-center" id="todal-table">
+									<colgroup>
+										<col width="40%">
+										<col width="60%">
+									</colgroup>
+									<tr>
+										<th>상영지점</th>
+										<td>지점</td>
+									</tr>
+									<tr>
+										<th>상영일</th>
+										<td>1월 1일</td>
+									</tr>
+									<tr>
+										<th>시작시간</th>
+										<td>00:00</td>
+									</tr>
+									<tr>
+										<th>종료시간</th>
+										<td>00:00</td>
+									</tr>
+									<tr>
+										<th>잔여좌석</th>
+										<td>50석</td>
+									</tr>
+									<tr>
+										<td colspan="2" class="fs-4">OO 관람등급입니다.</td>
+									</tr>
+								</table>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+								<button type="button" class="btn btn-primary" id="btn-post-todo">예매하러가기</button>
+							</div>
+						</div>
+				</div>
+			</div>
 		</main>
 
 		<footer>
@@ -134,15 +205,179 @@
 
 	<script>
 		$(function() {
-			var todayDate = new Date();
-			var year = todayDate.getYear;
-			var month = todayDate.getMonth;
-			var day = todayDate.getDay;
+			// 일자 선택 출력 정보
+			var today = new Date();
+			var year = today.getFullYear();	// 이번 해
+			var month = today.getMonth();	// 이번 달 (0~11의 값)
+			var date = today.getDate();	// 오늘 일(0~31의 값)
+			var $selectDayBtn;
+			var selectDay;
 			
-			console.log(todayDate);
-			console.log(year);
-			console.log(month);
-			console.log(day);
+			var dayOfWeek = ['일', '월', '화', '수', '목', '금', '토']	// 요일(0~6의 값, 일요일이 0)
+			
+			var $daySelectorBox = $('#box-day-selector').empty();
+			
+			// 오늘 포함 10일간 선택지 출력 
+			for(var i=0; i<10; i++) {
+				var tempDay = new Date(year, month, date+i);
+				var day = tempDay.getDay();
+				
+				var div = '<button type="button" class="calendar-btn" data-date="'+ tempDay.getFullYear()+"/"+(tempDay.getMonth()+1)+"/"+tempDay.getDate() +'">';
+				if(tempDay.getDate() == 1) {
+					var tempMonth = tempDay.getMonth()+1;
+					div += '<p>' + tempMonth +'월 </p>';
+				}
+				else div += '<p><br/> </p>';
+				div	+= '<p class="dayNumber" id="day-selector-number">' + tempDay.getDate() + '</p>';
+				// 오늘일 경우 요일칸을 오늘로 표시
+				if(i == 0) div += '<p>오늘</p>';
+				else div += '<p id="day-selector-day">' + dayOfWeek[day] + '</p>';
+				div	+= '</button>';
+				
+				$daySelectorBox.append(div);
+			}
+			
+			// 토, 일은 color 부여
+			$(".calendar-btn p:contains('토')").css("color","blue").prev().css("color","blue");
+			$(".calendar-btn p:contains('일')").css("color","red").prev().css("color","red");
+			
+			// 오늘이 토,일 일 경우 color 부여
+			if(today.getDay() == 6) {
+				$(".calendar-btn p:contains('오늘')").css("color","blue").prev().css("color","blue");
+			} else if(today.getDay() == 0) {
+				$(".calendar-btn p:contains('오늘')").css("color","red").prev().css("color","red");
+			}
+			
+			
+			var branchCode = $("#movie-time").data("branch-code");
+			
+			
+			// 선택일이 없을 경우(페이지 초기) 첫번째 일자(오늘)을 선택함
+			if(!$selectDayBtn) {
+				if($("#day-selector-number").text() == today.getDate()) {
+					$("#day-selector-number").addClass('circle');
+					$selectDayBtn = $("#day-selector-number").closest(".calendar-btn");
+					selectDay = $selectDayBtn.data("date");
+					
+					getMovieScheduleByDateAndBranch(branchCode, selectDay);
+				}
+			}
+
+			// click 이벤트가 발생할 경우 실행되는 기능
+			$(".calendar-btn").click(function() {
+				$selectDayBtn.find("#day-selector-number").removeClass('circle');
+				
+				$selectDayBtn = $(this);
+				selectDay = $selectDayBtn.data("date");
+				$(this).find("#day-selector-number").addClass('circle');
+				getMovieScheduleByDateAndBranch(branchCode, selectDay);
+			})
+			
+			
+			// 지점코드와 상영일로 스케줄 불러오기
+			function getMovieScheduleByDateAndBranch(branchCode, screenDate){
+				$.ajax({
+					type:"GET",
+					url:"../booking/schedule/rest/branch/getMovieSchedule",
+					data:{branchCode:branchCode,screenDate:screenDate},
+					dataType:"json"
+				}).done(function(movies){
+					printTimeTable(movies);
+				})
+			}
+			
+			function printTimeTable(movies) {
+				
+				var TTdiv;
+				
+				$('#movie-time').empty();
+				
+				$.each(movies, function(index, movie) {
+					TTdiv = '<div id="box-movie-time" class="mt-4"> <div>';
+					if(movie.movieGrade == "12세이상관람가") {
+						TTdiv += '<span class="badge rounded-pill bg-warning mx-2">12</span>';						
+					} else if(movie.movieGrade == "15세이상관람가") {
+						TTdiv += '<span class="badge rounded-pill bg-success mx-2">15</span>';						
+					} else if(movie.movieGrade == "청소년관람불가") {
+						TTdiv += '<span class="badge rounded-pill bg-danger mx-2">19</span>';						
+					} else if(movie.movieGrade == "전체관람가") {
+						TTdiv += '<span class="badge rounded-pill bg-info mx-2">All</span>';						
+					}
+						
+					TTdiv += '<span id="movieName">' + movie.movieName + '</sapn></div><div class="row">';
+					
+					// 3D, 2D 여부 처리 어케 해야할지
+					// var += '<p id="movie-type">2D</p>'
+					$.each(movie.schedules, function(index, schedule) {
+
+						TTdiv += '<div class="col-2 mt-3 d-grid gap-4">';
+						TTdiv += '<button id="movie-time-item" class="btn btn-outline-secondary position-relative"'
+						 	  +  ' data-end-time="' + schedule.endTime + '" data-schedule-code="' + schedule.scheduleCode + '">';
+						if(schedule.roomName == "3D관") {
+							TTdiv += '<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">' + schedule.roomName + '</span>';
+						} else {
+							TTdiv += '<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark">' + schedule.roomName + '</span>';
+						}
+						TTdiv += '<p style="margin:0px;">' + schedule.startTime +'</p>'
+						TTdiv += '<pstyle="margin:0px;">' + schedule.emptySeat + '/'+ schedule.totalSeat +'</p>'
+						TTdiv += '</button>';
+						TTdiv += '</div>'
+					})
+					TTdiv += '</div></div>';
+					$('#movie-time').append(TTdiv);
+				})
+			}
+			
+			var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+			var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+			  return new bootstrap.Popover(popoverTriggerEl)
+			})
+			
+			// 마우스 엔터
+			$("#movie-time").on('mouseenter', '.btn-outline-secondary', function() {
+				var endTime = $(this).data("end-time");
+				$(this)
+				
+			})
+			
+			// 영화 시간을 클릭하면 모달창 띄우기
+			var bookingModal = new bootstrap.Modal(document.getElementById("booking-modal"), {
+			keyboard: false
+			})
+			
+			$("#movie-time").on('click', '.btn-outline-secondary', function() {
+				var schCode = $(this).data("schedule-code");
+				
+				$.getJSON("../booking/schedule/rest/scheduleDetail?scheduleCode=" + schCode)
+				.done(function(schedule) {
+					
+					var grade = schedule.movieGrade;
+					if(grade == "12세이상관람가") {
+						$("#modalGrade").addClass("bg-warning").text("12");
+					} else if(grade == "15세이상관람가") {
+						$("#modalGrade").addClass("bg-success").text("15");						
+					} else if(grade == "청소년관람불가") {
+						$("#modalGrade").addClass("bg-danger").text("19");						
+					} else if(grade == "전체관람가") {
+						$("#modalGrade").addClass("bg-info").text("All");
+					}
+					
+					$("#modalMovieName").text(schedule.movieName);
+					
+					$("#todal-table tr td").eq(0).text(schedule.branchName);
+					$("#todal-table tr td").eq(1).text(schedule.scheduleDate);
+					$("#todal-table tr td").eq(2).text(schedule.startTime);
+					$("#todal-table tr td").eq(3).text(schedule.endTime);
+					$("#todal-table tr td").eq(4).text(schedule.emptySeat);
+					$("#todal-table tr td").eq(5).text($("#modalGrade").html()).append("<span> 관람등급입니다</span>");
+					
+					console.log($("#modalLabel").html());
+					
+				})
+				bookingModal.show();
+			})
+			
+			
 		});
 	</script>
 </body>

@@ -15,8 +15,9 @@ public class Product {
 	private String category;
 	private String name;
 	private int price;
-	private int discount_rate;
+	private int discountRate;
 	private int stock;
 	private String memo;
+	private String imageFileName;
 	private Date createdDate;
 }

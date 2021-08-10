@@ -50,7 +50,7 @@
 							<p class="text-center"><a href="../login/" class="btn btn-danger btn-sm text-light">회원가입</a></p>
 						</c:when>
 						<c:otherwise>
-							<div class="row text-center">
+							<div class="row text-center mt-3">
 								<c:if test="${LOGINED_USER.grade == 'NORMAL' }">
 									<p><span class="fw-bold">${LOGINED_USER.name }</span>님은 <span class="badge rounded-pill bg-dark text-light"> ${LOGINED_USER.grade }</span> 등급입니다.</p>
 								</c:if>

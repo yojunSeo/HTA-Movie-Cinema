@@ -124,7 +124,9 @@ html, body {
 								</div>
 							</div>
 							<div class="btminfo">
-								<strong>모가디슈</strong><br /> <span> <span>예매율<em>54.0%</em></span>
+								<strong>모가디슈</strong><br /> 
+								<span> 
+									<span>예매율<em>54.0%</em></span>
 									<span>${movie.totalScore }</span>
 								</span>
 							</div>
@@ -132,9 +134,8 @@ html, body {
 						<li>
 							<div class="topinfo">
 								<span> <img class="poster"
-									src="https://caching.lottecinema.co.kr//Media/MovieFile/MovieImg/202107/17623_103_1.jpg"
-									alt="보스 베이비2"> <!-- 								<em class="numinfo">1</em> -->
-									<!-- 								<span class="ic_grade gr_15"> :: before</span> -->
+									src="https://caching.lottecinema.co.kr//Media/MovieFile/MovieImg/202107/17623_103_1.jpg" alt="보스 베이비2"> <!-- 								<em class="numinfo">1</em> -->
+<!-- 								<span class="ic_grade gr_15"> :: before</span> -->
 								</span>
 								<div class="overbox">
 									<div class="inner" style="margin-top: -20px;">
@@ -151,18 +152,21 @@ html, body {
 						<li>
 							<div class="topinfo">
 								<span> <img class="poster"
-									src="https://caching.lottecinema.co.kr//Media/MovieFile/MovieImg/202004/15496_103_1.jpg"
-									alt="블랙 위도우"> <!-- 								<em class="numinfo">1</em> -->
-									<!-- 								<span class="ic_grade gr_15"> :: before</span> -->
+									src="https://caching.lottecinema.co.kr//Media/MovieFile/MovieImg/202004/15496_103_1.jpg" alt="블랙 위도우"> 
+<!-- 								<em class="numinfo">1</em> -->
+<!-- 								<span class="ic_grade gr_15"> :: before</span> -->
 								</span>
 								<div class="overbox">
 									<div class="inner" style="margin-top: -20px;">
-										<a href="예매페이지">예매하기</a> <a href="/movie/detail.jsp">상세정보</a>
+										<a href="예매페이지">예매하기</a> 
+										<a href="/movie/detail.jsp">상세정보</a>
 									</div>
 								</div>
 							</div>
 							<div class="btminfo">
-								<strong>블랙 위도우</strong><br /> <span> <span>예매율<em>7.7%</em></span>
+								<strong>블랙 위도우</strong><br /> 
+								<span> 
+									<span>예매율<em>7.7%</em></span>
 									<span>${movie.totalScore }</span>
 								</span>
 							</div>
@@ -170,18 +174,21 @@ html, body {
 						<li>
 							<div class="topinfo">
 								<span> <img class="poster"
-									src="https://caching.lottecinema.co.kr//Media/MovieFile/MovieImg/202107/17530_103_1.jpg"
-									alt="정글크루즈"> <!-- 								<em class="numinfo">1</em> -->
-									<!-- 								<span class="ic_grade gr_15"> :: before</span> -->
+									src="https://caching.lottecinema.co.kr//Media/MovieFile/MovieImg/202107/17530_103_1.jpg" alt="정글크루즈"> 
+<!-- 								<em class="numinfo">1</em> -->
+<!-- 								<span class="ic_grade gr_15"> :: before</span> -->
 								</span>
 								<div class="overbox">
 									<div class="inner" style="margin-top: -20px;">
-										<a href="예매페이지">예매하기</a> <a href="/movie/detail.jsp">상세정보</a>
+										<a href="예매페이지">예매하기</a> 
+										<a href="/movie/detail.jsp">상세정보</a>
 									</div>
 								</div>
 							</div>
 							<div class="btminfo">
-								<strong>정글 크루즈</strong><br /> <span> <span>예매율<em>4.1%</em></span>
+								<strong>정글 크루즈</strong><br /> 
+								<span> 
+									<span>예매율<em>4.1%</em></span>
 									<span>${movie.totalScore }</span>
 								</span>
 							</div>
@@ -189,9 +196,9 @@ html, body {
 						<li>
 							<div class="topinfo">
 								<span> <img class="poster"
-									src="https://caching.lottecinema.co.kr//Media/MovieFile/MovieImg/202107/17624_103_1.jpg"
-									alt="방법:재차의"> <!-- 								<em class="numinfo">1</em> -->
-									<!-- 								<span class="ic_grade gr_15"> :: before</span> -->
+									src="https://caching.lottecinema.co.kr//Media/MovieFile/MovieImg/202107/17624_103_1.jpg" alt="방법:재차의"> 
+<!-- 								<em class="numinfo">1</em> -->
+<!-- 								<span class="ic_grade gr_15"> :: before</span> -->
 								</span>
 								<div class="overbox">
 									<div class="inner" style="margin-top: -20px;">
@@ -200,7 +207,9 @@ html, body {
 								</div>
 							</div>
 							<div class="btminfo">
-								<strong>방법: 재차의</strong><br /> <span> <span>예매율<em>1.6%</em></span>
+								<strong>방법: 재차의</strong><br /> 
+								<span> 
+									<span>예매율<em>1.6%</em></span>
 									<span>${movie.totalScore }</span>
 								</span>
 							</div>

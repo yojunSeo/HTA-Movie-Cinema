@@ -52,6 +52,21 @@ public class LoginController {
 	@PostMapping("/")
 	public String login(@RequestParam("id") String userId, @RequestParam("password") String password) {
 		userService.login(userId, password);
+		
+		// 로그인 전 페이지로 되돌아가기
+		String returnUri = (String) SessionUtils.getAttribute("returnUri");
+		String returnParameter = (String) SessionUtils.getAttribute("returnParameter");
+		SessionUtils.removeAttribute("returnUri");
+		SessionUtils.removeAttribute("returnParameter");
+		System.out.println(returnUri);
+		if (returnUri != null && returnParameter != null) {
+			return "redirect:" + returnUri + "?" + returnParameter;
+			
+		} else if(returnUri != null && returnParameter == null){
+			return "redirect:" + returnUri;
+			
+		}
+		
 		return "redirect:../home";
 	}
 	
@@ -87,5 +102,4 @@ public class LoginController {
 		
 		return "login/infomPwd";
 	}
-
 }

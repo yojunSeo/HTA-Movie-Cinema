@@ -1,6 +1,9 @@
 package com.hmc.service;
 
 
+import java.util.List;
+import java.util.Map;
+
 import com.hmc.vo.User;
 
 public interface UserService {
@@ -34,6 +37,18 @@ public interface UserService {
 	
 	String findPwd(String id, String email);
 	
+	List<User> AdminGetAllUsers(Map<String, Object> param);
 	
+	int getTotalRows(Map<String, Object> param);
+	
+	User getUserById(String userId);
+	
+	void rollbackUser(User user);
+	
+	void setAdmin(User user);
+	
+	void removeAdmin(User user);
+	
+	Map<String, Object> getUserExpectedGrade();
 
 }

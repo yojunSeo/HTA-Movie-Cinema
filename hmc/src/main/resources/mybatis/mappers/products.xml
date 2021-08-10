@@ -7,17 +7,18 @@
 		<result column="product_category" property="category"/>
 		<result column="product_name" property="name"/>
 		<result column="product_price" property="price"/>
-		<result column="product_discount_rate" property="discount_rate"/>
+		<result column="product_discount_rate" property="discountRate"/>
 		<result column="product_stock" property="stock"/>
 		<result column="product_memo" property="memo"/>
+		<result column="product_image_name" property="imageFileName"/>
 		<result column="product_created_date" property="createdDate"/>
 	</resultMap>
 	
 	<insert id="insertProduct" parameterType="com.hmc.vo.Product">
 		insert into t_product
-		(product_code, product_category, product_name, product_price, product_stock, product_memo)
+		(product_code, product_category, product_name, product_price, product_stock, product_memo, product_discount_rate, product_image_name)
 		values
-		('PD' || lpad(t_product_seq.nextval,6,0), #{category}, #{name}, #{price}, #{stock}, #{memo} )
+		('PD' || lpad(t_product_seq.nextval,6,0), #{category}, #{name}, #{price}, #{stock}, #{memo}, #{discountRate}, #{imageFileName} )
 	</insert>
 	
 	<select id="getAllProduct" resultMap="ProductResultMap">
@@ -25,6 +26,20 @@
 			*
 		from
 			t_product
+	</select>
+	
+	<select id="getProductByIndex" parameterType="map" resultMap="ProductResultMap">
+		select
+			*
+		from (
+		    select
+		        row_number() over (order by product_code desc) rn,
+		        product_code, product_category, product_name, product_price, product_discount_rate, product_stock,
+		        product_memo, product_created_date, product_image_name
+		    from 
+		        t_product)
+		where
+		    rn between #{beginIndex} and #{endIndex}
 	</select>
 	
 	<select id="getProductByCode" parameterType="string" resultMap="ProductResultMap">
@@ -35,9 +50,9 @@
 		where
 			product_code = #{value}
 	</select>
-
+	
 	<select id="getTotalProductsRows" resultType="int">
-		select
+		select 
 			count(*)
 		from
 			t_product
@@ -57,11 +72,11 @@
 			product_category = #{category},
 			product_name = #{name},
 			product_price = #{price},
-			product_discount_rate = #{discount_rate},
+			product_discount_rate = #{discountRate},
 			product_stock = #{stock},
-			product_memo = #{memo}
+			product_memo = #{memo},
+			product_image_name = #{imageFileName}
 		where
 			product_code = #{code}
 	</update>
-
 </mapper>

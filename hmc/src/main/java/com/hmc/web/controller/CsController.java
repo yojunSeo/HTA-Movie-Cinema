@@ -9,8 +9,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.NumberUtils;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,8 +22,8 @@ import com.hmc.vo.Notice;
 import com.hmc.vo.Pagination;
 import com.hmc.vo.User;
 import com.hmc.web.util.SessionUtils;
+import com.hmc.web.annotation.LoginUser;
 
-import oracle.jdbc.proxy.annotation.Post;
 
 @Controller
 @RequestMapping("/cs")
@@ -103,8 +101,7 @@ public class CsController {
 	}
 	
 	@GetMapping("/inqueryForm")
-	public String inqueryForm(Model model) {
-		// 지점별 리스트 조회해서 외야함
+	public String inqueryForm(@LoginUser User user ,Model model) {
 		return "cs/inqueryForm";
 	}
 	
@@ -117,7 +114,7 @@ public class CsController {
 		User loginedUser = (User) SessionUtils.getAttribute("LOGINED_USER");
 		inquery.setUserId(loginedUser.getId());
 		inqueryService.insertInquery(inquery);
-		return "redirect:../home";
+		return "redirect:../home?formsubmit=true";
 	}
 
 }

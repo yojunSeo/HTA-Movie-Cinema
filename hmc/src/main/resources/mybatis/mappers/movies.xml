@@ -46,13 +46,13 @@
 
 	<insert id="insertMovie" parameterType="com.hmc.vo.Movie">
 		insert into t_movie
-		(movie_code, movie_release_date, movie_name, movie_running_time, movie_genre, movie_grade,
-		movie_country, movie_director, movie_company, movie_poster, movie_synopsis, movie_url, 
-		movie_stillcut, movie_trailer, movie_total_score, movie_review_cnt, movie_rank, movie_audiacc)
+			(movie_code, movie_release_date, movie_name, movie_running_time, movie_genre, movie_grade,
+			movie_country, movie_director, movie_company, movie_poster, movie_synopsis, movie_url, 
+			movie_stillcut, movie_trailer, movie_total_score, movie_review_cnt, movie_rank, movie_audiacc)
 		values
-		(#{movieCode}, #{releaseDate}, #{movieName}, #{runningTime}, #{genre}, #{grade}, 
-		#{country}, #{director}, #{company}, #{poster}, #{synopsis}, #{url}, 
-		#{stillcut}, #{trailer}, #{totalScore}, #{reviewCnt}, #{rank}, #{audiAcc})
+			(#{movieCode}, #{releaseDate}, #{movieName}, #{runningTime}, #{genre}, #{grade}, 
+			#{country}, #{director}, #{company}, #{poster}, #{synopsis}, #{url}, 
+			#{stillcut}, #{trailer}, #{totalScore}, #{reviewCnt}, #{rank}, #{audiAcc})
 	</insert>
 	
 	 <update id="updateMovie" parameterType="com.hmc.vo.Movie">
@@ -64,13 +64,13 @@
 			movie_code = #{movieCode}
 	</update>
 	
-	<select id="getTopMovies" parameterType="com.hmc.vo.Movie">
+	<select id="getTopMovies" resultType="com.hmc.vo.Movie">
 		select
 			movie_code         		movieCode,
 	        movie_release_date      releaseDate,
 	        movie_name            	movieName,
 	        movie_poster         	poster,
-	        movie_rank				rank,
+	        movie_rank				rank
         from
             T_MOVIE
         where

@@ -75,6 +75,52 @@
    			user_status = 'Y'
    </select>
    
+   <select id="getTotalRows" parameterType="map" resultType="int">
+		select
+			count(*)
+		from
+			t_user
+		where
+			user_status in ('Y','N')
+			<choose>
+					<when test="opt != null and opt == 'userId'">
+						and user_id like '%' || #{keyword} || '%'
+					</when>
+					<when test="opt != null and opt == 'name'">
+						and user_name like '%' || #{keyword} || '%'
+					</when>
+			</choose>			
+	</select>
+   
+   <select id="AdminGetAllUsers" parameterType="map" resultType="com.hmc.vo.User">
+		select
+			user_id as id, user_password as password, user_name as name, user_gender as gender, user_birthday as birthday, user_email as email,
+			user_phone as phone, user_grade as grade, user_status as status, user_created_date as createdDate, user_withdrawal_date as withdrawalDate, 
+			admin_yn as adminYN, favorite_branch1 as favoriteBranch1, favorite_branch2 as favoriteBranch2, favorite_branch3 as favoriteBranch3
+			
+		from(
+			select
+				row_number() over (order by user_created_date) rn,
+				user_id, user_password, user_name, user_gender, user_birthday, user_email,
+				user_phone, user_grade, user_status, user_created_date, user_withdrawal_date, 
+				admin_yn, favorite_branch1, favorite_branch2, favorite_branch3
+			from
+				t_user
+			where
+				user_status in ('Y','N')
+				<choose>
+					<when test="opt != null and opt == 'userId'">
+						and user_id like '%' || #{keyword} || '%'
+					</when>
+					<when test="opt != null and opt == 'name'">
+						and user_name like '%' || #{keyword} || '%'
+					</when>
+				</choose>	
+			order by user_created_date	
+		)  
+		where 
+			rn between #{beginIndex} and #{endIndex}
+	</select>
    
    <update id="updateUser" parameterType="com.hmc.vo.User">
    		update
@@ -96,10 +142,38 @@
    		update
    			t_user
    		set
-   			user_status 		= #{status},	
-   			user_withdrawal_Date = #{withdrawalDate}	
+   			user_status 		= 'N',	
+   			user_withdrawal_date = #{withdrawalDate}	
    		where 
    			user_id 			= #{id}
+   </update>
+   
+   <update id="rollbackUser" parameterType="com.hmc.vo.User">
+   		update
+   			t_user
+   		set
+   			user_status				= 'Y',
+   			user_withdrawal_date	= null
+   		where
+   			user_id					= #{id}		
+   </update>
+   
+   <update id="setAdmin" parameterType="com.hmc.vo.User">
+   		update
+   			t_user
+   		set
+   			admin_yn				= 'Y'
+   		where
+   			user_id					= #{id}		
+   </update>
+   
+   <update id="removeAdmin" parameterType="com.hmc.vo.User">
+   		update
+   			t_user
+   		set
+   			admin_yn				= 'N'
+   		where
+   			user_id					= #{id}		
    </update>
    
    

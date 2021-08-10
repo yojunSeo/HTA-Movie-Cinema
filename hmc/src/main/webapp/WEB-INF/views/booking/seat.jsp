@@ -142,11 +142,17 @@ $(function(){
 	var bookedSeats;
 	var selectedSeats = new Array();
 	
+	function getSelectedSeats(){
+		selectedSeats = [];
+		var seats = $('#seat-zone .bg-danger');
+		$.each(seats, function(index, seat){selectedSeats.push(seat.id)});
+		console.log(selectedSeats)
+		console.log(selectedSeats.length)
+	}
+	
 	$.getJSON("book/rest/seat/info?code="+scheduleCode, function(result){
 		roomSeats = result.roomSeats;
 		bookedSeats = result.bookedSeats;
-		console.log(roomSeats);
-		console.log(bookedSeats);
 		
 		for(var i=0; i<roomSeats.length; i++){
 			// 좌석하나마다 버튼을 생성해서 
@@ -187,7 +193,6 @@ $(function(){
 		}
 		nonabledSeat(bookedSeats);
 		chageGrade();
-		// 커플석일때는 옆자리 같이선택되게 하는것과 
 	}); 
 	
 	function nonabledSeat(bookedSeats){
@@ -196,25 +201,11 @@ $(function(){
 			var val = bookedSeat.SEATCODE;
 			var nonabled = document.getElementById(val);
 			nonabled.disabled = true;
-		}		
-	}
-	// 커플석일때의 처리
-	// 선택한 좌석의 아이디 받아오기
-	function coupleSeat(seatCode){
-		// 컨펌창 띄워서 커플석인거 알려주고 확인
-		//무조건 옆에자리 같이선택되게 하고 인원이 선택한 자리수만큼 인원수 바꿔주기
-		var confirmValue = confirm('본 좌석은 커플석으로 두 좌석씩 예매가 가능합니다.');
-		if(!confirmValue){
-			return false;
 		}
-		$.ajax({
-			type:"GET",
-			url:"book/rest/coupleSeat",
-			data:{seat:seatCode},
-			dataType:"json"
-		}).done(function(otherSeat){
-			console.log(otherSeat);
-		})
+		var bookingCnt = $('#booking-cnt').val();
+		if(bookingCnt%2!=0 || selectedSeats.length%2 !=0 || (bookingCnt%2==0 && selectedSeats.length%2 !=0)){
+			$('.couple').prop('disabled', true);
+		}
 	}
 	
 	// 버튼 클릭했을때 상태 변경
@@ -223,37 +214,84 @@ $(function(){
 		if(bookingCnt == 0){
 			alert('인원을 먼저 선택해주세요!');
 		}else{
-			if($(this).hasClass('bg-danger')){
-				var index = selectedSeats.indexOf($(this).attr('id'));
-				selectedSeats.splice(index, 1);
-				$(this).removeClass('bg-danger text-white');
-				$(this).addClass('bg-light');
-				if(selectedSeats.length < bookingCnt){
-					$('#seat-zone :input').prop('disabled', false);
-					nonabledSeat(bookedSeats);
-				}
-				totalPrice();
-			}else{				
-				if($(this).hasClass('btn-outline-success')){
-					var confirmValue = confirm('장애인석을 예매할 경우 입장시 관련 증명서를 지참하셔야 합니다.');
-					if(!confirmValue){
-						return false;
+			//  ########커플석 처리하기 ########
+			if($(this).hasClass('couple')){
+				// 좌석번호의 뒷자리 알아내기
+				var seat = $(this).val();
+				var number = seat.substr(1);
+				if($(this).hasClass('bg-danger')){
+					// 이미 선택된 좌석을 눌렀을때
+					$(this).removeClass('bg-danger text-white');
+					$(this).addClass('bg-light');
+					if(number%2 == 0){
+						// 짝수 
+						$(this).prev().removeClass('bg-danger text-white');
+						$(this).prev().addClass('bg-light');
+					}else{
+						// 홀수
+						$(this).next().removeClass('bg-danger text-white');
+						$(this).next().addClass('bg-light');
 					}
+					getSelectedSeats();
+					
+					if(selectedSeats.length < bookingCnt){
+						$('#seat-zone :input').prop('disabled', false);
+						nonabledSeat(bookedSeats);
+					}
+					totalPrice();
+				}else{
+					// 선택되지 않은 좌석을 눌렀을때
+					$(this).removeClass('bg-light');
+					$(this).addClass('bg-danger text-white');
+					if(number%2 == 0){
+						// 짝수 
+						$(this).prev().removeClass('bg-light');
+						$(this).prev().addClass('bg-danger text-white');
+					}else{
+						// 홀수
+						$(this).next().removeClass('bg-light');
+						$(this).next().addClass('bg-danger text-white');
+					}
+					getSelectedSeats();
+					if(selectedSeats.length == bookingCnt){
+						$('#seat-zone :input').prop('disabled', true);
+						$('#seat-zone .bg-danger').prop('disabled', false);
+						nonabledSeat(bookedSeats);
+					}
+					totalPrice();
 				}
-				var seatCode = $(this).attr('id');
-				$(this).removeClass('bg-light');
-				$(this).addClass('bg-danger text-white');
-				selectedSeats.push(seatCode);
-				if(selectedSeats.length == bookingCnt){
-					$('#seat-zone :input').prop('disabled', true);
-					$('#seat-zone .bg-danger').prop('disabled', false);
+				// 커플석 끝 ##########################
+			}else{
+				if($(this).hasClass('bg-danger')){
+					$(this).removeClass('bg-danger text-white');
+					$(this).addClass('bg-light');
+					getSelectedSeats();
+					if(selectedSeats.length < bookingCnt){
+						$('#seat-zone :input').prop('disabled', false);
+						nonabledSeat(bookedSeats);
+					}
+					totalPrice();
+				}else{				
+					if($(this).hasClass('btn-outline-success')){
+						var confirmValue = confirm('장애인석을 예매할 경우 입장시 관련 증명서를 지참하셔야 합니다.');
+						if(!confirmValue){
+							return false;
+						}
+					}
+					var seatCode = $(this).attr('id');
+					$(this).removeClass('bg-light');
+					$(this).addClass('bg-danger text-white');
+					getSelectedSeats();
 					nonabledSeat(bookedSeats);
+					if(selectedSeats.length == bookingCnt){
+						$('#seat-zone :input').prop('disabled', true);
+						$('#seat-zone .bg-danger').prop('disabled', false);
+						nonabledSeat(bookedSeats);
+					}
+					totalPrice();
 				}
-				totalPrice();
 			}
 		}
-		console.log(selectedSeats);
-		console.log(selectedSeats.length);
 	})
 	// 인원선택 - 클릭시
 	$('#button-minus').on('click', function(){
@@ -267,7 +305,12 @@ $(function(){
 		var cnt = $('#booking-cnt').val()
 		if(cnt == 0){
 			return;
-		}else{		
+		}else{
+			if(cnt%2 == 0){
+				$('.couple').prop('disabled', true);
+			}else{
+				$('.couple').prop('disabled', false);
+			}
 			$('#button-minus').prop('disabled', false);
 			$('#booking-cnt').val(cnt-1);
 		}
@@ -283,6 +326,11 @@ $(function(){
 			nonabledSeat(bookedSeats);
 		}
 		var cnt = parseInt($('#booking-cnt').val())
+		if(cnt%2 == 0){
+			$('.couple').prop('disabled', true);
+		}else{
+			$('.couple').prop('disabled', false);
+		}
 		if(cnt == 4){
 			alert('예매는 최대 4명까지만 가능합니다.');
 			return

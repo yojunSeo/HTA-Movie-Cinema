@@ -75,6 +75,20 @@
 	color: #FF243E;
 	background: #FF243E;
 }
+.nav-tabs, .nav-item .nav-link {
+	border: none;
+	outline: none;
+}
+.nav-link, .nav-link:hover {
+	color: #000000;
+}
+.nav-link.active {
+	font-weight : bold;
+}
+ul.nav.nav-tabs li.nav-item button.active {
+	border-bottom : 3px solid #FF243E;
+}
+
 </style>
 <body>
 	<div class="container">
@@ -107,10 +121,10 @@
 						</div>
 					</div>
 					<div class="row" style="margin-top: 100px;">
-						<div class="col">
+						<div class="col" style="border:none; outline:none;">
 							<ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
-								<li class="nav-item" role="presentation">
-									<button class="nav-link" id="info-tab" data-bs-toggle="tab" data-bs-target="#info" type="button" role="tab"
+								<li class="nav-item active" role="presentation">
+									<button class="nav-link active" id="info-tab" data-bs-toggle="tab" data-bs-target="#info" type="button" role="tab"
 										aria-controls="info" aria-selected="false">영화정보</button>
 								</li>
 								<li class="nav-item" role="presentation">
@@ -120,19 +134,19 @@
 
 							</ul>
 							<div class="tab-content mt-5" id="myTabContent">
-								<div class="tab-pane fade" id="info" role="tabpanel" aria-labelledby="info-tab">
+								<div class="tab-pane show active" id="info" role="tabpanel" aria-labelledby="info-tab">
 									
-									<p>시놉시스</p>
+									<h5><b>시놉시스</b></h5>
 									<p>
 										내전으로 고립된 낯선 도시, 모가디슈 <br /> 지금부터 우리의 목표는 오로지 생존이다! <br /> <br />
 										대한민국이 UN가입을 위해 동분서주하던 시기 <br /> 1991년 소말리아의 수도 모가디슈에서는 일촉즉발의
 										내전이 일어난다. <br /> 통신마저 끊긴 그 곳에 고립된 대한민국 대사관의 직원과 가족들은 총알과 포탄이
-										빗발치는 가운데, 살아남기 위해 하루하루를 버텨낸다. <br /> 그러던 어느 날 밤, 북한 대사관의 일행들이
+										빗발치는 가운데, <br />살아남기 위해 하루하루를 버텨낸다. <br /> 그러던 어느 날 밤, 북한 대사관의 일행들이
 										도움을 요청하며 문을 두드리는데…
 									</p>
 									<br />
-									<p>트레일러</p>
-									<div style="margin-left: 60px">
+									<h5><b>트레일러</b></h5>
+									<div class="mt-4 mb-4" style="margin-left: 60px">
 										<iframe width="853" height="480"
 											src="https://www.youtube.com/embed/VOdDMmSjle0"
 											title="YouTube video player" frameborder="0"
@@ -140,9 +154,9 @@
 											allowfullscreen></iframe>
 									</div>
 									<br />
-									<p>스틸컷</p>
+									<h5><b>스틸컷</b></h5>
 									<div class="row mb-3">
-										<div class="col">
+										<div class="col mt-4">
 											<div class="swiper-container mySwiper">
 												<div class="swiper-wrapper">
 													<div class="swiper-slide">
@@ -187,7 +201,6 @@
 	<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 	<script type="text/javascript">
 	$(function() {
-		
 		// 각각의 탭이 화면에 표시될 때 show.bs.tab 이벤트가 발생함.
 		// 각각의 탭이 화면에 표시될 때 브라우져 쿠키에 사용자정의 쿠키값을 저장함
 		$("#info-tab").on("show.bs.tab", function() {

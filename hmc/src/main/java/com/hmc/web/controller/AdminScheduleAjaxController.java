@@ -83,6 +83,23 @@ public class AdminScheduleAjaxController {
 		List<String> info = scheduleService.scheduleRegisterAndGetScheduleInfo(scheduleForm);
 		return new ResponseEntity<List<String>>(info, HttpStatus.OK);
 	}
+	
+	@RequestMapping("/movie/delete")
+	public @ResponseBody ResponseEntity<Void> deleteScreenMoive(@RequestParam("screenCode") String screenCode) {
+		scheduleService.deleteScreenMovie(screenCode);
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+	
+	@RequestMapping("/movie/update")
+	public @ResponseBody ResponseEntity<Void> updateScreenMoive(@RequestParam("screenCode") String screenCode, @RequestParam("endDate") String endDate) throws ParseException {
+		scheduleService.updateScreenMovieEndTime(screenCode, endDate);
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
 
+	@RequestMapping("/movie/isDeleteable")
+	public @ResponseBody ResponseEntity<List<String>> isDeleteable(){
+		List<String> withoutSchedulemovies = scheduleService.getScreenMovieWithoutSchedule();
+		return new ResponseEntity<List<String>>(withoutSchedulemovies, HttpStatus.OK);
+	}
 
 }

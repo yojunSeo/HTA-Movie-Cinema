@@ -30,13 +30,6 @@ public class BookingBookRestController {
 		return new ResponseEntity<Map<String, Object>>(result,HttpStatus.OK);
 	}
 
-	@GetMapping("coupleSeat")
-	public ResponseEntity<Map<String, Object>> coupleSeat(@RequestParam("seat") String seatCode){
-		Map<String, Object> result = new HashMap<String, Object>();
-		
-		return new ResponseEntity<Map<String,Object>>(result, HttpStatus.OK);
-	}
-	
 	@GetMapping("/coupon")
 	public ResponseEntity<Integer> usedCoupon(@RequestParam("price") String price, 
 							@RequestParam("code") String couponCode, @RequestParam("seats") String[] seats ){

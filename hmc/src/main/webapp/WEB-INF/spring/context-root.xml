@@ -35,6 +35,8 @@
 	<bean id="transactionManager" 
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
 		p:dataSource-ref="dataSource"/>
+	
+	<tx:annotation-driven transaction-manager="transactionManager"/>
 
 	<util:map id="membershipMap">
 		<entry>
@@ -99,6 +101,7 @@
     	<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut"/>
     </aop:config>
 	 -->
+	 
 	<!-- mybatis의 핵심객체인 SqlStssionFactory 객체를 스프링 컨테이너의 빈으로 등록 -->
 	<bean id="sqlSessionFactory"
 		class="org.mybatis.spring.SqlSessionFactoryBean"

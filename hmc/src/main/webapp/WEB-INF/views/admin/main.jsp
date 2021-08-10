@@ -5,22 +5,25 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" >
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<title>페이지이름-HMC</title>
+<link href="https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700,800&amp;subset=korean" rel="stylesheet">
+<title>관리자-HMC</title>
 </head>
 <body>
-	<div class="container">
-
-		<header>
-		</header>
-
+	<div class="container-fluid">
 		<main>
-			여기에 본인 페이지 내용 작성
+			<div class="container-fluid mt-5">
+				<div class="row">
+					<div class="col-2">
+						<%@include file ="sidebar.jsp"%>
+					</div>
+					<div class="col-10">
+						본인 구현내용 작성
+					</div>
+				</div>
+			</div>
 		</main>
-
-		<footer>
-		</footer>
-
 	</div>
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

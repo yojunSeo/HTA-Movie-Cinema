@@ -85,8 +85,8 @@
 								<p class="mx-5"><span class="large"><strong>할인가격 : </strong></span><span>${booking.discountPrice }</span></p>
 								<p class="mx-5"><span class="large"><strong>총 결제금액 : </strong></span><span>${booking.totalPrice }</span></p>
 								<p class="mx-5"><span class="large"><strong>${LOGINED_USER.name }님의 현재 등급 :</strong> ${LOGINED_USER.grade } </span></p>
-								<p class="mx-5"><span class="large"><strong>사용한 포인트 :</strong> ${book.savedPoint }</span></p>
-								<p class="mx-5"><span class="large"><strong>적립된 포인트 :</strong> ${book.usedPoint }</span></p>
+								<p class="mx-5"><span class="large"><strong>적립된 포인트 :</strong> ${book.savedPoint }</span></p>
+								<p class="mx-5"><span class="large"><strong>사용한 포인트 :</strong> ${book.usedPoint }</span></p>
 								<p class="mx-5"><span class="large"><strong>현재포인트 :</strong> ${LOGINED_USER.point }</span></p>
 							</div>
 						</div>

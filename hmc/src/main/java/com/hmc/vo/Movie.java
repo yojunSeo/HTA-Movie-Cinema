@@ -20,7 +20,7 @@ public class Movie {
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date releaseDate;
 	private String movieName;
-	private int runningTime;
+	private String runningTime;
 	private String genre;
 	private String grade;
 	private String country;

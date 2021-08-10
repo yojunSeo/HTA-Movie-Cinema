@@ -38,4 +38,14 @@ public interface AdminScheduleService {
 	Map<String, Object> screenMovieList(int pageNo);
 	
 	Map<String, Object> scheduleListPagination(int pageNo);
+	
+	Map<String, Object> searchSchedule(Map<String, Object> param);
+	
+	List<String> getScreenMovieWithoutSchedule();
+	
+	void deleteScreenMovie(String screenCode);
+	
+	void updateScreenMovieEndTime(String screenCode, String endDate) throws ParseException;
+	
+	void deleteSchedule(String scheduleCode);
 }

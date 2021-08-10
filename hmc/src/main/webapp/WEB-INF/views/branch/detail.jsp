@@ -50,11 +50,29 @@
 				<tr>
 					<td></td>
 					<td class="text-end">
-					<button class="btn btn-outline-secondary">
-						<img alt="" src="../resources/images/branch/favorite.png" width="30px">
-						<img alt="" src="../resources/images/branch/unfavorite.png" width="30px">
-						 나의 지점 등록
-					</button>
+
+						<c:choose>
+							<c:when test="${empty LOGINED_USER}">	<!-- 로그인이 안되어 있을때 -->
+								<button class="btn btn-outline-secondary">
+									<img alt="" src="../resources/images/branch/unfavorite.png" width="30px">
+									나의 영화관 등록
+								</button>
+							</c:when>
+							<c:when test="${LOGINED_USER.favoriteBranch1 == branchDetail.branchCode || LOGINED_USER.favoriteBranch1 == branchDetail.branchCode || LOGINED_USER.favoriteBranch1 == branchDetail.branchCode}">
+								<!-- 로그인 되어있고 나의 영화관 일때 -->
+								<span class="p-3 mt-2">
+									<img alt="" src="../resources/images/branch/favorite.png" width="30px">
+									나의 영화관
+								</span>
+							</c:when>
+							<c:otherwise>
+								<!-- 로그인 되어 있고 나의 영화관이 아닐때 -->
+								<button class="btn btn-outline-secondary">
+									<img alt="" src="../resources/images/branch/unfavorite.png" width="30px">
+									나의 영화관 등록
+								</button>
+							</c:otherwise>
+						</c:choose>
 			  		</td>
 			  		<td></td>
 			  	</tr>
@@ -70,13 +88,13 @@
 			<!-- 탭 구현 -->
 			<div class="row fs-6 justify-content-center text-center" style="display: flex;">
 				<div class="col-4 p-2 tab_selected">
-					<a href="detail?code=${branchDeatil.code}" class="btn">지점상세</a>
+					<a href="detail?code=${branchDetail.branchCode}" class="btn">지점상세</a>
 				</div>
 				<div class="col-4 p-2 tab" >
-					<a href="timetable?code=${branchDeatil.code}" class="btn">상영시간표</a>
+					<a href="timetable?code=${branchDetail.branchCode}" class="btn">상영시간표</a>
 				</div>
 				<div class="col-4 p-2 tab">
-					<a href="price?code=${branchDeatil.code}" class="btn">가격</a>
+					<a href="price?code=${branchDetail.branchCode}" class="btn">가격</a>
 				</div>
 			</div>
 			

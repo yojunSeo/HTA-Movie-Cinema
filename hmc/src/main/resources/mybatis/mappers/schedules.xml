@@ -65,13 +65,33 @@
  			from 
  				t_schedule sh, t_screen_movie sc, t_branch br, t_room rm, t_movie mv
 			where
-    			sh.screen_code = sc.screen_code
+    				sh.screen_code = sc.screen_code
 			and
-    			sc.movie_code = mv.movie_code
+    				sc.movie_code = mv.movie_code
 			and
    	 			sh.branch_code = br.branch_code
 			and
-    			sh.room_code = rm.room_code
+    				sh.room_code = rm.room_code
+			<choose>
+				<when test="branch != null">
+					and sh.branch_code = #{branch}
+				</when>
+			</choose>
+			<choose>
+				<when test="room != null">
+					and sh.room_code= #{room}
+				</when>
+			</choose>
+			<choose>
+				<when test="screen != null">
+					and sh.screen_code = #{screen}
+				</when>
+			</choose>
+			<choose>
+				<when test="screenDate != null">
+					and sh.schedule_date = #{screenDate}
+				</when>
+			</choose>
 			)
 		where 
 			rn between #{beginIndex} and #{endIndex}
@@ -186,10 +206,32 @@
 			sh.branch_code asc, sh.room_code asc, sh.schedule_start_time asc
 	</select>
 	<select id="getAllSchedulesCnt" parameterType="map" resultType="int">
-		select 
-			count(*)
-		from 
-			t_schedule
+	select
+		count(*)
+	from
+		t_schedule
+	where 
+		schedule_date > '2021/01/01'
+			<choose>
+				<when test="branch != null">
+					and branch_code = #{branch}
+				</when>
+			</choose>
+			<choose>
+				<when test="room != null">
+					and room_code= #{room}
+				</when>
+			</choose>
+			<choose>
+				<when test="screen != null">
+					and screen_code = #{screen}
+				</when>
+			</choose>
+			<choose>
+				<when test="screenDate != null">
+					and schedule_date = #{screenDate}
+				</when>
+			</choose>
 	</select>
 	
 	<select id="getSchedulesByMovieAndDate" parameterType="map" resultType="com.hmc.dto.ScheduleDetail">

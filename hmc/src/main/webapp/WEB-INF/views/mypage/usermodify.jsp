@@ -21,7 +21,7 @@
 			<div class="row mt-3">
 				<div class="col-9 border p-3 bg-light">
 					<form class="modify-form" action="modify" method="post">
-						<h5 class="mb-5 font-weight-bold">필수 입력 정보</h5>
+						<h5 class="mb-5 font-weight-bold"></h5>
 						<div class="row mb-3">
 							<label for="id" class="col-sm-3 col-form-label">아이디</label>
 							<div class="col-sm-9">

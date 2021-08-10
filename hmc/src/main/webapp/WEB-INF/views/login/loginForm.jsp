@@ -21,6 +21,24 @@
 					<div class="row mt-5">
 						<p class="fw-bold">L.POINT, 롯데시네마 ID로 별도의 회원가입 없이 이용 가능합니다.</p>
 					</div>
+					<c:if test="${param.error eq 'deny' }">
+					<div class="row">
+						<div class="col">
+							<div class="alert alert-danger" role="alert">
+								요청한 서비스는 로그인 후 사용가능합니다.
+							</div>
+						</div>
+					</div>
+					</c:if>
+					<c:if test="${param.error eq 'admin' }">
+					<div class="row">
+						<div class="col">
+							<div class="alert alert-danger" role="alert">
+								요청한 서비스는 관리자 인증 후 사용가능합니다.
+							</div>
+						</div>
+					</div>
+					</c:if>
 					<c:if test="${not empty error }">
 					<div class="row">
 						<div class="col">
@@ -91,6 +109,13 @@
 
 <script>
 $(function(){
+	// 회원가입이 성공하면 alert창 띄우는 코드
+	var urlParams = new URLSearchParams(window.location.search);
+    var successRegister = urlParams.get('successRegister');
+	if(successRegister != null){
+		alert("회원가입을 축하합니다!");
+		location.href = "../login/";
+	}
 	
 });
 	
