@@ -208,5 +208,10 @@ public class BookingServiceImpl implements BookingService{
 		result.put("gradeColor", gradeColor);
 		return result;
 	}
+	
+	@Override
+	public List<Map<String, Object>> getUserBookingDetail(String userId) {
+		return bookingDao.getBookingDetailsByUserId(userId);
+	}
 
 }

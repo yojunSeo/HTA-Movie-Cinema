@@ -20,4 +20,6 @@ public interface BookingService {
 	
 	Map<String, Object> getUserPointAndExpectGrade(int paymentPrice);
 	
+	List<Map<String, Object>> getUserBookingDetail(String userId);
+	
 }
