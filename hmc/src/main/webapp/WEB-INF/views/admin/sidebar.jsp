@@ -55,7 +55,7 @@
     		회원관리
   		</button>
   		<ul class="collapes collapse" id="user-service">
-  			<li class="p-2" style="width: 200px"><a href="#">회원리스트</a></li>
+  			<li class="p-2" style="width: 200px"><a href="/hmc/admin/cs/userList">회원리스트</a></li>
   		</ul>
       </li>
       <li class="mb-1" style="width: 200px">
@@ -90,7 +90,7 @@
     		공지사항 관리
   		</button>
   		<ul class="collapes collapse" id="notice-service">
-  			<li class="p-2" style="width: 200px"><a href="#">공지사항 등록/조회</a></li>
+  			<li class="p-2" style="width: 200px"><a href="/hmc/admin/cs/noticeList">공지사항 등록/조회</a></li>
   		</ul>
       </li>
       <li class="mb-1" style="width: 200px">
@@ -98,7 +98,7 @@
     		1:1 문의 관리
   		</button>
   		<ul class="collapes collapse" id="inquery-service">
-  			<li class="p-2" style="width: 200px"><a href="#">1:1 문의 답변/조회</a></li>
+  			<li class="p-2" style="width: 200px"><a href="/hmc/admin/cs/inqueryList">1:1 문의 답변/조회</a></li>
   		</ul>
       </li>
       <li class="mb-1" style="width: 200px">
