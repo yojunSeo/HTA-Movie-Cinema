@@ -71,6 +71,8 @@
             br.branch_code = #{branchCode}
         and
             sh.schedule_date = #{screenDate}
+        and
+            sh.schedule_start_time > sysdate + round(540/1440, 5)
 	</select>
 	
 	<select id="getMoiveSchedulesByBranch" parameterType="map" resultMap="movieScheduleMap">
@@ -102,6 +104,8 @@
             sc.screen_code = #{screenCode}
         and
             sh.schedule_date = #{screenDate}
+        and
+            sh.schedule_start_time > sysdate + round(540/1440, 5)
 	</select>
 	
 	<select id="getBranchSchedulesByMovieAndDate" parameterType="map" resultMap="branchScheduleMap">
@@ -135,5 +139,7 @@
             sh.schedule_date = #{screenDate}
         and
             br.branch_code = #{branchCode}
+        and
+            sh.schedule_start_time > sysdate + round(540/1440, 5)
 	</select>
 </mapper>
