@@ -21,6 +21,7 @@ import com.hmc.vo.Inquery;
 import com.hmc.vo.Notice;
 import com.hmc.vo.Pagination;
 import com.hmc.vo.User;
+import com.hmc.web.annotation.LoginAdmin;
 import com.hmc.web.util.SessionUtils;
 
 import oracle.jdbc.proxy.annotation.Post;
@@ -47,7 +48,7 @@ public class AdminCsController {
 	private static final int PAGES_PER_PAGE_BLOCK = 5;
 	
 	@GetMapping("/inqueryList")
-	public String inquery(@RequestParam(name = "page", required = false, defaultValue = "1") int page, Model model) {
+	public String inquery(@RequestParam(name = "page", required = false, defaultValue = "1") int page, Model model, @LoginAdmin User loginAdmin) {
 		
 		Map<String,Object> param = new HashMap<String, Object>();
 		param.put("beginIndex", (page-1)*ROWS_PER_PAGE +1);
@@ -81,7 +82,7 @@ public class AdminCsController {
 	}
 	
 	@GetMapping("/incompleteInqueryList")
-	public String incompleteInquery(@RequestParam(name = "page", required = false, defaultValue = "1") int page, Model model) {
+	public String incompleteInquery(@RequestParam(name = "page", required = false, defaultValue = "1") int page, Model model, @LoginAdmin User loginAdmin) {
 		
 		Map<String,Object> param = new HashMap<String, Object>();
 		param.put("beginIndex", (page-1)*ROWS_PER_PAGE +1);
@@ -115,7 +116,7 @@ public class AdminCsController {
 	}
 	
 	@GetMapping("/inqueryDetail")
-	public String inqueryDetail(@RequestParam("code") String code, Model model) {
+	public String inqueryDetail(@RequestParam("code") String code, Model model, @LoginAdmin User loginAdmin) {
 		Inquery inquery = inqueryService.getInqueryByCode(code);
 		model.addAttribute("inquery", inquery);
 		
@@ -123,7 +124,7 @@ public class AdminCsController {
 	}
 	
 	@GetMapping("/incompleteInqueryDetail")
-	public String incompleteInqueryDetail(@RequestParam("code") String code, Model model) {
+	public String incompleteInqueryDetail(@RequestParam("code") String code, Model model, @LoginAdmin User loginAdmin) {
 		Inquery inquery = inqueryService.getInqueryByCode(code);
 		model.addAttribute("inquery", inquery);
 		
@@ -131,7 +132,7 @@ public class AdminCsController {
 	}
 	
 	@PostMapping("/submitInquery")
-	public String submitInquery(@RequestParam("code") String code, @RequestParam("responder") String responder, @RequestParam("content") String content) {
+	public String submitInquery(@RequestParam("code") String code, @RequestParam("responder") String responder, @RequestParam("content") String content, @LoginAdmin User loginAdmin) {
 		
 		Inquery inquery = inqueryService.getInqueryByCode(code);
 		inquery.setResponder(responder);
@@ -144,7 +145,7 @@ public class AdminCsController {
 	}
 	
 	@GetMapping("/noticeList")
-	public String notice(@RequestParam(name = "page", required = false, defaultValue = "1") int page, @RequestParam(name = "opt", required = false) String searchOption, @RequestParam(name = "keyword", required = false) String searchKeyword, Model model) {
+	public String notice(@RequestParam(name = "page", required = false, defaultValue = "1") int page, @RequestParam(name = "opt", required = false) String searchOption, @RequestParam(name = "keyword", required = false) String searchKeyword, Model model, @LoginAdmin User loginAdmin) {
 		
 		Map<String,Object> param = new HashMap<String, Object>();
 		
@@ -184,7 +185,7 @@ public class AdminCsController {
 	}
 	
 	@GetMapping("/noticeDetail")
-	public String noticeDetail(@RequestParam("code") String code, Model model) {
+	public String noticeDetail(@RequestParam("code") String code, Model model, @LoginAdmin User loginAdmin) {
 		Notice notice = noticeService.getNoticeByCode(code);
 		noticeService.updateNotice(notice);
 		model.addAttribute("notice", notice);
@@ -193,13 +194,13 @@ public class AdminCsController {
 	}	
 	
 	@GetMapping("/noticeDelete")
-	public String noticeDelete(@RequestParam("code") String code) {
+	public String noticeDelete(@RequestParam("code") String code, @LoginAdmin User loginAdmin) {
 		noticeService.deleteNotice(code);
 		return"redirect:noticeList";
 	}
 	
 	@GetMapping("/noticeModify")
-	public String noticeModify(@RequestParam("code") String code, Model model) {
+	public String noticeModify(@RequestParam("code") String code, Model model, @LoginAdmin User loginAdmin) {
 		Notice notice = noticeService.getNoticeByCode(code);
 		model.addAttribute("notice", notice);
 		return "admin/cs/noticeModify";
@@ -207,7 +208,7 @@ public class AdminCsController {
 	
 	@PostMapping("/noticeModify")
 	public String noticeModify(@RequestParam("status") String status, @RequestParam("category") String category, 
-								@RequestParam("title") String title, @RequestParam("content") String content, @RequestParam("code") String code) {
+								@RequestParam("title") String title, @RequestParam("content") String content, @RequestParam("code") String code, @LoginAdmin User loginAdmin) {
 		Notice notice = noticeService.getNoticeByCode(code);
 		notice.setStatus(status);
 		notice.setCategory(category);
@@ -220,7 +221,7 @@ public class AdminCsController {
 	}
 	
 	@GetMapping("/insertNotice")
-	public String insertNotice() {
+	public String insertNotice(@LoginAdmin User loginAdmin) {
 		
 		return"admin/cs/insertNotice";
 		
@@ -228,7 +229,7 @@ public class AdminCsController {
 	
 	@PostMapping("/insertNotice")
 	public String insertNotice(@RequestParam("title") String title, @RequestParam("category") String category, 
-								@RequestParam("content") String content, @RequestParam("status") String status) {
+								@RequestParam("content") String content, @RequestParam("status") String status, @LoginAdmin User loginAdmin) {
 		Notice notice = new Notice();
 		notice.setTitle(title);
 		notice.setCategory(category);
@@ -242,7 +243,7 @@ public class AdminCsController {
 	}
 	
 	@GetMapping("/userList")
-	public String userList(@RequestParam(name = "page", required = false, defaultValue = "1") int page, @RequestParam(name = "opt", required = false) String searchOption, @RequestParam(name = "keyword", required = false) String searchKeyword, Model model) {
+	public String userList(@RequestParam(name = "page", required = false, defaultValue = "1") int page, @RequestParam(name = "opt", required = false) String searchOption, @RequestParam(name = "keyword", required = false) String searchKeyword, Model model, @LoginAdmin User loginAdmin) {
 		
 		Map<String,Object> param = new HashMap<String, Object>();
 		
@@ -282,7 +283,7 @@ public class AdminCsController {
 	}
 	
 	@GetMapping("/userDetail")
-	public String userDetail(@RequestParam("id") String id, Model model) {
+	public String userDetail(@RequestParam("id") String id, Model model, @LoginAdmin User loginAdmin) {
 		User user = userService.getUserById(id);
 		model.addAttribute("user", user);
 		
@@ -290,7 +291,7 @@ public class AdminCsController {
 	}
 	
 	@GetMapping("/userDelete")
-	public String userDelte(@RequestParam("id") String id) {
+	public String userDelte(@RequestParam("id") String id, @LoginAdmin User loginAdmin) {
 		User user = userService.getUserById(id);
 		user.setWithdrawalDate(new Date());
 		
@@ -299,7 +300,7 @@ public class AdminCsController {
 	}
 	
 	@GetMapping("/userRollback")
-	public String userRollback(@RequestParam("id") String id) {
+	public String userRollback(@RequestParam("id") String id, @LoginAdmin User loginAdmin) {
 		User user = userService.getUserById(id);
 		userService.rollbackUser(user);
 		return"redirect:userList";
@@ -307,7 +308,7 @@ public class AdminCsController {
 	}
 	
 	@GetMapping("/setAdmin")
-	public String setAdmin(@RequestParam("id") String id) {
+	public String setAdmin(@RequestParam("id") String id, @LoginAdmin User loginAdmin) {
 		User user = userService.getUserById(id);
 		userService.setAdmin(user);
 		return"redirect:userList";
@@ -315,7 +316,7 @@ public class AdminCsController {
 	}
 	
 	@GetMapping("/removeAdmin")
-	public String removeAdmin(@RequestParam("id") String id) {
+	public String removeAdmin(@RequestParam("id") String id, @LoginAdmin User loginAdmin) {
 		User user = userService.getUserById(id);
 		userService.removeAdmin(user);
 		return"redirect:userList";
@@ -323,14 +324,14 @@ public class AdminCsController {
 	}
 	
 	@GetMapping("/userModify")
-	public String userModify(@RequestParam("id") String id, Model model) {
+	public String userModify(@RequestParam("id") String id, Model model, @LoginAdmin User loginAdmin) {
 		User user = userService.getUserById(id);
 		model.addAttribute("user", user);
 		return"admin/userManagement/userModify";
 	}
 	
 	@PostMapping("/userModify")
-	public String userModify(@RequestParam("id") String id, @RequestParam("grade") String grade, @RequestParam("point") int point) {
+	public String userModify(@RequestParam("id") String id, @RequestParam("grade") String grade, @RequestParam("point") int point, @LoginAdmin User loginAdmin) {
 		User user = userService.getUserById(id);
 		user.setGrade(grade);
 		user.setPoint(point);
