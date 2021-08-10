@@ -102,5 +102,4 @@ public class LoginController {
 		
 		return "login/infomPwd";
 	}
-
 }

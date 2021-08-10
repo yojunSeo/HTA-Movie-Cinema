@@ -139,7 +139,7 @@ public class AdminCsController {
 		inquery.setRespondDate(new Date());
 		inqueryService.adminUpdateInquery(inquery);
 		
-		return"redirect:inqueryList";
+		return"redirect:inqueryList?submitInquery=true";
 		
 	}
 	
@@ -216,7 +216,7 @@ public class AdminCsController {
 		notice.setModifiedDate(new Date());
 		
 		noticeService.updateNotice(notice);
-		return"redirect:noticeList";
+		return"redirect:noticeList?noticeModify=true";
 	}
 	
 	@GetMapping("/insertNotice")
@@ -238,7 +238,7 @@ public class AdminCsController {
 		notice.setWriter(loginedUser.getId());
 		
 		noticeService.insertNotice(notice);
-		return"redirect:noticeList";
+		return"redirect:noticeList?insertNotice=true";
 	}
 	
 	@GetMapping("/userList")
@@ -310,6 +310,14 @@ public class AdminCsController {
 	public String setAdmin(@RequestParam("id") String id) {
 		User user = userService.getUserById(id);
 		userService.setAdmin(user);
+		return"redirect:userList";
+		
+	}
+	
+	@GetMapping("/removeAdmin")
+	public String removeAdmin(@RequestParam("id") String id) {
+		User user = userService.getUserById(id);
+		userService.removeAdmin(user);
 		return"redirect:userList";
 		
 	}

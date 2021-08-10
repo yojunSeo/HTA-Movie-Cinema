@@ -167,5 +167,14 @@
    			user_id					= #{id}		
    </update>
    
+   <update id="removeAdmin" parameterType="com.hmc.vo.User">
+   		update
+   			t_user
+   		set
+   			admin_yn				= 'N'
+   		where
+   			user_id					= #{id}		
+   </update>
+   
    
 </mapper>
