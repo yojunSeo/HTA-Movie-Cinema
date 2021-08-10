@@ -151,6 +151,7 @@
 
 <script>
 $(function(){
+	// 답변내용 미입력시 submit 막음
 	$("#user-form").submit(function(){
 		var userPoint = $("#point").data("user-point");
 		var point = $.trim($("#point").val());
