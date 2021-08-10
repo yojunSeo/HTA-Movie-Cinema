@@ -12,6 +12,7 @@
  	<mvc:annotation-driven>
 		<mvc:argument-resolvers>
 			<bean class="com.hmc.web.argumentResolver.LoginUserArgumentResolver"></bean>
+			<bean class="com.hmc.web.argumentResolver.LoginAdminArgumentResolver"></bean>
 		</mvc:argument-resolvers>
 	</mvc:annotation-driven> 
 	
@@ -20,6 +21,11 @@
 			<mvc:mapping path="/**"/>
 			<mvc:exclude-mapping path="/resources/**"/>
 			<bean class="com.hmc.web.interceptor.LoginCheckInterceptor"></bean>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<mvc:exclude-mapping path="/resources/**"/>
+			<bean class="com.hmc.web.interceptor.AdminCheckInterceptor"></bean>
 		</mvc:interceptor>
 	</mvc:interceptors> 
 
