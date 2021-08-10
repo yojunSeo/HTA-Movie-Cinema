@@ -150,6 +150,11 @@ public class UserServiceImpl implements UserService {
 		userDao.setAdmin(user);
 	}
 
+	@Override
+	public void removeAdmin(User user) {
+		userDao.removeAdmin(user);
+	}
+
 	
 
 }

@@ -121,11 +121,13 @@
 							<th class="fw-lighter">관리자여부</th>
 							<c:choose>
 								<c:when test="${user.adminYN == 'Y' }">
-									<td></td>
+									<td>${user.adminYN }</td>
 								</c:when>
+								<c:otherwise>
+									<td>${user.adminYN }</td>
+								</c:otherwise>
 							</c:choose>
-								<td>${user.adminYN }</td>
-						</tr>
+							</tr>
 						</tbody>
 					</table>
 		            <div class="row my-3 text-center my-5">

@@ -76,14 +76,14 @@
 							<c:otherwise>
 								<c:forEach var="user" items="${users }">
 									<tr data-user-code="${user.id }">
-										<td scope="row">${user.id }</td>
-										<td>${user.name }</td>
+										<td scope="row" id="goDetail">${user.id }</td>
+										<td id="goDetail">${user.name }</td>
 										<c:choose>
 											<c:when test="${user.status == 'N' }">
-												<td class="text-danger text-center fw-bold" id="goDetail">탈퇴한 회원</td>
+												<td class="text-danger text-center fw-bold">탈퇴한 회원</td>
 											</c:when>
 											<c:otherwise>
-												<td class="text-success text-center fw-bold" id="goDetail">사용중인 회원</td>
+												<td class="text-success text-center fw-bold">사용중인 회원</td>
 											</c:otherwise>
 										</c:choose>
 										<td><fmt:formatDate value="${user.createdDate }" pattern="yyyy-MM-dd"/></td>
@@ -95,7 +95,14 @@
 												<td><a class="btn btn-outline-success mx-2 h-5">회원권한 부여</a></td>
 											</c:otherwise>
 										</c:choose>
-										<td><a class="btn btn-outline-primary mx-2 h-5 ${user.adminYN == 'N' ? '' : 'disabled' }">관리자권한</a></td>
+										<c:choose>
+											<c:when test="${user.adminYN == 'N' }">
+												<td><a class="btn btn-outline-primary mx-2 h-5">관리자권한 부여</a></td>
+											</c:when>
+											<c:otherwise>
+												<td><a class="btn btn-outline-dark mx-2 h-5">관리자권한 해제</a></td>
+											</c:otherwise>
+										</c:choose>
 									</tr>
 								</c:forEach>
 							</c:otherwise>
@@ -164,6 +171,15 @@ $(function(){
 		if(returnValue){
 			var userCode = $(this).closest('tr').data('user-code');
 			location.href = "setAdmin?id="+userCode;
+		}
+			return false;
+	})
+	
+	$("#user-table tbody tr .btn-outline-dark").on('click', function(){
+		var returnValue = confirm("해당 회원의 관리자권한을 해제하시겠습니까?");
+		if(returnValue){
+			var userCode = $(this).closest('tr').data('user-code');
+			location.href = "removeAdmin?id="+userCode;
 		}
 			return false;
 	})

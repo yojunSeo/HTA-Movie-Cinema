@@ -107,6 +107,14 @@ $(function(){
 		var inqueryCode = $(this).data('inquery-code');
 		location.href = "inqueryDetail?code="+inqueryCode;
 	})
+	
+	// 1:1문의 답변이 완료되었을때 실행할 alert창
+	var urlParams = new URLSearchParams(window.location.search);
+	var submitInquery = urlParams.get('submitInquery');
+	if(submitInquery != null){
+		alert("1:1문의 답변이 완료되었습니다.");
+		location.href = "inqueryList";
+	}
 })
 </script>
 </body>

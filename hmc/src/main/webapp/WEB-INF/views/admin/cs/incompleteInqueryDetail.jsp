@@ -52,7 +52,11 @@
             	<div class="col-12 border-bottom border-1 border-secondary">
             	</div>
             </div>
-            <div class="row border border-danger border-3 bg-light">
+            <div class="row mb-5">
+            	<div class="col-12 border-bottom border-2 border-danger">
+            	</div>
+            </div>
+            <div class="row border border-1 bg-light">
             	<div class="row my-2 mx-5">
 	            	<div class="col-3 mt-3">
 	            		<p>문의코드 | <span class="fw-bold">${inquery.code }</span></p>
@@ -80,6 +84,10 @@
             		<div>
             			${inquery.respondContent }
 					</div>
+            	</div>
+            </div>
+             <div class="row mb-5">
+            	<div class="col-12 border-bottom border-2 border-danger">
             	</div>
             </div>
             <div class="row text-center my-5">

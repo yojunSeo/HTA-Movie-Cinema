@@ -137,6 +137,31 @@ $(function(){
 		}
 			return false;
 	})
+	
+
+	// 공지사항이 성공적으로 수정되었을때 실행할 alert창
+	var urlParams = new URLSearchParams(window.location.search);
+	var noticeModify = urlParams.get('noticeModify');
+	if(noticeModify != null){
+		alert("공지사항이 수정되었습니다.");
+		location.href = "noticeList";
+	}
+	
+	// 공지사항이 성공적으로 추가되었을때 실행할 alert창
+	var urlParams = new URLSearchParams(window.location.search);
+	var insertNotice = urlParams.get('insertNotice');
+	if(insertNotice != null){
+		alert("공지사항이 추가되었습니다.");
+		location.href = "noticeList";
+	}
+	
+	// 공지사항이 성공적으로 추가되었을때 실행할 alert창
+	var urlParams = new URLSearchParams(window.location.search);
+	var insertNotice = urlParams.get('insertNotice');
+	if(insertNotice != null){
+		alert("공지사항이 추가되었습니다.");
+		location.href = "noticeList";
+	}
 })
 </script>
 </body>

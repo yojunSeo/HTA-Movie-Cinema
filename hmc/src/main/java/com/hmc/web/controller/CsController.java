@@ -102,7 +102,6 @@ public class CsController {
 	
 	@GetMapping("/inqueryForm")
 	public String inqueryForm(@LoginUser User user ,Model model) {
-		// 지점별 리스트 조회해서 외야함
 		return "cs/inqueryForm";
 	}
 	
@@ -115,7 +114,7 @@ public class CsController {
 		User loginedUser = (User) SessionUtils.getAttribute("LOGINED_USER");
 		inquery.setUserId(loginedUser.getId());
 		inqueryService.insertInquery(inquery);
-		return "redirect:../home";
+		return "redirect:../home?formsubmit=true";
 	}
 
 }

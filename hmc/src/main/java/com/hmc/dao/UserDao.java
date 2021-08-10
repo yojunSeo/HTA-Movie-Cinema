@@ -36,6 +36,8 @@ public interface UserDao {
 	void rollbackUser(User user);
 	
 	void setAdmin(User user);
+	
+	void removeAdmin(User user);
 
 }
 

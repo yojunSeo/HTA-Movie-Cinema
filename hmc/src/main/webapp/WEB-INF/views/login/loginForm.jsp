@@ -100,6 +100,13 @@
 
 <script>
 $(function(){
+	// 회원가입이 성공하면 alert창 띄우는 코드
+	var urlParams = new URLSearchParams(window.location.search);
+    var successRegister = urlParams.get('successRegister');
+	if(successRegister != null){
+		alert("회원가입을 축하합니다!");
+		location.href = "../login/";
+	}
 	
 });
 	
