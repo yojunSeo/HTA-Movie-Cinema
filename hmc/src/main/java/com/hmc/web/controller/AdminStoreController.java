@@ -3,13 +3,11 @@ package com.hmc.web.controller;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.swing.plaf.multi.MultiFileChooserUI;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -121,6 +118,7 @@ public class AdminStoreController {
 		String rootPath = request.getSession().getServletContext().getRealPath("");
 		String projectPath = rootPath.substring(0,rootPath.indexOf(".metadata")) + "hmc/hmc/src/main/webapp/resources/images/store/product";
 		
+		System.out.println(projectPath);
 		FileCopyUtils.copy(imageFile.getInputStream(), new FileOutputStream(new File(projectPath, imageFileName)));
 		
 		mallService.insertProduct(product);

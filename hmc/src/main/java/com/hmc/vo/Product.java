@@ -20,4 +20,10 @@ public class Product {
 	private String memo;
 	private String imageFileName;
 	private Date createdDate;
+
+	public int getDiscountPrice() {
+		int value = ((int) Math.round(price*(1-(discountRate*0.01) )/100))*100;
+		return value;
+	}
 }
+

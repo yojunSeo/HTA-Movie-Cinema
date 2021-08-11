@@ -10,84 +10,92 @@
 <title>상품관리-HMC</title>
 </head>
 <body>
-	<div class="container">
-
-		<header>
-		</header>
-
-		<main class="mt-5">
-			<h3>상품관리</h3>
-			
-			<button class="btn btn-primary" id="btn-open-product-modal">새 상품 등록하기</button>
-			
-			<div class="row">
-				<div class="col-12">
-					<table class="table text-center">
-						<thead>
-							<tr>
-								<th>상품코드</th>
-								<th>카테고리</th>
-								<th>상품명</th>
-								<th>가격</th>
-								<th>할인율</th>
-								<th>할인가격</th>
-								<th>재고</th>
-								<th>등록일</th>
-								<th>수정/삭제</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach var="product" items="${productList}">
-								<tr>
-									<td>${product.code}</td>
-									<td>${product.category}</td>
-									<td>${product.name}</td>
-									<c:choose>
-										<c:when test="${product.discountRate > 0}">
-											<td><del><fmt:formatNumber value="${product.price}" type="number"/> 원</del></td>
-											<td style="color:red;">
-													<fmt:formatNumber value="${product.discountRate}"/>%
-											</td>
-											<td><strong><fmt:formatNumber value="${product.price * (1-(product.discountRate)*0.01)}" type="number"/> 원</strong></td>
-										</c:when>
-										<c:otherwise>
-											<td><strong><fmt:formatNumber value="${product.price}" type="number"/> 원</strong></td>
-											<td></td>
-											<td></td>
-										</c:otherwise>
-									</c:choose>
-									<td>${product.stock}</td>
-									<td>${product.createdDate}</td>
-									<td>
-										<button class="btn btn-success" data-product-code="${product.code}">수정</button>
-										<button class="btn btn-danger" data-product-code="${product.code}">삭제</button>
-									</td>
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
-					<c:if test="${pagination.totalRows gt 0 }">
-						<div class="row mb-2">
-							<div class="col-12">
-								<ul class="pagination justify-content-center">
-									<li class="page-item ${pagination.pageNo le 1 ? 'disabled' : ''}">
-										<a class="page-link" href="list?page=${pagination.pageNo - 1 }">이전</a>
-									</li>
-									<c:forEach var="num" begin="${pagination.beginPage }" end="${pagination.endPage }">
-										<li class="page-item ${pagination.pageNo eq num ? 'active' : '' }">
-											<a class="page-link" href="list?page=${num }">${num }</a>
-										</li>
-									</c:forEach>
-									<li class="page-item ${pagination.pageNo ge pagination.totalPages ? 'disabled' : ''}">
-										<a class="page-link" href="list?page=${pagination.pageNo + 1 }">다음</a>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</c:if>
-				</div>
+	<div class="container-fluid mt-5">
+		<div class="row">
+			<div class="col-2">
+				<%@include file ="../sidebar.jsp"%>
 			</div>
-		</main>
+			<div class="col-10">
+				<main class="mt-5">
+					<h3>상품관리</h3>
+					<div class="row mt-3 justify-content-end">
+						<div class="col-3 text-end mx-5">
+							<button class="btn btn-primary" id="btn-open-product-modal">새 상품 등록하기</button>
+						</div>
+					</div>
+					
+					<div class="row mt-3">
+						<div class="col-12">
+							<table class="table text-center table-striped">
+								<thead>
+									<tr>
+										<th>상품코드</th>
+										<th>카테고리</th>
+										<th>상품명</th>
+										<th>가격</th>
+										<th>할인율</th>
+										<th>할인가격</th>
+										<th>재고</th>
+										<th>등록일</th>
+										<th>수정/삭제</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="product" items="${productList}">
+										<tr class="align-middle">
+											<td>${product.code}</td>
+											<td>${product.category}</td>
+											<td>${product.name}</td>
+											<c:choose>
+												<c:when test="${product.discountRate > 0}">
+													<td><del><fmt:formatNumber value="${product.price}" type="number"/> 원</del></td>
+													<td style="color:red;">
+															<fmt:formatNumber value="${product.discountRate}"/>%
+													</td>
+													<td><strong><fmt:formatNumber value="${product.price * (1-(product.discountRate)*0.01)}" type="number" pattern="###,#00"/> 원</strong></td>
+												</c:when>
+												<c:otherwise>
+													<td><strong><fmt:formatNumber value="${product.price}" type="number"/> 원</strong></td>
+													<td></td>
+													<td></td>
+												</c:otherwise>
+											</c:choose>
+											<td>${product.stock}</td>
+											<td>${product.createdDate}</td>
+											<td>
+												<button class="btn btn-success" data-product-code="${product.code}">수정</button>
+												<button class="btn btn-danger" data-product-code="${product.code}">삭제</button>
+											</td>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+							<c:if test="${pagination.totalRows gt 0 }">
+								<div class="row mb-2">
+									<div class="col-12">
+										<ul class="pagination justify-content-center">
+											<li class="page-item ${pagination.pageNo le 1 ? 'disabled' : ''}">
+												<a class="page-link" href="list?page=${pagination.pageNo - 1 }">이전</a>
+											</li>
+											<c:forEach var="num" begin="${pagination.beginPage }" end="${pagination.endPage }">
+												<li class="page-item ${pagination.pageNo eq num ? 'active' : '' }">
+													<a class="page-link" href="list?page=${num }">${num }</a>
+												</li>
+											</c:forEach>
+											<li class="page-item ${pagination.pageNo ge pagination.totalPages ? 'disabled' : ''}">
+												<a class="page-link" href="list?page=${pagination.pageNo + 1 }">다음</a>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</c:if>
+						</div>
+					</div>
+				</main>
+			
+			</div>
+		</div>
+
 
 		<footer>
 		</footer>
@@ -118,7 +126,14 @@
 									<div class="form-check">
 										<c:forEach var="category" items="${categories }">
 											<div class="form-check form-check-inline">
-												<input class="form-check-input" type="radio" name="category" value="${category}" >
+												<c:choose>
+													<c:when test="${category eq '스낵/음료'}">
+														<input class="form-check-input" type="radio" name="category" value="스낵음료" >
+													</c:when>
+													<c:otherwise>
+														<input class="form-check-input" type="radio" name="category" value="${category}" >
+													</c:otherwise>
+												</c:choose>
 												<label class="form-check-label">${category}</label>
 											</div>
 										</c:forEach>
@@ -195,7 +210,7 @@
 				requestURI = "add";
 				request = "등록";
 				
-				$(".btn-primary").text("등록");
+				$(".modal-footer .btn-primary").text("등록");
 				$("#product-code").val("").prop("readonly", true);
 				$(":radio[name=category]").eq(0).prop("checked", true);
 				$("#product-name").val("");
@@ -215,9 +230,13 @@
 				var productCode = $(this).data("product-code");
 				$.getJSON("detail?code=" + productCode)
 					.done(function(product) {
-						$(".btn-primary").text("수정");
+						$(".modal-footer .btn-primary").text("수정");
 						$("#product-code").val(product.code).prop("readonly", true);
-						$(":radio[name=category][value="+product.category+"]").prop("checked", true);
+						if(product.category == "스낵/음료") {
+							$(":radio[name=category][value="+"스낵음료"+"]").prop("checked", true);
+						} else {
+							$(":radio[name=category][value="+product.category+"]").prop("checked", true);
+						}
 						$("#product-name").val(product.name);
 						$("#price").val(product.price);
 						$("#discount-rate").val(product.discountRate);
@@ -251,6 +270,10 @@
 				if(!$("#discount-rate").val()) {
 					$("#discount-rate").attr("disabled",true);
 				}
+				console.log($(":radio[name=category][value="+"스낵음료"+"]").prop("checked"));
+				if($(":radio[name=category][value="+"스낵음료"+"]").prop("checked")) {
+					$(":radio[name=category][value="+"스낵음료"+"]").val("스낵/음료");
+				}
 				
 				$("#form-product").submit();
 			});
@@ -259,17 +282,16 @@
 				var productCode = $(this).data("product-code");
 				var $tr = $(this).closest("tr");
 								
-				alert("[" + productCode + "] 상품을 정말 삭제하시겠습니까?");
-				
-				$.ajax({
-					type:"GET",
-					url:"delete",
-					data: {code: productCode},
-					success: function() {
-						$tr.remove();
-					}
-				})
-
+				if(confirm("[" + productCode + "] 상품을 정말 삭제하시겠습니까?")) {
+					$.ajax({
+						type:"GET",
+						url:"delete",
+						data: {code: productCode},
+						success: function() {
+							$tr.remove();
+						}
+					})
+				}
 			})			
 			
 		})

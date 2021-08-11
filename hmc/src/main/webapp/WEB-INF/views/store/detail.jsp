@@ -20,42 +20,56 @@
 			
 			<div class="row justify-content-center">
 				<div class="col-5">
-					<img src="../resources/images/store/package_sample.jpg" style="width:100%; height: auto;">
+					<img src="../resources/images/store/product/${product.imageFileName}" style="width:100%; height: auto;">
 				</div>
 				<div class="col-5 mt-3">
 					<table class="table" style="width:80%">
 						<tr>
-							<td class="fs-3" colspan="2">데이트의 완성 2인 패키지</td>
+							<td class="fs-3" colspan="2">${product.name}</td>
 						</tr>
 						<tr>
-							<td><span style="color:#FF243E;"><b>12%</b></span></td><td><span class="fs-4"><strong>28,000원</strong></span> <small><s>35,000원</s></small> </td>
+							<c:choose>
+								<c:when test="${product.discountRate eq 0}">
+									<td></td><td><span class="fs-4" id="price" data-price="${product.price}"><strong>
+										<fmt:formatNumber value="${product.price}"/>
+									</strong></span></td>
+								</c:when>
+								<c:otherwise>
+									<td><span style="color:#FF243E;"><b>${product.discountRate}%</b></span></td>
+									<td><span class="fs-4" id="price" data-price="${product.discountPrice}"><strong>
+										<fmt:formatNumber value="${product.discountPrice}"/>
+									</strong></span> <small><del>
+										<fmt:formatNumber value="${product.price}"/>
+									</del></small> </td>
+								</c:otherwise>
+							</c:choose>
 						</tr>
 						<tr>
-							<td><strong>구성품</strong></td><td>2D 일반관람권 2매 + 스위트콤보</td>
+							<td><strong>구성품</strong></td><td>${product.memo }</td>
 						</tr>
 						<tr>
 							<td><strong>구매제한</strong></td><td>제한없음</td>
 						</tr>
 						<tr>
-							<td><strong>유효기간</strong></td><td>1년</td>
+							<td><strong>유효기간</strong></td><td>2년</td>
 						</tr>
 						<tr>
 							<td><strong>사용가능 영화관</strong></td><td>모든 영화관</td>
 						</tr>
 					</table>
-					<form class="from-group mt-3" style="width:80%;">
+					<form class="from-group mt-3" method="post" action="payment" style="width:80%;">
 						<div class="row">
 							<div class="input-group">
-								<span class="input-group-text" id="amount">수량</span>
-								<input class="form-control text-center" type="number" id="amount" value="1">
+								<span class="input-group-text">수량</span>
+								<input class="form-control text-center" type="number" min="1" max="5" id="amount" name="amount" value="1" />
 							</div>
 							<div class="text-end mt-3">
-								<span>총상품금액  </span><span class="fs-4 fw-bold" style="color:#FF243E;">28,000 원</span>
+								<span>총 상품금액  </span><span class="fs-4 fw-bold" style="color:#FF243E;" id="totalPrice"><fmt:formatNumber value="${product.discountPrice}"/> 원 </span>
 							</div>
 						</div>
 						<div class="row justify-content-around mt-1">
-							<button class="btn col-5" style="background-color: #444444; color: white">취소하기</button>
-							<button class="btn col-5" style="background-color: #FF243E; color: white">구매하기</button>
+							<a href="../store/" class="btn col-5" style="background-color: #444444; color: white">취소하기</a>
+							<button id="buy" class="btn col-5" style="background-color: #FF243E; color: white">구매하기</button>
 						</div>
 					</form>
 				</div>
@@ -127,7 +141,22 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
 
 	<script>
-		
+		$(function() {
+			
+			$("#amount").change(function() {
+				var amount = $("#amount").val();
+				var unitPrice = $("#price").data("price");
+				var totalPrice = new Number(amount*unitPrice).toLocaleString();
+				
+				$("#totalPrice").empty().text(totalPrice+' 원');
+				
+			})	
+			
+			$("#buy").click(function() {
+				
+			})
+			
+		})
 	</script>
 </body>
 </html>
