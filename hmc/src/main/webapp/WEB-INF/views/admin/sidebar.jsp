@@ -73,7 +73,7 @@
     		스토어 관리
   		</button>
   		<ul class="collapes collapse" id="store-service">
-  			<li class="p-2" style="width: 200px"><a href="#">상품리스트</a></li>
+  			<li class="p-2" style="width: 200px"><a href="/hmc/admin/mall/list">상품리스트</a></li>
   		</ul>
       </li>
       <li class="mb-1" style="width: 200px">
