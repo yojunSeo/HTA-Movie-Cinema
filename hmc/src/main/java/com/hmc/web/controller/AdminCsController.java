@@ -150,7 +150,7 @@ public class AdminCsController {
 		Map<String,Object> param = new HashMap<String, Object>();
 		
 		if(searchOption != null && searchKeyword != null ) {
-			page=1;
+			//page=1;
 			param.put("opt", searchOption);
 			param.put("keyword", searchKeyword);
 		}
@@ -248,7 +248,6 @@ public class AdminCsController {
 		Map<String,Object> param = new HashMap<String, Object>();
 		
 		if(searchOption != null && searchKeyword != null ) {
-			page=1;
 			param.put("opt", searchOption);
 			param.put("keyword", searchKeyword);
 		}
