@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.hmc.dao.CouponDao;
 import com.hmc.service.CouponService;
 import com.hmc.vo.Coupon;
-import com.hmc.vo.Event;
 import com.hmc.vo.Pagination;
 
 @Controller
