@@ -48,14 +48,12 @@
 									</tr>
 								</c:when>
 								<c:otherwise>
-									<c:forEach var="coupons" items="${coupons }">
-										<tr id="coupon-${coupons.code }" >
-											<th>${coupons.code }</th>
-											<td style="cursor:pointer;">
-											<button class="btn btn-link btn-sm" data-coupon-code="${coupon.code }">${coupons.name }</button>
-											</td>						
-											<td>${coupons.type }</td>					
-											<td>${event.code }</td>		
+									<c:forEach var="coupon" items="${coupons }">
+										<tr id="coupon-${coupon.code }" >
+											<th>${coupon.code }</th>
+											<td>${coupon.name }</td>						
+											<td>${coupon.type }</td>					
+											<td>${coupon.eventCode }</td>		
 											<td><button id="btn-coupon-modify" class="btn btn-outline-primary btn-sm rm-2" data-coupon-code="${coupon.code }">수정</button>
 											<button id="btn-coupon-delete" class="btn btn-outline-danger btn-sm rm-2" data-coupon-code="${coupon.code }">삭제</button></td>
 										</tr>			
@@ -108,7 +106,7 @@
 										<label class="form-check-label">50%할인</label>
 									</div>
 									<div class="form-check form-check-inline">
-										<input class="form-check-input" type="radio" name="type'" value="30%할인">
+										<input class="form-check-input" type="radio" name="type" value="30%할인">
 										<label class="form-check-label">30%할인</label>
 									</div>
 									<div class="form-check form-check-inline">
@@ -123,6 +121,9 @@
 							</div>
 							<div class="row px-2 mb-2">
 								<input type="text" class="form-control" id="coupon-name" name="name" placeholder="쿠폰 이름을 입력하세요">
+							</div>
+							<div class="row px-2 mb-2">
+								<input type="text" class="form-control" id="coupon-eventCode" name="eventCode" placeholder="이벤트 코드를 입력하세요">
 							</div>
 						</form>
 					</div>
@@ -149,12 +150,15 @@ $(function(){
 	
 	// 새 쿠폰 등록
 	$("#btn-open-coupon-modal").click(function(){
-		console.log("등록 실행");
+		console.log("등록 실행이에요");
 		requestURI = "/hmc/coupon/add";
 		request = "등록"
 		
+		
 		$(":radio[name=type]").eq(0).prop("checked", true);
+		
 		$("#coupon-name").val("");
+		$("#coupon-couponEvent").val("");
 		$("#btn-post-coupon").text("등록");
 		
 		couponModal.show();
@@ -162,7 +166,6 @@ $(function(){
 	
 	// 등록 버튼
 	$("#btn-post-coupon").click(function() {
-		
 		$.ajax({
 			type: "POST",
 			url: requestURI,
@@ -170,31 +173,49 @@ $(function(){
 			dataType: 'json',
 			success: function(coupon) {
 				if (request == "등록") {
+					console.log("등록이 됌니다");
 					$("#table-coupon tbody").prepend(makeRow(coupon));
+				} else if(request =="수정"){
+					console.log("6");
+					var $tds = $("#coupon-" + coupon.code).find("td");
+					console.log("8");
+					$tds.eq(0).text(coupon.name);
+					console.log("7");
+					$tds.eq(1).text(coupon.type);
+					$tds.eq(2).text(coupon.eventCode);
 				}
 			},
 			complete: function() {
 				couponModal.hide();
 			}
 		});
+		console.log("등록이 됌니다!");
 	})
 	
 	
 	// 수정버튼
-	$("#btn-coupon-modify").click(function(){
+	$("#table-coupon tbody").on('click', '.btn-outline-primary', function(event){
 		request = "수정";
 		requestURI = "/hmc/coupon/modify";
 		$("#btn-post-coupon").text("수정");
 		$(":input:disabled").prop("disabled", false);
 		
-		console.log("수정 실행12346");
+		console.log("수정 실행임니당");
 		event.preventDefault();
-		console.log("수정 실행1234");
 		$.getJSON("/hmc/coupon/detail?code=" + $(this).data("coupon-code"))
 			.done(function(coupons) {
+				console.log("5");
+				$("#coupon-code").val(coupons.code);
+				$(":radio[name=type]").eq(0).prop("checked", true);
+				$("#coupon-name").val(coupons.name);
+				$("#coupon-eventCode").val(coupons.eventCode);
+				couponModal.show();
 			})
 		
 	})
+	
+	
+	
 	
 	// 삭제버튼
 	$("#btn-coupon-delete").click(function() {

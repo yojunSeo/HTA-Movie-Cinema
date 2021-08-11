@@ -96,6 +96,7 @@ public class CouponController {
 	public @ResponseBody ResponseEntity<Coupon> add(Coupon coupon){
 		System.out.println("쿠폰등록");
 		couponDao.insertCoupon(coupon);
+		
 		Coupon savedCoupon = couponDao.getCouponByCode(coupon.getCode());
 		
 		return new ResponseEntity<Coupon>(savedCoupon, HttpStatus.OK);
@@ -103,9 +104,13 @@ public class CouponController {
 	
 	@RequestMapping("/coupon/modify")
 	public @ResponseBody ResponseEntity<Coupon> modify(Coupon coupon) {
-		System.out.println("수정 실행");
+		System.out.println("수정 실행임니다!");
+
+		System.out.println(coupon+"123");
 		Coupon savedCoupon = couponDao.getCouponByCode(coupon.getCode());
+		System.out.println(coupon+"1234");
 		if (savedCoupon == null) {
+			System.out.println("if문 실행");
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		savedCoupon.setCode(coupon.getCode());
