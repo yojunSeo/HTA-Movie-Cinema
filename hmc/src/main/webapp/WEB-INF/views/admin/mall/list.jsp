@@ -52,7 +52,7 @@
 													<td style="color:red;">
 															<fmt:formatNumber value="${product.discountRate}"/>%
 													</td>
-													<td><strong><fmt:formatNumber value="${product.price * (1-(product.discountRate)*0.01)}" type="number" pattern="###,#00"/> 원</strong></td>
+													<td><strong><fmt:formatNumber value="${product.discountPrice}" type="number" pattern="###,#00"/> 원</strong></td>
 												</c:when>
 												<c:otherwise>
 													<td><strong><fmt:formatNumber value="${product.price}" type="number"/> 원</strong></td>

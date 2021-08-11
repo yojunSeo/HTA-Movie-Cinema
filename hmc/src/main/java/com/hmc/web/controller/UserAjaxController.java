@@ -26,5 +26,27 @@ public class UserAjaxController {
 		}
 		return new ResponseEntity<String>(isExist,HttpStatus.OK);
 	}
+	
+	/**
+	 * 스토어의 선물기능에서 선물받을 유저가 존재하는지 체크하고,
+	 * 존재한다면 정보를 받아오는 메서드
+	 * @author YOJUN SEO
+	 * @param phone
+	 * @return
+	 */
+	@RequestMapping("/store/json/usercheck")
+	@ResponseBody
+	public ResponseEntity<User>  presentUserCheckByPhone(@RequestParam("phone") String phone) {
+		
+		User findedUser = userDao.getUserByPhone(phone);
+		if(findedUser == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+		// JSON정보를 내려보내기 전 비밀번호 삭제 처리
+		findedUser.setPassword("");
+		
+		return new ResponseEntity<>(findedUser, HttpStatus.OK);
+	}
 
 }

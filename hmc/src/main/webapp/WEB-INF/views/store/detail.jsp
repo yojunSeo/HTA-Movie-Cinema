@@ -57,19 +57,21 @@
 							<td><strong>사용가능 영화관</strong></td><td>모든 영화관</td>
 						</tr>
 					</table>
-					<form class="from-group mt-3" method="post" action="payment" style="width:80%;">
+					<form id="form" class="from-group mt-3" method="post" action="purchase" style="width:80%;">
 						<div class="row">
 							<div class="input-group">
 								<span class="input-group-text">수량</span>
-								<input class="form-control text-center" type="number" min="1" max="5" id="amount" name="amount" value="1" />
+								<input class="form-control text-center" type="number" min="0" max="5" id="amount" name="amount" value="0" />
 							</div>
 							<div class="text-end mt-3">
-								<span>총 상품금액  </span><span class="fs-4 fw-bold" style="color:#FF243E;" id="totalPrice"><fmt:formatNumber value="${product.discountPrice}"/> 원 </span>
+								<span>총 상품금액 : </span><span class="fs-4 fw-bold" style="color:#FF243E;" id="totalPrice"></span>
+								<input class="form-control" type="hidden" id="total-price" name="totalPrice" value="">
+								<input class="form-control" type="hidden" id="product-code" name="productCode" value="${product.code}">
 							</div>
 						</div>
-						<div class="row justify-content-around mt-1">
-							<a href="../store/" class="btn col-5" style="background-color: #444444; color: white">취소하기</a>
-							<button id="buy" class="btn col-5" style="background-color: #FF243E; color: white">구매하기</button>
+						<div class="row justify-content-around mt-3">
+							<button id="present" type="button" class="btn col-5 p-2" style="background-color: black; color: white">선물하기</button>
+							<button id="buy" type="button" class="btn col-5 p-2" style="background-color: #FF243E; color: white">구매하기</button>
 						</div>
 					</form>
 				</div>
@@ -128,6 +130,100 @@
 				</div>
 			</div>
 
+		<div class="modal fade" id="form-present-modal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-lg">
+				<div class="modal-content">
+					<div class="modal-header row" >
+						<div class="col-11  text-center">
+							<h5 class="modal-title fw-bold" id="exampleModalLabel">선물하기</h5>						
+						</div>
+						<div class="col-1">
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+					</div>
+					<div class="modal-body">
+						<div class="row border-bottom">
+							<div class="col-12">
+								<table class="table">
+									<colgroup>
+										<col width="20%">
+										<col width="45%">
+										<col width="35%">
+									</colgroup>
+									<tr>
+										<td>
+											<img src="../resources/images/store/product/${product.imageFileName}" style="width:100%;">
+										</td>
+										<td class="align-middle">
+											<span class="fs-4 fw-bold">${product.name}</span><br/>
+											<span>총 수량 : <a id="modal-amount"></a> 개</span>
+										</td>
+										<td class="align-middle text-end">
+											<span class="text-end">총 합계 : <a id="modal-total-price" class="fs-4 fw-bold"></a>원 </span> 
+										</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+						<div class="row">
+							<form id="form-present" method="post" action="present">
+									<input type="hidden" id="form-amount" name="amount">
+									<input type="hidden" id="form-total-price" name="totalPrice">
+									<input type="hidden" id="form-product-code" name="productCode" value="${product.code}">
+									<input type="hidden" id="form-gift-recipient-id" name="giftRecipienId">
+								<div class="row mt-2">
+									<div class="col-3">
+										<label class="form-label fw-bold mt-1" for="form-phone">선물 받는 분 연락처</label>
+									</div>
+									<div class="col-7">
+										<input id="form-phone" class="form-control" type="text" name="phone" placeholder="휴대폰번호를 입력(-없이)"
+												onKeyup="this.value=this.value.replace(/[^0-9]/g,'');">
+									</div>
+									<div class="col-2">
+										<button class="btn btn-secondary" type="button" id="form-user-check">회원확인</button>
+									</div>
+								</div>
+								<div class="row mt-2">
+									<div class="col-3">
+										<label class="form-label fw-bold mt-1" for="form-presented-user">선물 받는 분 이름</label>
+									</div>
+									<div class="col-4">
+										<input id="form-presented-user" class="form-control" type="text" readonly="readonly" style="background-color:#F2F2F2;" placeholder="선물 받는 분 이름확인">
+									</div>
+								</div>
+								<div class="row mt-2">
+									<div class="col-3">
+										<label class="form-label fw-bold mt-1" for="form-present-user">선물 하는 분</label>
+									</div>
+									<div class="col-7">
+										<input id="form-present-user" class="form-control" type="text" name="" style="background-color:#F2F2F2;" style="background-color:#F2F2F2;" value="${LOGINED_USER.name}" readonly="readonly">
+									</div>								
+								</div>
+								<div class="row mt-5">
+									<div class="form-check mx-3">
+										<input class="form-check-input" type="checkbox" value="" id="form-agree">
+										<label class="form-check-label fw-bold" for="form-agree">개인정보 수집에 대한 동의</label>
+									</div>
+								</div>
+								<div class="row mt-2">
+									<div class="form-floating">
+										 <textarea class="form-control" style="height: 130px; background-color:#F2F2F2;" id="floatingTextarea" readonly="readonly">목적 : 스토어 선물하기 발송
+수집항목 : 선물 받는분 휴대폰번호
+보유기간 : 70일 보관 후 5년간 분리하여 보관
+귀하는 동의를 거부할 수 있으나, 이 경우 스토어 선물하기 서비스를 이용하실 수 없습니다.</textarea>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+					<div class="modal-footer row">
+						<div class="col-12 text-center">
+							<button type="button" class="btn btn-secondary" id="btn-post-present">선물하기</button>
+						</div>
+					</div>
+				</div>
+		</div>
+		</div>
 
 		</main>
 
@@ -142,17 +238,90 @@
 
 	<script>
 		$(function() {
+			var unitPrice = $("#price").data("price");
+			var amount;
+			var totalPrice;
 			
 			$("#amount").change(function() {
-				var amount = $("#amount").val();
-				var unitPrice = $("#price").data("price");
-				var totalPrice = new Number(amount*unitPrice).toLocaleString();
+				amount = $("#amount").val();
+				totalPrice = new Number(amount*unitPrice).toLocaleString();
 				
 				$("#totalPrice").empty().text(totalPrice+' 원');
-				
 			})	
 			
 			$("#buy").click(function() {
+				
+				if($("#amount").val() < 1) {
+					alert("수량은 1개이상이어야합니다.");
+					$("#amount").focus();
+					return;
+				}
+				
+				$("#total-price").val(amount*unitPrice);
+				
+				 document.getElementById("form").submit();
+			})
+			
+			var presentModal = new bootstrap.Modal(document.getElementById("form-present-modal"), {
+				keyboard: false
+			})
+			
+			
+			$("#present").click(function() {
+				
+				if($("#amount").val() < 1) {
+					alert("수량은 1개이상이어야합니다.");
+					$("#amount").focus();
+					return;
+				}
+				
+				amount = $("#amount").val();
+				var totalPriceLocale = new Number(amount*unitPrice).toLocaleString();
+				
+				$("#modal-total-price").text(totalPriceLocale);
+				$("#modal-amount").text(amount);
+				presentModal.show();
+				
+			})
+			
+			
+			$("#form-user-check").click(function() {
+				
+				var phone = $("#form-phone").val();
+				if(phone.length != 11) {
+					alert("휴대폰 번호 입력 양식 확인 (-없이 11자리 숫자)")
+					return;
+				}
+				var modifyPhone = phone.substr(0,3) + '-' + phone.substr(3,4) + '-' + phone.substr(7,4);
+				$.getJSON("json/usercheck?phone=" + modifyPhone)
+					.done(function(user) {
+						$("#form-presented-user").val(user.name);
+						$("#form-gift-recipient-id").val(user.id);
+					})
+					.fail(function() {
+						$("#form-presented-user").val("검색된 사용자 없음");
+					})				
+			})
+			
+			$("#btn-post-present").click(function() {
+
+				// 선물 받는 사람이 제대로 검색되었는지 확인
+				if($("#form-presented-user").val() == "검색된 사용자 없음") {
+					alert("선물 받는 분을 확인해주세요.");
+					return;
+				}
+				
+				// 개인정보 이용동의 체크 확인
+				if(!$("#form-agree").is(':checked')) {
+					alert("개인정보 제공 동의 후 진행 가능합니다.");
+					$("#form-agree").focus();
+					return;
+				}
+				
+				$("#form-amount").val(amount);
+				$("#form-total-price").val(amount*unitPrice);
+				
+				$("#form-present").submit();
 				
 			})
 			
