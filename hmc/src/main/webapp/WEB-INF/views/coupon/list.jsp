@@ -218,12 +218,13 @@ $(function(){
 	
 	
 	// 삭제버튼
-	$("#btn-coupon-delete").click(function() {
+	$("#table-coupon tbody").on('click', '.btn-outline-danger', function() {
+		console.log("삭제");
 		var $tr = $(this).closest("tr");
 		$.ajax({
 			type: "GET",
 			url: "/hmc/coupon/delete",
-			data: {no: $(this).data("coupon-code")},
+			data: {code: $(this).data("coupon-code")},
 			success: function() {
 				$tr.remove();
 			}
