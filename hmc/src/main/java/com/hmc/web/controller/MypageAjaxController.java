@@ -27,4 +27,9 @@ public class MypageAjaxController {
 		return result;
 	}
 	
+	/*
+	 * @RequestMapping("/review") public Map<String, Object> getUserGradeExpected(){
+	 * Map<String, Object> result = userService.getUserExpectedGrade(); return
+	 * result; }
+	 */	
 }
