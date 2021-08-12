@@ -59,8 +59,10 @@ public class MovieApiService {
 				String runningTime = "0";
 				if(!"".equals(movieInfo.get("showTm"))) {
 					runningTime= movieInfo.get("showTm").getAsString();
-					movie.setRunningTime(runningTime);
+					int showTm = Integer.parseInt(runningTime);
+					movie.setRunningTime(showTm);
 					System.out.println("############러닝타임:  "+runningTime); //-->ok
+					System.out.println("############쇼타임:  "+showTm);
 				}
 				System.out.println(movie);
 				
