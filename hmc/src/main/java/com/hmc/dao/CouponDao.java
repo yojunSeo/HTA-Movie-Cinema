@@ -25,4 +25,6 @@ public interface CouponDao {
 	
 	List<Coupon> couponListPage(Map<String, Object> param);
 	
+	List<Coupon> getCouponInfo(Map<String, Object> param);
+	
 }

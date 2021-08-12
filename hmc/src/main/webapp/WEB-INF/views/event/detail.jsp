@@ -8,22 +8,26 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <title>이벤트 페이지</title>
 <style>
+.title{
+	border-color: black;
+}
+
+
 </style>
 </head>
 <body>
 <%@ include file="../common/header.jsp" %>
-<div class="container my-3">
+<div class="container my-3" style="border:6px solid #e9e9e9;">
 	<div class="eventHeader">
-	    <div class="title">
-	    	<h3>번호</h3>
-	    	제목
+	    <div class="title" style="text-align:center;">
+		    <p class="fw-bold fs-6 mt-2">${events.title }</p>
 	    </div>
 	    <div class="writer">
 	    	<a>작성자</a>
 	    </div>
     </div>
     <div>
-    	<div class="eventContent">
+    	<div  class="eventContent">
     		<a>내용</a>
     	</div>
     </div>

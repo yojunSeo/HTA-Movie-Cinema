@@ -1,5 +1,7 @@
 package com.hmc.web.controller;
 
+import java.text.ParseException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,41 +10,57 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.hmc.service.CouponService;
 import com.hmc.service.EventService;
-import com.hmc.service.EventServiceImpl;
+import com.hmc.service.UserService;
 import com.hmc.vo.Coupon;
 import com.hmc.vo.Event;
+import com.hmc.vo.Notice;
 import com.hmc.vo.Pagination;
+import com.hmc.vo.User;
+import com.hmc.web.annotation.LoginAdmin;
+import com.hmc.web.util.DateUtils;
+import com.hmc.web.util.SessionUtils;
 
 @Controller
-@RequestMapping("/event")
-public class EventController {
+@RequestMapping("/admin/event")
+public class AdminEventController {
 	
 	@Autowired
-	private EventService eventService;
+	EventService eventService;
 	
 	@Autowired
-	private CouponService couponService;
+	CouponService couponService;
+	
+	@Autowired
+	UserService userService;
 	
 	// 한 페이지당 표시할 게시글 행의 개수
 	private static final int ROWS_PER_PAGE = 10;
 	// 페이지블록 당 한번에 표시할 페이지번호 개수
 	private static final int PAGES_PER_PAGE_BLOCK = 5;
 	
+	@GetMapping("/eventForm")
+	public String eventForm(Model model) {
+		Map<String, Object> param = new HashMap<String, Object>();
+		
+		List<Coupon> coupons = couponService.getCouponInfo(param);
+		model.addAttribute("coupons", coupons);
+		
+		return "admin/event/add";
+	}
 	
-	@GetMapping("/home")
-	public String eventHome(@RequestParam(name = "page", required = false, defaultValue = "1") int page, 
-							@RequestParam(name = "opt", required = false) String searchOption, 
-							@RequestParam(name = "keyword", required = false) String searchKeyword, 
-							Model model) 
-	{
+	
+	@GetMapping("/eventList")
+	public String eventForm(@RequestParam(name = "page", required = false, defaultValue = "1") int page, 
+			@RequestParam(name = "opt", required = false) String searchOption, 
+			@RequestParam(name = "keyword", required = false) String searchKeyword, 
+			Model model) {
+		
 		Map<String, Object> param = new HashMap<String, Object>();
 		if(searchOption != null && searchKeyword != null ) {
 			page=1;
@@ -76,44 +94,37 @@ public class EventController {
 		
 		model.addAttribute("pagination", pagination);
 		
-		return "event/main";
+		
+		
+		return "admin/event/eventList";
 	}
 	
-	@GetMapping("/detail")
-	public String eventDetail(@RequestParam("no") String eventCode, Model model) {
+	
+	@PostMapping("/insertEvent")
+	public String add(@RequestParam("title") String title, @RequestParam("writer") String writer, 
+					@RequestParam("eventContent") String eventContent, @RequestParam("startDate") String startDate,
+					@RequestParam("endDate") String endDate, @RequestParam("selectCoupon") String selectCoupon,
+					@RequestParam("couponAmount") int couponAmount, @RequestParam("status") String status,
+					@LoginAdmin User loginAdmin) throws ParseException {
 		
-		Event events = eventService.getEventDetail(eventCode);
+		Event event = new Event();
+		event.setTitle(title);
+		event.setContent(eventContent);
+		Date eventStart = DateUtils.stringToDate(startDate);
+		event.setStartDate(eventStart);
+		Date eventEnd = DateUtils.stringToDate(endDate);
+		event.setEndDate(eventEnd);
+		event.setCouponCode(selectCoupon);
+		event.setCouponAmount(couponAmount);
+		event.setStatus(status);
 		
-		model.addAttribute("events", events);
+		//event.setWriter(loginAdmin.getId());
+		User logginedUser = (User)SessionUtils.getAttribute("LOGINED_USER");
+		event.setWriter(logginedUser.getId());
+		System.out.println(event);
+		eventService.insertEvent(event);
+		
+		return "rediret:eventList?insertEvent=true";
+	}
 
-		
-		
-		
-		return "event/detail";
-	}
-	
-	@GetMapping("/add")
-	public String add(Event event) {
-		
-		return "event/add";
-	}
-	
-	@GetMapping("/adds")
-	public String eventAdd(Model model) {
-		Map<String, Object> param = new HashMap<String, Object>();
-		List<Event> events = eventService.eventListPage(param);
-		System.out.println("실행됨");
-		model.addAttribute("events", events);
-		
-		List<Coupon> coupons = couponService.couponListPage(param);
-		System.out.println("실행됨");
-		model.addAttribute("coupons", coupons);
-		
-		return "event/eventAdd";
-	}
-	
-	
-	
-	
-	
 }
