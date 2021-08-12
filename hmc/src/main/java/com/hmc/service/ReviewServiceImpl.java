@@ -26,5 +26,15 @@ public class ReviewServiceImpl implements ReviewService{
 	public void insertReview(Review review) {
 		reviewDao.insertReview(review);
 	}
+	
+	@Override
+	public void updateReview(Review review) {
+		reviewDao.updateRivew(review);
+	}
+	
+	@Override
+	public Review getReviewByCode(String reviewCode) {
+		return reviewDao.getReviewByCode(reviewCode);
+	}
 
 }

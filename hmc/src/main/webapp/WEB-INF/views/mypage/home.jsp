@@ -124,7 +124,7 @@ html, body {
 								data-bs-target="#usermodify">회원정보변경</a></li>
 								<li><a class="dropdown-item" id="pwdchange-tab" href="#pwdchange" data-bs-toggle="tab" 
 								data-bs-target="#pwdchange">비밀번호변경</a></li>
-								<li><a class="dropdown-item" id="userexit-tab" href="#userexit" data-bs-toggle="tab" 
+								<li><a class="dropdown-item" id="userexit-tab" href="#userwithdrawal" data-bs-toggle="tab" 
 								data-bs-target="#userexit">회원탈퇴</a></li>
 							</ul>
 					</ul>
@@ -149,15 +149,17 @@ html, body {
 							aria-labelledby="usermodify-tab">
 							<h3>회원정보변경 화면</h3>
 
+							<%@include file="usermodify.jsp" %>
 						</div>
 						<div class="tab-pane fade" id="pwdchange" role="tabpanel"
 							aria-labelledby="pwdchange-tab">
 							<h3>비밀번호변경 화면</h3>
-
+							<%@include file="pwdchange.jsp" %>
 						</div>
-						<div class="tab-pane fade" id="userexit" role="tabpanel"
+						<div class="tab-pane fade" id="userwithdrawal" role="tabpanel"
 							aria-labelledby="userexit-tab">
 							<h3>회원탈퇴 화면</h3>
+							<%@include file="userwithdrawal.jsp" %>
 						</div>
 					</div>
 				</div>
@@ -188,94 +190,7 @@ html, body {
 			$('#user-info-table #remain-price').text(remainPrice);
 			
 		});
-		
-		// 각각의 탭이 화면에 표시될 때 show.bs.tab 이벤트가 발생함.
-		// 각각의 탭이 화면에 표시될 때 브라우져 쿠키에 사용자정의 쿠키값을 저장함
-		$("#booking-tab").on("show.bs.tab", function() {
-			// 브라우저 쿠키에 step=level1 값을 저장하고, 만료시간을 1시간 후로 설정한다.
-			setCookie("step", "level1", 1)		
-		})
-		$("#payment-tab").on("show.bs.tab", function() {
-			// 브라우저 쿠키에 step=level2 값을 저장하고, 만료시간을 1시간 후로 설정한다.
-			setCookie("step", "level2", 1)		
-		})
-		$("#coupon-tab").on("show.bs.tab", function() {
-			// 브라우저 쿠키에 step=level3 값을 저장하고, 만료시간을 1시간 후로 설정한다.
-			setCookie("step", "level3", 1)		
-		})
-		$("#event-tab").on("show.bs.tab", function() {
-			// 브라우저 쿠키에 step=level4 값을 저장하고, 만료시간을 1시간 후로 설정한다.
-			setCookie("step", "level4", 1)		
-		})
-		$("#inquery-tab").on("show.bs.tab", function() {
-			// 브라우저 쿠키에 step=level5 값을 저장하고, 만료시간을 1시간 후로 설정한다.
-			setCookie("step", "level5", 1)		
-		})
-		$("#usermodify-tab").on("show.bs.tab", function() {
-			// 브라우저 쿠키에 step=level6 값을 저장하고, 만료시간을 1시간 후로 설정한다.
-			setCookie("step", "level6", 1)		
-		})
-		$("#pwdchange-tab").on("show.bs.tab", function() {
-			// 브라우저 쿠키에 step=level7 값을 저장하고, 만료시간을 1시간 후로 설정한다.
-			setCookie("step", "level7", 1)		
-		})
-		$("#userexit-tab").on("show.bs.tab", function() {
-			// 브라우저 쿠키에 step=level8 값을 저장하고, 만료시간을 1시간 후로 설정한다.
-			setCookie("step", "level8", 1)		
-		})
-
-		// 브라우져 쿠키에 값을 저장한다.
-		// name은 쿠키명, value는 쿠키값, days는 만료일까지의 일 수
-		function setCookie(name, value, days) {
-			
-			var d = new Date();
-			d.setTime(d.getTime() + (days*24*60*60*1000));
-			var expires = "expires=" + d.toUTCString();
-			// 쿠키는 name=value; expires=Thu, 18 Dec 2021 12:00:00 UTC; path=/
-			document.cookie = name + "=" + value + ";" + expires + ";path=/";
-		};
-		
-		// 브라우져 쿠키저장소에 지정된 이름의 쿠키값을 찾아서 반환한다.
-		function getCookie(name) {
-			name = name + "=";
-			var decodedCookie = decodeURIComponent(document.cookie);
-			var items = decodedCookie.split(";");
-			for (var i=0; i<items.length; i++) {
-				var item = items[i];
-				while (item.charAt(0) == ' ') {
-					item = item.substring(1);
-				}
-				if (item.indexOf(name) == 0) {
-					return item.substring(name.length, item.length);
-				}
-			}
-			return "";
-		};
-		
-		// 웹 페이지 로딩시 쿠키값을 조회해서 적절한 작업을 수행하는 함수다.
-		(function () {
-			// 브라우져 쿠키에서 step이라는 이름으로 저장된 쿠키값을 조회한다.
-			var step = getCookie("step");
-			
-			// 웹페이지가 로딩될 때 쿠키값을 사용해서 구현할 내용을 코딩한다.
-			if (step == "" || step == "level1") {
-				$("#booking-tab").trigger('click');
-			} else if (step == "level2") {
-				$("#payment-tab").trigger('click');
-			} else if (step == "level3") {
-				$("#coupon-tab").trigger('click');
-			} else if (step == "level4") {
-				$("#event-tab").trigger('click');
-			} else if (step == "level5") {
-				$("#inquery-tab").trigger('click');
-			} else if (step == "level6") {
-				$("#usermodify-tab").trigger('click');
-			} else if (step == "level7") {
-				$("#pwdchange-tab").trigger('click');
-			} else if (step == "level8") {
-				$("#userexit-tab").trigger('click');
-			} 
-		})();	
+	
 		
 		function changeUserGradeColor(ugrade){
 			

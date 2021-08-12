@@ -146,6 +146,7 @@ span.large{
 					<div class="modal-body">
 					<!-- 리뷰 폼 -->
 						<form id="review-form">
+							<input type="hidden" name="reviewCode" id="review-code" />
 							<input type="hidden" name="screenCode" id="screen-code" />
 							<input type="hidden" name="bookingCode" id="booking-code" />
 							<div class="row px-2 mb-2">
@@ -189,6 +190,7 @@ span.large{
 					<div class="modal-footer">
 						<button type="button" class="btn btn-dark" data-bs-dismiss="modal">닫기</button>
 						<button type="button" class="btn text-white" id="review-submit" style="background-color: #FF243E">등록</button>
+						<button type="button" class="btn text-white btn-secondary" id="review-delete" hidden>삭제</button>
 					</div>
 				</div>
 		</div>
@@ -204,19 +206,10 @@ span.large{
 	
 	<script type="text/javascript">
 	$(function(){
-		var requestURI = "review/register";
 				
 		var reviewModal = new bootstrap.Modal(document.getElementById("review-modal"), {
 			keyboard: false
 		});
-		
-		function getUserReviews(){
-			var userReviews;
-			$.getJSON('rest/user/review', function(reviews){
-				userReviews = reviews;
-			})
-			return userReviews;
-		}
 		
 		$('#booking-table tbody td').on('click', '.btn', function(){
 			var bookingCode = $(this).closest('tr').attr('id');
@@ -225,8 +218,6 @@ span.large{
 			var screenDate = $(this).closest('tr').children().has('span').find('#screen-date').text();		
 			
 			if($(this).hasClass('btn-outline-success')){
-			requestURI = "rest/review/register";
-				
 			$("#screen-code").val(screenCode);
 			$("#booking-code").val(bookingCode);
 			$("#review-movie").val(movieName);
@@ -234,10 +225,9 @@ span.large{
 			$(":radio[name=score]").eq(0).prop("checked", true);
 			$("#review-content").val("");
 			$("#review-submit").text("등록");
+			$("#review-delete").prop('hidden', true);
 			
 			}else if($(this).hasClass('btn-outline-primary')){
-				requestURI = "rest/review/modify";
-				
 				$("#screen-code").val(screenCode);
 				$("#booking-code").val(bookingCode);
 				$("#review-movie").val(movieName);
@@ -246,14 +236,13 @@ span.large{
 				$.getJSON('rest/user/review', function(reviews){
 					$.each(reviews, function(index, review){
 						if(review.bookingCode == bookingCode){
-							console.log(bookingCode)
-							console.log(review)
 							var reviewContent = review.content;
 							var reviewScore = review.score;
+							$('#review-code').val(review.code);
 							$(':radio[value='+reviewScore+']').prop('checked', true)
 							$("#review-content").val(reviewContent);
 							$("#review-submit").text("수정");
-							$('#modal-footer').a
+							$("#review-delete").prop('hidden', false);
 						}
 					})
 				});
@@ -263,19 +252,35 @@ span.large{
 		
 		// 모달창에서 등록/수정 버튼을 클릭했을 때 실행된다.
 		$("#review-submit").click(function() {
-			
-			$.ajax({
-				type: "POST",
-				url: requestURI,
-				data: $("#review-form").serialize(),
-				dataType: 'json',
-				complete: function() {
-					reviewModal.hide();
-				}
-			}).done(function(){
+			var status = $("#review-submit").text();
+			if(status == "수정"){
+				$.ajax({
+					type: "POST",
+					url: "rest/review/modify",
+					data: $("#review-form").serialize(),
+					dataType: 'json',
+					complete: function() {
+						reviewModal.hide();
+					}
+				});
+				alert("리뷰가 수정되었습니다.");
+				
+			}else if(status == "등록"){
+				$.ajax({
+					type: "POST",
+					url: "rest/review/register",
+					data: $("#review-form").serialize(),
+					dataType: 'json',
+					complete: function() {
+						reviewModal.hide();
+					}
+				})
 				alert("리뷰가 등록되었습니다.");
-			});;
-		})
+			}
+			
+		});
+		
+		// 모달창에서 삭제버튼을 눌렀을때 실행되야한다.
 		
 	})
 	</script>
