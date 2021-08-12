@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.hmc.dao.CouponDao;
 import com.hmc.service.CouponService;
 import com.hmc.vo.Coupon;
-import com.hmc.vo.Event;
 import com.hmc.vo.Pagination;
 
 @Controller
@@ -76,27 +75,64 @@ public class CouponController {
 		return "coupon/list";
 	}
 	
-	@GetMapping("/coupon/detail")
-	public String eventDetail(@RequestParam("no") String couponCode, Model model) {
-		
-		Coupon coupon = couponService.getCouponDetail(couponCode);
-		
-		model.addAttribute("coupon", coupon);
+	@RequestMapping("/coupon/detail")
+	public @ResponseBody ResponseEntity<Coupon> detail(@RequestParam("code") String couponCode) {
+		System.out.println(couponCode + "1234");
+		Coupon savedCoupon = couponDao.getCouponByCode(couponCode);
+		System.out.println("디테일 실행됨");
+		if(savedCoupon == null) {
+			System.out.println("디테일 실패");
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 
 		
 		
 		
-		return "coupon/detail";
+		return new ResponseEntity<>(savedCoupon, HttpStatus.OK);
 	}
 	
 	@RequestMapping("/coupon/add")
 	public @ResponseBody ResponseEntity<Coupon> add(Coupon coupon){
+		System.out.println("쿠폰등록");
 		couponDao.insertCoupon(coupon);
+		
 		Coupon savedCoupon = couponDao.getCouponByCode(coupon.getCode());
 		
 		return new ResponseEntity<Coupon>(savedCoupon, HttpStatus.OK);
 	}
 	
+	@RequestMapping("/coupon/modify")
+	public @ResponseBody ResponseEntity<Coupon> modify(Coupon coupon) {
+		System.out.println("수정 실행임니다!");
+
+		System.out.println(coupon+"123");
+		Coupon savedCoupon = couponDao.getCouponByCode(coupon.getCode());
+		System.out.println(coupon+"1234");
+		if (savedCoupon == null) {
+			System.out.println("if문 실행");
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		savedCoupon.setCode(coupon.getCode());
+		savedCoupon.setType(coupon.getType());
+		savedCoupon.setName(coupon.getName());
+		savedCoupon.setEventCode(coupon.getEventCode());
+		
+		couponDao.updateCoupon(savedCoupon);
+		
+		return new ResponseEntity<>(savedCoupon, HttpStatus.OK);
+	}
 	
+	@RequestMapping("/coupon/delete")
+	public @ResponseBody ResponseEntity<Void> delete(@RequestParam("code") String couponCode) {
+		System.out.println("딜리트");
+		Coupon savedCoupon = couponDao.getCouponByCode(couponCode);
+		if (savedCoupon == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
+		couponDao.deleteCoupon(couponCode);
+		
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 	
 }

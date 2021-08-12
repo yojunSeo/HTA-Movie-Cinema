@@ -104,8 +104,8 @@ public class CouponServiceImpl implements CouponService{
 	
 	@Override
 	public Coupon getCouponByCode(String couponCode) {
-		// TODO Auto-generated method stub
-		return null;
+		Coupon coupon = couponDao.getCouponByCode(couponCode);
+		return coupon;
 	}
 	
 	@Override

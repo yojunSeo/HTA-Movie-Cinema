@@ -9,14 +9,9 @@
         http://www.springframework.org/schema/context/spring-context-3.2.xsd 
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
 
-	<!-- 파일업로드를 지원하는 라이브러리를 빈에 등록 -->
-	<bean id="multipartResolver" 
-		class="org.springframework.web.multipart.commons.CommonsMultipartResolver"></bean>
-	
  	<mvc:annotation-driven>
 		<mvc:argument-resolvers>
 			<bean class="com.hmc.web.argumentResolver.LoginUserArgumentResolver"></bean>
-			<bean class="com.hmc.web.argumentResolver.LoginAdminArgumentResolver"></bean>
 		</mvc:argument-resolvers>
 	</mvc:annotation-driven> 
 	
@@ -25,11 +20,6 @@
 			<mvc:mapping path="/**"/>
 			<mvc:exclude-mapping path="/resources/**"/>
 			<bean class="com.hmc.web.interceptor.LoginCheckInterceptor"></bean>
-		</mvc:interceptor>
-		<mvc:interceptor>
-			<mvc:mapping path="/**"/>
-			<mvc:exclude-mapping path="/resources/**"/>
-			<bean class="com.hmc.web.interceptor.AdminCheckInterceptor"></bean>
 		</mvc:interceptor>
 	</mvc:interceptors> 
 
