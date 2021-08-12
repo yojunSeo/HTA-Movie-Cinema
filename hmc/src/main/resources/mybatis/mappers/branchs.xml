@@ -18,8 +18,8 @@
 		<result column="branch_info" property="branchInfo"/>
 		<result column="branch_facility" property="facility"/>
 		<result column="branch_parking_info" property="parkingInfo"/>
-		<result column="branch_total_room" property="totalRoom"/>
-		<result column="branch_total_seat" property="totalSeat"/>
+		<result column="total_room" property="totalRoom"/>
+		<result column="total_seat" property="totalSeat"/>
 	</resultMap>
 	
 	<select id="getAllBranchs" resultMap="branchResultMap">

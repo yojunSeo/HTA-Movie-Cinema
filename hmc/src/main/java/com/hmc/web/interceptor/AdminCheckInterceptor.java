@@ -32,6 +32,10 @@ public class AdminCheckInterceptor implements HandlerInterceptor {
 		// @LoginAdmin 어노테이션 있을때만 확인 
 		// @LoginAdmin 어노테이션 있지만 session에 저장되어있는 사용자가 없는경우 -> 에러 
 		if (hasLoginAdminAnnotation && SessionUtils.getAttribute("LOGINED_USER") == null) {
+			String returnUri = request.getRequestURI();
+			String returnParameter = request.getQueryString();
+			SessionUtils.addAttribute("returnUri", returnUri.replace("/hmc", ""));
+			SessionUtils.addAttribute("returnParameter", returnParameter);
 			response.sendRedirect("/hmc/login/?error=admin");	
 			return false;
 		}else if(hasLoginAdminAnnotation && SessionUtils.getAttribute("LOGINED_USER") != null){
@@ -44,6 +48,10 @@ public class AdminCheckInterceptor implements HandlerInterceptor {
 			}
 			// 어드민이 y가 아닌경우는 로그인폼 재요청
 			if(hasLoginAdminAnnotation && !isAdmin) {
+				String returnUri = request.getRequestURI();
+				String returnParameter = request.getQueryString();
+				SessionUtils.addAttribute("returnUri", returnUri.replace("/hmc", ""));
+				SessionUtils.addAttribute("returnParameter", returnParameter);
 				response.sendRedirect("/hmc/login/?error=admin");
 				return false;
 			}

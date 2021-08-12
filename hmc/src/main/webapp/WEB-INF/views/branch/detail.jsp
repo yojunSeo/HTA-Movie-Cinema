@@ -50,11 +50,29 @@
 				<tr>
 					<td></td>
 					<td class="text-end">
-					<button class="btn btn-outline-secondary">
-						<img alt="" src="../resources/images/branch/favorite.png" width="30px">
-						<img alt="" src="../resources/images/branch/unfavorite.png" width="30px">
-						 나의 지점 등록
-					</button>
+
+						<c:choose>
+							<c:when test="${empty LOGINED_USER}">	<!-- 로그인이 안되어 있을때 -->
+								<button class="btn btn-outline-secondary">
+									<img alt="" src="../resources/images/branch/unfavorite.png" width="30px">
+									나의 영화관 등록
+								</button>
+							</c:when>
+							<c:when test="${LOGINED_USER.favoriteBranch1 == branchDetail.branchCode || LOGINED_USER.favoriteBranch1 == branchDetail.branchCode || LOGINED_USER.favoriteBranch1 == branchDetail.branchCode}">
+								<!-- 로그인 되어있고 나의 영화관 일때 -->
+								<span class="p-3 mt-2">
+									<img alt="" src="../resources/images/branch/favorite.png" width="30px">
+									나의 영화관
+								</span>
+							</c:when>
+							<c:otherwise>
+								<!-- 로그인 되어 있고 나의 영화관이 아닐때 -->
+								<button class="btn btn-outline-secondary">
+									<img alt="" src="../resources/images/branch/unfavorite.png" width="30px">
+									나의 영화관 등록
+								</button>
+							</c:otherwise>
+						</c:choose>
 			  		</td>
 			  		<td></td>
 			  	</tr>

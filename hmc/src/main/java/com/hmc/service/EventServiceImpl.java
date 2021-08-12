@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.hmc.dao.EventDao;
 import com.hmc.dao.EventJoinDao;
 import com.hmc.vo.Event;
+import com.hmc.vo.Notice;
 
 @Service
 public class EventServiceImpl implements EventService {
@@ -27,7 +28,7 @@ public class EventServiceImpl implements EventService {
 	
 	@Override
 	public void insertNewEvent(Event event) {
-		// TODO Auto-generated method stub
+		eventDao.insertEvent(event);
 		
 	}
 	
@@ -38,14 +39,14 @@ public class EventServiceImpl implements EventService {
 	}
 	
 	@Override
-	public int eventListPage(Map<String, Object> param) {
-		int rows = eventDao.eventListPage(param);
-		return rows;
+	public List<Event> eventListPage(Map<String, Object> param) {
+		List<Event> events = eventDao.eventListPage(param);
+		return events;
 	}
 	
 	@Override
 	public void insertEvent(Event event) {
-		// TODO Auto-generated method stub
+		eventDao.insertEvent(event);
 		
 	}
 	
@@ -67,4 +68,9 @@ public class EventServiceImpl implements EventService {
 		return eventDao.getEventByCode(eventCode);
 	}
 	
+	@Override
+	public int getTotalRows(Map<String, Object> param) {
+		int rows = eventDao.getTotalRows(param);
+		return rows;
+	}
 }

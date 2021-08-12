@@ -21,4 +21,10 @@ public interface CouponDao {
 	
 	Map<String, Object> getPublishedCouponByCode(String publishedId);
 	
+	int getTotalRows(Map<String, Object> param);
+	
+	List<Coupon> couponListPage(Map<String, Object> param);
+	
+	List<Coupon> getCouponInfo(Map<String, Object> param);
+	
 }

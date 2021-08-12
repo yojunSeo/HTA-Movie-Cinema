@@ -39,158 +39,98 @@
 
 			<!-- 패키지 출력 -->
 			<div class="row mt-5" id="package">
+				
 				<h4 ><strong>패키지</strong> </h4><br/>
-
-				<div class="col-3 mt-3">
-					<div class="card text-center" >
-						<img src="../resources/images/store/package_sample.jpg" class="card-img-top" alt="...">
-					  	<div class="card-body">
-					    	<h5 class="card-title fs-5">데이트의 완성 2인 패키지</h5>
-					    	<p class="card-text">2D 일반관람권 2매 + 스위트 콤보</p>
-					    	<p class="text-center fs-5"> <strong>27,000원</strong> <p>
-					    	<a href="#" class="card-link">상세보기</a>
-					  	</div>
-					</div>
-				</div>
-				<div class="col-3 mt-3">
-					<div class="card text-center" >
-						<img src="../resources/images/store/package_sample.jpg" class="card-img-top" alt="...">
-					  	<div class="card-body">
-					    	<h5 class="card-title fs-5">데이트의 완성 2인 패키지</h5>
-					    	<p class="card-text">2D 일반관람권 2매 + 스위트 콤보</p>
-					    	<p class="text-center fs-5"> 
-					    		<span style="color:#FF243E;">20%</span>
-					    		<strong>28,000원</strong>
-					    		<small><s>35,000원</s></small> 
-					    	<p>
-					    	<a href="#" class="card-link">상세보기</a>
-					  	</div>
-					</div>
-				</div>
-				<div class="col-3 mt-3">
-					<div class="card text-center" >
-						<img src="../resources/images/store/package_sample.jpg" class="card-img-top" alt="...">
-					  	<div class="card-body">
-					    	<h5 class="card-title fs-5">데이트의 완성 2인 패키지</h5>
-					    	<p class="card-text">2D 일반관람권 2매 + 스위트 콤보</p>
-					    	<p class="text-center fs-5"> 
-					    		<span style="color:#FF243E;">20%</span>
-					    		<strong>28,000원</strong>
-					    		<small><s>35,000원</s></small> 
-					    	<p>
-					    	<a href="#" class="card-link">상세보기</a>
-					  	</div>
-					</div>
-				</div>
-				<div class="col-3 mt-3">
-					<div class="card text-center" >
-						<img src="../resources/images/store/package_sample.jpg" class="card-img-top" alt="...">
-					  	<div class="card-body">
-					    	<h5 class="card-title fs-5">데이트의 완성 2인 패키지</h5>
-					    	<p class="card-text">2D 일반관람권 2매 + 스위트 콤보</p>
-					    	<p class="text-center fs-5"> 
-					    		<span style="color:#FF243E;">20%</span>
-					    		<strong>28,000원</strong>
-					    		<small><s>35,000원</s></small> 
-					    	<p>
-					    	<a href="#" class="card-link">상세보기</a>
-					  	</div>
-					</div>
-				</div>
-				<div class="col-3 mt-3">
-					<div class="card text-center" >
-						<img src="../resources/images/store/package_sample.jpg" class="card-img-top" alt="...">
-					  	<div class="card-body">
-					    	<h5 class="card-title fs-5">데이트의 완성 2인 패키지</h5>
-					    	<p class="card-text">2D 일반관람권 2매 + 스위트 콤보</p>
-					    	<p class="text-center fs-5"> 
-					    		<span style="color:#FF243E;">20%</span>
-					    		<strong>28,000원</strong>
-					    		<small><s>35,000원</s></small> 
-					    	<p>
-					    	<a href="#" class="card-link">상세보기</a>
-					  	</div>
-					</div>
-				</div>
-				<div class="col-3 mt-3">
-					<div class="card text-center" >
-						<img src="../resources/images/store/package_sample.jpg" class="card-img-top" alt="...">
-					  	<div class="card-body">
-					    	<h5 class="card-title fs-5">데이트의 완성 2인 패키지</h5>
-					    	<p class="card-text">2D 일반관람권 2매 + 스위트 콤보</p>
-					    	<p class="text-center fs-5"> 
-					    		<span style="color:#FF243E;">20%</span>
-					    		<strong>28,000원</strong>
-					    		<small><s>35,000원</s></small> 
-					    	<p>
-					    	<a href="#" class="card-link">상세보기</a>
-					  	</div>
-					</div>
-				</div>
+					
+				<c:forEach var="product" items="${products}">
+					<c:if test="${product.category eq '패키지'}">
+						<div class="col-3 mt-3">
+							<div class="card text-center" >
+								<img src="../resources/images/store/product/${product.imageFileName}" class="card-img-top" alt="...">
+							  	<div class="card-body">
+							    	<h5 class="card-title fs-5">${product.name}</h5>
+							    	<p class="card-text" style="height:30px;">${product.memo}</p>
+							    	<c:choose>
+							    		<c:when test="${product.discountRate eq 0}">
+									    	<p class="text-center fs-5"> <strong><fmt:formatNumber value="${product.price}" type="number"/>원</strong> <p>							    		</c:when>
+							    		<c:otherwise>
+							    			<p class="text-center fs-5"> 
+									    		<span style="color:#FF243E;">${product.discountRate}%</span>
+									    		<strong><fmt:formatNumber value="${product.discountPrice}"/>원</strong>
+									    		<small><del><fmt:formatNumber value="${product.price}"/>원</del></small> 
+								    		</p>
+							    		</c:otherwise>
+							    	</c:choose>
+							    	<a href="detail?code=${product.code}" class="card-link" data-product-code="${product.code}">상세보기</a>
+							  	</div>
+							</div>
+						</div>
+					</c:if>
+				</c:forEach>
 			</div>
 			
 			<!-- 관람권 출력 -->
 			<div class="row mt-5" id="ticket">
 				<h4 ><strong>관람권</strong> </h4><br/>
 
-				<div class="col-3 mt-3">
-					<div class="card text-center" >
-						<img src="../resources/images/store/ticket_sample.jpg" class="card-img-top" alt="...">
-					  	<div class="card-body">
-					    	<h5 class="card-title fs-5">일반 관람권</h5>
-					    	<p class="card-text">일반관람권 1매</p>
-					    	<p class="text-center fs-5"> <strong>12,000원</strong> <p>
-					    	<a href="#" class="card-link">상세보기</a>
-					  	</div>
-					</div>
-				</div>
-				<div class="col-3 mt-3">
-					<div class="card text-center" >
-						<img src="../resources/images/store/ticket_sample.jpg" class="card-img-top" alt="...">
-					  	<div class="card-body">
-					    	<h5 class="card-title fs-5">일반관람권</h5>
-					    	<p class="card-text">일반 관람권 1매</p>
-					    	<p class="text-center fs-5"> 
-					    		<span style="color:#FF243E;">16%</span>
-					    		<strong>12,000원</strong>
-					    		<small><s>10,000원</s></small> 
-					    	<p>
-					    	<a href="#" class="card-link">상세보기</a>
-					  	</div>
-					</div>
-				</div>
+				<c:forEach var="product" items="${products}">
+					<c:if test="${product.category eq '관람권'}">
+						<div class="col-3 mt-3">
+							<div class="card text-center" >
+								<img src="../resources/images/store/product/${product.imageFileName}" class="card-img-top" alt="...">
+							  	<div class="card-body">
+							    	<h5 class="card-title fs-5">${product.name}</h5>
+							    	<p class="card-text" style="height:30px;">${product.memo}</p>
+							    	<c:choose>
+							    		<c:when test="${product.discountRate eq 0}">
+									    	<p class="text-center fs-5"> <strong><fmt:formatNumber value="${product.price}"/>원</strong> <p>
+							    		</c:when>
+							    		<c:otherwise>
+							    			<p class="text-center fs-5"> 
+									    		<span style="color:#FF243E;">${product.discountRate}%</span>
+									    		<strong><fmt:formatNumber value="${product.price * (1-product.discountRate*0.01) }"/>원</strong>
+									    		<small><s><fmt:formatNumber value="${product.price}"/>원</s></small> 
+								    		</p>
+							    		</c:otherwise>
+							    	</c:choose>
+							    	<a href="detail?code=${product.code}" class="card-link" data-product-code="${product.code}">상세보기</a>
+							  	</div>
+							</div>
+						</div>
+					</c:if>
+				</c:forEach>
 			</div>
 			
-			<!-- 스낵름료 출력 -->
+			<!-- 스낵음료 출력 -->
 			<div class="row mt-5" id="snack">
 				<h4 ><strong>스낵/음료</strong> </h4><br/>
 
-				<div class="col-3 mt-3">
-					<div class="card text-center" >
-						<img src="../resources/images/store/snack_sample.jpg" class="card-img-top" alt="...">
-					  	<div class="card-body">
-					    	<h5 class="card-title fs-5">스위트 콤보</h5>
-					    	<p class="card-text">오리지널L + 탄산음료(M)</p>
-					    	<p class="text-center fs-5"> <strong>9,000원</strong> <p>
-					    	<a href="#" class="card-link">상세보기</a>
-					  	</div>
-					</div>
-				</div>
-				<div class="col-3 mt-3">
-					<div class="card text-center" >
-						<img src="../resources/images/store/snack_sample.jpg" class="card-img-top" alt="...">
-					  	<div class="card-body">
-					    	<h5 class="card-title fs-5">스위트 콤보</h5>
-					    	<p class="card-text">오리지널L + 탄산음료(M)</p>
-					    	<p class="text-center fs-5"> 
-					    		<span style="color:#FF243E;">33%</span>
-					    		<strong>9,000원</strong>
-					    		<small><s>6,000원</s></small> 
-					    	<p>
-					    	<a href="#" class="card-link">상세보기</a>
-					  	</div>
-					</div>
-				</div>
+				<c:forEach var="product" items="${products}">
+					<c:if test="${product.category eq '스낵/음료'}">
+						<div class="col-3 mt-3">
+							<div class="card text-center" >
+								<img src="../resources/images/store/product/${product.imageFileName}" class="card-img-top" alt="...">
+							  	<div class="card-body">
+							    	<h5 class="card-title fs-5">${product.name}</h5>
+							    	<p class="card-text" style="height:30px;">${product.memo}</p>
+							    	<c:choose>
+							    		<c:when test="${product.discountRate eq 0}">
+									    	<p class="text-center fs-5"> <strong><fmt:formatNumber value="${product.price}"/>원</strong> <p>
+							    		</c:when>
+							    		<c:otherwise>
+							    			<p class="text-center fs-5"> 
+									    		<span style="color:#FF243E;">${product.discountRate}%</span>
+									    		<strong><fmt:formatNumber value="${product.price * (1-product.discountRate*0.01) }"/>원</strong>
+									    		<small><s><fmt:formatNumber value="${product.price}"/>원</s></small> 
+								    		</p>
+							    		</c:otherwise>
+							    	</c:choose>
+							    	<a href="detail?code=${product.code}" class="card-link" data-product-code="${product.code}">상세보기</a>
+							  	</div>
+							</div>
+						</div>
+					</c:if>
+				</c:forEach>
 			</div>
 		</main>
 

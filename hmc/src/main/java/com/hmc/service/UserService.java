@@ -43,6 +43,12 @@ public interface UserService {
 	
 	User getUserById(String userId);
 	
+	/*
+	 * 스토어 선물에서 유저정보 확인에 사용
+	 * @author YJ_SEO
+	 */
+	User getUserByPhone(String phone);
+	
 	void rollbackUser(User user);
 	
 	void setAdmin(User user);

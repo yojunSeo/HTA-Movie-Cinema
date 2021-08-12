@@ -21,6 +21,7 @@ import com.hmc.vo.Inquery;
 import com.hmc.vo.Notice;
 import com.hmc.vo.Pagination;
 import com.hmc.vo.User;
+import com.hmc.web.annotation.LoginAdmin;
 import com.hmc.web.util.SessionUtils;
 
 import oracle.jdbc.proxy.annotation.Post;
@@ -46,12 +47,13 @@ public class AdminCsController {
 	// 페이지블록 당 한번에 표시할 페이지번호 개수
 	private static final int PAGES_PER_PAGE_BLOCK = 5;
 	
+	// 1:1문의 리스트
 	@GetMapping("/inqueryList")
-	public String inquery(@RequestParam(name = "page", required = false, defaultValue = "1") int page, Model model) {
+	public String inquery(@RequestParam(name = "page", required = false, defaultValue = "1") int page, Model model, @LoginAdmin User loginAdmin) {
 		
 		Map<String,Object> param = new HashMap<String, Object>();
 		param.put("beginIndex", (page-1)*ROWS_PER_PAGE +1);
-		param.put("endIndex", page+ROWS_PER_PAGE);
+		param.put("endIndex", page*ROWS_PER_PAGE);
 		
 		List<Inquery> inquerys = inqueryService.getAllInquerys(param);
 		
@@ -80,12 +82,13 @@ public class AdminCsController {
 		return "admin/cs/inqueryList";
 	}
 	
+	// 답변 미완료된 1:1문의 리스트
 	@GetMapping("/incompleteInqueryList")
-	public String incompleteInquery(@RequestParam(name = "page", required = false, defaultValue = "1") int page, Model model) {
+	public String incompleteInquery(@RequestParam(name = "page", required = false, defaultValue = "1") int page, Model model, @LoginAdmin User loginAdmin) {
 		
 		Map<String,Object> param = new HashMap<String, Object>();
 		param.put("beginIndex", (page-1)*ROWS_PER_PAGE +1);
-		param.put("endIndex", page+ROWS_PER_PAGE);
+		param.put("endIndex", page*ROWS_PER_PAGE);
 		
 		List<Inquery> inquerys = inqueryService.getAllInquerysY(param);
 		
@@ -114,24 +117,27 @@ public class AdminCsController {
 		return "admin/cs/incompleteInqueryList";
 	}
 	
+	// 1:1문의 상세정보
 	@GetMapping("/inqueryDetail")
-	public String inqueryDetail(@RequestParam("code") String code, Model model) {
+	public String inqueryDetail(@RequestParam("code") String code, Model model, @LoginAdmin User loginAdmin) {
 		Inquery inquery = inqueryService.getInqueryByCode(code);
 		model.addAttribute("inquery", inquery);
 		
 		return "admin/cs/inqueryDetail";
 	}
 	
+	// 답변 미완료인 1:1문의 상세정보
 	@GetMapping("/incompleteInqueryDetail")
-	public String incompleteInqueryDetail(@RequestParam("code") String code, Model model) {
+	public String incompleteInqueryDetail(@RequestParam("code") String code, Model model, @LoginAdmin User loginAdmin) {
 		Inquery inquery = inqueryService.getInqueryByCode(code);
 		model.addAttribute("inquery", inquery);
 		
 		return "admin/cs/incompleteInqueryDetail";
 	}
 	
+	// 1:1문의 등록
 	@PostMapping("/submitInquery")
-	public String submitInquery(@RequestParam("code") String code, @RequestParam("responder") String responder, @RequestParam("content") String content) {
+	public String submitInquery(@RequestParam("code") String code, @RequestParam("responder") String responder, @RequestParam("content") String content, @LoginAdmin User loginAdmin) {
 		
 		Inquery inquery = inqueryService.getInqueryByCode(code);
 		inquery.setResponder(responder);
@@ -143,13 +149,14 @@ public class AdminCsController {
 		
 	}
 	
+	// 공지사항 리스트
 	@GetMapping("/noticeList")
-	public String notice(@RequestParam(name = "page", required = false, defaultValue = "1") int page, @RequestParam(name = "opt", required = false) String searchOption, @RequestParam(name = "keyword", required = false) String searchKeyword, Model model) {
+	public String notice(@RequestParam(name = "page", required = false, defaultValue = "1") int page, @RequestParam(name = "opt", required = false) String searchOption, @RequestParam(name = "keyword", required = false) String searchKeyword, Model model, @LoginAdmin User loginAdmin) {
 		
 		Map<String,Object> param = new HashMap<String, Object>();
 		
 		if(searchOption != null && searchKeyword != null ) {
-			page=1;
+			//page=1;
 			param.put("opt", searchOption);
 			param.put("keyword", searchKeyword);
 		}
@@ -183,8 +190,9 @@ public class AdminCsController {
 		return "admin/cs/noticeList";
 	}
 	
+	// 공지사항 상세정보
 	@GetMapping("/noticeDetail")
-	public String noticeDetail(@RequestParam("code") String code, Model model) {
+	public String noticeDetail(@RequestParam("code") String code, Model model, @LoginAdmin User loginAdmin) {
 		Notice notice = noticeService.getNoticeByCode(code);
 		noticeService.updateNotice(notice);
 		model.addAttribute("notice", notice);
@@ -192,22 +200,23 @@ public class AdminCsController {
 		return "admin/cs/noticeDetail";
 	}	
 	
+	// 공지사항 삭제
 	@GetMapping("/noticeDelete")
-	public String noticeDelete(@RequestParam("code") String code) {
+	public String noticeDelete(@RequestParam("code") String code, @LoginAdmin User loginAdmin) {
 		noticeService.deleteNotice(code);
 		return"redirect:noticeList";
 	}
-	
+	// 공지사항 수정폼으로 이동
 	@GetMapping("/noticeModify")
-	public String noticeModify(@RequestParam("code") String code, Model model) {
+	public String noticeModify(@RequestParam("code") String code, Model model, @LoginAdmin User loginAdmin) {
 		Notice notice = noticeService.getNoticeByCode(code);
 		model.addAttribute("notice", notice);
 		return "admin/cs/noticeModify";
 	}
-	
+	// 공지사항 수정
 	@PostMapping("/noticeModify")
 	public String noticeModify(@RequestParam("status") String status, @RequestParam("category") String category, 
-								@RequestParam("title") String title, @RequestParam("content") String content, @RequestParam("code") String code) {
+								@RequestParam("title") String title, @RequestParam("content") String content, @RequestParam("code") String code, @LoginAdmin User loginAdmin) {
 		Notice notice = noticeService.getNoticeByCode(code);
 		notice.setStatus(status);
 		notice.setCategory(category);
@@ -218,17 +227,17 @@ public class AdminCsController {
 		noticeService.updateNotice(notice);
 		return"redirect:noticeList?noticeModify=true";
 	}
-	
+	// 공지사항 추가폼 이동
 	@GetMapping("/insertNotice")
-	public String insertNotice() {
+	public String insertNotice(@LoginAdmin User loginAdmin) {
 		
 		return"admin/cs/insertNotice";
 		
 	}
-	
+	// 공지사항 추가
 	@PostMapping("/insertNotice")
 	public String insertNotice(@RequestParam("title") String title, @RequestParam("category") String category, 
-								@RequestParam("content") String content, @RequestParam("status") String status) {
+								@RequestParam("content") String content, @RequestParam("status") String status, @LoginAdmin User loginAdmin) {
 		Notice notice = new Notice();
 		notice.setTitle(title);
 		notice.setCategory(category);
@@ -240,14 +249,13 @@ public class AdminCsController {
 		noticeService.insertNotice(notice);
 		return"redirect:noticeList?insertNotice=true";
 	}
-	
+	// 회원리스트
 	@GetMapping("/userList")
-	public String userList(@RequestParam(name = "page", required = false, defaultValue = "1") int page, @RequestParam(name = "opt", required = false) String searchOption, @RequestParam(name = "keyword", required = false) String searchKeyword, Model model) {
+	public String userList(@RequestParam(name = "page", required = false, defaultValue = "1") int page, @RequestParam(name = "opt", required = false) String searchOption, @RequestParam(name = "keyword", required = false) String searchKeyword, Model model, @LoginAdmin User loginAdmin) {
 		
 		Map<String,Object> param = new HashMap<String, Object>();
 		
 		if(searchOption != null && searchKeyword != null ) {
-			page=1;
 			param.put("opt", searchOption);
 			param.put("keyword", searchKeyword);
 		}
@@ -280,42 +288,42 @@ public class AdminCsController {
 		
 		return "admin/userManagement/userList";
 	}
-	
+	// 회원 상세정보
 	@GetMapping("/userDetail")
-	public String userDetail(@RequestParam("id") String id, Model model) {
+	public String userDetail(@RequestParam("id") String id, Model model, @LoginAdmin User loginAdmin) {
 		User user = userService.getUserById(id);
 		model.addAttribute("user", user);
 		
 		return "admin/userManagement/userDetail";
 	}
-	
+	// 회원탈퇴
 	@GetMapping("/userDelete")
-	public String userDelte(@RequestParam("id") String id) {
+	public String userDelte(@RequestParam("id") String id, @LoginAdmin User loginAdmin) {
 		User user = userService.getUserById(id);
 		user.setWithdrawalDate(new Date());
 		
 		userService.deleteUser(user);
 		return "redirect:userList";
 	}
-	
+	// 회원 복구
 	@GetMapping("/userRollback")
-	public String userRollback(@RequestParam("id") String id) {
+	public String userRollback(@RequestParam("id") String id, @LoginAdmin User loginAdmin) {
 		User user = userService.getUserById(id);
 		userService.rollbackUser(user);
 		return"redirect:userList";
 		
 	}
-	
+	// 관리자 지정
 	@GetMapping("/setAdmin")
-	public String setAdmin(@RequestParam("id") String id) {
+	public String setAdmin(@RequestParam("id") String id, @LoginAdmin User loginAdmin) {
 		User user = userService.getUserById(id);
 		userService.setAdmin(user);
 		return"redirect:userList";
 		
 	}
-	
+	// 관리자 권한 해제
 	@GetMapping("/removeAdmin")
-	public String removeAdmin(@RequestParam("id") String id) {
+	public String removeAdmin(@RequestParam("id") String id, @LoginAdmin User loginAdmin) {
 		User user = userService.getUserById(id);
 		userService.removeAdmin(user);
 		return"redirect:userList";
@@ -323,14 +331,14 @@ public class AdminCsController {
 	}
 	
 	@GetMapping("/userModify")
-	public String userModify(@RequestParam("id") String id, Model model) {
+	public String userModify(@RequestParam("id") String id, Model model, @LoginAdmin User loginAdmin) {
 		User user = userService.getUserById(id);
 		model.addAttribute("user", user);
 		return"admin/userManagement/userModify";
 	}
-	
+	// 회원정보 수정
 	@PostMapping("/userModify")
-	public String userModify(@RequestParam("id") String id, @RequestParam("grade") String grade, @RequestParam("point") int point) {
+	public String userModify(@RequestParam("id") String id, @RequestParam("grade") String grade, @RequestParam("point") int point, @LoginAdmin User loginAdmin) {
 		User user = userService.getUserById(id);
 		user.setGrade(grade);
 		user.setPoint(point);

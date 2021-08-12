@@ -26,6 +26,7 @@
 							<div class="col-sm-9">
 								<input type="password" class="form-control" id="new-pwd"
 									name="newPwd">
+								<p>8~15자리를 사용해야 하며, 숫자/대문자/소문자/특수문자를 모두 포함해야 합니다.</p>
 							</div>
 						</div>
 						<div class="row mb-3">
@@ -60,10 +61,12 @@
 			passwordEl.focus();
 			return;
 		}
-		if (passwordEl.value.trim().length < 6) {
-			alert("비밀번호는 6글자 이상 입력해야합니다.")
-			passwordEl.focus();
-			return;
+		var reg = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,15}$/;
+		var pw = $("new-pwd").val();
+		if(false === reg.test(pw)) {
+			alert('비밀번호는 8~15자리를 사용해야하며, 숫자/대문자/소문자/특수문자를 모두 포함해야 합니다.');
+			$("new-pwd").focus();
+			return false;
 		}
 		var passwordConfirmEl = document.getElementById("new-pwd-confirm");
 		if (passwordEl.value != passwordConfirmEl.value) {

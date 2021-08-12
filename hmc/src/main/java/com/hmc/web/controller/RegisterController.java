@@ -39,12 +39,12 @@ public class RegisterController {
 	public String agreeRegister() {
 		return "register/agreeRegister";
 	}
-
+	
 	@GetMapping("/form")
 	public String registerForm() {
 		return "register/registerForm";
 	}
-
+	// 회원가입
 	@PostMapping("/form")
 	public String register(Register register) {
 		

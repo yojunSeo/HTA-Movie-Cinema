@@ -1,20 +1,21 @@
 package com.hmc.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.hmc.vo.Product;
 
 public interface MallService {
 
-	void mallServiceTest();
-	
-	void giftTest();
-
 	List<Product> getAllProduct();
 	
-	Product getProductByCode();
+	Product getProductByCode(String productCode);
 	
 	int getTotalProductsRows();
+	
+	List<Product> getProductPagination(Map<String, Object> pageInfo);
+	
+	List<String> getAllProductCategory();
 	
 	void insertProduct(Product product);
 	

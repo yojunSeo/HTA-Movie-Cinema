@@ -59,7 +59,7 @@ public class BranchController {
 	public String detailBranchInfo(@RequestParam("code") String branchCode, Model model) {
 		
 		BranchDetailDto branchDto = branchService.getBranchDetailByCode(branchCode);
-		
+		System.out.println("====================" + branchDto);
 		List<Facility> facilityList = branchService.getAllFacility();
 		int identiNum = branchDto.getFacility();
 		List<Integer> checkFacility = new ArrayList<Integer>();
@@ -84,13 +84,20 @@ public class BranchController {
 	@GetMapping("/timetable")
 	public String timeBranch(@RequestParam("code") String branchCode, Model model) {
 		
-		model.addAttribute("branchCode", branchCode);
+		Branch branch = branchService.getBranchByCode(branchCode);
 		
+		model.addAttribute("branchCode", branchCode);
+		model.addAttribute("branchDetail", branch);
 		return "branch/time";
 	}
 	
 	@GetMapping("/price")
-	public String priceBranch() {
+	public String priceBranch(@RequestParam("code") String branchCode, Model model) {
+		
+		Branch branch = branchService.getBranchByCode(branchCode);
+		
+		model.addAttribute("branchCode", branchCode);
+		model.addAttribute("branchDetail", branch);
 		
 		return "branch/price";
 	}

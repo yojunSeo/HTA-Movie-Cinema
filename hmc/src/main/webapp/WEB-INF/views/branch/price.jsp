@@ -39,7 +39,6 @@
 		<header>
 			<%@ include file="../common/header.jsp" %>
 		</header>
-		
 		<main class="mt-5 mb-5" >
 			<table class="table table-borderless banner" style="color:#FFFFFF; background-image: url(../resources/images/branch/thater_room.png); background-repeat: no-repeat; width:98vw; height:280px;">
 				<colgroup>
@@ -50,18 +49,35 @@
 				<tr>
 					<td></td>
 					<td class="text-end">
-					<button class="btn btn-outline-secondary">
-						<img alt="" src="../resources/images/branch/favorite.png" width="30px">
-						<img alt="" src="../resources/images/branch/unfavorite.png" width="30px">
-						 나의 지점 등록
-					</button>
+					<c:choose>
+							<c:when test="${empty LOGINED_USER}">	<!-- 로그인이 안되어 있을때 -->
+								<button class="btn btn-outline-secondary">
+									<img alt="" src="../resources/images/branch/unfavorite.png" width="30px">
+									나의 영화관 등록
+								</button>
+							</c:when>
+							<c:when test="${LOGINED_USER.favoriteBranch1 == branchCode || LOGINED_USER.favoriteBranch1 == branchCode || LOGINED_USER.favoriteBranch1 == branchCode}">
+								<!-- 로그인 되어있고 나의 영화관 일때 -->
+								<span class="p-3 mt-2">
+									<img alt="" src="../resources/images/branch/favorite.png" width="30px">
+									나의 영화관
+								</span>
+							</c:when>
+							<c:otherwise>
+								<!-- 로그인 되어 있고 나의 영화관이 아닐때 -->
+								<button class="btn btn-outline-secondary">
+									<img alt="" src="../resources/images/branch/unfavorite.png" width="30px">
+									나의 영화관 등록
+								</button>
+							</c:otherwise>
+						</c:choose>
 			  		</td>
 			  		<td></td>
 			  	</tr>
 				<tr>
 					<td></td>
 					<td class="align-middle text-center" style="">
-					<h2>지점 이름</h2>
+					<h2>${branchDetail.name }</h2>
 					</td>
 					<td></td>
 				</tr>
@@ -70,13 +86,13 @@
 			<!-- 탭 구현 -->
 			<div class="row fs-6 justify-content-center text-center" style="display: flex;">
 				<div class="col-4 p-2 tab">
-					<a href="detail" class="btn">지점상세</a>
+					<a href="detail?code=${branchCode}" class="btn">지점상세</a>
 				</div>
 				<div class="col-4 p-2 tab" >
-					<a href="timetable" class="btn">상영시간표</a>
+					<a href="timetable?code=${branchCode}" class="btn">상영시간표</a>
 				</div>
 				<div class="col-4 p-2 tab_selected">
-					<a href="price" class="btn">가격</a>
+					<a href="price?code=${branchCode}" class="btn">가격</a>
 				</div>
 			</div>
 		

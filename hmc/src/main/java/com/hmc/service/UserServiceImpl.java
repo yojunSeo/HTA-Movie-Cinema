@@ -170,6 +170,11 @@ public class UserServiceImpl implements UserService {
 		User user = userDao.getUserById(userId);
 		return user;
 	}
+	
+	@Override
+	public User getUserByPhone(String phone) {
+		return userDao.getUserByPhone(phone);
+	}
 
 	@Override
 	public void rollbackUser(User user) {
