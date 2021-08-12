@@ -15,20 +15,21 @@ html, body {
 	width: 100%;
 	height: 100%;
 }
-
 .box {
+	width: 100vw;
+	margin-left: calc(-50vw + 50%);
+	
+}
+.box1 {
 	background-color: #FF243E;
 	width: 100vw;
 	margin-left: calc(-50vw + 50%);
-	height: 350px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+	height: 350px;	
 }
 
 .box2 {
 	margin-top: 100px;
-	margin-left: 220px;
+
 	width: 1280px;
 	height: 400px;
 	padding: 20px;
@@ -36,7 +37,6 @@ html, body {
 	background-position: center;
 	background-size: cover;
 	backgroudd-repeat: no-repeat;
-/* 	border: 3px solid black; */
 }
 
 .dropdown:hover .dropdown-menu {
@@ -139,27 +139,27 @@ html, body {
 						</div>
 						<div class="tab-pane fade" id="coupon" role="tabpanel"
 							aria-labelledby="coupon-tab">
-							<h3>쿠폰함 화면</h3>
+							<%@include file ="mycoupon.jsp"%>
 
 						</div>
 						<div class="tab-pane fade" id="event" role="tabpanel"
 							aria-labelledby="event-tab">
-							<h3>My이벤트 화면</h3>
+							<%@include file ="myevent.jsp"%>
 
 						</div>
 						<div class="tab-pane fade" id="usermodify" role="tabpanel"
 							aria-labelledby="usermodify-tab">
-							<h3>회원정보변경 화면</h3>
+							<%@include file ="usermodify.jsp"%>
 
 						</div>
 						<div class="tab-pane fade" id="pwdchange" role="tabpanel"
 							aria-labelledby="pwdchange-tab">
-							<h3>비밀번호변경 화면</h3>
+							<%@include file ="pwdchange.jsp"%>
 
 						</div>
 						<div class="tab-pane fade" id="userexit" role="tabpanel"
 							aria-labelledby="userexit-tab">
-							<h3>회원탈퇴 화면</h3>
+							<%@include file ="userexit.jsp"%>
 						</div>
 					</div>
 				</div>

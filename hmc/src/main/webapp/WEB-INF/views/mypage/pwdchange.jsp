@@ -10,16 +10,13 @@
 </head>
 <body>
 	<div class="container">
-
-		<header>
-		</header>
-
 		<main>
-			<div class="row mx-auto" style="width: 200px;">
-				<h4 class="mt-5 font-weight-bold">비밀번호 변경</h4>
+			<div class="row">
+				<h3 class="mt-5 mb-3 font-weight-bold">비밀번호 변경</h3>
+				
 			</div>
-			<div class="row mt-3">
-				<div class="col-9 border p-3 bg-light">
+			<div class="row mx-auto mt-3">
+				<div class="col">
 					<form id="change-form" action="change" method="post">
 						<div class="row mb-3">
 							<label for="id" class="col-sm-3 col-form-label">새 비밀번호 입력</label>
@@ -37,8 +34,8 @@
 							</div>
 						</div>
 					</form>
-					<div class="mt-5 text-right">
-						<button type="submit" class="btn btn-success"
+					<div class="mt-5 d-md-flex justify-content-md-end">
+						<button type="submit" class="btn" style="background-color: #FF243E; color:#FFFFFF;"
 							onclick="checkForm()">수정</button>
 					</div>
 				</div>
