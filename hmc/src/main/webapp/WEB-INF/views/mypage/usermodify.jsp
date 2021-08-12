@@ -73,49 +73,53 @@ span.large{
 </style>  
 <body>
 	<div class="container">
-
-		<header>
-		</header>
-
 		<main>
-			<div class="row mx-auto" style="width: 200px;">
-				<h4 class="mt-5 font-weight-bold">회원정보 수정</h4>
+			<div class="row">
+				<h3 class="mt-5 mb-3 font-weight-bold">회원정보 변경</h3>
+				
 			</div>
-			<div class="row mt-3">
-				<div class="col-9 border p-3 bg-light">
+			<div class="row">
+				<div class="col">
 					<form class="modify-form" action="modify" method="post">
 						<h5 class="mb-5 font-weight-bold"></h5>
 						<div class="row mb-3">
 							<label for="id" class="col-sm-3 col-form-label">아이디</label>
 							<div class="col-sm-9">
 								<input type="text" class="form-control" id="id" name="id"
-									value="${LOGIN_USER.id }" disabled>
+									value="${LOGINED_USER.id }" disabled>
 							</div>
 						</div>
 						<div class="row mb-3">
 							<label for="name" class="col-sm-3 col-form-label">이름</label>
 							<div class="col-sm-9">
 								<input type="text" class="form-control" id="name" name="name"
-									value="${LOGIN_USER.name } " readonly>
+									value="${LOGINED_USER.name } " readonly>
+							</div>
+						</div>
+						<div class="row mb-3">
+							<label for="name" class="col-sm-3 col-form-label">성별</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="gender" name="gender"
+									value="${LOGINED_USER.gender } " readonly>
 							</div>
 						</div>
 						<div class="row mb-3">
 							<label for="email" class="col-sm-3 col-form-label">이메일</label>
 							<div class="col-sm-9">
 								<input type="text" class="form-control" id="email" name="email"
-									value="${LOGIN_USER.email }">
+									value="${LOGINED_USER.email }">
 							</div>
 						</div>
 						<div class="row mb-3">
 							<label for="phone" class="col-sm-3 col-form-label">전화번호</label>
 							<div class="col-sm-9">
 								<input type="text" class="form-control" id="phone" name="phone"
-									value="${LOGIN_USER.phone }">
+									value="${LOGINED_USER.phone }">
 							</div>
 						</div>
 
-						<div class="mt-5 text-right">
-							<button type="submit" class="btn btn-success" onclick="modify()">수정</button>
+						<div class="mt-5 d-md-flex justify-content-md-end">
+							<button type="submit" class="btn" style="background-color: #FF243E; color:#FFFFFF;" onclick="modify()">수정</button>
 						</div>
 					</form>
 				</div>
@@ -135,6 +139,7 @@ span.large{
 	function modify() {
 		alert("회원정보 수정이 완료되었습니다.");
 		document.getElementById("modify-form").submit();
+		
 	}
 	</script>
 </body>
