@@ -253,6 +253,7 @@ span.large{
 							$(':radio[value='+reviewScore+']').prop('checked', true)
 							$("#review-content").val(reviewContent);
 							$("#review-submit").text("수정");
+							$('#modal-footer').a
 						}
 					})
 				});
