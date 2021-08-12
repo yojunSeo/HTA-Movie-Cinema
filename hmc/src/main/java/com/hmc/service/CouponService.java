@@ -31,4 +31,6 @@ public interface CouponService {
 	
 	Coupon getCouponDetail(String couponCode);
 	
+	List<Coupon> getCouponInfo(Map<String, Object> param);
+	
 }

@@ -16,6 +16,15 @@
 			t_coupon
 	</select>
 	
+	<select id="getCouponInfo" parameterType="map" resultType="com.hmc.vo.Coupon">
+		select
+		    coupon_code as code, coupon_type as type, coupon_name as name, event_code as eventCode
+		from
+		    t_coupon
+		where
+		    event_code is null
+	</select>
+	
 	<select id="couponListPage" resultType="com.hmc.vo.Coupon" parameterType="map">
 		select
 			coupon_code code,

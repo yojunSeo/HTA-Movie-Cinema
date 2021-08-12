@@ -144,6 +144,12 @@ public class CouponServiceImpl implements CouponService{
 		return null;
 	}
 	
+	@Override
+	public List<Coupon> getCouponInfo(Map<String, Object> param) {
+		List<Coupon> coupons = couponDao.getCouponInfo(param);
+		return coupons;
+	}
+	
 	
 	
 	

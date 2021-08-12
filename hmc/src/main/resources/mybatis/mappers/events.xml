@@ -50,10 +50,10 @@
 	<insert id="insertEvent" parameterType="com.hmc.vo.Event">
 		insert into t_event
 			(event_code, coupon_code, event_title, event_content,event_writer, 
-						event_start_date, event_end_date, event_coupon_amount)
+						event_start_date, event_end_date, event_coupon_amount, event_status)
 		values
 			('EV' || lpad(T_EVENT_SEQ.nextval, 6,0), #{couponCode}, #{title}, #{content}, #{writer},
-					 #{startDate}, #{endDate}, #{couponAmount})
+					 #{startDate}, #{endDate}, #{couponAmount}, #{status})
 	</insert>
 	
 	<update id="updateEventStatus" parameterType="map">
