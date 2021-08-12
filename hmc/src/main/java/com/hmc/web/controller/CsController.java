@@ -51,7 +51,8 @@ public class CsController {
 	private static final int ROWS_PER_PAGE = 10;
 	// 페이지블록 당 한번에 표시할 페이지번호 개수
 	private static final int PAGES_PER_PAGE_BLOCK = 5;
-
+	
+	// 공지사항 리스트
 	@GetMapping("/home")
 	public String notice(@RequestParam(name = "page", required = false, defaultValue = "1") int page, @RequestParam(name = "opt", required = false) String searchOption, @RequestParam(name = "keyword", required = false) String searchKeyword, Model model) {
 		
@@ -90,7 +91,7 @@ public class CsController {
 		
 		return "cs/noticeList";
 	}
-	
+	// 나의 1:1문의 리스트
 	@GetMapping("/myInqueryList")
 	public String myInqueryList(@RequestParam(name = "page", required = false, defaultValue = "1") int page, @RequestParam(name = "opt", required = false) String searchOption, @RequestParam(name = "keyword", required = false) String searchKeyword, Model model, @LoginUser User user) {
 		
@@ -131,7 +132,7 @@ public class CsController {
 		
 		return "cs/myInqueryList";
 	}
-	
+	// 나의 1:1문의 상세정보
 	@GetMapping("/myInqueryDetail")
 	public String inqueryDetail(@RequestParam("code") String code, Model model, @LoginUser User user) {
 		Inquery inquery = inqueryService.getInqueryByCode(code);
@@ -140,7 +141,7 @@ public class CsController {
 		return "cs/inqueryDetail";
 	}
 	
-	
+	// 공지사항 상세정보
 	@GetMapping("/noticeDetail")
 	public String noticeDetail(@RequestParam("code") String code, Model model) {
 		Notice notice = noticeService.getNoticeByCode(code);
@@ -150,17 +151,17 @@ public class CsController {
 		
 		return "cs/noticeDetail";
 	}
-	
+	// 멤버십
 	@GetMapping("/membership")
 	public String membership() {
 		return "cs/membership";
 	}
-	
+	// 1:1문의 등록폼
 	@GetMapping("/inqueryForm")
 	public String inqueryForm(@LoginUser User user ,Model model) {
 		return "cs/inqueryForm";
 	}
-	
+	// 1:1문의 등록
 	@PostMapping("/submitInquery")
 	public String submitInquery(@RequestParam("opt") String category, @RequestParam("title") String title, @RequestParam("content") String content) {
 		Inquery inquery = new Inquery();

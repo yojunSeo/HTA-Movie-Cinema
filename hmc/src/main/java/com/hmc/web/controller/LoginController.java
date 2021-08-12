@@ -48,7 +48,7 @@ public class LoginController {
 	public String loginform() {
 		return "login/loginForm";
 	}
-	
+	// 로그인
 	@PostMapping("/")
 	public String login(@RequestParam("id") String userId, @RequestParam("password") String password) {
 		userService.login(userId, password);
@@ -69,18 +69,18 @@ public class LoginController {
 		
 		return "redirect:../home";
 	}
-	
+	// 로그아웃
 	@GetMapping("/logOut")
 	public String logOut() {
 		SessionUtils.destroySession();
 		return"redirect:../home";
 	}
-	
+	// 아이디 찾기
 	@GetMapping("/findId")
 	public String findId() {
 		return "login/findId";
 	}
-	
+	// 찾은 아이디 공지
 	@PostMapping("/findId")
 	public String informId(@RequestParam("name") String name, @RequestParam("email") String email, Model model) {
 		
@@ -89,12 +89,12 @@ public class LoginController {
 		
 		return "login/informId";
 	}
-	
+	// 비밀번호 찾기
 	@GetMapping("/findPwd")
 	public String findPwd() {
 		return "login/findPwd";
 	}
-	
+	// 임시비밀번호 발급
 	@PostMapping("/findPwd")
 	public String informPwd(@RequestParam("id") String id, @RequestParam("email") String email, Model model) {
 		String findPwd = userService.findPwd(id, email);
