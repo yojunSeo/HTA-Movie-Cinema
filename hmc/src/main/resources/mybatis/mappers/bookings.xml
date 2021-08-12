@@ -67,7 +67,8 @@
             booking_price 			as price,
             booking_discount_price 	as discountPrice,
             booking_total_price 	as totalPrice,
-            booking_status as status
+            booking_status as status,
+            (select decode(count(*), 0, 'N', 'Y') from t_review rw where user_id = #{value} and rw.booking_code = bk.booking_code ) reviewStatus
 		from 
 			t_booking bk, t_schedule sh, t_screen_movie sc, t_room rm, t_branch br
         where

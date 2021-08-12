@@ -174,7 +174,7 @@ $(function(){
 		var pageNo = $(this).data('pageno');
 		$('#form-search :input:first').val(pageNo);
 		$("#form-search").submit();
-	})
+	});
 	
 	// 삭제를 원하는 경우 -> 10일 이전의 스케줄일 경우에는 예매자가 한명도 없어야지 삭제가 가능하다
 	$('#schedule-table tbody').on('click', '.btn' , function(){

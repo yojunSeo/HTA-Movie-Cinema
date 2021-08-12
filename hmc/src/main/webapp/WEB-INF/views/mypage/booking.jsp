@@ -1,14 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <!doctype html>
-<html lang="ko">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
-<title>마이페이지-HMC</title>
-</head>
 <style type = "text/css">
 html, body {
 	width: 100%;
@@ -72,36 +64,37 @@ span.large{
 	background-color: #FFFFFF;
 }
 </style>  
-<body>
 	<div class="container">
 		<main>
 			<h3 class="mt-5 mb-3">${LOGINED_USER.name }님의 예매내역 </h3>
 			<table class="table table-hover" id="booking-table">
 				<colgroup>
+					<col width="10%"/>
+					<col width="*%"/>
 					<col width="15%"/>
 					<col width="*%"/>
-					<col width="*%"/>
-					<col width="20%"/>
 					<col width="15%"/>
+					<col width="8%"/>
 					<col width="8%"/>
 					<col width="8%"/>
 				</colgroup>
 				<thead>
 					<tr class="text-center">
 						<th>예매번호</th>
-						<th class="text-start">영화</th>
+						<th>영화</th>
 						<th>예매정보</th>
+						<th>상영시간</th>
 						<th>예매일시</th>
 						<th>결제금액</th>
-						<th></th>
-						<th></th>
+						<th>리뷰</th>
+						<th>예매취소</th>
 					</tr>
 				</thead>
 				<tbody>
 					<c:choose>
 						<c:when test="${empty bookings }">
 							<tr class="text-center">
-									<td colspan="5">예매내역이 존재하지 않습니다.</td>
+									<td colspan="8">예매내역이 존재하지 않습니다.</td>
 								</tr>
 						</c:when>
 						<c:otherwise>
@@ -109,40 +102,97 @@ span.large{
 								<tr class="text-center" id="${booking.BOOKINGCODE }" data-screen-code=${booking.SCREENCODE }>
 									<td>${booking.BOOKINGCODE }</td>
 									<td class="text-start">${booking.MOVIENAME }</td>
-									<td class="text-start">${booking.BRANCHNAME }(${booking.ROOMNAME }) <fmt:formatDate value="${booking.STARTTIME }" pattern="HH:mm"/> ~ <fmt:formatDate value="${booking.ENDTIME }" pattern="HH:mm"/></td>
-									<td><fmt:formatDate value="${booking.BOOKINGDATE }" pattern="yyyy/MM/dd HH시mm분"/></td>
-									<td>${booking.TOTALPRICE } 원</td>
-									<td><button class="btn btn-sm btn-outline-success">리뷰작성</button></td>
-									<td><button class="btn btn-sm btn-outline-danger">예매취소</button></td>
+									<td>${booking.BRANCHNAME }(${booking.ROOMNAME })</td>
+									<td><span id="screen-date"><fmt:formatDate value="${booking.SCHEDULEDATE }" pattern="yyyy-MM-dd"/></span> (<fmt:formatDate value="${booking.STARTTIME }" pattern="HH:mm"/> ~ <fmt:formatDate value="${booking.ENDTIME }" pattern="HH:mm"/>)</td>
+									<td><fmt:formatDate value="${booking.BOOKINGDATE }" pattern="yyyy/MM/dd"/></td>
+									<td><fmt:formatNumber>${booking.TOTALPRICE }</fmt:formatNumber> 원</td>
+									<c:choose>
+										<c:when test="${today gt booking.ENDTIME and booking.STATUS eq 'Y'}">
+											<c:choose>
+												<c:when test="${booking.REVIEWSTATUS eq 'Y' }">
+													<td><button class="btn btn-sm btn-outline-primary">리뷰수정</button></td>
+												</c:when>
+												<c:otherwise>
+													<td><button class="btn btn-sm btn-outline-success">리뷰작성</button></td>
+												</c:otherwise>
+											</c:choose>
+										</c:when>
+										<c:otherwise>
+											<td></td>
+										</c:otherwise>
+									</c:choose>
+									<c:choose>
+										<c:when test="${today lt booking.STARTTIME }">
+											<td><button class="btn btn-sm btn-outline-danger">예매취소</button></td>
+										</c:when>
+										<c:otherwise>
+											<td></td>
+										</c:otherwise>
+									</c:choose>
 								</tr>
 							</c:forEach>
 						</c:otherwise>
 					</c:choose>
 				</tbody>
 			</table>
-			<!-- ***********************모달시작******************************** -->
+			<!-- 리뷰 모달 시작 -->
 			<div class="modal fade" id="review-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header" id="schedule-detail-head" style="background-color: #666666">
-								<p class="modal-title text-white fw-bold" id="exampleModalLabel">리뷰를 작성해주세요.</p>
-								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">관람하신 영화의 리뷰를 남겨주세요!</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+					<!-- 리뷰 폼 -->
+						<form id="review-form">
+							<input type="hidden" name="screenCode" id="screen-code" />
+							<input type="hidden" name="bookingCode" id="booking-code" />
+							<div class="row px-2 mb-2">
+								<label class="form-control-label mb-2"><strong>관람영화</strong></label>
+								<input type="text" class="form-control" id="review-movie" name="movie" value="블랙위도우" readonly="readonly">
 							</div>
-							<div class="modal-body">
-								<form action="post" id="review-form">
-								<input type="hidden" name="screenCode" value="넘넘 재밌어용~~~"/>
-								<textarea rows="5" cols="60">
-								</textarea>
-								</form>
+							<div class="row px-2 mb-2">
+								<label class="form-control-label mb-2"><strong>관람일시</strong></label>
+								<input type="date" class="form-control" id="review-date" name="date" value="2021-08-10" readonly="readonly">
 							</div>
-							<div class="modal-footer" id="schedule-detail-footer">
-								<button type="button" class="btn btn-dark" data-bs-dismiss="modal">취소</button>
-								<button type="button" id="go-booking" class="btn text-white" style="background-color: #FF243E" >작성완료</button>
+							<div class="row px-2 mb-2">
+								<label class="mb-3"><strong>평점</strong></label>
+								<div class="form-check">
+									<div class="form-check form-check-inline">
+										<input class="form-check-input" type="radio" name="score" value="5" checked="checked">
+										<label class="form-check-label">5</label>
+									</div>
+									<div class="form-check form-check-inline">
+										<input class="form-check-input" type="radio" name="score" value="4">
+										<label class="form-check-label">4</label>
+									</div>
+									<div class="form-check form-check-inline">
+										<input class="form-check-input" type="radio" name="score" value="3">
+										<label class="form-check-label">3</label>
+									</div>
+									<div class="form-check form-check-inline">
+										<input class="form-check-input" type="radio" name="score" value="2">
+										<label class="form-check-label">2</label>
+									</div>
+									<div class="form-check form-check-inline">
+										<input class="form-check-input" type="radio" name="score" value="1">
+										<label class="form-check-label">1</label>
+									</div>
+								</div>
 							</div>
-						</div>
+							<div class="row px-2">
+								<textarea rows="5" class="form-control" id="review-content" name="content" placeholder="리뷰 내용"></textarea>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-dark" data-bs-dismiss="modal">닫기</button>
+						<button type="button" class="btn text-white" id="review-submit" style="background-color: #FF243E">등록</button>
+					</div>
 				</div>
-			</div>
-			<!-- ***********************모달끝******************************** -->
+		</div>
+	</div>
 		</main>
 	</div>
 	 
@@ -154,44 +204,77 @@ span.large{
 	
 	<script type="text/javascript">
 	$(function(){
-		
-		// 스케줄 선택했을때 모달 띄우면서 정보 확인 후 좌석창으로 이동
-		var todoModal = new bootstrap.Modal(document.getElementById("review-modal"), {
+		var requestURI = "review/register";
+				
+		var reviewModal = new bootstrap.Modal(document.getElementById("review-modal"), {
 			keyboard: false
-		})
+		});
 		
-		$('#booking-table tbody').on('click', '.btn-outline-success' ,function(){
+		function getUserReviews(){
+			var userReviews;
+			$.getJSON('rest/user/review', function(reviews){
+				userReviews = reviews;
+			})
+			return userReviews;
+		}
+		
+		$('#booking-table tbody td').on('click', '.btn', function(){
 			var bookingCode = $(this).closest('tr').attr('id');
 			var screenCode = $(this).closest('tr').data('screen-code');
-			var movieName = $(this).closest('tr').
-			// 스크린 정보 가져가서 정보 받아와서 모달 띄우기
-			//var result = getMovieGrade(grade);
-			//var movieGrade = result.movieGrade;
-			//var gradeClass = result.gradeClass;
+			var movieName = $(this).closest('tr').children().eq(1).text();		
+			var screenDate = $(this).closest('tr').children().has('span').find('#screen-date').text();		
 			
-/* 			$('#schedule-detail-head').empty();
-			$header = "<p class='modal-title text-white fw-bold' id='exampleModalLabel'><span class='badge rounded-pill "+gradeClass+" mx-3'>"+movieGrade+"</span>"+schedule.movieName+"</p>";
-			$header += "<button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>";
-			$('#schedule-detail-head').append($header);
-			
-			$('#schedule-detail').empty();
-			$detail = "<p><span class='big fw-bolder'>날짜</span> : "+schedule.scheduleDate+"</p>";
-			$detail += "<p><span class='big fw-bolder'>지점</span> : "+schedule.branchName+"</p>";
-			$detail += "<p><span class='big fw-bolder'>상영관</span> : "+schedule.roomName+"</p>";
-			$detail += "<p><span class='big fw-bolder'>상영시간</span> : "+schedule.startTime+" ~ "+schedule.endTime+"</p>";
-			$detail += "<p><span class='big fw-bolder'>잔여좌석</span> : <span class='text-danger big fw-bolder'>"+schedule.emptySeat+"</span> / "+schedule.totalSeat+"</p>";
-			$detail += "<p><span class='badge rounded-pill "+gradeClass+" mx-3'>"+movieGrade+"</span> 본 영화는 "+grade+" 영화입니다.</p>";
-			$('#schedule-detail').append($detail);
-			
-			$('#schedule-detail-footer').empty();
-			$footer = "<button type='button' class='btn btn-dark' data-bs-dismiss='modal'>취소</button>";
-			$footer += "<button type='button' id='go-booking' class='btn text-white' style='background-color: #FF243E' data-schedulecode="+schedule.scheduleCode+" >인원/좌석 선택</button>";
-			$('#schedule-detail-footer').append($footer);
-			 */
-			todoModal.show();
+			if($(this).hasClass('btn-outline-success')){
+			requestURI = "rest/review/register";
 				
-		});
+			$("#screen-code").val(screenCode);
+			$("#booking-code").val(bookingCode);
+			$("#review-movie").val(movieName);
+			$("#review-date").val(screenDate);
+			$(":radio[name=score]").eq(0).prop("checked", true);
+			$("#review-content").val("");
+			$("#review-submit").text("등록");
+			
+			}else if($(this).hasClass('btn-outline-primary')){
+				requestURI = "rest/review/modify";
+				
+				$("#screen-code").val(screenCode);
+				$("#booking-code").val(bookingCode);
+				$("#review-movie").val(movieName);
+				$("#review-date").val(screenDate);
+				
+				$.getJSON('rest/user/review', function(reviews){
+					$.each(reviews, function(index, review){
+						if(review.bookingCode == bookingCode){
+							console.log(bookingCode)
+							console.log(review)
+							var reviewContent = review.content;
+							var reviewScore = review.score;
+							$(':radio[value='+reviewScore+']').prop('checked', true)
+							$("#review-content").val(reviewContent);
+							$("#review-submit").text("수정");
+						}
+					})
+				});
+			}
+			reviewModal.show();
+		})
+		
+		// 모달창에서 등록/수정 버튼을 클릭했을 때 실행된다.
+		$("#review-submit").click(function() {
+			
+			$.ajax({
+				type: "POST",
+				url: requestURI,
+				data: $("#review-form").serialize(),
+				dataType: 'json',
+				complete: function() {
+					reviewModal.hide();
+				}
+			}).done(function(){
+				alert("리뷰가 등록되었습니다.");
+			});;
+		})
+		
 	})
 	</script>
-</body>
-</html>

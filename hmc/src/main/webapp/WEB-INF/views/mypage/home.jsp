@@ -105,7 +105,7 @@ html, body {
 							<a class="nav-link dropdown-toggle active" data-bs-toggle="dropdown"
 							href="#" role="button" aria-expanded="false">결제내역</a>
 							<ul class="dropdown-menu">
-								<li><a class="dropdown-item active" id="booking-tab" href="#booking" data-bs-toggle="tab" 
+								<li><a class="dropdown-item" id="booking-tab" href="#booking" data-bs-toggle="tab" 
 								data-bs-target="#booking">예매내역</a></li>
 								<li><a class="dropdown-item" id="payment-tab" href="#payment" data-bs-toggle="tab" 
 								data-bs-target="#payment">구매/선물내역</a></li>
@@ -129,7 +129,7 @@ html, body {
 							</ul>
 					</ul>
 					<div class="tab-content mt-3" id="myTabContent"> 
-						<div class="tab-pane show active" id="booking" role="tabpanel"
+						<div class="tab-pane fade" id="booking" role="tabpanel"
 							aria-labelledby="booking-tab">
 							<%@include file ="booking.jsp"%>
 						</div>
@@ -140,7 +140,6 @@ html, body {
 						<div class="tab-pane fade" id="coupon" role="tabpanel"
 							aria-labelledby="coupon-tab">
 							<h3>쿠폰함 화면</h3>
-
 						</div>
 						<div class="tab-pane fade" id="event" role="tabpanel"
 							aria-labelledby="event-tab">

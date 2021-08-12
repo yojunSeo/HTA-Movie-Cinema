@@ -22,7 +22,6 @@
 					<h1>Reviews</h1>
 				</div>
 				<form class="row justify-content-center mb-5 position-relative" action="/sb/product/itemDetail" method="post">
-				<input type="hidden" name="no" value="${product.no }">
 				 
 				 <div class="col-1 p-0">
 					 <select name="opt" style="width:100%;">
