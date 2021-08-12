@@ -33,6 +33,8 @@ public class MypageController {
 		model.addAttribute("today", new Date());
 		return "mypage/home";
 	}
+	
+	
 
 	
 }
