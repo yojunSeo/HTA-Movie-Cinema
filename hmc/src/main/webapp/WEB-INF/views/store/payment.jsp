@@ -35,7 +35,7 @@
 							<p style="color:white;" class="fs-5 fw-bold">상품정보</p>
 						</div>
 						<div class="col-5 text-center" style="background-color:black">
-							<p style="color:white;" class="fs-5 fw-bold">결제수단</p>
+							<p style="color:white;" class="fs-5 fw-bold">결제수단&포인트사용</p>
 						</div>
 						<div class="col-4 text-center" style="background-color:black">
 							<p style="color:white;" class="fs-5 fw-bold">결제하기</p>
@@ -51,7 +51,11 @@
 								<p>
 							</div>
 						</div>
-						<div class="col-5 text-center" style="background-color:#F2F2F2">
+						<div class="col-5" style="background-color:#F2F2F2">
+							<div>
+								<span>보유포인트 : ${LOGINED_USER.point}</span>
+							</div>
+						
 						</div>
 						<div class="col-4 text-center" style="background-color:white">
 						</div>
