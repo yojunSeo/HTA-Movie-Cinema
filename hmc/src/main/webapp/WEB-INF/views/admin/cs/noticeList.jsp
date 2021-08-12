@@ -28,7 +28,6 @@
 			           		<div class="row">
 			           			<div class="col-2">
 			           				<div>
-										<input type="hidden" name="no" value="" /> 
 										<input type="hidden" name="page" value="${pagination.pageNo }"> 
 										<select class="form-control mr-2" name="opt">
 											<option value="title" ${param.opt eq 'title' ? 'selected' : '' }>제목</option>
@@ -91,24 +90,24 @@
 						</div>
 					</div>
 					<c:if test="${pagination.totalRows gt 0 }">
-						<div class="row mb-2">
+						<div class="row mb-2" id="page-zone">
 							<div class="col-12">
 								<ul class="pagination justify-content-center">
 									<li class="page-item ${pagination.pageNo le 1 ? 'disabled' : ''}">
-										<a class="page-link" href="noticeList?page=${pagination.pageNo - 1 }">이전</a>
+										<a class="page-link" data-pageno = "${pagination.pageNo - 1 }">이전</a>
 									</li>
 									<c:forEach var="num" begin="${pagination.beginPage }" end="${pagination.endPage }">
 										<li class="page-item ${pagination.pageNo eq num ? 'active' : '' }">
-											<a class="page-link" href="noticeList?page=${num }">${num }</a>
+											<a class="page-link" data-pageno = "${num }">${num }</a>
 										</li>
 									</c:forEach>
 									<li class="page-item ${pagination.pageNo ge pagination.totalPages ? 'disabled' : ''}">
-										<a class="page-link" href="noticeList?page=${pagination.pageNo + 1 }">다음</a>
+										<a class="page-link" data-pageno = "${pagination.pageNo + 1 }">다음</a>
 									</li>
 								</ul>
 							</div>
 						</div>
-					</c:if>	
+				</c:if>
                </div>
             </div>
          </div>
@@ -153,6 +152,21 @@ $(function(){
 		alert("공지사항이 추가되었습니다.");
 		location.href = "noticeList";
 	}
+	
+	// 검색기능
+	$("#form-search .btn-dark").on('click', function(){
+		$("#form-search :input:first").val(1);
+		$("#form-search").submit();
+	})	
+	
+	// 페이지 이동
+	$("#page-zone").on('click', 'a', function(){
+		var pageNo = $(this).data('pageno');
+		$("#form-search :input:first").val(pageNo);
+		$("#form-search").submit();
+	})
+	
+	
 	
 })
 </script>
