@@ -20,6 +20,6 @@ public interface ReviewDao {
 	
 	void updateRivew(Review review);
 	
-	
+	Review getReviewByCode(String reviewCode);
 
 }

@@ -8,6 +8,69 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <title>회원정보수정-HMC</title>
 </head>
+<style type = "text/css">
+html, body {
+	width: 100%;
+	height: 100%;
+}
+
+.box {
+	background-color: #FF243E;
+	width: 100vw;
+	margin-left: calc(-50vw + 50%);
+	height: 350px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.box2 {
+	margin-top: 100px;
+	margin-left: 220px;
+	width: 1280px;
+	height: 400px;
+	padding: 20px;
+	background-color: #FFFFFF;
+	background-position: center;
+	background-size: cover;
+	backgroudd-repeat: no-repeat;
+/* 	border: 3px solid black; */
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+    border: none;
+    outline: none;
+    color: #000000;
+    backgrone-color: #FFFFFF;
+}
+span.large{
+        font-size: 18px;
+      }
+
+.nav-tabs, .nav-item .nav-link {
+	border: none;
+	outline: none;
+}
+.nav-link, .nav-link:hover {
+	color: #000000;
+}
+.nav-link.active {
+	font-weight : bold;
+}
+.dropdown-item, .dropdown-item:hover {
+	color: #000000;
+	border: none;
+	outline: none;
+	background-color: #FFFFFF;
+}
+.dropdown-item.active {
+	font-weight : bold;
+	color: #000000;
+	background-color: #FFFFFF;
+}
+</style>  
 <body>
 	<div class="container">
 		<main>

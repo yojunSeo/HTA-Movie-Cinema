@@ -62,7 +62,14 @@
 			review_status 			= #{status}
 		where
 			review_code 			= #{code}	
-	</update>
+	</update> 
 	
-
+	<select id="getReviewByCode" parameterType="string" resultMap="ReviewResultMap">
+		select 
+			*
+		from 
+			t_review
+		where 
+			review_code = #{value}
+	</select>
 </mapper>

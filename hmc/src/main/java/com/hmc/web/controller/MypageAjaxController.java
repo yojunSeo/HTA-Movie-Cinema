@@ -2,6 +2,7 @@ package com.hmc.web.controller;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +49,16 @@ public class MypageAjaxController {
 		 review.setCreatedDate(DateUtils.stringToDate(date));
 		 review.setUserId(user.getId());
 		 reviewService.insertReview(review);
+	 }
+	 
+	 @RequestMapping("/review/modify")
+	 public void updateReview(@LoginUser User user,@RequestParam("reviewCode")String reviewCode,
+			 @RequestParam("score")int score, @RequestParam("date")String date,  @RequestParam("content")String content) throws ParseException{
+		 Review review = reviewService.getReviewByCode(reviewCode);
+		 review.setScore(score);
+		 review.setContent(content);
+		 review.setModifiedDate(new Date());
+		 reviewService.updateReview(review);
 	 }
 	 
 	 @RequestMapping("/user/review")
