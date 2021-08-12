@@ -79,11 +79,20 @@
 								</c:choose>
 								<tr>
 									<td>
-										<select class="form-select" aria-label="Default select example">
+										<select class="form-select-coupon" aria-label="Default select example">
 										  <option selected>쿠폰 수</option>
 										  <option value="1">10</option>
 										  <option value="2">20</option>
 										  <option value="3">30</option>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<select class="form-select-status" aria-label="Default select example">
+										  <option selected>상태</option>
+										  <option value="1">Y</option>
+										  <option value="2">N</option>
 										</select>
 									</td>
 								</tr>
