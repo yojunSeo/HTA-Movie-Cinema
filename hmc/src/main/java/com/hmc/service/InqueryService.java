@@ -7,7 +7,9 @@ import com.hmc.vo.Inquery;
 
 public interface InqueryService {
 
-	List<Inquery> getAllInquerysByUserId(String userId);
+	List<Inquery> getAllInquerysByUserId(Map<String, Object> param);
+	
+	int getTotalRowsByUserId(Map<String, Object> param);
 
 	void insertInquery(Inquery inquery);
 

@@ -27,8 +27,15 @@
             	<div class="col-4">
             		<a href="../cs/home" class="btn">공지사항</a>
             	</div>
-            	<div class="col-4">
-            		<a href="../cs/inqueryForm" class="btn fw-bold text-danger">1:1문의</a>
+            	<div class="col-4 mt-2">
+            		<ul>
+						<li class="dropdown">
+							<a href="../cs/inqueryForm" class="text-danger fw-bold">1:1문의</a>
+							<div class="dropdown-content">
+								<a href="myInqueryList" class="mt-3">나의 문의 내역</a>
+							</div>
+						</li>
+					</ul>	
             	</div>
             	<div class="col-4">
             		<a href="../cs/membership" class="btn">멤버십</a>
