@@ -17,7 +17,7 @@
                   <%@include file ="../sidebar.jsp"%>
                </div>
                <div class="col-10">
-				<div class="row my-3">
+				<div class="row mt-3 mb-2">
 	               <p class="fw-normal fs-4">1:1 문의</p>
 	            </div>
 	            <div class="row">

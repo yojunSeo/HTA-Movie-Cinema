@@ -19,16 +19,22 @@
 			<div class="row mb-3">
                <p class="mt-5 fw-normal fs-4">고객센터</p>
             </div>
-            <div class="row mb-2">
-            	<div class="col-12 border-bottom border-1 border-secondary">
-            	</div>
+            <div class="row my-2">
+            	<div class="col-12 border-bottom border-1 border-dark"></div>
             </div>
             <div class="row offset-2">
             	<div class="col-4">
             		<a href="../cs/home" class="btn fw-bold text-danger">공지사항</a>
             	</div>
-            	<div class="col-4">
-            		<a href="../cs/inqueryForm" class="btn">1:1문의</a>
+            	<div class="col-4 mt-2">
+            		<ul>
+						<li class="dropdown">
+							<a href="../cs/inqueryForm">1:1문의</a>
+							<div class="dropdown-content">
+								<a href="myInqueryList" class="mt-3">나의 문의 내역</a>
+							</div>
+						</li>
+					</ul>	
             	</div>
             	<div class="col-4">
             		<a href="../cs/membership" class="btn">멤버십</a>
@@ -37,11 +43,7 @@
             <div class="row my-2">
             	<div class="col-12 border-bottom border-1 border-dark"></div>
             </div>
-            <div class="row my-2">
-            	<div class="col-12 my-4"></div>
-            	<div class="col-12 border-bottom border-1 border-dark"></div>
-            </div>
-            <div class="row">
+            <div class="row mt-4 mb-2">
 		    	<p class="fw-bold fs-6 mt-2">${notice.title }</p>
             </div>
             <div class="row border border-top border-bottom bg-light">
@@ -64,7 +66,7 @@
 					</div>
             	</div>
             </div>
-            <div class="row offset-5">
+            <div class="row offset-5 mt-4">
             	<a href="../cs/home" class="btn btn-dark w-25 text-light">목록</a>
             </div>
 		</main>

@@ -17,7 +17,7 @@
 						<%@include file ="../sidebar.jsp"%>
 					</div>
 					<div class="col-10">
-						<div class="row my-2">
+						<div class="row mt-3 mb-2">
 				              <p class="fw-normal fs-4">회원정보 수정</p>
 				           </div>
 			           <div class="row mb-2">
@@ -102,10 +102,10 @@
 										<th class="fw-lighter">상태</th>
 										<c:choose>
 											<c:when test="${user.status == 'Y'}">
-												<td class="text-success">사용중인 회원</td>
+												<td class="text-success fw-bold">사용중인 회원</td>
 											</c:when>
 											<c:otherwise>
-												<td class="text-danger">탈퇴한 회원</td>
+												<td class="text-danger fw-bold">탈퇴한 회원</td>
 											</c:otherwise>
 										</c:choose>
 									</tr>
@@ -123,10 +123,10 @@
 										<th class="fw-lighter">관리자여부</th>
 										<c:choose>
 											<c:when test="${user.adminYN == 'Y' }">
-												<td>${user.adminYN }</td>
+												<td class="text-success fw-bold">${user.adminYN }</td>
 											</c:when>
 											<c:otherwise>
-												<td>${user.adminYN }</td>
+												<td class="text-danger fw-bold">${user.adminYN }</td>
 											</c:otherwise>
 										</c:choose>
 										</tr>

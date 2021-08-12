@@ -17,8 +17,8 @@
                   <%@include file ="../sidebar.jsp"%>
                </div>
                <div class="col-10">
-				<div class="row mb-3">
-	               <p class="mt-5 fw-normal fs-4">공지사항 추가</p>
+				<div class="row mt-3 mb-2">
+	               <p class="fw-normal fs-4">공지사항 추가</p>
 	            </div>
 	            <div class="row mb-2">
 	            	<div class="col-12 border-bottom border-1 border-secondary">

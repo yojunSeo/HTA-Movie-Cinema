@@ -47,6 +47,7 @@ public class AdminCsController {
 	// 페이지블록 당 한번에 표시할 페이지번호 개수
 	private static final int PAGES_PER_PAGE_BLOCK = 5;
 	
+	// 1:1문의 리스트
 	@GetMapping("/inqueryList")
 	public String inquery(@RequestParam(name = "page", required = false, defaultValue = "1") int page, Model model, @LoginAdmin User loginAdmin) {
 		
@@ -81,6 +82,7 @@ public class AdminCsController {
 		return "admin/cs/inqueryList";
 	}
 	
+	// 답변 미완료된 1:1문의 리스트
 	@GetMapping("/incompleteInqueryList")
 	public String incompleteInquery(@RequestParam(name = "page", required = false, defaultValue = "1") int page, Model model, @LoginAdmin User loginAdmin) {
 		

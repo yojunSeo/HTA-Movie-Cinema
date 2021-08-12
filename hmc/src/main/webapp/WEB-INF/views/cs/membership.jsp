@@ -27,8 +27,15 @@
             	<div class="col-4">
             		<a href="../cs/home" class="btn">공지사항</a>
             	</div>
-            	<div class="col-4">
-            		<a href="../cs/inqueryForm" class="btn">1:1문의</a>
+            	<div class="col-4 mt-2">
+            		<ul>
+						<li class="dropdown">
+							<a href="../cs/inqueryForm">1:1문의</a>
+							<div class="dropdown-content">
+								<a href="myInqueryList" class="mt-3">나의 문의 내역</a>
+							</div>
+						</li>
+					</ul>	
             	</div>
             	<div class="col-4">
             		<a href="../cs/membership" class="btn fw-bold text-danger">멤버십</a>
@@ -52,24 +59,25 @@
 						<c:otherwise>
 							<div class="row text-center mt-3">
 								<c:if test="${LOGINED_USER.grade == 'NORMAL' }">
-									<p><span class="fw-bold">${LOGINED_USER.name }</span>님은 <span class="badge rounded-pill bg-dark text-light"> ${LOGINED_USER.grade }</span> 등급입니다.</p>
+									<p><span class="fw-bold">${LOGINED_USER.name }</span>님은</p>
+									<p><span class="badge rounded-pill bg-dark text-light"> ${LOGINED_USER.grade }</span> 등급입니다.</p>
 								</c:if>
 								<c:if test="${LOGINED_USER.grade == 'BRONZE' }">
-									<p><span class="fw-bold">${LOGINED_USER.name }</span>님은 <span class="badge rounded-pill bg-success text-light"> ${LOGINED_USER.grade }</span> 등급입니다.</p>
+									<p><span class="fw-bold">${LOGINED_USER.name }</span>님은</p>
+									<p><span class="badge rounded-pill bg-success text-light"> ${LOGINED_USER.grade }</span> 등급입니다.</p>
 								</c:if>
 								<c:if test="${LOGINED_USER.grade == 'SILVER' }">
-									<p><span class="fw-bold">${LOGINED_USER.name }</span>님은 <span class="badge rounded-pill bg-secondary text-light"> ${LOGINED_USER.grade }</span> 등급입니다.</p>
+									<p><span class="fw-bold">${LOGINED_USER.name }</span>님은</p>
+									<p><span class="badge rounded-pill bg-secondary text-light"> ${LOGINED_USER.grade }</span> 등급입니다.</p>
 								</c:if>
 								<c:if test="${LOGINED_USER.grade == 'GOLD' }">
-									<p><span class="fw-bold">${LOGINED_USER.name }</span>님은 <span class="badge rounded-pill bg-warning text-light"> ${LOGINED_USER.grade }</span> 등급입니다.</p>
+									<p><span class="fw-bold">${LOGINED_USER.name }</span>님은</p>
+									<p><span class="badge rounded-pill bg-warning text-light"> ${LOGINED_USER.grade }</span> 등급입니다.</p>
 								</c:if>
 								<c:if test="${LOGINED_USER.grade == 'PLATINUM' }">
-									<p><span class="fw-bold">${LOGINED_USER.name }</span>님은 <span class="badge rounded-pill bg-primary text-light"> ${LOGINED_USER.grade }</span> 등급입니다.</p>
+									<p><span class="fw-bold">${LOGINED_USER.name }</span>님은</p>
+									<p><span class="badge rounded-pill bg-primary text-light"> ${LOGINED_USER.grade }</span> 등급입니다.</p>
 								</c:if>
-							</div>
-							<div class="row">
-							</div>
-							<div class="row">
 							</div>
 						</c:otherwise>
 					</c:choose>

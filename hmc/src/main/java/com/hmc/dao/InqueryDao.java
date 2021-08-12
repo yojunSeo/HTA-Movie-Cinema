@@ -7,7 +7,7 @@ import com.hmc.vo.Inquery;
 
 public interface InqueryDao {
 	
-	List<Inquery> getAllInquerysByUserId(String userId);
+	List<Inquery> getAllInquerysByUserId(Map<String, Object> param);
 	
 	void insertInquery(Inquery inquery);
 	
@@ -20,6 +20,8 @@ public interface InqueryDao {
 	List<Inquery> getAllInquerysY(Map<String, Object> param);
 	
 	int getTotalRowsY(Map<String, Object> param);
+	
+	int getTotalRowsByUserId(Map<String, Object> param);
 	
 	Inquery getInqueryByCode(String code);
 

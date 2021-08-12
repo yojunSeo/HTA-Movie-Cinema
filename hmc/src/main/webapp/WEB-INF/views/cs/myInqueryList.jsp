@@ -25,12 +25,12 @@
             </div>
             <div class="row offset-2">
             	<div class="col-4">
-            		<a href="../cs/home" class="btn fw-bold text-danger">공지사항</a>
+            		<a href="../cs/home" class="btn">공지사항</a>
             	</div>
             	<div class="col-4 mt-2">
             		<ul>
 						<li class="dropdown">
-							<a href="../cs/inqueryForm">1:1문의</a>
+							<a href="../cs/inqueryForm" class="text-danger fw-bold">1:1문의</a>
 							<div class="dropdown-content">
 								<a href="myInqueryList" class="mt-3">나의 문의 내역</a>
 							</div>
@@ -46,56 +46,69 @@
             	</div>
             </div>
 			<div class="row border my-5 bg-light">
-            	<form id="form-search" class="form-inline justify-content-center my-4 mx-4" method="get" action="home">
-            		<div class="row">
-            			<div class="col-2">
-            				<div>
+	           	<form id="form-search" class="form-inline justify-content-center my-4 mx-4" method="get" action="myInqueryList">
+	           		<div class="row">
+	           			<div class="col-2">
+	           				<div>
 								<input type="hidden" name="page" value="${pagination.pageNo }"> 
 								<select class="form-control mr-2" name="opt">
 									<option value="title" ${param.opt eq 'title' ? 'selected' : '' }>제목</option>
 									<option value="content"${param.opt eq 'content' ? 'selected' : '' }>내용</option>
 								</select>
 							</div> 
-            			</div>
-            			<div class="col-8">
-            				<input type="text" class="form-control" name="keyword" value="${param.keyword }" placeholder="검색어를 입력해주세요.">
-            			</div>
-            			<div class="col-2">
-            				<button type="button" class="btn btn-dark">검색</button>
-            			</div>
-            		</div>
-            	</form>
-            </div>
-            <div class="row">
-				<table class="table text-center" id="notice-table">
-					<thead >
+	           			</div>
+	           			<div class="col-8">
+	           				<input type="text" class="form-control" name="keyword" value="${param.keyword }" placeholder="검색어를 입력해주세요.">
+	           			</div>
+	           			<div class="col-2">
+	           				<button type="submit" class="btn btn-dark">검색</button>
+	           			</div>
+	           		</div>
+	           	</form>
+	           </div>
+            <div class="row mb-5">
+				<table class="table text-center" id="inquery-table">
+					<thead>
 						<colgroup>
-							<col width="15%"/>
-							<col width="15%"/>
-							<col width="50%"/>
 							<col width="20%"/>
+							<col width="10%"/>
+							<col width="20%"/>
+							<col width="20%"/>
+							<col width="20%"/>
+							<col width="10%"/>
 						</colgroup>
 						<tr>
-							<th scope="col">번호</th>
-							<th scope="col">구분</th>
+							<th scope="col">문의코드</th>
+							<th scope="col">문의자</th>
+							<th scope="col">카테고리</th>
 							<th scope="col">제목</th>
 							<th scope="col">등록일</th>
+							<th class="text-start">답변상태</th>
 						</tr>
 					</thead>
 					<tbody>
 						<c:choose>
-							<c:when test="${empty notices }">
+							<c:when test="${empty inquerys }">
 								<tr>
-									<td colspan="4">검색결과가 존재하지 않습니다.</td>
+									<td colspan="6">문의내역이 존재하지 않습니다.</td>
 								</tr>
 							</c:when>
 							<c:otherwise>
-								<c:forEach var="notice" items="${notices }">
-									<tr data-notice-code="${notice.code }">
-										<th scope="row">${notice.code }</th>
-										<td>${notice.category }</td>
-										<td class="${notice.status eq 'I' ? 'text-danger' : '' } text-start" >${notice.title }</td>
-										<td><fmt:formatDate value="${notice.createdDate }" pattern="yyyy-MM-dd"/></td>
+								<c:forEach var="inquery" items="${inquerys }">
+									<tr data-inquery-code="${inquery.code}">
+										<td>${inquery.code }</td>
+										<td>${inquery.userId }</td>
+										<td>${inquery.category }</td>
+										<td>${inquery.title }</td>
+										<td><fmt:formatDate value="${inquery.createdDate }" pattern="yyyy-MM-dd"/></td>
+										<c:choose>
+											<c:when test="${inquery.respondStatus == 'Y'}">
+												<td class="text-success text-start fw-bold">완료</td>
+											</c:when>
+											<c:otherwise>
+												<td class="text-danger text-start fw-bold">미완료</td>
+											</c:otherwise>
+										</c:choose>
 									</tr>
 								</c:forEach>
 							</c:otherwise>
@@ -104,7 +117,7 @@
 				</table>
 			</div>
 			<c:if test="${pagination.totalRows gt 0 }">
-				<div class="row my-5" id="page-zone">
+				<div class="row mb-2" id="page-zone">
 					<div class="col-12">
 						<ul class="pagination justify-content-center">
 							<li class="page-item ${pagination.pageNo le 1 ? 'disabled' : ''}">
@@ -135,10 +148,10 @@
 
 <script>
 $(function(){
-	$("#notice-table tbody tr").click(function(){
-		var noticeCode = $(this).data('notice-code');
+	$("#inquery-table tbody tr").click(function(){
+		var inqueryCode = $(this).data('inquery-code');
 		
-		location.href = "noticeDetail?code=" + noticeCode;
+		location.href = "myInqueryDetail?code=" + inqueryCode;
 		
 	})
 	

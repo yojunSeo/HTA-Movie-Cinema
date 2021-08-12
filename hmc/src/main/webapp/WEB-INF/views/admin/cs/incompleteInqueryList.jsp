@@ -17,22 +17,20 @@
                   <%@include file ="../sidebar.jsp"%>
                </div>
                <div class="col-10">
-				<div class="row mb-3">
-		              <p class="mt-5 fw-normal fs-4">1:1 문의 관리</p>
+				<div class="row mt-3 mb-2">
+		              <p class="fw-normal fs-4">1:1 문의 관리</p>
 		           </div>
 		           <div class="row mb-2">
 		           	<div class="col-12 border-bottom border-1 border-secondary">
 		           	</div>
 		           </div>
-		           <div class="row mt-5">
+		           <div class="row my-5">
 		           	<div class="d-grid gap-2 col-6">
 		           		<a href="inqueryList" class="btn btn-dark text-light">미답변 문의</a>
 		           	</div>
 		           	<div class="d-grid gap-2 col-6">
 		           		<a href="incompleteInqueryList" class="btn btn-danger text-light">답변완료 문의</a>
 		           	</div>
-		           </div>
-		           <div class="row border my-5 bg-light">
 		           </div>
 		           <div class="row mb-5">
 					<table class="table text-center" id="inquery-table">

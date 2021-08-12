@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +19,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.hmc.service.BranchService;
 import com.hmc.service.InqueryService;
 import com.hmc.service.NoticeService;
+import com.hmc.service.UserService;
 import com.hmc.vo.Inquery;
 import com.hmc.vo.Notice;
 import com.hmc.vo.Pagination;
 import com.hmc.vo.User;
 import com.hmc.web.util.SessionUtils;
+import com.hmc.web.annotation.LoginAdmin;
 import com.hmc.web.annotation.LoginUser;
 
 
@@ -38,6 +42,9 @@ public class CsController {
 	@Autowired
 	BranchService branchService;
 	
+	@Autowired
+	UserService userService;
+	
 	
 	private static Logger logger = LogManager.getLogger(CsController.class);
 	// 한 페이지당 표시할 게시글 행의 개수
@@ -51,7 +58,6 @@ public class CsController {
 		Map<String,Object> param = new HashMap<String, Object>();
 		
 		if(searchOption != null && searchKeyword != null ) {
-			//page=1;
 			param.put("opt", searchOption);
 			param.put("keyword", searchKeyword);
 		}
@@ -84,6 +90,56 @@ public class CsController {
 		
 		return "cs/noticeList";
 	}
+	
+	@GetMapping("/myInqueryList")
+	public String myInqueryList(@RequestParam(name = "page", required = false, defaultValue = "1") int page, @RequestParam(name = "opt", required = false) String searchOption, @RequestParam(name = "keyword", required = false) String searchKeyword, Model model, @LoginUser User user) {
+		
+		Map<String,Object> param = new HashMap<String, Object>();
+		
+		if(searchOption != null && searchKeyword != null ) {
+			param.put("opt", searchOption);
+			param.put("keyword", searchKeyword);
+		}
+		User loginedUser = (User) SessionUtils.getAttribute("LOGINED_USER");
+		param.put("beginIndex", (page-1)*ROWS_PER_PAGE+1);
+		param.put("endIndex", page*ROWS_PER_PAGE);
+		param.put("userId", loginedUser.getId());
+		
+		List<Inquery> inquerys = inqueryService.getAllInquerysByUserId(param);
+		
+		model.addAttribute("inquerys", inquerys);
+		
+		int totalRows = inqueryService.getTotalRowsByUserId(param);
+		int totalPages = (int) Math.ceil((double) totalRows/ROWS_PER_PAGE);
+		int totalPageBlocks = (int)Math.ceil((double)totalPages/PAGES_PER_PAGE_BLOCK);
+		int currentPageBlock = (int) Math.ceil((double)page/PAGES_PER_PAGE_BLOCK);
+		int beginPage = (currentPageBlock -1)*PAGES_PER_PAGE_BLOCK+1;
+		int endPage = currentPageBlock*PAGES_PER_PAGE_BLOCK;
+		if(currentPageBlock == totalPageBlocks) {
+			endPage = totalPages;
+		}
+		Pagination pagination = new Pagination();
+		pagination.setPageNo(page);
+		pagination.setTotalRows(totalRows);
+		pagination.setTotalPages(totalPages);
+		pagination.setTotalPageBlocks(totalPageBlocks);
+		pagination.setCurrentPageBlock(currentPageBlock);
+		pagination.setBeginPage(beginPage);
+		pagination.setEndPage(endPage);
+		
+		model.addAttribute("pagination", pagination);
+		
+		return "cs/myInqueryList";
+	}
+	
+	@GetMapping("/myInqueryDetail")
+	public String inqueryDetail(@RequestParam("code") String code, Model model, @LoginUser User user) {
+		Inquery inquery = inqueryService.getInqueryByCode(code);
+		model.addAttribute("inquery", inquery);
+		
+		return "cs/inqueryDetail";
+	}
+	
 	
 	@GetMapping("/noticeDetail")
 	public String noticeDetail(@RequestParam("code") String code, Model model) {

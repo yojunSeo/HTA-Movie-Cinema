@@ -17,14 +17,14 @@
                   <%@include file ="../sidebar.jsp"%>
                </div>
                <div class="col-10">
-					<div class="row my-3">
+					<div class="row mt-3 mb-2">
 		               <p class="fw-normal fs-4">공지사항 관리</p>
 		            </div>
 		            <div class="row ">
 		            	<div class="col-12"></div>
 		            	<div class="col-12 border-bottom border-1 border-dark"></div>
 		            </div>
-		            <div class="row">
+		            <div class="row mt-4 mb-3">
 				    	<p class="fw-bold fs-6 mt-2">${notice.title }</p>
 		            </div>
 		            <div class="row border border-top border-bottom bg-light">

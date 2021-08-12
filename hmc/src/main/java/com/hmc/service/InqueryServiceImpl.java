@@ -16,8 +16,8 @@ public class InqueryServiceImpl implements InqueryService {
 	InqueryDao inqueryDao;
 
 	@Override
-	public List<Inquery> getAllInquerysByUserId(String userId) {
-		List<Inquery> lists = inqueryDao.getAllInquerysByUserId(userId);
+	public List<Inquery> getAllInquerysByUserId(Map<String, Object> param) {
+		List<Inquery> lists = inqueryDao.getAllInquerysByUserId(param);
 		return lists;
 	}
 
@@ -60,6 +60,12 @@ public class InqueryServiceImpl implements InqueryService {
 	@Override
 	public int getTotalRowsY(Map<String, Object> param) {
 		int rows = inqueryDao.getTotalRowsY(param);
+		return rows;
+	}
+
+	@Override
+	public int getTotalRowsByUserId(Map<String, Object> param) {
+		int rows = inqueryDao.getTotalRowsByUserId(param);
 		return rows;
 	}
 

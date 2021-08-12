@@ -17,12 +17,11 @@
                   <%@include file ="../sidebar.jsp"%>
                </div>
                <div class="col-10">
-					<div class="row mb-3">
-		               <p class="mt-5 fw-normal fs-4">1:1 문의</p>
+					<div class="row mt-3 mb-2">
+		               <p class="fw-normal fs-4">1:1 문의</p>
 		            </div>
 		            <div class="row mb-2">
-		            	<div class="col-12 border-bottom border-1 border-secondary">
-		            	</div>
+		            	<div class="col-12 border-bottom border-1 border-secondary"></div>
 		            </div>
 		            <div class="row">
 				    	<p class="fw-bold fs-6 mt-2">${inquery.title }</p>
@@ -48,10 +47,6 @@
 		            		<div>
 		            			${inquery.content }
 							</div>
-		            	</div>
-		            </div>
-		            <div class="row mb-5">
-		            	<div class="col-12 border-bottom border-1 border-secondary">
 		            	</div>
 		            </div>
 		            <div class="row mb-5">
