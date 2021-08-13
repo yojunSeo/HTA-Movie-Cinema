@@ -97,7 +97,7 @@
 		where 
 			pc.coupon_code = cp.coupon_code
 		and  
-			sysdate between  pc.published_given_date and pc.published_end_date
+			SYSDATE + round(540/1440, 5)  between  pc.published_given_date and pc.published_end_date
 		and 
 			pc.published_used = 'N'
 		and 

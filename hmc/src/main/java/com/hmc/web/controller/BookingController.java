@@ -29,14 +29,7 @@ public class BookingController {
 	@Autowired
 	private BookingService bookingServcie;
 	
-	/*
-	Map<String, Object> result = scheduleService.allAboutSchedule();
-	model.addAttribute("defalutArea", result.get("defalutArea"));
-	model.addAttribute("branchs", result.get("branchs"));
-	model.addAttribute("movies", result.get("movies"));
-	 * 
-	 */
-	
+
 	@GetMapping("/schedule")
 	public String allSchedule(Model model) {
 		return "booking/totalschedule";
@@ -80,6 +73,7 @@ public class BookingController {
 		model.addAttribute("seats",seatNames);
 		model.addAttribute("price", totalPrice);
 		model.addAttribute("coupons", coupon);
+		System.out.println(coupon);
 		model.addAttribute("user", user);
 		return "booking/booking";
 	}
