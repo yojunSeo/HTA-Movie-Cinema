@@ -1,25 +1,33 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<title>마이페이지-HMC</title>
+</head>
 <style type = "text/css">
 html, body {
 	width: 100%;
 	height: 100%;
 }
-
 .box {
+	width: 100vw;
+	margin-left: calc(-50vw + 50%);
+	
+}
+.box1 {
 	background-color: #FF243E;
 	width: 100vw;
 	margin-left: calc(-50vw + 50%);
-	height: 350px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+	height: 350px;	
 }
 
 .box2 {
 	margin-top: 100px;
-	margin-left: 220px;
+
 	width: 1280px;
 	height: 400px;
 	padding: 20px;
@@ -27,7 +35,6 @@ html, body {
 	background-position: center;
 	background-size: cover;
 	backgroudd-repeat: no-repeat;
-/* 	border: 3px solid black; */
 }
 
 .dropdown:hover .dropdown-menu {
@@ -38,9 +45,6 @@ html, body {
     color: #000000;
     backgrone-color: #FFFFFF;
 }
-span.large{
-        font-size: 18px;
-      }
 
 .nav-tabs, .nav-item .nav-link {
 	border: none;
@@ -63,10 +67,15 @@ span.large{
 	color: #000000;
 	background-color: #FFFFFF;
 }
-</style>  
+</style> 
+<body>
 	<div class="container">
+
+		<header><%@ include file="../common/header.jsp"%></header>
+
 		<main>
-			<h3 class="mt-5 mb-3">${LOGINED_USER.name }님의 예매내역 </h3>
+			<%@include file="main.jsp" %>
+			<h3 class="mt-5 mb-3 mx-3">예매 / 리뷰 정보 </h3>
 			<table class="table table-hover" id="booking-table">
 				<colgroup>
 					<col width="10%"/>
@@ -110,10 +119,10 @@ span.large{
 										<c:when test="${today gt booking.ENDTIME and booking.STATUS eq 'Y'}">
 											<c:choose>
 												<c:when test="${booking.REVIEWSTATUS eq 'Y' }">
-													<td><button class="btn btn-sm btn-outline-primary">리뷰수정</button></td>
+													<td><button class="btn btn-sm btn-outline-primary review">리뷰수정</button></td>
 												</c:when>
 												<c:otherwise>
-													<td><button class="btn btn-sm btn-outline-success">리뷰작성</button></td>
+													<td><button class="btn btn-sm btn-outline-success review">리뷰작성</button></td>
 												</c:otherwise>
 											</c:choose>
 										</c:when>
@@ -123,7 +132,14 @@ span.large{
 									</c:choose>
 									<c:choose>
 										<c:when test="${today lt booking.STARTTIME }">
-											<td><button class="btn btn-sm btn-outline-danger">예매취소</button></td>
+											<c:choose>
+												<c:when test="${booking.STATUS eq 'Y' }">
+													<td><button class="btn btn-sm btn-outline-danger">예매취소</button></td>
+												</c:when>
+												<c:otherwise>
+													<td>취소됨</td>
+												</c:otherwise>
+											</c:choose>
 										</c:when>
 										<c:otherwise>
 											<td></td>
@@ -194,24 +210,23 @@ span.large{
 					</div>
 				</div>
 		</div>
-	</div>
+		</div>
 		</main>
+
+		<footer><%@ include file="../common/footer.jsp"%></footer>
 	</div>
-	 
-	 <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
-      crossorigin="anonymous"></script>          
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	
-	<script type="text/javascript">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+
+	<script>
 	$(function(){
-				
+		
 		var reviewModal = new bootstrap.Modal(document.getElementById("review-modal"), {
 			keyboard: false
 		});
 		
-		$('#booking-table tbody td').on('click', '.btn', function(){
+		$('#booking-table tbody td').on('click', '.review', function(){
 			var bookingCode = $(this).closest('tr').attr('id');
 			var screenCode = $(this).closest('tr').data('screen-code');
 			var movieName = $(this).closest('tr').children().eq(1).text();		
@@ -264,6 +279,7 @@ span.large{
 					}
 				});
 				alert("리뷰가 수정되었습니다.");
+				location.href = "booking";
 				
 			}else if(status == "등록"){
 				$.ajax({
@@ -276,11 +292,37 @@ span.large{
 					}
 				})
 				alert("리뷰가 등록되었습니다.");
+				location.href = "booking";
 			}
 			
 		});
 		
 		// 모달창에서 삭제버튼을 눌렀을때 실행되야한다.
+		$('#review-delete').on('click', function(){
+			var reviewCode = $('#review-code').val();
+			$.ajax({
+				type: "GET",
+				url: "rest/review/delete",
+				data: {reviewCode:reviewCode},
+				dataType: 'json',
+				complete: function() {
+					reviewModal.hide();
+				}
+			})
+			alert("리뷰가 삭제되었습니다.");
+			location.href = "booking";
+		});
 		
-	})
+		$('#booking-table tbody td').on('click', '.btn-outline-danger', function(){
+			var confirmValue = confirm('예매를 취소하시겠습니까?\n \n* 예매로 인해 적립된 포인트가 사라집니다. \n* 예매취소로 인한 등급변경이 존재하는 경우,\n  등급변경으로지급된 쿠폰과 포인트가 회수됩니다.');
+			if(!confirmValue){
+				return false;
+			}
+			var bookingCode = $(this).closest('tr').attr('id');
+			location.href = "cancelBooking?bookingCode="+bookingCode;
+		});
+	});
+		
 	</script>
+</body>
+</html>

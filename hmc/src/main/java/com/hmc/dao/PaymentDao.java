@@ -16,7 +16,7 @@ public interface PaymentDao {
 	 * 결제정보의 상태를 변경한다.
 	 * @param payment 변경된 결제정보를 담고있는 Payment 객체
 	 */
-	void updatePaymentStatus(Payment payment);
+	void updatePaymentStatus(String paymentCode);
 	
 	/**
 	 * 사용자 아이디를 전달받아 해당하는 결제정보 리스트들을 반환한다.

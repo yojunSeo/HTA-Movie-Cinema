@@ -122,28 +122,10 @@ span.large{
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 
 	<script>
-	$('input:checkbox[input[name="flexRadioDefault"]').is(':checked'); // 체크 여부(checked)
-	function exit() {
-	var check = $('input:checkbox[input[name="flexRadioDefault"]:checked').val(); // 체크된 값(checked value)
-		if (check == false) {
-			alert("유의사항을 확인 후 동의하셔야 탈퇴가 가능합니다.")
-		} else{
-			alert("회원탈퇴가 완료되었습니다.");
-			
-		}
-	}
-	$(function(){
-		$("#userexit-form-form").submit(function(){
-			
-			var agree = $("#agree:radio:checked").length;
-			if(agree == 0){
-				alert("유의사항을 확인 후 동의하셔야 탈퇴가 가능합니다.");
-				$("#agree").focus();
-				return false;
-			}	
-			return true;
-		});
-	})
+	
+$(function(){
+	
+})
 	</script>
 </body>
 </html>

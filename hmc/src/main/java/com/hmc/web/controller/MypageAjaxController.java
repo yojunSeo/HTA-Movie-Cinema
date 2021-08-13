@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hmc.service.BookingService;
 import com.hmc.service.ReviewService;
 import com.hmc.service.UserService;
+import com.hmc.vo.Branch;
 import com.hmc.vo.Review;
 import com.hmc.vo.User;
 import com.hmc.web.annotation.LoginUser;
@@ -61,9 +62,39 @@ public class MypageAjaxController {
 		 reviewService.updateReview(review);
 	 }
 	 
+	 @RequestMapping("/review/delete")
+	 public void deleteReview(@LoginUser User user,@RequestParam("reviewCode")String reviewCode) {
+		 reviewService.deleteReview(reviewCode);
+	 }
+	 
 	 @RequestMapping("/user/review")
 	 public List<Review> getUserReviews(){
 		 return reviewService.getReviewByUserId();
+	 }
+	 
+	 @RequestMapping("/user/branchs")
+	 public List<Branch> getUserBranchs(){
+		 List<Branch> branchs = userService.getUserFavoriteBranch();
+		 return branchs;
+	 }
+	 
+	 @RequestMapping("/mybranchs")
+	 public Map<String, Object> getMyBranchs(){
+		 Map<String, Object> result = new HashMap<String, Object>();
+		 List<Branch> branchs = userService.getAllBranchs();
+		 List<Branch> myBranchs = userService.getUserFavoriteBranch();
+		 result.put("branchs", branchs);
+		 result.put("myBranchs", myBranchs);
+		 return result;
+	 }
+	 
+	 @RequestMapping("/mybranchs/update")
+	 public void updateMyBranchs(@LoginUser User user, @RequestParam(name = "branch1", required = false)String branch1,@RequestParam(name = "branch2", required = false)String branch2,
+			 								@RequestParam(name = "branch3", required = false)String branch3 ) {
+		 user.setFavoriteBranch1(branch1);
+		 user.setFavoriteBranch2(branch2);
+		 user.setFavoriteBranch3(branch3);
+		 userService.updateUser(user);
 	 }
 	 
 }

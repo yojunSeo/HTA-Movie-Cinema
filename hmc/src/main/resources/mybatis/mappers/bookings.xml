@@ -29,13 +29,12 @@
 			(#{code}, #{scheduleCode}, #{userId}, #{paymentCode} ,#{count}, #{price}, #{discountPrice}, #{totalPrice})
 	</insert>
 
-	<update id="updateBooking" parameterType="com.hmc.vo.Booking">
+	<update id="updateBookingStatus" parameterType="string">
 		update t_booking
 		set
-			payment_code = #{paymentCode},
-			booking_status = #{status}
+			booking_status = 'N'
 		where
-    		booking_code = #{code}
+    		booking_code = #{value}
 	</update>
 	
 	<select id="getBookingsByUserId" parameterType="string" resultMap="BookingResultMap">
@@ -68,7 +67,7 @@
             booking_discount_price 	as discountPrice,
             booking_total_price 	as totalPrice,
             booking_status as status,
-            (select decode(count(*), 0, 'N', 'Y') from t_review rw where user_id = #{value} and rw.booking_code = bk.booking_code ) reviewStatus
+            (select decode(count(*), 0, 'N', 'Y') from t_review rw where user_id = 'lim' and rw.booking_code = bk.booking_code  and rw.review_status = 'Y') reviewStatus
 		from 
 			t_booking bk, t_schedule sh, t_screen_movie sc, t_room rm, t_branch br
         where
