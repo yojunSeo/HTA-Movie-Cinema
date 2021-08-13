@@ -17,7 +17,7 @@
 
 		<main>
 			<div class="row mb-3">
-               <p class="mt-5 fw-normal fs-4">회원정보 찾기</p>
+               <p class="mt-5 fw-normal fs-4"></p>
             </div>
             <div class="row">
             	<p class="fw-bold">아이디/비밀번호 찾기 결과</p>
@@ -34,7 +34,7 @@
             </div>
             <div class="row my-5">
             	<div class="col-2">
-            		<a href="../login/" class="btn btn-danger w-100">확인</a>
+            		<a href="../login/" class="btn btn-danger w-100 text-light">확인</a>
             	</div>
             </div>
 		</main>

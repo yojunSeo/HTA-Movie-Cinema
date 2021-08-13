@@ -89,7 +89,7 @@
 			<div class="row">
 				<div class="col-3 border rounded my-2" style="background-color: #FFFCEF">
 					<div class="col-12 my-2 mx-1 text-center">
-						<p class="badge rounded-pill bg-success">BROWNZE</p>
+						<p class="badge rounded-pill bg-success">BRONZE</p>
 						<p>연 결제금액 20만원 이상</p>
 						<p>영화관람권 1매</p>
 						<p>가용포인트 10000점</p>

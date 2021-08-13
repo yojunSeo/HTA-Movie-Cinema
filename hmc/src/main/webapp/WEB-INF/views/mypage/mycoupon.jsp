@@ -30,21 +30,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<c:choose>
-						<c:when test="${empty coupons }">
-							<tr class="text-center">
-									<td colspan="5">사용가능한 쿠폰이 없습니다.</td>
-								</tr>
-						</c:when>
-						<c:otherwise>
-							<c:forEach var="coupon" items="${coupons }">
-								<tr class="text-center" id="${coupon.type }">
-									<td>${coupon.type }</td>
-									<td>${coupon.name }</td>
-								</tr>
-							</c:forEach>
-						</c:otherwise>
-					</c:choose>
+				
 				</tbody>
 			</table>
 
@@ -64,5 +50,6 @@
 		
 	})
 	</script>
+
 </body>
 </html>

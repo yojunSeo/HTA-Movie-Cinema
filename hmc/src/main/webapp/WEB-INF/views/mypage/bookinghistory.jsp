@@ -75,7 +75,11 @@ html, body {
 
 		<main>
 			<%@include file="main.jsp" %>
+<<<<<<< HEAD:hmc/src/main/webapp/WEB-INF/views/mypage/bookinghistory.jsp
 			<h3 class="mt-5 mb-3 mx-3">예매 / 리뷰 정보 </h3>
+=======
+			<h3 class="mt-5 mb-3">${LOGINED_USER.name }님의 예매내역 </h3>
+>>>>>>> c620b32770049a9c643b9b24acf8906a59294c5d:hmc/src/main/webapp/WEB-INF/views/mypage/booking.jsp
 			<table class="table table-hover" id="booking-table">
 				<colgroup>
 					<col width="10%"/>
@@ -214,6 +218,7 @@ html, body {
 		</main>
 
 		<footer><%@ include file="../common/footer.jsp"%></footer>
+
 	</div>
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -322,6 +327,9 @@ html, body {
 			location.href = "cancelBooking?bookingCode="+bookingCode;
 		});
 	});
+		
+		
+	})
 		
 	</script>
 </body>

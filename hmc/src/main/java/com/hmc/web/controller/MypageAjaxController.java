@@ -8,8 +8,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hmc.service.BookingService;
@@ -97,4 +100,33 @@ public class MypageAjaxController {
 		 userService.updateUser(user);
 	 }
 	 
+	 /**
+	  * 이메일 중복확인
+	  * @param email
+	  * @return 불린값
+	  */
+	 @RequestMapping(path = "/confirmEmail", produces="text/plain")
+	 public @ResponseBody ResponseEntity<String> getUserByEmail(@RequestParam("email") String email){
+		 String isExist = "false";
+		 User findUser = userService.getUserByEmail(email);
+		 if(findUser != null) {
+			 isExist = "true";
+		 }
+		 return new ResponseEntity<String>(isExist,HttpStatus.OK);
+	 }
+	 
+	 /**
+	  * 휴대폰번호 중복 확인
+	  * @param phone
+	  * @return 불린값
+	  */
+	 @RequestMapping(path = "/confirmPhone", produces="text/plain")
+	 public @ResponseBody ResponseEntity<String> getUserByPhone(@RequestParam("phone") String phone){
+		 String isExist = "false";
+		 User findUser = userService.getUserByPhone(phone);
+		 if(findUser != null) {
+			 isExist = "true";
+		 }
+		 return new ResponseEntity<String>(isExist,HttpStatus.OK);
+	 }
 }

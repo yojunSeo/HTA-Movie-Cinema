@@ -44,6 +44,8 @@ public interface UserService {
 	
 	User getUserById(String userId);
 	
+	User getUserByEmail(String email);
+	
 	/*
 	 * 스토어 선물에서 유저정보 확인에 사용
 	 * @author YJ_SEO

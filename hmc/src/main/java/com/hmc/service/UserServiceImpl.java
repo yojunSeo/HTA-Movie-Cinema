@@ -217,6 +217,12 @@ public class UserServiceImpl implements UserService {
 		return branchDao.getAllActiveBranchs();
 	}
 
+
+	@Override
+	public User getUserByEmail(String email) {
+		return userDao.getUserByEmail(email);
+	}
+
 	
 
 }

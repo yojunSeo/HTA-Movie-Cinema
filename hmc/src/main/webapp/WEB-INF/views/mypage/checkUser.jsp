@@ -75,33 +75,41 @@ html, body {
       
       <main>
          <%@include file="main.jsp" %>   
-         <div class="row">
-            <h5 class="mt-5 mb-5">회원탈퇴</h5>
-            <h4 class="mb-5">회원탈퇴 전 <span class="text-danger">유의사항</span>을 확인해 주세요.</h4>
-         </div>
-         <div>
-            <form action="successWithdrawal" method="get" id="userwithdrawal-form">
-               <div class="my-3">
-                  <h5 class="mt-3">유의사항</h5>
-                  <hr style="border: solid 1px gray;">
-                  <p>- 아이디를 탈퇴하시면 서비스 부정 이용 방지를 위하여 제휴사 회원정책에 따라 일정 기간 동안 회원 재 가입이 불가합니다.</p>
-                  <p>- 탈퇴시, 사용하시던 포인트 및 쿠폰 등은 복원할 수 없습니다.</p>
-                  <p>- 탈퇴 즉시 개인정보가 삭제되면, 어떠한 방법으로도 복원할 수 없습니다.</p>
-                  <p>- 전자상거래 서비스 등의 거래내역은 전자상거래 등에서의 소비자보호에 관한 법률에 의거하여 보호됩니다.</p>
-                  <hr style="border: solid 1px gray;">
-               </div>
-               <div class="form-check mb-5">
-                  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault"> 
-                  <label class="form-check-label fw-bold" for="flexRadioDefault1"> 위 유의사항을 모두 확인하였고 회원탈퇴에 동의합니다.</label>
-               </div>
-               <div class="row mt-5 mb-3 text-center my-5">
-                  <div class="col-12">
-                     <a href="home" class="btn btn-dark btn-lg w-25 text-light">취소</a>
-                     <button type="submit" class="btn btn-danger btn-lg w-25 text-light">탈퇴</button>
-                  </div>
-               </div>
-            </form>
-         </div>
+         <div class="row mb-3">
+               <h5 class="mt-5 fw-normal mb-3">회원정보 변경</h5>
+            </div>
+            <div class="row mb-1">
+               <p class="fw-normal fs-3">개인정보 보호를 위해 본인확인을 진행합니다.</p>
+            </div>
+            <div class="row mb-2">
+            	<h5 class="mt-3">인증정보 입력</h5>
+            </div>
+            <div class="row">
+            	<hr style="border: solid 1px gray;">
+            </div>
+            <div class="row">
+            	<div class="col-9">
+	            	<form action="checkUser" method="post" id="checkUser">
+	            		<div class="row mt-4">
+		            		<div class="col-2">
+		            			<div class="row mb-2"><p class="fw-lighter">아이디</p></div>
+		            			<div class="row"><p class="fw-lighter">비밀번호</p></div>
+		            		</div>
+		            		<div class="col-8">
+		            			<div class="row">
+		            				<input type="text" class="form-control w-100 mb-2 bg-light" name="id" placeholder="아이디를 입력하세요.">
+		            			</div>
+		            			<div class="row">
+		            				<input type="password" class="form-control w-100 bg-light" name="password" placeholder="비밀번호를 입력하세요.">
+		            			</div>
+		            		</div>
+		            		<div class="col-2">
+		            			<button type="submit" class="btn btn-danger w-100 h-100 text-light fw-bold">인증요청</button>
+		            		</div>
+	            		</div>
+	            	</form>
+            	</div>
+            </div>
       </main>
 
       <footer><%@ include file="../common/footer.jsp"%></footer>
@@ -113,15 +121,14 @@ html, body {
 
    <script>
    $(function(){
-	   $("#userwithdrawal-form").submit(function(){
-		      var agree = $.trim($("#userwithdrawal-form :radio:checked").val());
-		      if(!agree){
-		         alert("회원탈퇴에 동의하셔야 탈퇴 가능합니다.");
-		         return false;
-		      }
-		      return true;
-		   })
-   
+   	
+		// 입력한 정보로 회원을 찾지 못했을 때 실행할 alert창
+		var urlParams = new URLSearchParams(window.location.search);
+		var savedUser = urlParams.get('notFoundUser');
+		if(savedUser != null){
+			alert("인증에 실패하셨습니다./n 입력한 정보와 일치하는 회원이 존재하지 않습니다.");
+			location.href = "checkUser";
+		}
    })
    </script>
 </body>
