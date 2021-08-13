@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.hmc.service.MallService;
+import com.hmc.service.StoreService;
 import com.hmc.vo.Pagination;
 import com.hmc.vo.Product;
 import com.hmc.web.form.ProductForm;
@@ -31,7 +31,7 @@ import com.hmc.web.form.ProductForm;
 public class AdminStoreController {
 
 	@Autowired
-	MallService mallService;
+	StoreService mallService;
 	
 	// 한 페이지당 표시할 게시글 행의 개수
 	private static final int ROWS_PER_PAGE = 10;
@@ -121,6 +121,8 @@ public class AdminStoreController {
 		System.out.println(projectPath);
 		FileCopyUtils.copy(imageFile.getInputStream(), new FileOutputStream(new File(projectPath, imageFileName)));
 		
+		
+		
 		mallService.insertProduct(product);
 		
 		return "redirect:list";
@@ -129,9 +131,6 @@ public class AdminStoreController {
 	@PostMapping("/modify")
 	public String productUpdate(ProductForm form, HttpServletRequest request) throws IOException {
 		
-		System.out.println("=============================================");
-		System.out.println(form);
-		System.out.println("=============================================");
 		Product savedproduct = mallService.getProductByCode(form.getProductCode());
 		Product product = new Product();
 		

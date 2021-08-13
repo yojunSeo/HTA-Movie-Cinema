@@ -89,7 +89,7 @@
 							    			<p class="text-center fs-5"> 
 									    		<span style="color:#FF243E;">${product.discountRate}%</span>
 									    		<strong><fmt:formatNumber value="${product.price * (1-product.discountRate*0.01) }"/>원</strong>
-									    		<small><s><fmt:formatNumber value="${product.price}"/>원</s></small> 
+									    		<small><del><fmt:formatNumber value="${product.price}"/>원</del></small> 
 								    		</p>
 							    		</c:otherwise>
 							    	</c:choose>
@@ -121,7 +121,7 @@
 							    			<p class="text-center fs-5"> 
 									    		<span style="color:#FF243E;">${product.discountRate}%</span>
 									    		<strong><fmt:formatNumber value="${product.price * (1-product.discountRate*0.01) }"/>원</strong>
-									    		<small><s><fmt:formatNumber value="${product.price}"/>원</s></small> 
+									    		<small><del><fmt:formatNumber value="${product.price}"/>원</del></small> 
 								    		</p>
 							    		</c:otherwise>
 							    	</c:choose>

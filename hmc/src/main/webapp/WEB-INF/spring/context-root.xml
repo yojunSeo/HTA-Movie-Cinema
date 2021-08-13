@@ -40,6 +40,12 @@
 
 	<util:map id="membershipMap">
 		<entry>
+			<key><value>NORMAL</value></key>
+			<bean class="com.hmc.dto.Membership">
+				<property name="savedRate" value="${normal.savedRate}"></property>
+			</bean>
+		</entry>
+		<entry>
 			<key><value>BRONZE</value></key>
 			<bean class="com.hmc.dto.Membership">
 				<property name="cp5000" value="${bronze.cp5000}"></property>
