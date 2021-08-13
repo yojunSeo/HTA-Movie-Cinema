@@ -4,6 +4,7 @@ package com.hmc.service;
 import java.util.List;
 import java.util.Map;
 
+import com.hmc.vo.Branch;
 import com.hmc.vo.User;
 
 public interface UserService {
@@ -43,6 +44,8 @@ public interface UserService {
 	
 	User getUserById(String userId);
 	
+	User getUserByEmail(String email);
+	
 	/*
 	 * 스토어 선물에서 유저정보 확인에 사용
 	 * @author YJ_SEO
@@ -56,5 +59,9 @@ public interface UserService {
 	void removeAdmin(User user);
 	
 	Map<String, Object> getUserExpectedGrade();
+	
+	List<Branch> getUserFavoriteBranch();
+	
+	List<Branch> getAllBranchs();
 
 }

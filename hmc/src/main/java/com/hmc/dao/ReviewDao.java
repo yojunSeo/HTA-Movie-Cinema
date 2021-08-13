@@ -16,10 +16,10 @@ public interface ReviewDao {
 	 * 리뷰코드와 일치하는 리뷰의 공개여부를 변경
 	 * @param reviewCode 리뷰코드 번호
 	 */
-	void deleteReview(Review review);
+	void deleteReview(String reviewCode);
 	
 	void updateRivew(Review review);
 	
-	
+	Review getReviewByCode(String reviewCode);
 
 }

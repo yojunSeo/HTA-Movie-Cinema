@@ -38,6 +38,7 @@ public interface UserDao {
 	void setAdmin(User user);
 	
 	void removeAdmin(User user);
+	
 
 }
 

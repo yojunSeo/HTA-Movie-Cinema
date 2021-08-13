@@ -210,8 +210,70 @@ public class BookingServiceImpl implements BookingService{
 	}
 	
 	@Override
+	public Map<String, Object> getCancelBookingUserPointAndExpectGrade(int paymentPrice) {
+		String expectGrade;
+		int savePoint = 0;
+		Map<String, Object> result = new HashMap<String, Object>();
+		User user = (User)SessionUtils.getAttribute("LOGINED_USER");
+		int totalPayment = paymentDao.getUserTotalPayment(user.getId());
+		int sumPayment = paymentPrice - totalPayment;
+		if(sumPayment >= 200000) {
+			expectGrade = "BRONZE";
+		}else if(sumPayment >= 400000) {
+			expectGrade = "SILVER";
+		}else if(sumPayment >= 700000) {
+			expectGrade = "GOLD";
+		}else if(sumPayment >= 1000000) {
+			expectGrade = "PLATINUM";
+		}else {
+			expectGrade = "NORMAL";
+		}
+		if("NORMAL".equals(user.getGrade())) {
+			savePoint = (int)(paymentPrice*(0.01));
+		}else {
+			Membership membership = membershipMap.get(user.getGrade());
+			savePoint = (int)(paymentPrice*membership.getSavedRate());
+		}
+		
+		result.put("expectGrade", expectGrade);
+		result.put("savePoint", savePoint);
+		return result;
+	}
+	
+	@Override
 	public List<Map<String, Object>> getUserBookingDetail(String userId) {
 		return bookingDao.getBookingDetailsByUserId(userId);
+	}
+	
+	@Override
+	public void cancelBooking(String bookingCode) {
+		User user = (User)SessionUtils.getAttribute("LOGINED_USER");
+		int totalPayment1 = paymentDao.getUserTotalPayment(user.getId());
+		System.out.println(totalPayment1);
+		// seatBooking삭제 payment status 변경 bookingStatus변경 등급변경확인 schedule emptyseat
+		Booking cancelBook = bookingDao.getBookingByCode(bookingCode);
+		// 예매한 좌석 삭제
+		seatDao.deleteSeatBooking(bookingCode);
+		// 결제 상태 변경
+		paymentDao.updatePaymentStatus(cancelBook.getPaymentCode());
+		// 예매상태 변경
+		bookingDao.updateBookingStatus(bookingCode);
+		// 스케줄 totalseat변경
+		Schedule schedule = scheduleDao.getScheduleByCode(cancelBook.getScheduleCode());
+		schedule.setEmptySeat(schedule.getEmptySeat() + cancelBook.getCount());
+		scheduleDao.updateSchedule(schedule);
+		// 적립된 포인트만큼 삭제하기
+		Map<String, Object> result = getCancelBookingUserPointAndExpectGrade(cancelBook.getTotalPrice());
+		int minusPoint = Integer.parseInt(result.get("savePoint").toString());
+		user.setPoint(user.getPoint() - minusPoint);
+		System.out.println(minusPoint);
+		String expectGrade = result.get("expectGrade").toString();
+		System.out.println(expectGrade);
+		// 등급이 변경되었는지 확인
+		if(!user.getGrade().equals(expectGrade)) {
+			System.out.println("변경됨");
+		}
+		userDao.updateUser(user);
 	}
 
 }

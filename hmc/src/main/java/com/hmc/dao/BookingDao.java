@@ -15,9 +15,9 @@ public interface BookingDao {
 	
 	/**
 	 * 예매정보를 수정한다.
-	 * @param booking 수정된 정보가 포함된 Booking객체
+	 * @param bookingCode 
 	 */
-	void updateBooking(Booking booking);
+	void updateBookingStatus(String bookingCode);
 	
 	/**
 	 * 사용자 아이디를 전달받아서 사용자의 예매내역을 반환한다.

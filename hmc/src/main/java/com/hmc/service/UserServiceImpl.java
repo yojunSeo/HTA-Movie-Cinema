@@ -2,6 +2,7 @@ package com.hmc.service;
 
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,11 +12,13 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hmc.dao.BranchDao;
 import com.hmc.dao.PaymentDao;
 import com.hmc.dao.UserDao;
 import com.hmc.exception.FindException;
 import com.hmc.exception.LoginException;
 import com.hmc.exception.UserRegisterException;
+import com.hmc.vo.Branch;
 import com.hmc.vo.Payment;
 import com.hmc.vo.User;
 import com.hmc.web.util.SessionUtils;
@@ -24,9 +27,11 @@ import com.hmc.web.util.SessionUtils;
 public class UserServiceImpl implements UserService {
 	
 	@Autowired
-	UserDao userDao;
+	private UserDao userDao;
 	@Autowired
-	PaymentDao paymentDao;
+	private PaymentDao paymentDao;
+	@Autowired
+	private BranchDao branchDao;
 	
 	@Override
 	public Map<String, Object> getUserExpectedGrade() {
@@ -97,10 +102,25 @@ public class UserServiceImpl implements UserService {
 		SessionUtils.addAttribute("LOGINED_USER", user);
 		
 	}
+	
+	@Override
+	public List<Branch> getUserFavoriteBranch() {
+		List<Branch> branchs = new ArrayList<Branch>();
+		User user = (User)SessionUtils.getAttribute("LOGINED_USER");
+		Branch branch1 = branchDao.getBranchDetail(user.getFavoriteBranch1());
+		Branch branch2 = branchDao.getBranchDetail(user.getFavoriteBranch2());
+		Branch branch3 = branchDao.getBranchDetail(user.getFavoriteBranch3());
+		branchs.add(branch1);
+		branchs.add(branch2);
+		branchs.add(branch3);
+		return branchs;
+	}
 
 	@Override
 	public void updateUser(User user) {
+		System.out.println(user);
 		userDao.updateUser(user);
+		System.out.println(user);
 	}
 
 	@Override
@@ -190,6 +210,17 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void removeAdmin(User user) {
 		userDao.removeAdmin(user);
+	}
+	
+	@Override
+	public List<Branch> getAllBranchs() {
+		return branchDao.getAllActiveBranchs();
+	}
+
+
+	@Override
+	public User getUserByEmail(String email) {
+		return userDao.getUserByEmail(email);
 	}
 
 	

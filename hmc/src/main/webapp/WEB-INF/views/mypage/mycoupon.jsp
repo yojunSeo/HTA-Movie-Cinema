@@ -30,21 +30,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<c:choose>
-						<c:when test="${empty coupons }">
-							<tr class="text-center">
-									<td colspan="5">사용가능한 쿠폰이 없습니다.</td>
-								</tr>
-						</c:when>
-						<c:otherwise>
-							<c:forEach var="coupon" items="${coupons }">
-								<tr class="text-center" id="${coupon.type }">
-									<td>${coupon.type }</td>
-									<td>${coupon.name }</td>
-								</tr>
-							</c:forEach>
-						</c:otherwise>
-					</c:choose>
+				
 				</tbody>
 			</table>
 
@@ -60,10 +46,10 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 
 	<script>
-	function () {
+	$(function(){
 		
-		
-	}
+	})
 	</script>
+
 </body>
 </html>

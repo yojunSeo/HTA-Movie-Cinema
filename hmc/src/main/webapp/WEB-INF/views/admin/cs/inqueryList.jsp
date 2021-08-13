@@ -54,7 +54,7 @@
 							<c:choose>
 								<c:when test="${empty inquerys }">
 									<tr>
-										<td colspan="4">답변예정인 문의가 존재하지 않습니다.</td>
+										<td colspan="5">답변예정인 문의가 존재하지 않습니다.</td>
 									</tr>
 								</c:when>
 								<c:otherwise>

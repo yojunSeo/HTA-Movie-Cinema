@@ -9,5 +9,10 @@ public interface ReviewService {
 	List<Review> getReviewByUserId();
 	
 	void insertReview(Review review);
+	
+	void updateReview(Review review);
 
+	Review getReviewByCode(String reviewCode);
+	
+	void deleteReview(String reviewCode);
 }
