@@ -136,8 +136,8 @@ html, body {
 										</div>
 									</div>
 							<div class="btminfo">
-								<strong>${nowMovies.movieName } 모가디슈</strong><br /> <span> <span>예매율<em>${nowMovies.movieRank} 54.0%</em></span>
-									<span>${nowMovies.totalScore }</span>
+								<strong>모가디슈</strong><br /> <span> <span>예매율<em>54.0%</em></span>
+									<span></span>
 								</span>
 							</div>
 							</li>
