@@ -81,8 +81,9 @@
     		이벤트 관리
   		</button>
   		<ul class="collapes collapse" id="event-service">
-  			<li class="p-2" style="width: 200px"><a href="#">이벤트 등록/조회</a></li>
-  			<li class="p-2" style="width: 200px"><a href="#">쿠폰 등록/조회</a></li>
+  			<li class="p-2" style="width: 200px"><a href="/hmc/admin/event/eventList">이벤트 조회</a></li>
+  			<li class="p-2" style="width: 200px"><a href="/hmc/admin/event/eventForm">이벤트 등록</a></li>
+  			<li class="p-2" style="width: 200px"><a href="/hmc/coupon/home">쿠폰 등록/조회</a></li>
   		</ul>
       </li>
       <li class="mb-1" style="width: 200px">
