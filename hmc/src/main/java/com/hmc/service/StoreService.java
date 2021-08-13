@@ -3,9 +3,11 @@ package com.hmc.service;
 import java.util.List;
 import java.util.Map;
 
+import com.hmc.vo.GiftProduct;
+import com.hmc.vo.Payment;
 import com.hmc.vo.Product;
 
-public interface MallService {
+public interface StoreService {
 
 	List<Product> getAllProduct();
 	
@@ -23,4 +25,5 @@ public interface MallService {
 	
 	void updateProduct(Product product);
 
+	void successPayment(Map<String, Object> paymentInfo);
 }
