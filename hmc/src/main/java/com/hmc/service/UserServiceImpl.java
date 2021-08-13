@@ -192,6 +192,12 @@ public class UserServiceImpl implements UserService {
 		userDao.removeAdmin(user);
 	}
 
+
+	@Override
+	public User getUserByEmail(String email) {
+		return userDao.getUserByEmail(email);
+	}
+
 	
 
 }

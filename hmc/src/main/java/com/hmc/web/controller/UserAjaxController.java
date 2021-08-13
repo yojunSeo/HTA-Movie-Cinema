@@ -9,18 +9,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hmc.dao.UserDao;
+import com.hmc.service.UserService;
 import com.hmc.vo.User;
 
 @Controller
 public class UserAjaxController {
 	
 	@Autowired
-	UserDao userDao;
+	UserService userService;
 	
 	@RequestMapping(path = "/register/confirm", produces = "text/plain")
 	public @ResponseBody ResponseEntity<String> getUserById(@RequestParam("id") String id){
 		String isExist = "false";
-		User findUser = userDao.getUserById(id);
+		User findUser = userService.getUserById(id);
 		if(findUser != null) {
 			isExist = "true";
 		}
@@ -38,7 +39,7 @@ public class UserAjaxController {
 	@ResponseBody
 	public ResponseEntity<User>  presentUserCheckByPhone(@RequestParam("phone") String phone) {
 		
-		User findedUser = userDao.getUserByPhone(phone);
+		User findedUser = userService.getUserByPhone(phone);
 		if(findedUser == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}

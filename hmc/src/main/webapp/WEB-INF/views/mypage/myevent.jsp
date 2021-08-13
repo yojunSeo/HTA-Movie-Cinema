@@ -29,23 +29,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<c:choose>
-						<c:when test="${empty coupons }">
-							<tr class="text-center">
-									<td colspan="5">응모한 이벤트가 없습니다..</td>
-								</tr>
-						</c:when>
-						<c:otherwise>
-							<c:forEach var="coupon" items="${event }">
-								<tr class="text-center" id="${event }">
-									<td>${event.title }</td>
-									<td>${event.content }</td>
-									<td>${event.startDate } ~ {event.endDate }</td>
-									
-								</tr>
-							</c:forEach>
-						</c:otherwise>
-					</c:choose>
+					
 				</tbody>
 			</table>
 
@@ -60,11 +44,10 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 
-	<script>
-	function () {
-		
-		
-	}
-	</script>
+<script>
+$(function(){
+	
+})
+</script>
 </body>
 </html>

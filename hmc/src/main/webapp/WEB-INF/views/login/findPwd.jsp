@@ -46,7 +46,7 @@
 		            			</div>
 		            		</div>
 		            		<div class="col-2">
-		            			<button class="btn btn-danger w-100 h-100">찾기</button>
+		            			<button class="btn btn-danger w-100 h-100 text-light">찾기</button>
 		            		</div>
 	            		</div>
 	            	</form>

@@ -638,6 +638,14 @@ $(function(){
 	}
 })
 
+	// 회원 탈퇴가 완료되었을때 실행할 alert창
+	var urlParams = new URLSearchParams(window.location.search);
+	var userWithdrawal = urlParams.get('witdrawal');
+	if(userWithdrawal != null){
+		alert("회원탈퇴가 완료되었습니다.");
+		location.href = "home";
+	}
+
 </script>
 <footer>
 	<%@ include file="../common/footer.jsp" %>

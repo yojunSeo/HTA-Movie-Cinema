@@ -93,7 +93,8 @@
 		update
 			t_notice
 		set
-			notice_status = 'N'
+			notice_status = 'N',
+			notice_deleted_date = sysdate
 		where
 			notice_code = #{value}			
 	</update>

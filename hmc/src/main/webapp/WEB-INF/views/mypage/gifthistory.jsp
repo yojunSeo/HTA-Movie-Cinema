@@ -74,7 +74,9 @@ span.large{
 </style>  
 <body>
 	<div class="container">
+		<header><%@ include file="../common/header.jsp"%></header>
 		<main>
+			<%@include file="main.jsp" %>
 			<h3 class="mt-5 mb-3">${LOGINED_USER.name }님의 구매 / 선물 내역 </h3>
 			<ul class="nav nav-tabs" id="myTab" role="tablist">
 			  <li class="nav-item" role="presentation">
@@ -189,6 +191,7 @@ span.large{
 			  </div>
 			</div>
 		</main>
+		<footer><%@ include file="../common/footer.jsp"%></footer>
 	</div>
 	 
 	 <script
