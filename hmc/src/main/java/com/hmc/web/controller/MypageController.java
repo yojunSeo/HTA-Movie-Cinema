@@ -24,59 +24,57 @@ import com.hmc.web.util.SessionUtils;
 @RequestMapping("/mypage")
 public class MypageController {
 
-   @Autowired
-   UserService userSerivce;
-   @Autowired
-   BookingService bookingService;
-   @Autowired
-   ReviewService reviewService;
-   
-   @GetMapping("/home")
-   public String goToHome(@LoginUser User user, Model model) throws Exception {
-      model.addAttribute("bookings", bookingService.getUserBookingDetail(user.getId()));
-      model.addAttribute("reviews", reviewService.getReviewByUserId());
-      model.addAttribute("today", new Date());
-      return "mypage/bookinghistory";
-   }
-   
-   @GetMapping("/booking")
-   public String bookingHistory(@LoginUser User user, Model model) throws Exception {
-      model.addAttribute("bookings", bookingService.getUserBookingDetail(user.getId()));
-      model.addAttribute("reviews", reviewService.getReviewByUserId());
-      model.addAttribute("today", new Date());
-      return "mypage/bookinghistory";
-   }
-   
-   @GetMapping("/gift")
-   public String giftHistory(@LoginUser User user, Model model) throws Exception {
-      return "mypage/gifthistory";
-   }
-   
-   @GetMapping("/coupon")
-   public String myCoupon(@LoginUser User user, Model model) throws Exception {
-      return "mypage/mycoupon";
-   }
-   
-   @GetMapping("/event")
-   public String myEvent(@LoginUser User user, Model model) throws Exception {
-      return "mypage/myevent";
-   }
-   
-   @GetMapping("/myinfo")
-   public String modifyUserInfo(@LoginUser User user, Model model) throws Exception {
-      return "mypage/usermodify";
-   }
-   
-   @GetMapping("/withdrawal")
-   public String withdrawalUser(@LoginUser User user, Model model) throws Exception {
-      return "mypage/userwithdrawal";
-   }
-   
-   @GetMapping("/changePwd")
-   public String changePassword(@LoginUser User user, Model model) throws Exception {
-      return "mypage/pwdchange";
-   }
-   
+	@Autowired
+	UserService userSerivce;
+	@Autowired
+	BookingService bookingService;
+	@Autowired
+	ReviewService reviewService;
+
+	@GetMapping(path = {"/home" , "/booking"})
+	public String goToHome(@LoginUser User user, Model model) throws Exception {
+		model.addAttribute("bookings", bookingService.getUserBookingDetail(user.getId()));
+		model.addAttribute("reviews", reviewService.getReviewByUserId());
+		model.addAttribute("today", new Date());
+		return "mypage/bookinghistory";
+	}
+	
+	@GetMapping("/gift")
+	public String giftHistory(@LoginUser User user, Model model) throws Exception {
+		return "mypage/gifthistory";
+	}
+	
+	@GetMapping("/coupon")
+	public String myCoupon(@LoginUser User user, Model model) throws Exception {
+		return "mypage/mycoupon";
+	}
+	
+	@GetMapping("/event")
+	public String myEvent(@LoginUser User user, Model model) throws Exception {
+		return "mypage/myevent";
+	}
+	
+	@GetMapping("/myinfo")
+	public String modifyUserInfo(@LoginUser User user, Model model) throws Exception {
+		return "mypage/usermodify";
+	}
+	
+	@GetMapping("/withdrawal")
+	public String withdrawalUser(@LoginUser User user, Model model) throws Exception {
+		return "mypage/userwithdrawal";
+	}
+
+	@GetMapping("/changePwd")
+	public String changePassword(@LoginUser User user, Model model) throws Exception {
+		return "mypage/pwdchange";
+	}
+	
+	@GetMapping("/cancelBooking")
+	public String cancelBooking(@RequestParam("bookingCode")String bookingCode) {
+		bookingService.cancelBooking(bookingCode);
+		return "redirect:booking";
+	}
+  
    @GetMapping("/successWithdrawal")
    public String successWithdrawal(@LoginUser User user) {
       User loginedUser = (User) SessionUtils.getAttribute("LOGINED_USER");

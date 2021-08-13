@@ -75,7 +75,7 @@ html, body {
 
 		<main>
 			<%@include file="main.jsp" %>
-			<h3 class="mt-5 mb-3">${LOGINED_USER.name }님의 예매내역 </h3>
+			<h3 class="mt-5 mb-3 mx-3">예매 / 리뷰 정보 </h3>
 			<table class="table table-hover" id="booking-table">
 				<colgroup>
 					<col width="10%"/>
@@ -119,10 +119,10 @@ html, body {
 										<c:when test="${today gt booking.ENDTIME and booking.STATUS eq 'Y'}">
 											<c:choose>
 												<c:when test="${booking.REVIEWSTATUS eq 'Y' }">
-													<td><button class="btn btn-sm btn-outline-primary">리뷰수정</button></td>
+													<td><button class="btn btn-sm btn-outline-primary review">리뷰수정</button></td>
 												</c:when>
 												<c:otherwise>
-													<td><button class="btn btn-sm btn-outline-success">리뷰작성</button></td>
+													<td><button class="btn btn-sm btn-outline-success review">리뷰작성</button></td>
 												</c:otherwise>
 											</c:choose>
 										</c:when>
@@ -132,7 +132,14 @@ html, body {
 									</c:choose>
 									<c:choose>
 										<c:when test="${today lt booking.STARTTIME }">
-											<td><button class="btn btn-sm btn-outline-danger">예매취소</button></td>
+											<c:choose>
+												<c:when test="${booking.STATUS eq 'Y' }">
+													<td><button class="btn btn-sm btn-outline-danger">예매취소</button></td>
+												</c:when>
+												<c:otherwise>
+													<td>취소됨</td>
+												</c:otherwise>
+											</c:choose>
 										</c:when>
 										<c:otherwise>
 											<td></td>
@@ -203,7 +210,7 @@ html, body {
 					</div>
 				</div>
 		</div>
-	</div>
+		</div>
 		</main>
 
 		<footer><%@ include file="../common/footer.jsp"%></footer>
@@ -220,7 +227,7 @@ html, body {
 			keyboard: false
 		});
 		
-		$('#booking-table tbody td').on('click', '.btn', function(){
+		$('#booking-table tbody td').on('click', '.review', function(){
 			var bookingCode = $(this).closest('tr').attr('id');
 			var screenCode = $(this).closest('tr').data('screen-code');
 			var movieName = $(this).closest('tr').children().eq(1).text();		
@@ -273,6 +280,7 @@ html, body {
 					}
 				});
 				alert("리뷰가 수정되었습니다.");
+				location.href = "booking";
 				
 			}else if(status == "등록"){
 				$.ajax({
@@ -285,13 +293,36 @@ html, body {
 					}
 				})
 				alert("리뷰가 등록되었습니다.");
-				
+				location.href = "booking";
 			}
 			
 		});
 		
 		// 모달창에서 삭제버튼을 눌렀을때 실행되야한다.
+		$('#review-delete').on('click', function(){
+			var reviewCode = $('#review-code').val();
+			$.ajax({
+				type: "GET",
+				url: "rest/review/delete",
+				data: {reviewCode:reviewCode},
+				dataType: 'json',
+				complete: function() {
+					reviewModal.hide();
+				}
+			})
+			alert("리뷰가 삭제되었습니다.");
+			location.href = "booking";
+		});
 		
+		$('#booking-table tbody td').on('click', '.btn-outline-danger', function(){
+			var confirmValue = confirm('예매를 취소하시겠습니까?\n \n* 예매로 인해 적립된 포인트가 사라집니다. \n* 예매취소로 인한 등급변경이 존재하는 경우,\n  등급변경으로지급된 쿠폰과 포인트가 회수됩니다.');
+			if(!confirmValue){
+				return false;
+			}
+			var bookingCode = $(this).closest('tr').attr('id');
+			location.href = "cancelBooking?bookingCode="+bookingCode;
+		});
+	});
 		
 		
 	})
