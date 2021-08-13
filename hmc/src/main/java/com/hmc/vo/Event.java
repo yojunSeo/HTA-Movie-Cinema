@@ -20,5 +20,6 @@ public class Event {
 	private Date endDate;
 	private int couponAmount;
 	private String status;
+	private String name;
 	
 }

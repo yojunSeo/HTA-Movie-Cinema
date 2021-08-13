@@ -69,6 +69,12 @@ public class EventServiceImpl implements EventService {
 	}
 	
 	@Override
+	public Event eventDetail(String eventCode) {
+		
+		return eventDao.eventDetail(eventCode);
+	}
+	
+	@Override
 	public int getTotalRows(Map<String, Object> param) {
 		int rows = eventDao.getTotalRows(param);
 		return rows;

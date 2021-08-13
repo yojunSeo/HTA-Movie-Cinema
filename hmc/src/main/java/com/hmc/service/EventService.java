@@ -25,5 +25,7 @@ public interface EventService {
 	
 	int getTotalRows(Map<String, Object> param);
 	
+	Event eventDetail(String eventCode);
+	
 	
 }

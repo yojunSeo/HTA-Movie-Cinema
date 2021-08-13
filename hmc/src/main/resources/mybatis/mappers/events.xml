@@ -15,6 +15,18 @@
 		<result column="event_status" property="status"/>
 	</resultMap>
 	
+	<select id="eventDetail" parameterType="string" resultMap="EventResultMap">
+		select
+		    e.event_code code, e.coupon_code couponCode, e.event_title title, e.event_content content, 
+		    e.event_writer writer, e.event_start_date startDate, e.event_end_date endDate, e.event_coupon_amount couponAmount,
+		    e.event_status status, c.coupon_name name
+		from
+		    t_event e ,t_coupon c
+		where
+		    e.coupon_code = c.coupon_code
+		    and e.event_code = #{value}
+	</select>
+	
 	<select id="getTotalRows" parameterType="map" resultType="int">
 		select
 			count(*)

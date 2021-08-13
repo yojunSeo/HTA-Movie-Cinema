@@ -52,6 +52,8 @@ public class CouponController {
 		System.out.println("실행됨");
 		model.addAttribute("coupons", coupons);
 		
+		//List<Coupon> eventCodes = couponService.
+		
 		int totalRows = couponService.getTotalRows(param);
 		int totalPages = (int) Math.ceil((double) totalRows/ROWS_PER_PAGE);
 		int totalPageBlocks = (int)Math.ceil((double)totalPages/PAGES_PER_PAGE_BLOCK);
