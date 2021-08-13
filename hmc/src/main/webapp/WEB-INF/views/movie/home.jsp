@@ -129,7 +129,7 @@ html, body {
 									<div class="overbox">
 										<div class="inner" style="margin-top: -20px;">
 											<a href="예매페이지">예매하기</a> 
-											<a href="#" onclick="detail()">상세정보</a>
+											<a href="../movie/detail" onclick="detail()">상세정보</a>
 <%-- 											<c:forEach items="movieList" var="movieList"> --%>
 <%-- 												<input type="text" value="${movieList.movieCode }"> --%>
 <%-- 											</c:forEach> --%>
