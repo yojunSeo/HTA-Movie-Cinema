@@ -49,4 +49,6 @@ public interface EventDao {
 	List<Event> eventListPage(Map<String, Object> param);
 	
 	int getTotalRows(Map<String, Object> param);
+	
+	Event eventDetail(String eventCode);
 }

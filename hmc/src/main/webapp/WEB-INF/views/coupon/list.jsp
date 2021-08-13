@@ -52,8 +52,13 @@
 										<tr id="coupon-${coupon.code }" >
 											<th>${coupon.code }</th>
 											<td>${coupon.name }</td>						
-											<td>${coupon.type }</td>					
-											<td>${coupon.eventCode }</td>		
+											<td>${coupon.type }</td>		
+											<c:if test="${coupon.eventCode==null}">		
+												<td>등록된 이벤트가 없습니다</td>
+											</c:if>		
+											<c:if test="${coupon.eventCode!=null}">
+												<td>${coupon.eventCode }</td>
+											</c:if>
 											<td><button id="btn-coupon-modify" class="btn btn-outline-primary btn-sm rm-2" data-coupon-code="${coupon.code }">수정</button>
 											<button id="btn-coupon-delete" class="btn btn-outline-danger btn-sm rm-2" data-coupon-code="${coupon.code }">삭제</button></td>
 										</tr>			
@@ -102,7 +107,7 @@
 							<div class="row px-2 mb-2">
 								<div class="form-check">
 									<div class="form-check form-check-inline">
-										<input class="form-check-input" type="radio" name="type" value="50%할인" checked="checked">
+										<input class="form-check-input" type="radio" name="type" value="50%할인" >
 										<label class="form-check-label">50%할인</label>
 									</div>
 									<div class="form-check form-check-inline">
@@ -121,9 +126,6 @@
 							</div>
 							<div class="row px-2 mb-2">
 								<input type="text" class="form-control" id="coupon-name" name="name" placeholder="쿠폰 이름을 입력하세요">
-							</div>
-							<div class="row px-2 mb-2">
-								<input type="text" class="form-control" id="coupon-eventCode" name="eventCode" placeholder="이벤트 코드를 입력하세요">
 							</div>
 						</form>
 					</div>
@@ -154,11 +156,9 @@ $(function(){
 		requestURI = "/hmc/coupon/add";
 		request = "등록"
 		
-		
 		$(":radio[name=type]").eq(0).prop("checked", true);
 		
 		$("#coupon-name").val("");
-		$("#coupon-couponEvent").val("");
 		$("#btn-post-coupon").text("등록");
 		
 		couponModal.show();
@@ -182,7 +182,6 @@ $(function(){
 					$tds.eq(0).text(coupon.name);
 					console.log("7");
 					$tds.eq(1).text(coupon.type);
-					$tds.eq(2).text(coupon.eventCode);
 				}
 			},
 			complete: function() {
@@ -206,9 +205,8 @@ $(function(){
 			.done(function(coupons) {
 				console.log("5");
 				$("#coupon-code").val(coupons.code);
-				$(":radio[name=type]").eq(0).prop("checked", true);
+				$(":radio[name=type]").eq(0).prop("checked", false);
 				$("#coupon-name").val(coupons.name);
-				$("#coupon-eventCode").val(coupons.eventCode);
 				couponModal.show();
 			})
 		
