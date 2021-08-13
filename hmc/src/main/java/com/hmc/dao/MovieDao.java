@@ -16,6 +16,9 @@ public interface MovieDao {
 
 	List<Movie> getTopMovies(int rank);
 
+	List<Movie> getNowMovie();
+
+	List<Movie> getCommingMovie();
 
 	
 
