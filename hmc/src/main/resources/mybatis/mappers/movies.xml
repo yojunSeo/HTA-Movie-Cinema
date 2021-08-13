@@ -46,7 +46,6 @@
     <select id="getNowMovie" resultType="com.hmc.vo.Movie">
        select
             movie_code         		movieCode,
-            movie_release_date      releaseDate,
             movie_name            	movieName,
             movie_poster         	poster,
             movie_total_score      	totalScore,
@@ -55,10 +54,12 @@
             T_MOVIE
          where
          	movie_rank between 1 and 5
+         order by 
+         	movie_rank asc
     </select>
     
     <select id="getCommingMovie" resultType="com.hmc.vo.Movie">
-<!--        <![CDATA[  -->
+       <![CDATA[ 
        select *
        from (select
 	            movie_code         		movieCode,
@@ -69,11 +70,11 @@
 	            movie_rank				rank           
 	         from
 	            T_MOVIE
-             where movie_release_date > sysdate
+             where movie_release_date>sysdate
              order by movie_release_date asc)
         where
          	 rownum between 1 and 5
-<!--           ]]> -->
+        ]]> 
     </select>
 
 	<insert id="insertMovie" parameterType="com.hmc.vo.Movie">
