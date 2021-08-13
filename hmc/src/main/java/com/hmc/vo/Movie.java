@@ -28,7 +28,6 @@ public class Movie {
 	private String company;
 	private String poster;
 	private String synopsis;
-	private String url;
 	private String stillcut;
 	private String trailer;
 	private int totalScore;

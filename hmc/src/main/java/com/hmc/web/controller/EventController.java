@@ -17,9 +17,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.hmc.service.CouponService;
 import com.hmc.service.EventService;
 import com.hmc.service.EventServiceImpl;
+import com.hmc.service.UserService;
 import com.hmc.vo.Coupon;
 import com.hmc.vo.Event;
 import com.hmc.vo.Pagination;
+import com.hmc.vo.User;
+import com.hmc.web.util.SessionUtils;
 
 @Controller
 @RequestMapping("/event")
@@ -31,6 +34,9 @@ public class EventController {
 	@Autowired
 	private CouponService couponService;
 	
+	@Autowired
+	private UserService userService;
+ 	
 	// 한 페이지당 표시할 게시글 행의 개수
 	private static final int ROWS_PER_PAGE = 10;
 	// 페이지블록 당 한번에 표시할 페이지번호 개수
@@ -82,8 +88,10 @@ public class EventController {
 	@GetMapping("/detail")
 	public String eventDetail(@RequestParam("no") String eventCode, Model model) {
 		
-		Event events = eventService.getEventDetail(eventCode);
+		Event events = eventService.eventDetail(eventCode);
+		Event event = eventService.getEventByCode(eventCode);
 		
+		model.addAttribute("event", event);
 		model.addAttribute("events", events);
 
 		
@@ -98,7 +106,7 @@ public class EventController {
 		return "event/add";
 	}
 	
-	@GetMapping("/adds")
+	@GetMapping("/adds")	
 	public String eventAdd(Model model) {
 		Map<String, Object> param = new HashMap<String, Object>();
 		List<Event> events = eventService.eventListPage(param);
@@ -110,6 +118,14 @@ public class EventController {
 		model.addAttribute("coupons", coupons);
 		
 		return "event/eventAdd";
+	}
+	
+	@GetMapping("/eventJoin")
+	public String eventJoin() {
+		
+		
+		return "event/eventJoin";
+		
 	}
 	
 	

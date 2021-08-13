@@ -33,6 +33,11 @@ public class ReviewServiceImpl implements ReviewService{
 	}
 	
 	@Override
+	public void deleteReview(String reviewCode) {
+		reviewDao.deleteReview(reviewCode);
+	}
+	
+	@Override
 	public Review getReviewByCode(String reviewCode) {
 		return reviewDao.getReviewByCode(reviewCode);
 	}

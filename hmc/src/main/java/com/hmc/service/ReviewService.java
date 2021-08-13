@@ -13,4 +13,6 @@ public interface ReviewService {
 	void updateReview(Review review);
 
 	Review getReviewByCode(String reviewCode);
+	
+	void deleteReview(String reviewCode);
 }

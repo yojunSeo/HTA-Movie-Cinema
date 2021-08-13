@@ -81,7 +81,6 @@ span.large{
 			<div class="row mx-auto mt-3">
 				<div class="col">
 					<form id="change-form" action="change" method="post">
-						
 					</form>
 					<div class="mt-5 d-md-flex justify-content-md-end">
 						<button type="submit" class="btn" style="background-color: #FF243E; color:#FFFFFF;"
@@ -98,7 +97,6 @@ span.large{
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
-
 <script>
 $(function(){
 	

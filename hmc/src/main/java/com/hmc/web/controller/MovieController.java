@@ -1,10 +1,6 @@
 package com.hmc.web.controller;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.hmc.service.MovieApiService;
 import com.hmc.service.MovieService;
 import com.hmc.vo.Movie;
-import com.hmc.web.util.SessionUtils;
+
 
 @Controller
 @RequestMapping("/movie")
@@ -41,10 +37,14 @@ public class MovieController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/home")
-	public String MovieList (Movie movie) throws Exception{
-	
-		movieService.saveMoviesFromApi();
-						
+	public String home (Model model) throws Exception{
+		//movieService.saveMoviesFromApi();
+		movieApiService.updateMovieRanking();
+		List<Movie> nowMovies = movieService.getNowMovie();
+		List<Movie> commingMovies = movieService.getCommingMovie();
+		model.addAttribute("nowMovies", nowMovies);
+		model.addAttribute("commingMovies", commingMovies);
+		logger.debug("###########실행됨");
 		return "movie/home";
 	}
 	
@@ -57,7 +57,7 @@ public class MovieController {
 	 */
 	@GetMapping("/detail")
 	public String detail (@RequestParam(value="movieCode", required = false) String movieCode, Model model) throws Exception {
-		
+		System.out.println("code ???  "+movieCode);
 		model.addAttribute("movie", movieService.getMovieDetail(movieCode));
 		
 		return "movie/detail";

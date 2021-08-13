@@ -77,13 +77,12 @@ span.large{
 		<header><%@ include file="../common/header.jsp"%></header>
 		<main>
 			<%@include file="main.jsp" %>
-			<h3 class="mt-5 mb-3">${LOGINED_USER.name }님의 구매 / 선물 내역 </h3>
 			<ul class="nav nav-tabs" id="myTab" role="tablist">
 			  <li class="nav-item" role="presentation">
-			    <button class="nav-link active fs-5" id="give-tab" data-bs-toggle="tab" data-bs-target="#give" type="button" role="tab" aria-controls="give" aria-selected="true">구매한 내역</button>
+			    <button class="nav-link active fs-5" id="give-tab" data-bs-toggle="tab" data-bs-target="#give" type="button" role="tab" aria-controls="give" aria-selected="true">구매내역</button>
 			  </li>
 			  <li class="nav-item" role="presentation">
-			    <button class="nav-link fs-5" id="receive-tab" data-bs-toggle="tab" data-bs-target="#receive" type="button" role="tab" aria-controls="receive" aria-selected="false">선물받은 내역</button>
+			    <button class="nav-link fs-5" id="receive-tab" data-bs-toggle="tab" data-bs-target="#receive" type="button" role="tab" aria-controls="receive" aria-selected="false">선물내역</button>
 			  </li>
 			</ul>
 			<div class="tab-content" id="myTabContent">

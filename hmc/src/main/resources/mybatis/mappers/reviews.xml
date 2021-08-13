@@ -54,14 +54,14 @@
 			review_code 			= #{code}	
 	</update>
 	
-	<update id="deleteReview" parameterType="com.hmc.vo.Review">
+	<update id="deleteReview" parameterType="string">
 		update
 			t_review
 		set
-			review_deleted_date 	= #{deletedDate},
-			review_status 			= #{status}
+			review_deleted_date 	= sysdate,
+			review_status 			= 'N'
 		where
-			review_code 			= #{code}	
+			review_code 			= #{value}	
 	</update> 
 	
 	<select id="getReviewByCode" parameterType="string" resultMap="ReviewResultMap">

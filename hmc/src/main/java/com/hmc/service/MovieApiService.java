@@ -118,7 +118,7 @@ public class MovieApiService {
 	}
 	public void updateMovieRanking() throws Exception{
 		JsonArray array = getMovieList();
-
+		
 		for (int i=0; i<array.size(); i++) {
 			// 영화목록에서 순서대로 영화정보 조회
 			JsonObject movieObject =  (JsonObject) array.get(i);
@@ -129,10 +129,9 @@ public class MovieApiService {
 			Movie savedMovie = movieDao.getMovieInfoByCode(movieCode);
 			if (savedMovie == null) {
 				Movie movie = new Movie();
-				//JsonObject movieRankObject =  (JsonObject) array.get(i);
+				
 				JsonArray movieRank = getMovieRank(movieCode);
-				//relaseDate가 null이면 어떻게 해야하는지? 저장안하고 넘길방법은 없는지? 
-				//String releaseDate = movieRank.get("openDt").getAsInt();
+			
 				String releaseDate = ((JsonObject) (movieRank.getAsJsonArray().get(1))).get("openDt").getAsString();
 				System.out.println("########## 67번째 라인 date" +releaseDate);
 
@@ -151,7 +150,7 @@ public class MovieApiService {
 				movie.setAudiAcc(audiAcc);
 
 				movieDao.updateMovie(savedMovie);
-				System.out.println("##########랭크" +movie);
+				System.out.println("##########getMovieRank##" +savedMovie);
 			}	
 		}
 	}

@@ -23,12 +23,12 @@
 			(#{code}, #{userId}, #{price}, #{way})
 	</insert>
 	
-	<update id="updatePaymentStatus" parameterType="com.hmc.vo.Payment">
+	<update id="updatePaymentStatus" parameterType="string">
 		update t_payment
 		set
-			payment_status = #{status}
+			payment_status = 'N'
 		where
-			payment_code = #{code}
+			payment_code = #{value}
 	</update>
 	
 	<select id="getPaymentsByUserId" parameterType="string" resultMap="PaymentResultMap">

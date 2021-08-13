@@ -76,8 +76,7 @@ html, body {
       <main>
          <%@include file="main.jsp" %>   
          <div class="row">
-            <h5 class="mt-5 mb-5">회원탈퇴</h5>
-            <h4 class="mb-5">회원탈퇴 전 <span class="text-danger">유의사항</span>을 확인해 주세요.</h4>
+            <h4 class="mb-5 mt-5" >회원탈퇴 전 <span class="text-danger">유의사항</span>을 확인해 주세요.</h4>
          </div>
          <div>
             <form action="successWithdrawal" method="get" id="userwithdrawal-form">
