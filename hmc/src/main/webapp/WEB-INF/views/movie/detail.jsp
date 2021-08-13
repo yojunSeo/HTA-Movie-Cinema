@@ -88,6 +88,11 @@
 ul.nav.nav-tabs li.nav-item button.active {
 	border-bottom : 3px solid #FF243E;
 }
+.score-box {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
 
 </style>
 <body>
@@ -105,15 +110,15 @@ ul.nav.nav-tabs li.nav-item button.active {
 							</div>
 							<div class="col-md-8">
 								<div class="card-body">
-									<h5 class="card-title">${savedMovie.movieGrade }모가디슈${savedMovie.movieName }</h5>
+									<h5 class="card-title">${movie.movieGrade }모가디슈${movie.movieName }</h5>
 									<p class="card-text">
-										관람객 평점 <strong>${savedMovie.reviewCnt }</strong>예매순위 <strong>${savedMovie.totalScore }</strong>
+										관람객 평점 <strong>${movie.reviewCnt }</strong>예매순위 <strong>${savedMovie.totalScore }</strong>
 									</p>
 									<hr style="border: solid 1px gray;">
 									<p class="card-text">
-										<small class="text-muted">장르 ${savedMovie.genre }
-											${savedMovie.releaseDate }개봉 ${savedMovie.runningTime }분 </br> 출연
-											${savedMovie.acterName } </br> ${savedMovie.company }
+										<small class="text-muted">장르 ${movie.genre }
+											${movie.releaseDate }개봉 ${movie.runningTime }분 </br> 출연
+											${movie.acterName } </br> ${movie.company }
 										</small>
 									</p>
 								</div>
@@ -137,7 +142,7 @@ ul.nav.nav-tabs li.nav-item button.active {
 								<div class="tab-pane show active" id="info" role="tabpanel" aria-labelledby="info-tab">
 									
 									<h5><b>시놉시스</b></h5>
-									<p>
+									<p> ${movie.synopsis }
 										내전으로 고립된 낯선 도시, 모가디슈 <br /> 지금부터 우리의 목표는 오로지 생존이다! <br /> <br />
 										대한민국이 UN가입을 위해 동분서주하던 시기 <br /> 1991년 소말리아의 수도 모가디슈에서는 일촉즉발의
 										내전이 일어난다. <br /> 통신마저 끊긴 그 곳에 고립된 대한민국 대사관의 직원과 가족들은 총알과 포탄이
@@ -149,6 +154,7 @@ ul.nav.nav-tabs li.nav-item button.active {
 									<div class="mt-4 mb-4" style="margin-left: 60px">
 										<iframe width="853" height="480"
 											src="https://www.youtube.com/embed/VOdDMmSjle0"
+<%-- 											"${movie.trailer }"  --%>
 											title="YouTube video player" frameborder="0"
 											allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 											allowfullscreen></iframe>
@@ -181,7 +187,25 @@ ul.nav.nav-tabs li.nav-item button.active {
 
 								</div>
 								<div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
-									<p>영화 리뷰 화면</p>
+									<div class="score-box">
+										<p>총 평점 <strong>${movie.totalScore }</strong></p><br/>
+										<p>영화 관람 후 관람평을 작성하시면 50P를 적립해드립니다.</p>
+									</div>
+									<div class="reivew-list">
+										<div class="review-info">
+											<p>총 ${movie.reviewCnt }건</p>
+											<hr style="border: solid 1px gray;">
+										</div>
+										<div class="review">
+											<div>
+												<span>${LOGINED_USER.name }</span>
+												<span>${review.score }</span>
+											</div>
+											<div>
+												<span>${review.content }</span>
+											</div>
+										</div>
+									</div>
 
 								</div>
 

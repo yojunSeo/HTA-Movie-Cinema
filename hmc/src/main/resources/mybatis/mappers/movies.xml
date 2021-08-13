@@ -31,7 +31,6 @@
             movie_company         	company,
             movie_poster         	poster,
             movie_synopsis         	synopsis,
-            movie_url            	url,
             movie_stillcut         	stillcut,
             movie_trailer         	trailer,
             movie_total_score      	totalScore,
@@ -43,15 +42,48 @@
          where
              movie_code = #{value}
     </select>
+    
+    <select id="getNowMovie" resultType="com.hmc.vo.Movie">
+       select
+            movie_code         		movieCode,
+            movie_release_date      releaseDate,
+            movie_name            	movieName,
+            movie_poster         	poster,
+            movie_total_score      	totalScore,
+            movie_rank				rank           
+         from
+            T_MOVIE
+         where
+         	movie_rank between 1 and 5
+    </select>
+    
+    <select id="getCommingMovie" resultType="com.hmc.vo.Movie">
+<!--        <![CDATA[  -->
+       select *
+       from (select
+	            movie_code         		movieCode,
+	            movie_release_date      releaseDate,
+	            movie_name            	movieName,
+	            movie_poster         	poster,
+	            movie_total_score      	totalScore,
+	            movie_rank				rank           
+	         from
+	            T_MOVIE
+             where movie_release_date > sysdate
+             order by movie_release_date asc)
+        where
+         	 rownum between 1 and 5
+<!--           ]]> -->
+    </select>
 
 	<insert id="insertMovie" parameterType="com.hmc.vo.Movie">
 		insert into t_movie
 			(movie_code, movie_release_date, movie_name, movie_running_time, movie_genre, movie_grade,
-			movie_country, movie_director, movie_company, movie_poster, movie_synopsis, movie_url, 
+			movie_country, movie_director, movie_company, movie_poster, movie_synopsis, 
 			movie_stillcut, movie_trailer, movie_total_score, movie_review_cnt, movie_rank, movie_audiacc)
 		values
 			(#{movieCode}, #{releaseDate}, #{movieName}, #{runningTime}, #{genre}, #{grade}, 
-			#{country}, #{director}, #{company}, #{poster}, #{synopsis}, #{url}, 
+			#{country}, #{director}, #{company}, #{poster}, #{synopsis}, 
 			#{stillcut}, #{trailer}, #{totalScore}, #{reviewCnt}, #{rank}, #{audiAcc})
 	</insert>
 	
@@ -59,7 +91,9 @@
 		update
 			t_movie
 		set
-			movie_rank = #{rank}
+			movie_release_date = #{releaseDate},
+			movie_rank = #{rank},
+			movie_audiacc = #{audiAcc}
 		where
 			movie_code = #{movieCode}
 	</update>
