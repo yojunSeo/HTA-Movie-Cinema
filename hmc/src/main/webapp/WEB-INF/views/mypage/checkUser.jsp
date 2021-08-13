@@ -126,7 +126,7 @@ html, body {
 		var urlParams = new URLSearchParams(window.location.search);
 		var savedUser = urlParams.get('notFoundUser');
 		if(savedUser != null){
-			alert("인증에 실패하셨습니다./n 입력한 정보와 일치하는 회원이 존재하지 않습니다.");
+			alert("인증에 실패하셨습니다.\n 입력한 정보와 일치하는 회원이 존재하지 않습니다.");
 			location.href = "checkUser";
 		}
    })
