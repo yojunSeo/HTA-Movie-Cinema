@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hmc.dao.BranchDao;
 import com.hmc.dto.BranchDetailDto;
 import com.hmc.service.BranchService;
 import com.hmc.vo.Branch;
@@ -59,7 +60,6 @@ public class BranchController {
 	public String detailBranchInfo(@RequestParam("code") String branchCode, Model model) {
 		
 		BranchDetailDto branchDto = branchService.getBranchDetailByCode(branchCode);
-		System.out.println("====================" + branchDto);
 		List<Facility> facilityList = branchService.getAllFacility();
 		int identiNum = branchDto.getFacility();
 		List<Integer> checkFacility = new ArrayList<Integer>();
@@ -102,5 +102,6 @@ public class BranchController {
 		return "branch/price";
 	}
 	
+
 
 }

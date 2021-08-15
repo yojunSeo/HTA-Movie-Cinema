@@ -110,7 +110,7 @@ ul.nav.nav-tabs li.nav-item button.active {
 							</div>
 							<div class="col-md-8">
 								<div class="card-body">
-									<h5 class="card-title">${movie.movieGrade }모가디슈${movie.movieName }</h5>
+									<h5 class="card-title">${movie.grade }모가디슈${movie.movieName }</h5>
 									<p class="card-text">
 										관람객 평점 <strong>${movie.reviewCnt }</strong>예매순위 <strong>${savedMovie.totalScore }</strong>
 									</p>
@@ -118,7 +118,7 @@ ul.nav.nav-tabs li.nav-item button.active {
 									<p class="card-text">
 										<small class="text-muted">장르 ${movie.genre }
 											${movie.releaseDate }개봉 ${movie.runningTime }분 </br> 출연
-											${movie.acterName } </br> ${movie.company }
+											배우이름출력(아직 DB값없어서 $로 불러오면 오류남) </br> ${movie.company }
 										</small>
 									</p>
 								</div>

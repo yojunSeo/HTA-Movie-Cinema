@@ -37,7 +37,7 @@
 					</div>
 					<div class="row" style="" >
 						<div class="col-12 text-center" style="background-color:white; height:320px;">
-							<p class="fs-1 fw-bold">결재완료되었습니다.</p>
+							<p class="fs-1 fw-bold">결제 완료되었습니다.</p>
 						</div>
 						<div class="col-12 text-center" style="background-color:white; height:400px;">
 							<p class="fs-5 fw-bold">적립 및 지급포인트 : <span style="color:red">${plusPoint}</span></p>

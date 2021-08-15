@@ -53,12 +53,12 @@
 
 						<c:choose>
 							<c:when test="${empty LOGINED_USER}">	<!-- 로그인이 안되어 있을때 -->
-								<button class="btn btn-outline-secondary">
+								<button id="btn-my-theater" class="btn btn-outline-secondary">
 									<img alt="" src="../resources/images/branch/unfavorite.png" width="30px">
 									나의 영화관 등록
 								</button>
 							</c:when>
-							<c:when test="${LOGINED_USER.favoriteBranch1 == branchDetail.branchCode || LOGINED_USER.favoriteBranch1 == branchDetail.branchCode || LOGINED_USER.favoriteBranch1 == branchDetail.branchCode}">
+							<c:when test="${LOGINED_USER.favoriteBranch1 == branchDetail.branchCode || LOGINED_USER.favoriteBranch2 == branchDetail.branchCode || LOGINED_USER.favoriteBranch3 == branchDetail.branchCode}">
 								<!-- 로그인 되어있고 나의 영화관 일때 -->
 								<span class="p-3 mt-2">
 									<img alt="" src="../resources/images/branch/favorite.png" width="30px">
@@ -67,8 +67,8 @@
 							</c:when>
 							<c:otherwise>
 								<!-- 로그인 되어 있고 나의 영화관이 아닐때 -->
-								<button class="btn btn-outline-secondary">
-									<img alt="" src="../resources/images/branch/unfavorite.png" width="30px">
+								<button id="btn-my-theater" class="btn btn-outline-secondary">
+									<img src="../resources/images/branch/unfavorite.png" width="30px">
 									나의 영화관 등록
 								</button>
 							</c:otherwise>
@@ -193,7 +193,16 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
 
 	<script>
-		
+		$(function() {
+			
+			$("#btn-my-theater").click(function() {
+				confirm("나의 영화관 설정을 위해 마이페이지로 이동하시겠습니까?");
+				var link = '/hmc/mypage/home';
+				 
+				location.href=link;
+			});
+			
+		})
 	</script>
 </body>
 </html>

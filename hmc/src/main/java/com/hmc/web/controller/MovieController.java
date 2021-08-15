@@ -63,7 +63,7 @@ public class MovieController {
 		logger.debug("###########detail실행됨" +movieCode);
 		Movie movie = movieService.getMovieDetail(movieCode); 
 		model.addAttribute("movie", movie);
-		
+
 		return "movie/detail";
 	}
 	

@@ -24,6 +24,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.hmc.service.StoreService;
 import com.hmc.vo.Pagination;
 import com.hmc.vo.Product;
+import com.hmc.vo.User;
+import com.hmc.web.annotation.LoginAdmin;
 import com.hmc.web.form.ProductForm;
 
 @Controller
@@ -39,7 +41,7 @@ public class AdminStoreController {
 	private static final int PAGES_PER_PAGE_BLOCK = 5;
 	
 	@RequestMapping("/list")
-	public String productList(@RequestParam(name = "page", required = false, defaultValue = "1") int page, Model model) {
+	public String productList(@RequestParam(name = "page", required = false, defaultValue = "1") int page, Model model, @LoginAdmin User loginAdmin) {
 		
 		List<String> categories = mallService.getAllProductCategory();
 		model.addAttribute("categories", categories);
@@ -76,7 +78,7 @@ public class AdminStoreController {
 	}
 	
 	@PostMapping("/add")
-	public String productAdd(ProductForm form, HttpServletRequest request) throws IOException {
+	public String productAdd(ProductForm form, HttpServletRequest request, @LoginAdmin User loginAdmin) throws IOException {
 		
 		Product product = new Product();
 		
@@ -129,7 +131,7 @@ public class AdminStoreController {
 	}
 	
 	@PostMapping("/modify")
-	public String productUpdate(ProductForm form, HttpServletRequest request) throws IOException {
+	public String productUpdate(ProductForm form, HttpServletRequest request, @LoginAdmin User loginAdmin) throws IOException {
 		
 		Product savedproduct = mallService.getProductByCode(form.getProductCode());
 		Product product = new Product();
