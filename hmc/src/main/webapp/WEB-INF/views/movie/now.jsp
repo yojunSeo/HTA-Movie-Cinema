@@ -11,23 +11,19 @@
 <title>현재상영작-HMC</title>
 </head>
 <style type= "text/css">
-.poster {
+html, body {
+	width: 100%;
+	height: 100%;
+}
+.topinfo img {
 	width: 210px;
 	height: 300px;
 }
-
 .wrapper {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-}
-html, body {
-    width: 100%;
-    height: 100%;
-}
-* {
-	margin: 0px;
-	padding: 0px;
+	
 }
 /* 슬라이드 */
 .swiper-container {
@@ -37,9 +33,7 @@ html, body {
 }
 
 .swiper-wrapper {
-	width: 100%;
 	height: 100%;
-	
 }
 
 .swiper-slide {
@@ -66,6 +60,7 @@ html, body {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
+	
 }
 
 .swiper-button-next, .swiper-button-prev {
@@ -79,6 +74,21 @@ html, body {
 .swiper-pagination-bullet-active {
 	color: #FF243E;
 	background: #FF243E;
+}
+.overbox {
+	color: #FFF;
+	width: 210px;
+	height: 300px;
+	
+}
+.inner {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.overbox a {	
+	outline: solid 1px gray;
+
 }
 </style>
 <body>
@@ -107,145 +117,77 @@ html, body {
 			</div>
 			<div class="row">
 				<div class="wrapper mt-5">
-					<ul class="nowmovie">
-						<p>
-							현재 상영작 <strong>TOP5</strong>
-						</p>
-						<li>
-							<div class="topinfo">
-								<span> <img class="poster"
-									src="https://caching.lottecinema.co.kr//Media/MovieFile/MovieImg/202107/17616_103_1.jpg"
-									alt="모가디슈"> <!-- 								<em class="numinfo">1</em> --> <!-- 								<span class="ic_grade gr_15"> :: before</span> -->
-								</span>
+					<ul class="nowmovie" style="max-width : 1100px;">
+						<div class="mb-3">
+							<h5>
+								<strong>현재 상영작</strong>
+							</h5>
+						</div>
+						<c:forEach var="nowAllMovies" items="${nowAllMovies }">
+							<li>
+								<div class="topinfo">
+									<span> <img onmouseover="overclass(this)"
+										src="${nowAllMovies.poster }" alt=""> 
+<!-- 										<em class="numinfo">1</em> -->
+<!-- 										<span class="ic_grade gr_15"></span> -->
+									</span>
+								</div>
 								<div class="overbox">
-									<div class="inner" style="margin-top: -20px;">
-										<a href="예매페이지">예매하기</a> <a href="/movie/detail.jsp">상세정보</a>
+									<div class="inner">
+										<a href="/hmc/booking/schedule/movie">  예매하기    </a><br>
+										<a href="detail?movieCode=${nowAllMovies.movieCode }">  상세정보    </a>
 									</div>
 								</div>
-							</div>
-							<div class="btminfo">
-								<strong>모가디슈</strong><br /> 
-								<span> 
-									<span>예매율<em>54.0%</em></span>
-									<span>${movie.totalScore }</span>
-								</span>
-							</div>
-						</li>
-						<li>
-							<div class="topinfo">
-								<span> <img class="poster"
-									src="https://caching.lottecinema.co.kr//Media/MovieFile/MovieImg/202107/17623_103_1.jpg" alt="보스 베이비2"> <!-- 								<em class="numinfo">1</em> -->
-<!-- 								<span class="ic_grade gr_15"> :: before</span> -->
-								</span>
-								<div class="overbox">
-									<div class="inner" style="margin-top: -20px;">
-										<a href="예매페이지">예매하기</a> <a href="/movie/detail.jsp">상세정보</a>
-									</div>
+								<div class="btminfo">
+									<strong>${nowAllMovies.movieName }</strong><br /> 
+									<!-- 리뷰 점수 -->
+									<span><em>${nowAllMovies.totalScore }</em></span>
 								</div>
-							</div>
-							<div class="btminfo">
-								<strong>보스 베이비2</strong><br /> <span> <span>예매율<em>14.4%</em></span>
-									<span>${movie.totalScore }</span>
-								</span>
-							</div>
-						</li>
-						<li>
-							<div class="topinfo">
-								<span> <img class="poster"
-									src="https://caching.lottecinema.co.kr//Media/MovieFile/MovieImg/202004/15496_103_1.jpg" alt="블랙 위도우"> 
-<!-- 								<em class="numinfo">1</em> -->
-<!-- 								<span class="ic_grade gr_15"> :: before</span> -->
-								</span>
-								<div class="overbox">
-									<div class="inner" style="margin-top: -20px;">
-										<a href="예매페이지">예매하기</a> 
-										<a href="/movie/detail.jsp">상세정보</a>
-									</div>
-								</div>
-							</div>
-							<div class="btminfo">
-								<strong>블랙 위도우</strong><br /> 
-								<span> 
-									<span>예매율<em>7.7%</em></span>
-									<span>${movie.totalScore }</span>
-								</span>
-							</div>
-						</li>
-						<li>
-							<div class="topinfo">
-								<span> <img class="poster"
-									src="https://caching.lottecinema.co.kr//Media/MovieFile/MovieImg/202107/17530_103_1.jpg" alt="정글크루즈"> 
-<!-- 								<em class="numinfo">1</em> -->
-<!-- 								<span class="ic_grade gr_15"> :: before</span> -->
-								</span>
-								<div class="overbox">
-									<div class="inner" style="margin-top: -20px;">
-										<a href="예매페이지">예매하기</a> 
-										<a href="/movie/detail.jsp">상세정보</a>
-									</div>
-								</div>
-							</div>
-							<div class="btminfo">
-								<strong>정글 크루즈</strong><br /> 
-								<span> 
-									<span>예매율<em>4.1%</em></span>
-									<span>${movie.totalScore }</span>
-								</span>
-							</div>
-						</li>
-						<li>
-							<div class="topinfo">
-								<span> <img class="poster"
-									src="https://caching.lottecinema.co.kr//Media/MovieFile/MovieImg/202107/17624_103_1.jpg" alt="방법:재차의"> 
-<!-- 								<em class="numinfo">1</em> -->
-<!-- 								<span class="ic_grade gr_15"> :: before</span> -->
-								</span>
-								<div class="overbox">
-									<div class="inner" style="margin-top: -20px;">
-										<a href="예매페이지">예매하기</a> <a href="/movie/detail.jsp">상세정보</a>
-									</div>
-								</div>
-							</div>
-							<div class="btminfo">
-								<strong>방법: 재차의</strong><br /> 
-								<span> 
-									<span>예매율<em>1.6%</em></span>
-									<span>${movie.totalScore }</span>
-								</span>
-							</div>
-						</li>
+							</li>
+						</c:forEach>
 					</ul>
 				</div>
 			</div>
 		</main>
-
-		<footer>
-		</footer>
-
+		<footer><%@ include file="../common/footer.jsp"%></footer>
 	</div>
 	
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 	<script type="text/javascript">
-	$(function() {
-	    var swiper = new Swiper(".mySwiper", {
-	      spaceBetween: 30,
-	      centeredSlides: true,
-	      autoplay: {
-	        delay: 2500,
-	        disableOnInteraction: false,
-	      },
-	      pagination: {
-	        el: ".swiper-pagination",
-	        clickable: true,
-	      },
-	      navigation: {
-	        nextEl: ".swiper-button-next",
-	        prevEl: ".swiper-button-prev",
-	      },
-	    });
-	})
+		$(function() {
+			var swiper = new Swiper(".mySwiper", {
+				spaceBetween : 30,
+				centeredSlides : true,
+				autoplay : {
+					delay : 2500,
+					disableOnInteraction : false,
+				},
+				pagination : {
+					el : ".swiper-pagination",
+					clickable : true,
+				},
+				navigation : {
+					nextEl : ".swiper-button-next",
+					prevEl : ".swiper-button-prev",
+				},
+			});
+		})
+
+		function overclass(obj) {
+			//마우스 인
+			obj.className = 'on';
+			$(".on").hide();
+			$(".on").parent().parent().next().show();
+
+			//마우스 아웃
+			obj.onmouseout = function() {
+				this.className = '';
+				$(this).show();
+				$(this).parent().parent().next().hide();
+			}
+		}
 	</script>
 </body>
 </html>

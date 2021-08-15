@@ -74,15 +74,20 @@ html, body {
 	color: #FF243E;
 	background: #FF243E;
 }
-.overbox{
+.overbox {
 	color: #FFF;
 	width: 210px;
 	height: 300px;
+	
 }
-.overbox a {
+.inner {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+.overbox a {	
+	outline: solid 1px gray;
+
 }
 </style>
 <body>
@@ -123,14 +128,15 @@ html, body {
 							<li>
 								<div class="topinfo">
 									<span> <img onmouseover="overclass(this)"
-										src="${nowMovies.poster }" alt="보스 베이비2"> <!-- 										<em class="numinfo">1</em> -->
-										<!-- 										<span class="ic_grade gr_15"></span> -->
+										src="${nowMovies.poster }" alt=""> 
+<!-- 										<em class="numinfo">1</em> -->
+<!-- 										<span class="ic_grade gr_15"></span> -->
 									</span>
 								</div>
 								<div class="overbox">
-									<div class="inner" style="margin-top: -20px;">
-										<a href="예매페이지">예매하기</a> <a
-											href="movie/detail?movieCode=<fmt:formatNumber value="${nowMovies.movieCode }"/>">상세정보</a>
+									<div class="inner">
+										<a href="/hmc/booking/schedule/movie">  예매하기    </a><br>
+										<a href="detail?movieCode=${nowMovies.movieCode }">  상세정보    </a>
 									</div>
 								</div>
 								<div class="btminfo">
@@ -158,8 +164,7 @@ html, body {
 									</div>
 									<div class="overbox">
 										<div class="inner" style="margin-top: -20px;">
-											<a href="예매페이지">예매하기</a> <a
-												href="movie/detail?movieCode=<fmt:formatNumber value="${commingMovies.movieCode }"/>">상세정보</a>
+											<a href="detail?movieCode=${commingMovies.movieCode }">상세정보</a>
 										</div>
 									</div>
 									<div class="btminfo">

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!doctype html>
 <html lang="ko">
 <head>
@@ -105,27 +106,48 @@ ul.nav.nav-tabs li.nav-item button.active {
 						<div class="row g-0">
 							<div class="poster col-md-4">
 								<img
-									src="https://caching.lottecinema.co.kr//Media/MovieFile/MovieImg/202107/17616_103_1.jpg"
+									src="${movie.poster }"
 									class="img-fluid rounded-start" alt="...">
 							</div>
 							<div class="col-md-8">
-								<div class="card-body">
-									<h5 class="card-title">${movie.movieGrade }모가디슈${movie.movieName }</h5>
+								<div class="card-body" style="width:750px;">
+									
+									<h3 class="card-title"> <strong>${movie.movieName }</strong></h3>
 									<p class="card-text">
-										관람객 평점 <strong>${movie.reviewCnt }</strong>예매순위 <strong>${savedMovie.totalScore }</strong>
+										${movie.grade } <br />
+										관람객 평점 <strong>${movie.reviewCnt }</strong>예매순위 <strong>${movie.totalScore }</strong>
 									</p>
 									<hr style="border: solid 1px gray;">
+									
+											
 									<p class="card-text">
-										<small class="text-muted">장르 ${movie.genre }
-											${movie.releaseDate }개봉 ${movie.runningTime }분 </br> 출연
-											${movie.acterName } </br> ${movie.company }
+										<small class="text-muted"><strong>장르</strong> ${movie.genre } ｜ 
+											<fmt:formatDate value="${movie.releaseDate }" pattern="yyyy.MM.dd" /> 개봉 ｜  ${movie.runningTime }분  
+											<c:set var="i" value="0" />
+											<c:set var="j" value="8" />
+											<table> 
+												<strong>출연</strong>
+												<c:forEach items="${actors }" var="actors">
+													<c:if test="${i%j == 0 }">
+												    	<tr>
+												    </c:if>
+												    	<td>${actors.actorName }</td>
+												    <c:if test="${i%j == j-1 }">
+												    	</tr>
+												    </c:if>
+												    <c:set var="i" value="${i+1 }" />
+												  </c:forEach>
+												</table>				
+											<strong>배급</strong>  ${movie.company }
 										</small>
 									</p>
+								
+									
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="row" style="margin-top: 100px;">
+					<div class="row" style="margin-top: 80px;">
 						<div class="col" style="border:none; outline:none;">
 							<ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
 								<li class="nav-item active" role="presentation">
@@ -143,18 +165,12 @@ ul.nav.nav-tabs li.nav-item button.active {
 									
 									<h5><b>시놉시스</b></h5>
 									<p> ${movie.synopsis }
-										내전으로 고립된 낯선 도시, 모가디슈 <br /> 지금부터 우리의 목표는 오로지 생존이다! <br /> <br />
-										대한민국이 UN가입을 위해 동분서주하던 시기 <br /> 1991년 소말리아의 수도 모가디슈에서는 일촉즉발의
-										내전이 일어난다. <br /> 통신마저 끊긴 그 곳에 고립된 대한민국 대사관의 직원과 가족들은 총알과 포탄이
-										빗발치는 가운데, <br />살아남기 위해 하루하루를 버텨낸다. <br /> 그러던 어느 날 밤, 북한 대사관의 일행들이
-										도움을 요청하며 문을 두드리는데…
 									</p>
 									<br />
 									<h5><b>트레일러</b></h5>
 									<div class="mt-4 mb-4" style="margin-left: 60px">
 										<iframe width="853" height="480"
-											src="https://www.youtube.com/embed/VOdDMmSjle0"
-<%-- 											"${movie.trailer }"  --%>
+											src="${movie.trailer }"
 											title="YouTube video player" frameborder="0"
 											allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 											allowfullscreen></iframe>
@@ -166,16 +182,16 @@ ul.nav.nav-tabs li.nav-item button.active {
 											<div class="swiper-container mySwiper">
 												<div class="swiper-wrapper">
 													<div class="swiper-slide">
-														<img src="https://caching.lottecinema.co.kr//Media/MovieFile/MovieImg/202107/17616_105_1.jpg">
+														<img src="${movie.stillcut1 }">
 													</div>
 													<div class="swiper-slide">
-														<img src="https://caching.lottecinema.co.kr//Media/MovieFile/MovieImg/202107/17616_105_4.jpg">
+														<img src="${movie.stillcut2 }">
 													</div>
 													<div class="swiper-slide">
-														<img src="https://caching.lottecinema.co.kr//Media/MovieFile/MovieImg/202107/17616_105_5.jpg">
+														<img src="${movie.stillcut3 }">
 													</div>
 													<div class="swiper-slide">
-														<img src="https://caching.lottecinema.co.kr//Media/MovieFile/MovieImg/202107/17616_105_11.jpg">
+														<img src="${movie.stillcut4 }">
 													</div>
 												</div>
 												<div class="swiper-button-next"></div>
@@ -187,6 +203,7 @@ ul.nav.nav-tabs li.nav-item button.active {
 
 								</div>
 								<div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
+									
 									<div class="score-box">
 										<p>총 평점 <strong>${movie.totalScore }</strong></p><br/>
 										<p>영화 관람 후 관람평을 작성하시면 50P를 적립해드립니다.</p>
@@ -206,7 +223,7 @@ ul.nav.nav-tabs li.nav-item button.active {
 											</div>
 										</div>
 									</div>
-
+									
 								</div>
 
 							</div>

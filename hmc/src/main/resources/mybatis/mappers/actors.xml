@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hmc.dao.ActorDao">
+
+    <select id="getAllActorByCode" parameterType="String" resultType="com.hmc.vo.Actor">
+       select
+            movie_code      movieCode,
+            actor_name      actorName,
+            actor_roll      roll
+       from
+            t_actor
+       where
+             movie_code = #{value}
+    </select>
+    <select id="getSavedMovieCode" parameterType="String" resultType="com.hmc.vo.Actor">
+       select distinct
+            movie_code   movieCode
+       from
+            t_actor
+       where
+             movie_code = #{value}
+        
+    </select>
+    
+	<insert id="insertActor" parameterType="com.hmc.vo.Actor">
+		insert into t_actor
+			(movie_code, actor_name, actor_roll)
+		values
+			(#{movieCode}, #{actorName}, #{roll})
+	</insert>
+</mapper>

@@ -117,40 +117,41 @@ public class MovieApiService {
 		}
 	}
 	public void updateMovieRanking() throws Exception{
-		JsonArray array = getMovieList();
-		
+		// 데일리영화박스오피스리스트 조회
+		JsonArray array = getMovieRank();
+		System.out.println("######121array: " + array);
 		for (int i=0; i<array.size(); i++) {
-			// 영화목록에서 순서대로 영화정보 조회
+			// 데일리영화박스오피스리스트에서 순서대로 영화정보 조회
 			JsonObject movieObject =  (JsonObject) array.get(i);
+			System.out.println("#######124movieObject: " + movieObject );
 			// 기본적인 영화정보를 조회한다.
 			String movieCode = movieObject.get("movieCd").getAsString();
-
+			System.out.println("###########127movieCode: "+movieCode);
 			// 획득한 영화코드로 데이터베이스에서 영화정보 조회
 			Movie savedMovie = movieDao.getMovieInfoByCode(movieCode);
-			if (savedMovie == null) {
+			System.out.println("#############130savedMovie: " + savedMovie);
+			if (savedMovie != null) {
 				Movie movie = new Movie();
 				
-				JsonArray movieRank = getMovieRank(movieCode);
-			
-				String releaseDate = ((JsonObject) (movieRank.getAsJsonArray().get(1))).get("openDt").getAsString();
-				System.out.println("########## 67번째 라인 date" +releaseDate);
-
+				JsonArray movieRank = getMovieRank();
+				System.out.println("##########135movieRank: " + movieRank);
+				String releaseDate = movieObject.get("openDt").getAsString();
+				System.out.println("########## 67번째 라인 date: " +releaseDate);
 				DateFormatter formatter = new DateFormatter("yyyy-MM-dd");
 				if (releaseDate !=null ) {
 					Date date = formatter.parse(releaseDate, Locale.KOREA);
 					movie.setReleaseDate(date);
 				}
-
-				String rank = ((JsonObject) (movieRank.getAsJsonArray().get(0))).get("rank").getAsString();
-				String audiAcc = ((JsonObject) (movieRank.getAsJsonArray().get(0))).get("audiAcc").getAsString();
-
-				System.out.println(rank + ", " + audiAcc);
+				String rank = movieObject.get("rank").getAsString();
+				System.out.println("###########rank: " + rank);
+				String audiAcc = movieObject.get("audiAcc").getAsString();
+				System.out.println("##########audiAcc: " + audiAcc);
 
 				movie.setRank(rank);
-				movie.setAudiAcc(audiAcc);
+				movie.setAudiacc(audiAcc);
 
-				movieDao.updateMovie(savedMovie);
-				System.out.println("##########getMovieRank##" +savedMovie);
+				movieDao.updateMovie(movie);
+				System.out.println("##########movie##" +movie);
 			}	
 		}
 	}
@@ -188,7 +189,7 @@ public class MovieApiService {
 		return movieInfo;
 	}
 	
-	private JsonArray getMovieRank(String movieCode) throws Exception {
+	private JsonArray getMovieRank() throws Exception {
 		Calendar cal = Calendar.getInstance();
 		int day = cal.get(Calendar.DAY_OF_MONTH);
 		cal.set(Calendar.DAY_OF_MONTH, day - 1);

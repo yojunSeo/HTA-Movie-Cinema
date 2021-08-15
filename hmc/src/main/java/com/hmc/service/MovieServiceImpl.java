@@ -22,11 +22,6 @@ public class MovieServiceImpl implements MovieService {
 	}
 	
 	@Override
-	public List<Movie> getTopMovies(int rank) {
-		return movieDao.getTopMovies(rank);
-	}
-
-	@Override
 	public void saveMoviesFromApi() throws Exception {
 		movieApiService.saveMoviesFromApi();
 		movieApiService.updateMovieRanking();	
@@ -53,6 +48,16 @@ public class MovieServiceImpl implements MovieService {
 	@Override
 	public List<Movie> getCommingMovie() {
 		return movieDao.getCommingMovie();
+	}
+
+	@Override
+	public List<Movie> getNowAllMovies() {
+		return movieDao.getNowAllMovies();
+	}
+
+	@Override
+	public List<Movie> getCommingAllMovies() {
+		return movieDao.getCommingAllMovies();
 	}
 	
 }

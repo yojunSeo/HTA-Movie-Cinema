@@ -28,11 +28,14 @@ public class Movie {
 	private String company;
 	private String poster;
 	private String synopsis;
-	private String stillcut;
+	private String stillcut1;
+	private String stillcut2;
+	private String stillcut3;
+	private String stillcut4;
 	private String trailer;
 	private int totalScore;
 	private int reviewCnt;
 	private String rank;
-	private String audiAcc;
+	private String audiacc;
 
 }
