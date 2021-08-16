@@ -22,6 +22,8 @@ public interface BookingService {
 	
 	List<Map<String, Object>> getUserBookingDetail(String userId);
 	
+	Map<String, Object> getUserBookingPage(int pageNo);
+	
 	void cancelBooking(String bookingCode);
 	
 	Map<String, Object> getCancelBookingUserPointAndExpectGrade(int paymentPrice);

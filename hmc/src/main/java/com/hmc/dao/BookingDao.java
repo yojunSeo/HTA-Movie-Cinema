@@ -34,4 +34,8 @@ public interface BookingDao {
 	Booking getBookingByCode(String bookingCode);
 	
 	List<Map<String, Object>> getBookingDetailsByUserId(String userId);
+	
+	List<Map<String, Object>> getBookingPageByUser(Map<String, Object> param);
+	
+	int getBookingCntByUserId(String userId);
 }

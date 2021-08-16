@@ -26,4 +26,9 @@ public interface StoreService {
 	void updateProduct(Product product);
 
 	void successPayment(Map<String, Object> paymentInfo);
+	
+	Map<String, Object> getUserPaymentGifts(int pageNo);
+	
+	Map<String, Object> getUserReceiveGifts(int pageNo);
+	
 }

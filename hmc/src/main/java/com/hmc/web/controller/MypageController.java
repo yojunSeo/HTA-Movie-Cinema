@@ -1,6 +1,7 @@
 package com.hmc.web.controller;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.hmc.exception.FindException;
 import com.hmc.service.BookingService;
 import com.hmc.service.ReviewService;
+import com.hmc.service.StoreService;
 import com.hmc.service.UserService;
 import com.hmc.vo.User;
 import com.hmc.web.annotation.LoginUser;
@@ -30,18 +32,33 @@ public class MypageController {
 	BookingService bookingService;
 	@Autowired
 	ReviewService reviewService;
+	@Autowired
+	StoreService storeService;
 
 	@GetMapping(path = {"/home" , "/booking"})
-	public String goToHome(@LoginUser User user, Model model) throws Exception {
-		model.addAttribute("bookings", bookingService.getUserBookingDetail(user.getId()));
+	public String goToHome(@LoginUser User user, Model model, @RequestParam(name = "page", required = false, defaultValue = "1") int pageNo) throws Exception {
+		Map<String, Object> result =  bookingService.getUserBookingPage(pageNo);
+		model.addAttribute("bookings", result.get("bookings"));
+		model.addAttribute("pagination", result.get("pagination"));
 		model.addAttribute("reviews", reviewService.getReviewByUserId());
 		model.addAttribute("today", new Date());
 		return "mypage/bookinghistory";
 	}
 	
-	@GetMapping("/gift")
-	public String giftHistory(@LoginUser User user, Model model) throws Exception {
-		return "mypage/gifthistory";
+	@GetMapping("/payment")
+	public String giftPaymentHistory(@LoginUser User user,@RequestParam(name = "page",required = false, defaultValue = "1")int pageNo, Model model) throws Exception {
+		Map<String, Object> result = storeService.getUserPaymentGifts(pageNo);
+		model.addAttribute("payments", result.get("payments"));
+		model.addAttribute("pagination", result.get("pagination"));
+		return "mypage/giftpayment";
+	}
+	
+	@GetMapping("/receive")
+	public String giftReceiveHistory(@LoginUser User user,@RequestParam(name = "page",required = false, defaultValue = "1")int pageNo, Model model) throws Exception {
+		Map<String, Object> result = storeService.getUserReceiveGifts(pageNo);
+		model.addAttribute("receives", result.get("receives"));
+		model.addAttribute("pagination", result.get("pagination"));
+		return "mypage/giftreceive";
 	}
 	
 	@GetMapping("/coupon")

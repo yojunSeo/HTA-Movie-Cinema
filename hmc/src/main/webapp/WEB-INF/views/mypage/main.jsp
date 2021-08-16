@@ -88,7 +88,7 @@ span.large{
 									</div>
 									<div class="text-center my-3" id="user-point-grade">
 										<p class="fs-5 mt-3">현재 보유 포인트는 <strong><fmt:formatNumber>${LOGINED_USER.point }</fmt:formatNumber></strong> 점 입니다.</p>
-										<p class="fs-5 mt-3"><span class="large badge bg-success rounded-pill"></span> 등급까지 <strong id="remain-price">40,000원</strong> 원 남았어요!</p>
+										<p class="fs-5 mt-3"><span class="large badge rounded-pill"></span> 등급까지 <strong id="remain-price">40,000원</strong> 원 남았어요!</p>
 										<p class="my-5"></p>
 										<p class="my-5"></p>
 										<p id="membership"><span class="large badge rounded-pill text-white m-3 p-2" style="background-color: #FF243E">Membership 페이지 가기</span></p>
@@ -113,7 +113,7 @@ span.large{
 							href="#" role="button" aria-expanded="false">결제내역</a>
 							<ul class="dropdown-menu" id="payment-dropdown">
 								<li><a class="dropdown-item" href="booking">예매내역</a></li>
-								<li><a class="dropdown-item" href="gift">구매/선물내역</a></li>
+								<li><a class="dropdown-item" href="payment">구매/선물내역</a></li>
 							</ul>
 						</li>
 						<li class="nav-item"><a class="nav-link" href="coupon">쿠폰함</a></li>
