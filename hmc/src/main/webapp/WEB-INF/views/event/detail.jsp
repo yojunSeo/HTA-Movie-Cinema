@@ -32,17 +32,21 @@
 	    		<p>${event.content }</p>
 	    	</div>
 	    	<div class="couponName">
-	    		<p>${events.name }</p>
+	    		<p>${events.name } </p>
+	    	</div>
+	    	<div class="test">
+	    		<p>${LOGINED_USER.id } </p>
+	    	</div>
+	    	<div class="test2">
+	    		<p>asd </p>
 	    	</div>
 	    </div>
     	<div class="btn-eventJoin" style="text-align:center;">
-    		<button id="btn-open-coupon-modal"  class="btn btn-danger btn-lg w-25 text-light" >참여</button>
+    		<button id="btn-open-event-modal"  class="btn btn-danger btn-lg w-25 text-light" >참여</button>
     	</div>
     	
     	<table class="table" id="table-event"  style="display:block;">
-    		<tbody>
-    			
-    		</tbody>
+    		
     	</table>
     	
     </main>
@@ -54,24 +58,29 @@
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
-						<form id="form-coupon">
-							<input type="hidden" name="code" id="coupon-code">
+						<form id="form-event">
+							<input type="hidden" name="code" id="event-code">
 							<div class="row px-2 mb-2">
 								<div class="form-check">
 									<div class="form-check form-check-inline">
-										<span style="font-size: 1.1rem;">${events.name }</span>
+										<span style="font-size: 1.1rem;" >${events.name }</span>
 										<br>
 										 이벤트에 참여하시겠습니까?
 									</div>
 								</div>
+								
 							</div>
 							<div class="row px-2 mb-2">
 							</div>
 						</form>
+						<form id="form-eventjoin">
+							<div><input type="hidden" id="eventCode" name="eventCode" value="${event.code }"></div>
+							<div><input type="hidden" id="userId" name="userId" value="${LOGINED_USER.id }"></div>
+						</form>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-						<button type="button" class="btn btn-primary" id="btn-post-coupon">등록</button>
+						<button type="button" class="btn btn-primary" id="btn-post-event">등록</button>
 					</div>
 				</div>
 		</div>
@@ -91,44 +100,36 @@ $(function(){
 	})
 	
 	// 새 쿠폰 등록
-	$("#btn-open-coupon-modal").click(function(){
+	$("#btn-open-event-modal").click(function(){
 		console.log("등록 실행이에요");
-		requestURI = "/hmc/coupon/add";
 		request = "등록"
 		
+			$("#eventJoin-code").val("");
+			$("#eventJoin-name").val("");
 		
 		eventModal.show();
 	})
 	
-	$("#btn-post-coupon").click(function() {
+	$("#btn-post-event").click(function() {
 		$.ajax({
 			type: "POST",
 			url: requestURI,
-			data: $("#form-coupon").serialize(),
+			data: $("#form-eventjoin").serialize(),
 			dataType: 'json',
-			success: function(coupon) {
+			success: function(eventJoin) {
 				if (request == "등록") {
-					console.log("등록이 됌니다");
-					$("#table-coupon tbody").prepend(makeRow(coupon));
+					console.log("이벤트 참여");
 				} 
 			},
 			complete: function() {
-				couponModal.hide();
+				eventModal.hide();
 			}
 		});
 		console.log("등록이 됌니다!");
 	})
 	
 	
-	function makeRow(coupon) {
-		var row = "<tr  class='align-middle' id='coupon-"+coupon.code+"'>"
-		row += "<td>"+coupon.code+"</td>";
-		row += "<td>"+coupon.name+"</td>";
-		row += "<td><button class='btn btn-link' data-coupon-code='"+coupon.code+"'>"+coupon.name+"</td>";
-		row += "<td><button class='btn btn-outline-danger btn-sm' data-coupon-code='"+coupon.code+"'>삭제하기</button></td>";
-		row += "</tr>";
-		return row;
-	}
+	
 	
 })
 

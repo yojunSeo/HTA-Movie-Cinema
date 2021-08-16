@@ -153,7 +153,6 @@ $(function(){
 	// 새 쿠폰 등록
 	$("#btn-open-coupon-modal").click(function(){
 		console.log("등록 실행이에요");
-		requestURI = "/hmc/coupon/add";
 		request = "등록"
 		
 		$(":radio[name=type]").eq(0).prop("checked", true);
