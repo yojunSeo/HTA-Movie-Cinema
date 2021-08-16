@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,15 +15,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hmc.dao.EventJoinDao;
 import com.hmc.service.CouponService;
+import com.hmc.service.EventJoinService;
 import com.hmc.service.EventService;
 import com.hmc.service.EventServiceImpl;
 import com.hmc.service.UserService;
 import com.hmc.vo.Coupon;
 import com.hmc.vo.Event;
+import com.hmc.vo.EventJoin;
 import com.hmc.vo.Pagination;
 import com.hmc.vo.User;
+import com.hmc.web.annotation.LoginUser;
 import com.hmc.web.util.SessionUtils;
 
 @Controller
@@ -36,6 +43,12 @@ public class EventController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private EventJoinDao eventJoinDao;
+	
+	@Autowired EventJoinService eventJoinService;
+	
  	
 	// 한 페이지당 표시할 게시글 행의 개수
 	private static final int ROWS_PER_PAGE = 10;
@@ -86,15 +99,16 @@ public class EventController {
 	}
 	
 	@GetMapping("/detail")
-	public String eventDetail(@RequestParam("no") String eventCode, Model model) {
+	public String eventDetail(@RequestParam("no") String eventCode, @LoginUser User user, Model model) {
 		
 		Event events = eventService.eventDetail(eventCode);
 		Event event = eventService.getEventByCode(eventCode);
+		EventJoin eventJoin = (EventJoin) eventJoinService.getEventJoinByEventCode(eventCode);
+		
 		
 		model.addAttribute("event", event);
 		model.addAttribute("events", events);
-
-		
+		model.addAttribute("eventJoin", eventJoin);
 		
 		
 		return "event/detail";
@@ -120,16 +134,18 @@ public class EventController {
 		return "event/eventAdd";
 	}
 	
-	@GetMapping("/eventJoin")
-	public String eventJoin() {
+	
+	@PostMapping("/eventJoin")
+	public String eventJoin(@RequestParam("eventCode") String eventCode, @RequestParam("userId") String userId) {
 		
+		EventJoin eventJoin = new EventJoin();
+		eventJoin.setEventCode(eventCode);
+		eventJoin.setUserId(userId);
 		
-		return "event/eventJoin";
+		eventJoinDao.insertEventJoin(eventJoin);
 		
+		return "redirect:/event/home";
 	}
-	
-	
-	
 	
 	
 }
