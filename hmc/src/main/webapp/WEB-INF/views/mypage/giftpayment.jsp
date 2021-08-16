@@ -77,52 +77,79 @@ span.large{
 		<header><%@ include file="../common/header.jsp"%></header>
 		<main>
 			<%@include file="main.jsp" %>
-			<div class="row mt-5">
-			<h5 class="fw-bold">이벤트 응모/당첨내역</h5>
-				<table class="table table-hover mt-3" id="event-table">
+			<ul class="nav nav-tabs mt-5">
+			  <li class="nav-item">
+			    <a class="nav-link active fs-5" href="payment">구매내역</a>
+			  </li>
+			  <li class="nav-item">
+			    <a class="nav-link fs-5" href="receive">선물내역</a>
+			  </li>
+			</ul>
+		  	<table class="table table-hover" id="give-table">
 				<colgroup>
-					<col width="30%"/>
-					<col width="30%"/>
+					<col width="15%"/>
+					<col width="*%"/>
+					<col width="*%"/>
 					<col width="20%"/>
-					<col width="20%"/>
+					<col width="15%"/>
+					<col width="15%"/>
+					<col width="8%"/>
 				</colgroup>
 				<thead>
 					<tr class="text-center">
-						<th>이벤트명</th>
-						<th>이벤트 기간</th>
-						<th>응모일</th>
-						<th>당첨여부</th>
+						<th>구매번호</th>
+						<th class="text-start">상품</th>
+						<th>선물받은 ID</th>
+						<th>상품 개수</th>
+						<th>결제금액</th>
+						<th>구매일시</th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr class="text-center">
-						<th>리뷰쓰고 쿠폰받자</th>
-						<th>2021/08/01 ~ 2021/08/31</th>
-						<th>2021/08/10</th>
-						<th>진행중</th>
-					</tr>
-					<tr class="text-center">
-						<th>리뷰쓰고 쿠폰받자</th>
-						<th>2021/08/01 ~ 2021/08/31</th>
-						<th>2021/08/10</th>
-						<th>진행중</th>
-					</tr>
-					<tr class="text-center">
-						<th>리뷰쓰고 쿠폰받자</th>
-						<th>2021/08/01 ~ 2021/08/31</th>
-						<th>2021/08/10</th>
-						<th>진행중</th>
-					</tr>
-					<tr class="text-center">
-						<th>리뷰쓰고 쿠폰받자</th>
-						<th>2021/08/01 ~ 2021/08/31</th>
-						<th>2021/08/10</th>
-						<th>진행중</th>
-					</tr>
+					<c:choose>
+						<c:when test="${empty payments }">
+							<tr class="text-center">
+									<td colspan="5">구매내역이 존재하지 않습니다.</td>
+								</tr>
+						</c:when>
+						<c:otherwise>
+							<c:forEach var="payment" items="${payments }">
+								<tr class="text-center" id="${payment.GIFTCODE }">
+									<td>${payment.GIFTCODE }</td>
+									<td class="text-start">${payment.PRODUCTNAME }</td>
+									<td>${payment.RECEIVEID }</td>
+									<td>${payment.AMOUNT } 개</td>
+									<td><fmt:formatNumber>${payment.PRICE }</fmt:formatNumber> 원</td>
+									<td><fmt:formatDate value="${payment.PURCHASEDDATE }" pattern="yyyy/MM/dd HH:mm"/></td>
+									<td><button class="btn btn-sm btn-outline-danger">결제취소</button></td>
+								</tr>
+
+							</c:forEach>
+						</c:otherwise>
+					</c:choose>
 				</tbody>
 			</table>
-
-			</div>
+			<!-- 페이징 -->
+			<c:if test="${pagination.totalRows gt 0 }">
+				<div class="row mb-2">
+					<div class="col-12">
+						<ul class="pagination justify-content-center">
+							<li class="page-item ${pagination.pageNo le 1 ? 'disabled' : ''}">
+								<a class="page-link" href="payment?page=${pagination.pageNo - 1 }">이전</a>
+							</li>
+							<c:forEach var="num" begin="${pagination.beginPage }" end="${pagination.endPage }">
+								<li class="page-item ${pagination.pageNo eq num ? 'active' : '' }">
+									<a class="page-link" href="payment?page=${num }">${num }</a>
+								</li>
+							</c:forEach>
+							<li class="page-item ${pagination.pageNo ge pagination.totalPages ? 'disabled' : ''}">
+								<a class="page-link" href="payment?page=${pagination.pageNo + 1 }">다음</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</c:if>
 		</main>
 		<footer><%@ include file="../common/footer.jsp"%></footer>
 	</div>

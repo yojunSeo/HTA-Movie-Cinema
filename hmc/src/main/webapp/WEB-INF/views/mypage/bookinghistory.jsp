@@ -211,6 +211,26 @@ html, body {
 				</div>
 		</div>
 		</div>
+		<!-- 페이징 -->
+		<c:if test="${pagination.totalRows gt 0 }">
+			<div class="row mb-2">
+				<div class="col-12">
+					<ul class="pagination justify-content-center">
+						<li class="page-item ${pagination.pageNo le 1 ? 'disabled' : ''}">
+							<a class="page-link" href="booking?page=${pagination.pageNo - 1 }">이전</a>
+						</li>
+						<c:forEach var="num" begin="${pagination.beginPage }" end="${pagination.endPage }">
+							<li class="page-item ${pagination.pageNo eq num ? 'active' : '' }">
+								<a class="page-link" href="booking?page=${num }">${num }</a>
+							</li>
+						</c:forEach>
+						<li class="page-item ${pagination.pageNo ge pagination.totalPages ? 'disabled' : ''}">
+							<a class="page-link" href="booking?page=${pagination.pageNo + 1 }">다음</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</c:if>
 		</main>
 
 		<footer><%@ include file="../common/footer.jsp"%></footer>

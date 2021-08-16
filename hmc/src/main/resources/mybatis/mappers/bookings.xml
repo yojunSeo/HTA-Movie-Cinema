@@ -92,4 +92,53 @@
 		where
 			booking_code = #{value}	
 	</select>
+	
+	<select id="getBookingCntByUserId" parameterType="string" resultType="int">
+		select 
+			count(*) 
+		from 
+			t_booking
+        where 
+        	user_id = #{value}
+	</select>
+	
+	<select id="getBookingPageByUser" parameterType="map" resultType="hashmap">
+		select *
+        from (
+            select
+            row_number() over (order by booking_code desc) rn,
+			booking_code 			as bookingcode,
+            sh.schedule_code 		as scheduleCode,
+            sc.screen_code			as screenCode,
+            sc.movie_name 			as movieName,
+            sh.schedule_date as scheduleDate,
+            sh.schedule_start_time as startTime,
+            sh.schedule_end_time as endTime,
+            rm.room_name 			as roomName,
+            br.branch_name 			as branchName,
+            user_id 				as userId,
+            payment_code 			as paymentCode,
+            booking_date 			as bookingdate,
+            booking_cnt 			as count,
+            booking_price 			as price,
+            booking_discount_price 	as discountPrice,
+            booking_total_price 	as totalPrice,
+            booking_status as status,
+            (select decode(count(*), 0, 'N', 'Y') from t_review rw where user_id = #{userId} and rw.booking_code = bk.booking_code  and rw.review_status = 'Y') reviewStatus
+		from 
+			t_booking bk, t_schedule sh, t_screen_movie sc, t_room rm, t_branch br
+        where
+            bk.schedule_code = sh.schedule_code
+        and     
+            sh.room_code = rm.room_code
+        and
+            sh.branch_code = br.branch_code
+        and
+            sh.screen_code = sc.screen_code
+        and
+            bk.user_id = #{userId}
+		order by
+			booking_code desc)
+            where  rn between #{beginIndex} and #{endIndex}
+	</select>
 </mapper>

@@ -21,6 +21,7 @@ import com.hmc.dao.UserDao;
 import com.hmc.dto.BookingDto;
 import com.hmc.dto.Membership;
 import com.hmc.vo.Booking;
+import com.hmc.vo.Pagination;
 import com.hmc.vo.Payment;
 import com.hmc.vo.PublishedCoupon;
 import com.hmc.vo.Schedule;
@@ -31,6 +32,9 @@ import com.hmc.web.util.SessionUtils;
 @Transactional
 @Service
 public class BookingServiceImpl implements BookingService{
+	
+	private static final int ROWS_PER_PAGE = 7;
+	private static final int PAGE_PER_PAGE_BLOCK = 5;
 	
 	@Autowired
 	private ScheduleDao scheduleDao;
@@ -48,6 +52,46 @@ public class BookingServiceImpl implements BookingService{
 	private PublishedCouponDao publishedCouponDao;
 	@Resource(name = "membershipMap")
 	private Map<String, Membership> membershipMap;
+	
+	@Override
+	public Map<String, Object> getUserBookingPage(int pageNo) {
+		User user = (User)SessionUtils.getAttribute("LOGINED_USER");
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("beginIndex", (pageNo-1)*ROWS_PER_PAGE +1);
+		param.put("endIndex", pageNo*ROWS_PER_PAGE);
+		param.put("userId", user.getId());
+		List<Map<String, Object>> bookings = bookingDao.getBookingPageByUser(param);
+		
+		// 페이징 처리
+		// 총 행의 갯수 구하기
+		int totalRows = bookingDao.getBookingCntByUserId(user.getId());
+		// 총 페이지 갯수 구하기
+		int totalPages = (int)Math.ceil((double)totalRows/ROWS_PER_PAGE);
+		// 총 페이지 블록갯수 
+		int totalBlocks = (int)Math.ceil((double)totalPages/PAGE_PER_PAGE_BLOCK);
+		// 요청한 페이지번호가 속하는 페이지 블록 계산
+		int currentBlock = (int)Math.ceil((double)pageNo/PAGE_PER_PAGE_BLOCK);
+		// 현재 페이지 블록의 시작과 끝 페이지 번호계산
+		int beginPage = (currentBlock-1)*PAGE_PER_PAGE_BLOCK + 1;
+		int endPage = currentBlock*PAGE_PER_PAGE_BLOCK;
+		if(currentBlock == totalBlocks) {
+			endPage = totalPages;
+		}
+		Pagination pagination = new Pagination();
+		pagination.setBeginPage(beginPage);
+		pagination.setCurrentPageBlock(currentBlock);
+		pagination.setEndPage(endPage);
+		pagination.setPageNo(pageNo);
+		pagination.setTotalPageBlocks(totalBlocks);
+		pagination.setTotalPages(totalPages);
+		pagination.setTotalRows(totalRows);
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("bookings", bookings);
+		result.put("pagination", pagination);
+		
+		return result;
+	}
 
 	@Override
 	public List<Map<String, Object>> getAbleCouponByUserId(String userId) {

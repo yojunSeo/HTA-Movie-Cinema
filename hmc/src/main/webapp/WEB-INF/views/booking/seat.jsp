@@ -153,7 +153,7 @@ $(function(){
 	$.getJSON("book/rest/seat/info?code="+scheduleCode, function(result){
 		roomSeats = result.roomSeats;
 		bookedSeats = result.bookedSeats;
-		
+		console.log(roomSeats)
 		for(var i=0; i<roomSeats.length; i++){
 			// 좌석하나마다 버튼을 생성해서 
 			var seat = roomSeats[i];

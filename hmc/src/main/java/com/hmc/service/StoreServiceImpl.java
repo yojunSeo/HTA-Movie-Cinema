@@ -1,5 +1,6 @@
 package com.hmc.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +18,7 @@ import com.hmc.dao.PublishedCouponDao;
 import com.hmc.dao.UserDao;
 import com.hmc.dto.Membership;
 import com.hmc.vo.GiftProduct;
+import com.hmc.vo.Pagination;
 import com.hmc.vo.Payment;
 import com.hmc.dao.ProductDao;
 
@@ -24,6 +26,7 @@ import com.hmc.dao.ProductDao;
 import com.hmc.vo.Product;
 import com.hmc.vo.PublishedCoupon;
 import com.hmc.vo.User;
+import com.hmc.web.util.SessionUtils;
 
 @Service
 public class StoreServiceImpl implements StoreService{
@@ -48,6 +51,9 @@ public class StoreServiceImpl implements StoreService{
 	
 	@Autowired
 	private PublishedCouponDao publishedCouponDao;
+	
+	private static final int ROWS_PER_PAGE = 7;
+	private static final int PAGE_PER_PAGE_BLOCK = 5;
 	
 	@Override
 	public void insertProduct(Product product) {
@@ -178,5 +184,74 @@ public class StoreServiceImpl implements StoreService{
 		userDao.updateUser(user);
 		
 	}
+	
+	@Override
+	public Map<String, Object> getUserPaymentGifts(int pageNo) {
+		User user = (User)SessionUtils.getAttribute("LOGINED_USER");
+		// 내가 산거
+		Map<String, Object> paymentParam = new HashMap<String, Object>();
+		paymentParam.put("beginIndex", (pageNo-1)*ROWS_PER_PAGE +1);
+		paymentParam.put("endIndex", pageNo*ROWS_PER_PAGE);
+		paymentParam.put("userId", user.getId());
+		List<Map<String, Object>> payments = giftProductDao.getMyPaymentGift(paymentParam);
+		
+		int totalRows1 = giftProductDao.getMyPaymentGiftCnt(user.getId());
+		int totalPages1 = (int)Math.ceil((double)totalRows1/ROWS_PER_PAGE);
+		int totalBlocks1 = (int)Math.ceil((double)totalPages1/PAGE_PER_PAGE_BLOCK);
+		int currentBlock1 = (int)Math.ceil((double)pageNo/PAGE_PER_PAGE_BLOCK);
+		int beginPage1 = (currentBlock1-1)*PAGE_PER_PAGE_BLOCK + 1;
+		int endPage1 = currentBlock1*PAGE_PER_PAGE_BLOCK;
+		if(currentBlock1 == totalBlocks1) {
+			endPage1 = totalPages1;
+		}
+		Pagination pagination = new Pagination();
+		pagination.setBeginPage(beginPage1);
+		pagination.setCurrentPageBlock(currentBlock1);
+		pagination.setEndPage(endPage1);
+		pagination.setPageNo(pageNo);
+		pagination.setTotalPageBlocks(totalBlocks1);
+		pagination.setTotalPages(totalPages1);
+		pagination.setTotalRows(totalRows1);
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("payments", payments);
+		result.put("pagination", pagination);
+		return result;
+	}
+	
+	@Override
+	public Map<String, Object> getUserReceiveGifts(int pageNo) {
+		User user = (User)SessionUtils.getAttribute("LOGINED_USER");
+		// 내가 받은거
+		Map<String, Object> receiveParam = new HashMap<String, Object>();
+		receiveParam.put("beginIndex", (pageNo-1)*ROWS_PER_PAGE +1);
+		receiveParam.put("endIndex", pageNo*ROWS_PER_PAGE);
+		receiveParam.put("userId", user.getId());
+		List<Map<String, Object>> receives = giftProductDao.getMyReceiveGift(receiveParam);
+		
+		int totalRows2 = giftProductDao.getMyPaymentGiftCnt(user.getId());
+		int totalPages2 = (int)Math.ceil((double)totalRows2/ROWS_PER_PAGE);
+		int totalBlocks2 = (int)Math.ceil((double)totalPages2/PAGE_PER_PAGE_BLOCK);
+		int currentBlock2 = (int)Math.ceil((double)pageNo/PAGE_PER_PAGE_BLOCK);
+		int beginPage2 = (currentBlock2-1)*PAGE_PER_PAGE_BLOCK + 1;
+		int endPage2 = currentBlock2*PAGE_PER_PAGE_BLOCK;
+		if(currentBlock2 == totalBlocks2) {
+			endPage2 = totalPages2;
+		}
+		Pagination pagination = new Pagination();
+		pagination.setBeginPage(beginPage2);
+		pagination.setCurrentPageBlock(currentBlock2);
+		pagination.setEndPage(endPage2);
+		pagination.setPageNo(pageNo);
+		pagination.setTotalPageBlocks(totalBlocks2);
+		pagination.setTotalPages(totalPages2);
+		pagination.setTotalRows(totalRows2);
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("receives", receives);
+		result.put("pagination", pagination);
+		return result;
+	}
+	
 
 }

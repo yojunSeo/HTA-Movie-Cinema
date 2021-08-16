@@ -1,6 +1,7 @@
 package com.hmc.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.hmc.vo.GiftProduct;
 
@@ -11,4 +12,13 @@ public interface GiftProductDao {
 	List<GiftProduct> getMyGiftProduct(String userCode);
 	
 	void updateUsedStatusToY(String giftCode);
+	
+	List<Map<String, Object>> getMyPaymentGift(Map<String, Object> param);
+	
+	List<Map<String, Object>> getMyReceiveGift(Map<String, Object> param);
+	
+	int getMyPaymentGiftCnt(String userId);
+	
+	int getMyReceiveGiftCnt(String userId);
+	
 }

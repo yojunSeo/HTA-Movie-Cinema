@@ -41,4 +41,72 @@
 			gift_code = #{value}
 	</update>
 	
+	<select id="getMyPaymentGift" parameterType="map" resultType="hashmap">
+		select *
+		from(
+		select
+		    row_number() over (order by gift_code desc) rn,
+		        gift_code as giftCode,
+		        payment_code as paymentCode ,
+		        pd.product_code as productCode,
+		        product_name as productName,
+		        gift_give_user_id as giveId,
+		        gift_receive_user_id as receiveId,
+		        gift_price as price,
+		        gift_amount as amount,
+		        gift_end_date as endDate,
+		        gift_purchased_date as purchasedDate,
+		        gift_used as used,
+		        gift_used_date as usedDate
+				from
+					t_gift_product gp, t_product pd
+				where
+					gift_give_user_id = #{userId}
+		        and gp.product_code = pd.product_code)
+		     where  rn between #{beginIndex} and #{endIndex}
+	</select>
+	
+	<select id="getMyReceiveGift" parameterType="map" resultType="hashmap">
+		select *
+		from(
+		select
+		    row_number() over (order by gift_code desc) rn,
+		        gift_code as giftCode,
+		        payment_code as paymentCode ,
+		        pd.product_code as productCode,
+		        product_name as productName,
+		        gift_give_user_id as giveId,
+		        gift_receive_user_id as receiveId,
+		        gift_price as price,
+		        gift_amount as amount,
+		        gift_end_date as endDate,
+		        gift_purchased_date as purchasedDate,
+		        gift_used as used,
+		        gift_used_date as usedDate
+				from
+					t_gift_product gp, t_product pd
+				where
+					gift_receive_user_id = #{userId}
+		        and gp.product_code = pd.product_code)
+		     where  rn between #{beginIndex} and #{endIndex}
+	</select>
+	
+	<select id="getMyPaymentGiftCnt" parameterType="string" resultType="int">
+		select
+  			count(*)
+		from
+			t_gift_product gp
+		where
+			gift_give_user_id = #{value}
+	</select>
+	
+	<select id="getMyReceiveGiftCnt" parameterType="string" resultType="int">
+		select
+  			count(*)
+		from
+			t_gift_product gp
+		where
+			gift_receive_user_id = #{value}
+	</select>
+	
 </mapper>

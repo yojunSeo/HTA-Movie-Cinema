@@ -60,6 +60,9 @@
 			a.seat_type = b.seat_type
         and 
             a.room_code = #{value}
+        order by 
+            a.seat_row asc,
+            a.seat_col asc
 	</select>
 	
 	<select id="getSeats" parameterType="map" resultMap="SeatResultMap">
