@@ -123,8 +123,6 @@ public class AdminStoreController {
 		System.out.println(projectPath);
 		FileCopyUtils.copy(imageFile.getInputStream(), new FileOutputStream(new File(projectPath, imageFileName)));
 		
-		
-		
 		mallService.insertProduct(product);
 		
 		return "redirect:list";
