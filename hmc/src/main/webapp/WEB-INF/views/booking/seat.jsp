@@ -313,6 +313,7 @@ $(function(){
 			}
 			$('#button-minus').prop('disabled', false);
 			$('#booking-cnt').val(cnt-1);
+			nonabledSeat(bookedSeats);
 		}
 		totalPrice();
 	})	
@@ -337,6 +338,7 @@ $(function(){
 		}else{
 			$('#booking-cnt').val(cnt+1);			
 		}
+		nonabledSeat(bookedSeats);
 		totalPrice();
 	})
 	// 결제하기/예매하기 클릭시
