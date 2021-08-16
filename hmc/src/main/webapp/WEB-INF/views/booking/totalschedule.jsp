@@ -145,31 +145,21 @@ $(function(){
 			changeSchedule();
 		});
 		
-		/*
-		// 날짜 총 7일간 보여줌
 		var today = new Date();
 		var year = today.getFullYear();
 		var month = today.getMonth();
 		var day = today.getDate();
 		var lastDay = new Date(year, month, day+6);
 		var weekOfDay = ["일", "월", "화", "수", "목", "금", "토"];
-		*/
-		var today = new Date();
-		var year = today.getFullYear();
-		var month = today.getMonth();
-		var day = today.getDate();
-		var startDay = new Date(year, month, day+6);
-		var weekOfDay = ["일", "월", "화", "수", "목", "금", "토"];
-		
-		////
+
 		$('#date-zone').empty();
 		var $ul = "<ul class='list-group list-group-horizontal'>";
 		
 		for(i=0; i<=6; i++){
-			var date = new Date(year,month, day+7+i);
+			var date = new Date(year,month, day+i);
 			var dayOfWeek = weekOfDay[date.getDay()];
 			
-			if(date.getDate() == startDay.getDate() && date.getMonth() == startDay.getMonth()){
+			if(date.getDate() == today.getDate() && date.getMonth() == today.getMonth()){
 				$ul += "<li class='list-group-item list-group-item-action boder-0 text-center active text-dark' style='background-color:#DFDFDF; width: 59px'  data-screen-day='"+dayOfWeek+"' data-screendate='"+date.getFullYear()+"/"+(date.getMonth()+1)+"/"+date.getDate()+"'>";				
 			}else{
 				$ul += "<li class='list-group-item list-group-item-action boder-0 text-center' data-screen-day='"+dayOfWeek+"' data-screendate='"+date.getFullYear()+"/"+(date.getMonth()+1)+"/"+date.getDate()+"' style='width: 59px;'>";
