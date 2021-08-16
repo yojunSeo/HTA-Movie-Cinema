@@ -57,10 +57,22 @@ public class AdminBranchController {
 	}
 	
 	@PostMapping("modify")
-	public String modify(@LoginAdmin User loginAdmin, Branch branch, String branchCode) {
+	public String modify(@LoginAdmin User loginAdmin, Branch branch) {
 		
-		// 업데이트 관련 쿼리문, Dao, Service 짜야함
+
+		branchService.updateBranch(branch);
+		System.out.println("===========post로 넘어오는 값 확인====================");
+		System.out.println("지점 코드" + branch.getCode());
+		System.out.println("지점 이름" + branch.getName());
+		System.out.println("지점 시설" + branch.getFacility());
+		System.out.println("지점 주소" + branch.getAddress());
+		System.out.println("지점 상태" + branch.getStatus());
+		System.out.println("지점 위도" + branch.getLatitude());
+		System.out.println("지점 경도" + branch.getLongitude());
+		System.out.println("지점 정보" + branch.getInfo());
+		System.out.println("지점 주차" + branch.getParkingInfo());
+		System.out.println("======================================================");
 		
-		return "admin/branch/home";
+		return "redirect:/admin/branch/home";
 	}
 }

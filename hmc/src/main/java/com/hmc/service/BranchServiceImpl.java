@@ -75,6 +75,14 @@ public class BranchServiceImpl implements BranchService{
 		
 		return isFaverite;
 	}
+	
+	/*
+	 * 관리자 지점관리에서 지점정보를 업데이트
+	 */
+	@Override
+	public void updateBranch(Branch branch) {
+		branchDao.updateBranch(branch);
+	}
 
 		
 	

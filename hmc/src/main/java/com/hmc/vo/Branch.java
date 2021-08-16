@@ -17,4 +17,5 @@ public class Branch {
 	private String status;
 	private double latitude;
 	private double longitude;
+	private String address;
 }

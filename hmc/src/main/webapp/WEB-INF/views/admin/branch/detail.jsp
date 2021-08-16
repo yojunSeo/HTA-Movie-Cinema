@@ -24,12 +24,13 @@
 				
 				<div class="row mt-5">
 					<form id="branch-form" action="modify" method="post">
+						<input type="hidden" name="code" value="${branch.code}">
 						<div class="row mt-3">
 							<div class="col-2">
 								<label class="form-label" for="form-name"><strong>지점이름</strong></label>
 							</div>
 							<div class="col-3">
-								<input id="form-name" name="name" class="form-control" type="text" value="${branch.name}">
+								<input id="form-name" name="name" class="form-control" type="text" value="${branch.name}" readonly="readonly">
 							</div>
 							<div class="col-2">
 								<label class="form-label" for="form-status"><strong>지점상태</strong></label>
@@ -37,6 +38,14 @@
 							<div class="col-2 form-check form-switch">
 								<input id="form-status" name="status" class="form-check-input" type="checkbox"
 								${branch.status eq "Y" ? "value='Y' checked" : ""}>
+							</div>
+						</div>
+						<div class="row mt-3">
+							<div class="col-2">
+								<label class="form-label" for="form-address"><strong>주소</strong></label>
+							</div>
+							<div class="col-8">
+								<input id="form-address" name="address" class="form-control" type="text" value="${branch.address}">
 							</div>
 						</div>
 						<div class="row mt-3">
@@ -55,7 +64,7 @@
 						</div>
 						<div class="row mt-3">
 							<div class="col-12">
-								<input id="form-all-facility" name="faility" type="hidden" value="${branch.facility}">
+								<input id="form-all-facility" name="facility" type="hidden" value="${branch.facility}">
 								<div class="row">
 									<label class="form-label" for="form-facility"><strong>보유시설</strong></label>
 								</div>
@@ -87,7 +96,7 @@
 							</div>
 						</div>
 						<div class="row justify-content-end mt-3">
-							<div class="col-2">
+							<div class="col-2 text-end">
 								<button id="btn-submiit" class="btn btn-primary" type="button">수정하기</button>
 							</div>
 						</div>
