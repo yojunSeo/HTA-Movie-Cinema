@@ -325,7 +325,6 @@ html, body {
 	});
 		
 		
-	})
 		
 	</script>
 </body>

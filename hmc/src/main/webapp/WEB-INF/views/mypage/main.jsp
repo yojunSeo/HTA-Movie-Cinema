@@ -7,7 +7,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
 <title>마이페이지-HMC</title>
 </head>
 <style type = "text/css">
@@ -15,6 +14,10 @@ html, body {
 	width: 100%;
 	height: 100%;
 }
+span.large{
+        font-size: 18px;
+
+      }
 .box {
 	width: 100vw;
 	margin-left: calc(-50vw + 50%);
@@ -83,9 +86,9 @@ html, body {
 									<div class="my-4" style="font-size: 25px;">
 										<strong>${LOGINED_USER.name }</strong>님 반가워요!
 									</div>
-									<div class="text-center my-3">
+									<div class="text-center my-3" id="user-point-grade">
 										<p class="fs-5 mt-3">현재 보유 포인트는 <strong><fmt:formatNumber>${LOGINED_USER.point }</fmt:formatNumber></strong> 점 입니다.</p>
-										<p class="fs-5 mt-3"><span class="large badge bg-success rounded-pill">BRONZE</span> 등급까지 <strong id="remain-price">40,000원</strong> 원 남았어요!</p>
+										<p class="fs-5 mt-3"><span class="large badge bg-success rounded-pill"></span> 등급까지 <strong id="remain-price">40,000원</strong> 원 남았어요!</p>
 										<p class="my-5"></p>
 										<p class="my-5"></p>
 										<p id="membership"><span class="large badge rounded-pill text-white m-3 p-2" style="background-color: #FF243E">Membership 페이지 가기</span></p>
@@ -203,7 +206,7 @@ html, body {
 			}
 			changeMyBranchs();
 		
-		var ugrade = $('#user-info-table .badge').text();
+		var ugrade = $('#user-info-table .badge:first').text();
 		var color = changeUserGradeColor(ugrade);
 		$('#user-info-table .badge:first').addClass(color);
 		
@@ -211,9 +214,13 @@ html, body {
 			var nextGrade = result.nextGrade;
 			var remainPrice = parseInt(result.remainPrice).toLocaleString();
 			var color = changeUserGradeColor(nextGrade);
-			$('#user-info-table .badge:eq(1)').addClass(color);
-			$('#user-info-table #remain-price').text(remainPrice);
-			
+			if(remainPrice == 0 && nextGrade == "PLATINUM" ){
+				$('#user-point-grade p:eq(1)').html("<strong>이미 최고의 등급이에요!</strong>");
+			}else{
+				$('#user-info-table .badge:eq(1)').addClass(color);
+				$('#user-info-table .badge:eq(1)').text(nextGrade);
+				$('#user-info-table #remain-price').text(remainPrice);
+			}
 		});
 		
 		// active 상태

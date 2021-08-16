@@ -270,7 +270,7 @@ a, a:link, a:visited, a:active, a:hover {
 						</li>
 						<li class="">
 							<img alt="" src="/hmc/resources/images/header/nav_side_reserve.png">
-							<a href="">예매</a>
+							<a href="/hmc/booking/schedule">예매</a>
 						</li>
 					</ul>
 			</c:when>
@@ -296,7 +296,7 @@ a, a:link, a:visited, a:active, a:hover {
 						</c:choose>
 						<li class="">
 							<img alt="" src="/hmc/resources/images/header/nav_side_reserve.png">
-							<a href="">예매</a>
+							<a href="/hmc/booking/schedule">예매</a>
 						</li>
 					</ul>
 				</c:otherwise>
@@ -305,7 +305,7 @@ a, a:link, a:visited, a:active, a:hover {
 		<div id="nav">
 			<ul>
 				<li class="dropdown">
-					<a href="" class="dropbtn1">예매</a>
+					<a href="/hmc/booking/schedule" class="dropbtn1">예매</a>
 					<div class="dropdown-content">
 						<a class="as" href="/hmc/booking/schedule">예매하기</a>
 				    	<a class="as" href="/hmc/booking/schedule/branch">상영시간표</a>

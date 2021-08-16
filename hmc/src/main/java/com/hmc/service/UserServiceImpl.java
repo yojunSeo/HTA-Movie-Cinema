@@ -53,6 +53,9 @@ public class UserServiceImpl implements UserService {
 		}else if(nowPaymentPrice < 1000000) {
 			nextGrade = "PLATINUM";
 			remainPrice = 1000000 - nowPaymentPrice;
+		}else {
+			nextGrade = "PLATINUM";
+			remainPrice = 0;
 		}
 		
 		result.put("nextGrade", nextGrade);

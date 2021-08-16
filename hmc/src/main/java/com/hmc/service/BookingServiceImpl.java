@@ -180,14 +180,15 @@ public class BookingServiceImpl implements BookingService{
 		User user = (User)SessionUtils.getAttribute("LOGINED_USER");
 		int totalPayment = paymentDao.getUserTotalPayment(user.getId());
 		int sumPayment = paymentPrice + totalPayment;
+		System.out.println(sumPayment);
 		String gradeColor = "bg-dark";
-		if(sumPayment >= 200000) {
+		if(sumPayment >= 200000 && sumPayment < 400000) {
 			expectGrade = "BRONZE";
 			gradeColor = "bg-success";
-		}else if(sumPayment >= 400000) {
+		}else if(sumPayment >= 400000 && sumPayment < 700000) {
 			expectGrade = "SILVER";
 			gradeColor = "bg-secondary";
-		}else if(sumPayment >= 700000) {
+		}else if(sumPayment >= 700000 && sumPayment < 1000000) {
 			expectGrade = "GOLD";
 			gradeColor = "bg-warning";
 		}else if(sumPayment >= 1000000) {
@@ -202,10 +203,10 @@ public class BookingServiceImpl implements BookingService{
 			Membership membership = membershipMap.get(user.getGrade());
 			savePoint = (int)(paymentPrice*membership.getSavedRate());
 		}
-		
 		result.put("expectGrade", expectGrade);
 		result.put("savePoint", savePoint);
 		result.put("gradeColor", gradeColor);
+		System.out.println(result);
 		return result;
 	}
 	
