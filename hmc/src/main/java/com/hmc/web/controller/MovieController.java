@@ -44,6 +44,8 @@ public class MovieController {
 		List<Movie> commingMovies = movieService.getCommingMovie();
 		model.addAttribute("nowMovies", nowMovies);
 		model.addAttribute("commingMovies", commingMovies);
+		System.out.println("########nowMovies: " + nowMovies);
+		System.out.println("########commingMoives: " + commingMovies);
 		logger.debug("###########실행됨");
 		return "movie/home";
 	}
@@ -56,15 +58,17 @@ public class MovieController {
 	 * @throws Exception
 	 */
 	@GetMapping("/detail")
-	public String detail (@RequestParam(value="movieCode", required = false) String movieCode, Model model) throws Exception {
+	public String detail (@RequestParam(value="movieCode") String movieCode, Model model) throws Exception {
 		System.out.println("code ???  "+movieCode);
-		model.addAttribute("movie", movieService.getMovieDetail(movieCode));
+		logger.debug("###########detail실행됨" +movieCode);
+		Movie movie = movieService.getMovieDetail(movieCode); 
+		model.addAttribute("movie", movie);
 		
 		return "movie/detail";
 	}
 	
 	@GetMapping("/now")
-	public String now (@RequestParam(value="rank", required = false, defaultValue = "10") int rank, Model model) throws Exception {
+	public String now (@RequestParam(value="rank", required = false, defaultValue = "20") int rank, Model model) throws Exception {
 		List<Movie> topMovies = movieService.getTopMovies(rank);
 		model.addAttribute("movie", topMovies);
 		return "movie/now";

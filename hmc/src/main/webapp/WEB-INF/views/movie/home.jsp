@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!doctype html>
 <html lang="ko">
 <head>
@@ -115,217 +116,61 @@ html, body {
 
 			<!-- 현재 상영작 -->
 			<div class="row">
-					<div class="wrapper mt-3">
-						<ul class="nowmovie">
-							<p>현재 상영작 <strong>TOP5</strong></p>
+				<div class="wrapper mt-3">
+					<ul class="nowmovie">
+						<p>현재 상영작 <strong>TOP5</strong></p>
+						<c:forEach var="nowMovies" items="${nowMovies }">
 							<li>
 								<div class="topinfo">
-									<span> <img onmouseover="overclass(this)" 
-										src="https://caching.lottecinema.co.kr//Media/MovieFile/MovieImg/202107/17616_103_1.jpg"
-										alt="모가디슈"> <!-- 								<em class="numinfo">1</em> -->
-										<!-- 								<span class="ic_grade gr_15"> :: before</span> -->
-									</span>
-								</div>
-									<div class="overbox">
-										<div class="inner" style="margin-top: -20px;">
-											<a href="예매페이지">예매하기</a> 
-											<a href="../movie/detail" onclick="detail()">상세정보</a>
-<%-- 											<c:forEach items="movieList" var="movieList"> --%>
-<%-- 												<input type="text" value="${movieList.movieCode }"> --%>
-<%-- 											</c:forEach> --%>
-										</div>
-									</div>
-							<div class="btminfo">
-								<strong>모가디슈</strong><br /> <span> <span>예매율<em>54.0%</em></span>
-									<span></span>
-								</span>
-							</div>
-							</li>
-							<li>
-								<div class="topinfo">
-									<span> <img onmouseover="overclass(this)" 
-										src="https://caching.lottecinema.co.kr//Media/MovieFile/MovieImg/202107/17623_103_1.jpg"
-										alt="보스 베이비2"> <!-- 								<em class="numinfo">1</em> -->
-										<!-- 								<span class="ic_grade gr_15"> :: before</span> -->
+									<span> <img onmouseover="overclass(this)"
+										src="${nowMovies.poster }" alt="보스 베이비2"> <!-- 										<em class="numinfo">1</em> -->
+										<!-- 										<span class="ic_grade gr_15"></span> -->
 									</span>
 								</div>
 								<div class="overbox">
 									<div class="inner" style="margin-top: -20px;">
-										<a href="예매페이지">예매하기</a> <a href="../movie/detail">상세정보</a>
+										<a href="예매페이지">예매하기</a> <a
+											href="movie/detail?movieCode=<fmt:formatNumber value="${nowMovies.movieCode }"/>">상세정보</a>
 									</div>
 								</div>
-							<div class="btminfo">
-									<strong>보스 베이비2</strong><br /> <span> <span>예매율<em>14.4%</em></span>
-										<span>${movie.totalScore }</span>
-									</span>
-								</div>
-							</li>
-							<li>
-								<div class="topinfo">
-									<span> <img  onmouseover="overclass(this)"
-										src="https://caching.lottecinema.co.kr//Media/MovieFile/MovieImg/202004/15496_103_1.jpg"
-										alt="블랙 위도우"> <!-- 								<em class="numinfo">1</em> -->
-										<!-- 								<span class="ic_grade gr_15"> :: before</span> -->
-									</span>
-								</div>
-									<div class="overbox">
-										<div class="inner" style="margin-top: -20px;">
-											<a href="예매페이지">예매하기</a> <a href="../movie/detail">상세정보</a>
-										</div>
-									</div>
 								<div class="btminfo">
-									<strong>블랙 위도우</strong><br /> <span> <span>예매율<em>7.7%</em></span>
-										<span>${movie.totalScore }</span>
-									</span>
+									<strong>${nowMovies.movieName }</strong><br /> 
+									<!-- 리뷰 점수 -->
+									<span><em>${nowMovies.totalScore }</em></span>
 								</div>
 							</li>
-							<li>
-								<div class="topinfo">
-									<span> <img  onmouseover="overclass(this)"
-										src="https://caching.lottecinema.co.kr//Media/MovieFile/MovieImg/202107/17530_103_1.jpg"
-										alt="정글크루즈"> <!-- 								<em class="numinfo">1</em> -->
-										<!-- 								<span class="ic_grade gr_15"> :: before</span> -->
-									</span>
-								</div>
-									<div class="overbox">
-										<div class="inner" style="margin-top: -20px;">
-											<a href="예매페이지">예매하기</a> <a href="../movie/detail">상세정보</a>
-										</div>
-									</div>
-								<div class="btminfo">
-									<strong>정글 크루즈</strong><br /> <span> <span>예매율<em>4.1%</em></span>
-										<span>${movie.totalScore }</span>
-									</span>
-								</div>
-							</li>
-							<li>
-								<div class="topinfo">
-									<span> <img onmouseover="overclass(this)" 
-										src="https://caching.lottecinema.co.kr//Media/MovieFile/MovieImg/202107/17624_103_1.jpg"
-										alt="방법:재차의"> <!-- 								<em class="numinfo">1</em> -->
-										<!-- 								<span class="ic_grade gr_15"> :: before</span> -->
-									</span>
-								</div>
-									<div class="overbox">
-										<div class="inner" style="margin-top: -20px;">
-											<a href="예매페이지">예매하기</a> <a href="../movie/detail">상세정보</a>
-										</div>
-									</div>
-								<div class="btminfo">
-									<strong>방법: 재차의</strong><br /> <span> <span>예매율<em>1.6%</em></span>
-										<span>${movie.totalScore }</span>
-									</span>
-								</div>
-							</li>
-						</ul>
-					</div>
+						</c:forEach>
+					</ul>
 				</div>
+			</div>
 				
 			<!-- 상영 예정작 -->
 				<div class="row mt-5">
 					<div class="wrapper">
 						<ul class="commingsoonmovie">
 							<p>상영 예정작 <strong>TOP5</strong></p>
-							<li>   
-								<div class="topinfo">
-									<span> <img onmouseover="overclass(this)" 
-										src="https://caching.lottecinema.co.kr//Media/MovieFile/MovieImg/202108/17652_103_1.jpg"
-										alt="더수어사이드스쿼드">
-										 <!-- 								<em class="numinfo">1</em> -->
-										<!-- 								<span class="ic_grade gr_15"> :: before</span> -->
-									</span>
-								</div>
-								<div class="overbox">
-									<div class="inner" style="margin-top: -20px;">
-										<a href="예매페이지">예매하기</a> <a href="/movie/detail">상세정보</a>
+							<c:forEach var="commingMovies" items="${commingMovies }">
+								<li>
+									<div class="topinfo">
+										<span> <img onmouseover="overclass(this)"
+											src="${commingMovies.poster }" alt=""> 
+										</span>
 									</div>
-								</div>
-								<div class="btminfo">
-									<strong>더 수어사이드 스쿼드</strong><br /> <span> <span>예매율<em>9.3%</em></span>
-										<span>${movie.totalScore }</span>
-									</span>
-								</div>
-							</li>
-							<li>
-								<div class="topinfo">
-									<span> <img  onmouseover="overclass(this)" 
-										src="https://caching.lottecinema.co.kr//Media/MovieFile/MovieImg/202108/17669_103_1.jpg"
-										alt="극장판 도라에몽:진구의 신공룡"> 
-										<!-- 								<em class="numinfo">1</em> -->
-										<!-- 								<span class="ic_grade gr_15"> :: before</span> -->
-									</span>
-								</div>
 									<div class="overbox">
 										<div class="inner" style="margin-top: -20px;">
-											<a href="예매페이지">예매하기</a> <a href="/movie/detail">상세정보</a>
+											<a href="예매페이지">예매하기</a> <a
+												href="movie/detail?movieCode=<fmt:formatNumber value="${commingMovies.movieCode }"/>">상세정보</a>
 										</div>
 									</div>
-								<div class="btminfo">
-									<strong>극장판 도라에몽</strong><br /> <span> <span>예매율<em>14.4%</em></span>
-										<span>${movie.totalScore }</span>
-									</span>
+									<div class="btminfo">
+										<strong>${commingMovies.movieName }</strong><br /> 
+										<!-- 개봉일 d-day로 변경해야함 -->
+										<span>개봉일
+										<em><fmt:formatDate value="${commingMovies.releaseDate }" pattern="yyyy.MM.dd" /></em>
+										</span> 
 								</div>
-							</li>
-							<li>
-								<div class="topinfo">
-									<span> <img onmouseover="overclass(this)" 
-										src="https://caching.lottecinema.co.kr//Media/MovieFile/MovieImg/202108/17637_103_1.jpg"
-										alt="잘리카투"> 
-										<!--<em class="numinfo">1</em> -->
-										<!-- <span class="ic_grade gr_15"> :: before</span> -->
-									</span>
-								</div>
-									<div class="overbox">
-										<div class="inner" style="margin-top: -20px;">
-											<a href="예매페이지">예매하기</a> <a href="/movie/detail">상세정보</a>
-										</div>
-									</div>
-								<div class="btminfo">
-									<strong>잘리카투</strong><br /> <span> <span>예매율<em>0.2%</em></span>
-										<span>${movie.totalScore }</span>
-									</span>
-								</div>
-							</li>
-							<li>
-								<div class="topinfo">
-									<span> <img onmouseover="overclass(this)" 
-										src="https://caching.lottecinema.co.kr//Media/MovieFile/MovieImg/202107/17691_103_1.jpg"
-										alt="그린나이트">
-										<!--<em class="numinfo">1</em> -->
-										<!-- <span class="ic_grade gr_15"> :: before</span> -->
-									</span>
-								</div>
-								<div class="overbox">
-									<div class="inner" style="margin-top: -20px;">
-										<a href="예매페이지">예매하기</a> <a href="/movie/detail">상세정보</a>
-									</div>
-								</div>
-								<div class="btminfo">
-									<strong>그린 나이트</strong><br /> <span> <span>예매율<em>4.1%</em></span>
-										<span>${movie.totalScore }</span>
-									</span>
-								</div>
-							</li>
-							<li>
-								<div class="topinfo">
-									<span> <img onmouseover="overclass(this)" 
-										src="https://caching.lottecinema.co.kr//Media/MovieFile/MovieImg/202108/17646_103_1.jpg"
-										alt="더그레이트샤크">
-										<!--<em class="numinfo">1</em> -->
-										<!--<span class="ic_grade gr_15"> :: before</span> -->
-									</span>
-								</div>
-								<div class="overbox">
-									<div class="inner" style="margin-top: -20px;">
-										<a href="예매페이지">예매하기</a> <a href="/movie/detail">상세정보</a>
-									</div>
-								</div>
-								<div class="btminfo">
-									<strong>더 그레이트 샤크</strong><br /> <span> <span>예매율<em>1.6%</em></span>
-										<span>${movie.totalScore }</span>
-									</span>
-								</div>
-							</li>
+								</li>
+							</c:forEach>
 						</ul>
 					</div>
 				</div>
@@ -372,23 +217,21 @@ html, body {
 			    $(this).parent().parent().next().hide();
 		    }
 		}
-		
-// 		function detail(){
-// 			$.ajax({
-// 				type: "POST",
-// 				url : "/movie/detail",
-// 				data: {},
-// 				dataType: "json",
-// 				contentType:"application/json;charset=UTF-8",
-// 				async: true,
-// 				success : function(data, status, xhr) {
-// 					console.log(data);
-// 				},
-// 				error: function(jqXHR, textStatus, errorThrown) {
-// 					console.log(jqXHR.responseText);
-// 				}
-// 			});
-// 		}
+// 		//디데이 종료 일자 설정 
+// 		var countDownDate = new Date("formatRegDate").getTime(); 
+// 		//1초마다 갱신되도록 함수 생성,실행 
+// 		var x = setInterval(function() { 
+// 			// 오늘 날짜 등록 
+// 			var now = new Date().getTime(); 
+// 			// 종료일자에서 현재일자를 뺀 시간 
+// 			var distance = countDownDate - now; 
+// 			// 각 변수에 일 등록 
+// 			var d = Math.floor(distance / (1000 * 60 * 60 * 24)); 
+			
+// 			//id가 d-day인 HTML코드에 내용 삽입 
+// 			document.getElementById("d-day").innerHTML = "D-" + d; 
+// 		});
+
 	</script>
 	
 </html>
