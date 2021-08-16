@@ -35,7 +35,44 @@
 			published_used_date = sysdate
 		where
 			published_code = #{value}
-			
 	</update>
+	
+	<select id="getTotalRows" parameterType="map" resultType="int">
+		select
+			count(*)
+		from 
+			t_published_coupon
+		where
+			user_id = #{userId}	
+	
+	</select>
+	
+	<select id="getAllCouponsByUserId" parameterType="map" resultType="com.hmc.vo.PublishedCoupon">
+		select 
+			published_code as publishedCode,
+			coupon_code as couponCode,
+			user_id as userId,
+			published_given_date as givenDate,	
+			published_end_date as endDate,
+			published_used as isUsed,
+			published_used_date as usedDate
+		from(
+			select
+				row_number() over (order by published_code desc) rn,
+				published_code, coupon_code, user_id, published_given_date, 
+				published_end_date, published_used,	published_used_date
+			from
+				t_published_coupon
+			where user_id = #{userId}		
+			)	
+		where
+			rn between #{beginIndex} and #{endIndex}
+	</select>
+	
+	
+	
+	
+	
+	
 	
 </mapper>
