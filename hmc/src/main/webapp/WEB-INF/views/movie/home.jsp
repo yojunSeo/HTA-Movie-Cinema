@@ -130,7 +130,7 @@ html, body {
 								<div class="overbox">
 									<div class="inner" style="margin-top: -20px;">
 										<a href="예매페이지">예매하기</a> <a
-											href="movie/detail?movieCode=<fmt:formatNumber value="${nowMovies.movieCode }"/>">상세정보</a>
+											href="detail?movieCode=${nowMovies.movieCode}">상세정보</a>
 									</div>
 								</div>
 								<div class="btminfo">
@@ -159,7 +159,7 @@ html, body {
 									<div class="overbox">
 										<div class="inner" style="margin-top: -20px;">
 											<a href="예매페이지">예매하기</a> <a
-												href="movie/detail?movieCode=<fmt:formatNumber value="${commingMovies.movieCode }"/>">상세정보</a>
+												href="detail?movieCode=${commingMovies.movieCode }">상세정보</a>
 										</div>
 									</div>
 									<div class="btminfo">
