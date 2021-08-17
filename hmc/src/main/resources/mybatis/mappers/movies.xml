@@ -43,7 +43,7 @@
             movie_total_score      	totalScore,
             movie_review_cnt      	reviewCnt,
             movie_rank				rank,
-            movie_audiacc			audeAcc
+            movie_audiacc			audiacc
          from
             T_MOVIE
          where
@@ -98,6 +98,8 @@
 	            T_MOVIE
              where movie_release_date>sysdate
              order by movie_release_date asc)
+        where
+         	 rownum between 1 and 5
         ]]> 
     </select>
     
@@ -115,8 +117,7 @@
 	            T_MOVIE
              where movie_release_date>sysdate
              order by movie_release_date asc)
-        where
-         	 rownum between 1 and 5
+       
         ]]> 
     </select>
 

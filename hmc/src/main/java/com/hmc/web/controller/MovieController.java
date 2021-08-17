@@ -2,6 +2,7 @@ package com.hmc.web.controller;
 
 import java.util.List;
 
+import org.apache.commons.io.filefilter.FalseFileFilter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.hmc.service.ActorService;
 import com.hmc.service.MovieApiService;
 import com.hmc.service.MovieService;
+import com.hmc.service.ReviewService;
 import com.hmc.vo.Actor;
 import com.hmc.vo.Movie;
+import com.hmc.vo.Review;
 
 
 @Controller
@@ -30,6 +33,8 @@ public class MovieController {
 	MovieApiService movieApiService;
 	@Autowired
 	ActorService actorService;
+	@Autowired
+	ReviewService reviewService;
 	
 	private String movieCode;
 	
@@ -70,7 +75,9 @@ public class MovieController {
 		List<Actor> actors = actorService.getAllActorByCode(movieCode);
 		model.addAttribute("actors", actors);
 		logger.debug("###########detail실행됨actors:" +actors);
-		
+		List<Review> reviews = reviewService.getReviewByMovieCode(movieCode);
+		System.out.println("##########detail실행됨reviews" + reviews);
+		model.addAttribute("reviews", reviews);
 		return "movie/detail";
 	}
 	

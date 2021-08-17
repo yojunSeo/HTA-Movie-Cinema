@@ -81,13 +81,15 @@ html, body {
 	
 }
 .inner {
-	display: flex;
-	justify-content: center;
-	align-items: center;
+	text-align:center;
+	padding-top: 110px;
+	padding-bottom: 110px;
 }
 .overbox a {	
-	outline: solid 1px gray;
-
+	border: solid 1px gray;
+	padding: 3px;
+	marging: 2px;
+	
 }
 </style>
 <body>
@@ -135,8 +137,8 @@ html, body {
 								</div>
 								<div class="overbox">
 									<div class="inner">
-										<a href="/hmc/booking/schedule/movie">  예매하기    </a><br>
-										<a href="detail?movieCode=${nowMovies.movieCode }">  상세정보    </a>
+										<a href="/hmc/booking/schedule/movie">예매하기</a><br>
+										<a href="detail?movieCode=${nowMovies.movieCode }">상세정보</a>
 									</div>
 								</div>
 								<div class="btminfo">

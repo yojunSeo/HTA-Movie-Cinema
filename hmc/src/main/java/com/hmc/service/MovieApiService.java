@@ -124,7 +124,7 @@ public class MovieApiService {
 			// 데일리영화박스오피스리스트에서 순서대로 영화정보 조회
 			JsonObject movieObject =  (JsonObject) array.get(i);
 			System.out.println("#######124movieObject: " + movieObject );
-			// 기본적인 영화정보를 조회한다.
+			// 순위에 해당하는 영화코드를 조회한다.
 			String movieCode = movieObject.get("movieCd").getAsString();
 			System.out.println("###########127movieCode: "+movieCode);
 			// 획득한 영화코드로 데이터베이스에서 영화정보 조회
@@ -136,7 +136,7 @@ public class MovieApiService {
 				JsonArray movieRank = getMovieRank();
 				System.out.println("##########135movieRank: " + movieRank);
 				String releaseDate = movieObject.get("openDt").getAsString();
-				System.out.println("########## 67번째 라인 date: " +releaseDate);
+				System.out.println("##########138 date: " +releaseDate);
 				DateFormatter formatter = new DateFormatter("yyyy-MM-dd");
 				if (releaseDate !=null ) {
 					Date date = formatter.parse(releaseDate, Locale.KOREA);
@@ -146,12 +146,13 @@ public class MovieApiService {
 				System.out.println("###########rank: " + rank);
 				String audiAcc = movieObject.get("audiAcc").getAsString();
 				System.out.println("##########audiAcc: " + audiAcc);
-
+				
+				movie.setMovieCode(movieCode);
 				movie.setRank(rank);
 				movie.setAudiacc(audiAcc);
 
 				movieDao.updateMovie(movie);
-				System.out.println("##########movie##" +movie);
+				System.out.println("##########updatemovie##" +movie);
 			}	
 		}
 	}

@@ -82,9 +82,9 @@ html, body {
 	
 }
 .inner {
-	display: flex;
-	justify-content: center;
-	align-items: center;
+	text-align:center;
+	padding-top: 110px;
+	padding-bottom: 110px;
 }
 .overbox a {	
 	outline: solid 1px gray;
