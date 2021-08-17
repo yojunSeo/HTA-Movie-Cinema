@@ -35,6 +35,24 @@
 		where 
     		user_id = #{value}
 	</select>
+	 
+	<select id="getUserEventJoin" parameterType="string" resultType="hashmap">
+		select 
+    		ev.event_code as eventCode,
+            ej.user_id as userId,
+            ej.event_join_entry_date as entryDate,
+            ej.event_join_result as result,
+            ev.event_title as title,
+            ev.event_start_date as startDate,
+            ev.event_end_date as endDate,
+            ev.event_status as status
+		from 
+   		 	t_event_join ej, t_event ev
+		where 
+    		user_id = #{value}
+        and
+            ej.event_code = ev.event_code
+	</select>
 	
 	<select id="getEventJoinByEventCode" parameterType="string" resultMap="EventJoinResultMap">
 		select 

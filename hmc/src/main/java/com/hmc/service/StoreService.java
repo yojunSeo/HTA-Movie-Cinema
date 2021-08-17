@@ -31,4 +31,6 @@ public interface StoreService {
 	
 	Map<String, Object> getUserReceiveGifts(int pageNo);
 	
+	void cancelGift(String giftCode);
+	
 }

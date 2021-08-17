@@ -2,6 +2,7 @@ package com.hmc.web.controller;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.hmc.exception.FindException;
 import com.hmc.service.BookingService;
+import com.hmc.service.EventService;
 import com.hmc.service.ReviewService;
 import com.hmc.service.StoreService;
 import com.hmc.service.UserService;
@@ -34,6 +36,8 @@ public class MypageController {
 	ReviewService reviewService;
 	@Autowired
 	StoreService storeService;
+	@Autowired
+	EventService eventService;
 
 	@GetMapping(path = {"/home" , "/booking"})
 	public String goToHome(@LoginUser User user, Model model, @RequestParam(name = "page", required = false, defaultValue = "1") int pageNo) throws Exception {
@@ -68,6 +72,8 @@ public class MypageController {
 	
 	@GetMapping("/event")
 	public String myEvent(@LoginUser User user, Model model) throws Exception {
+		List<Map<String, Object>> events = eventService.getUserEventJoins(user.getId()); 
+		model.addAttribute("events", events);
 		return "mypage/myevent";
 	}
 	
@@ -133,5 +139,10 @@ public class MypageController {
 	   
    }
 
+   @GetMapping("/payment/cancel")
+   public String cancelGift(@RequestParam("giftCode")String giftCode) {
+	   storeService.cancelGift(giftCode);
+	   return "redirect:../payment";
+   }
    
 }

@@ -27,5 +27,7 @@ public interface EventService {
 	
 	Event eventDetail(String eventCode);
 	
+	List<Map<String, Object>> getUserEventJoins(String userId);
+	
 	
 }

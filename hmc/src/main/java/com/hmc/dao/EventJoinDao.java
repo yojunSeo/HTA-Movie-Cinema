@@ -1,6 +1,7 @@
 package com.hmc.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.hmc.vo.EventJoin;
 
@@ -31,4 +32,6 @@ public interface EventJoinDao {
 	 * @return 그 이벤트 코드의 참여 정보들
 	 */
 	List<EventJoin> getEventJoinByEventCode(String eventCode);
+	
+	List<Map<String, Object>> getUserEventJoin(String userId);
 }

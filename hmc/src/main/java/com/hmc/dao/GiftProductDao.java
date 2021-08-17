@@ -11,6 +11,8 @@ public interface GiftProductDao {
 	
 	List<GiftProduct> getMyGiftProduct(String userCode);
 	
+	GiftProduct getGiftProductByCode(String giftCode);
+	
 	void updateUsedStatusToY(String giftCode);
 	
 	List<Map<String, Object>> getMyPaymentGift(Map<String, Object> param);
@@ -20,5 +22,7 @@ public interface GiftProductDao {
 	int getMyPaymentGiftCnt(String userId);
 	
 	int getMyReceiveGiftCnt(String userId);
+	
+	void deleteGiftByCode(String giftCode);
 	
 }

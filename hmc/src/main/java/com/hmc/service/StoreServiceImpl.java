@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.hmc.dao.CouponDao;
 import com.hmc.dao.GiftProductDao;
@@ -29,6 +30,7 @@ import com.hmc.vo.User;
 import com.hmc.web.util.SessionUtils;
 
 @Service
+@Transactional
 public class StoreServiceImpl implements StoreService{
 
 	@Autowired
@@ -253,5 +255,17 @@ public class StoreServiceImpl implements StoreService{
 		return result;
 	}
 	
+	
+	@Override
+	public void cancelGift(String giftCode) {
+		// gift 삭제
+		GiftProduct gProduct = giftProductDao.getGiftProductByCode(giftCode);
+		giftProductDao.deleteGiftByCode(giftCode);
+		// payment status 변경
+		paymentDao.updatePaymentStatus(gProduct.getPaymentCode());
+		// 포인트 적립한거 뺴기
+		
+		// 등급변경확인 
+	}
 
 }

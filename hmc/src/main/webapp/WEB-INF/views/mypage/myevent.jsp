@@ -81,44 +81,58 @@ span.large{
 			<h5 class="fw-bold">이벤트 응모/당첨내역</h5>
 				<table class="table table-hover mt-3" id="event-table">
 				<colgroup>
-					<col width="30%"/>
+					<col width="5%"/>
+					<col width="25%"/>
 					<col width="30%"/>
 					<col width="20%"/>
-					<col width="20%"/>
+					<col width="10%"/>
+					<col width="10%"/>
 				</colgroup>
 				<thead>
 					<tr class="text-center">
+						<th></th>
 						<th>이벤트명</th>
 						<th>이벤트 기간</th>
 						<th>응모일</th>
+						<th>진행여부</th>
 						<th>당첨여부</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr class="text-center">
-						<th>리뷰쓰고 쿠폰받자</th>
-						<th>2021/08/01 ~ 2021/08/31</th>
-						<th>2021/08/10</th>
-						<th>진행중</th>
-					</tr>
-					<tr class="text-center">
-						<th>리뷰쓰고 쿠폰받자</th>
-						<th>2021/08/01 ~ 2021/08/31</th>
-						<th>2021/08/10</th>
-						<th>진행중</th>
-					</tr>
-					<tr class="text-center">
-						<th>리뷰쓰고 쿠폰받자</th>
-						<th>2021/08/01 ~ 2021/08/31</th>
-						<th>2021/08/10</th>
-						<th>진행중</th>
-					</tr>
-					<tr class="text-center">
-						<th>리뷰쓰고 쿠폰받자</th>
-						<th>2021/08/01 ~ 2021/08/31</th>
-						<th>2021/08/10</th>
-						<th>진행중</th>
-					</tr>
+					<c:choose>
+						<c:when test="${empty events }">
+							<tr class="text-center">
+								<td colspan="6">응모한 이벤트가 없습니다.</td>
+							</tr>
+						</c:when>
+						<c:otherwise>
+							<c:forEach var="event" items="${events }" varStatus="loop">
+								<tr class="text-center">
+									<td>${loop.index+1 }</td>
+									<td>${event.TITLE }</td>
+									<td><fmt:formatDate value="${event.STARTDATE }" pattern="yyyy-MM-dd"/> ~ <fmt:formatDate value="${event.ENDDATE }" pattern="yyyy-MM-dd"/></td>
+									<td><fmt:formatDate value="${event.ENTRYDATE }" pattern="yyyy-MM-dd"/></td>
+									<c:choose>
+										<c:when test="${event.STATUS eq 'Y'}">
+											<td>진행중</td>
+											<td></td>
+										</c:when>
+										<c:otherwise>
+											<td>종료됨</td>
+											<c:choose>
+												<c:when test="${event.RESULT eq 'Y'}">
+													<td>당첨</td>
+												</c:when>
+												<c:otherwise>
+													<td>미당첨</td>
+												</c:otherwise>
+											</c:choose>
+										</c:otherwise>
+									</c:choose>
+								</tr>
+							</c:forEach>
+						</c:otherwise>
+					</c:choose>
 				</tbody>
 			</table>
 

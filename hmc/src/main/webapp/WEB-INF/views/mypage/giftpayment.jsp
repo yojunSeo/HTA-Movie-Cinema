@@ -122,7 +122,14 @@ span.large{
 									<td>${payment.AMOUNT } 개</td>
 									<td><fmt:formatNumber>${payment.PRICE }</fmt:formatNumber> 원</td>
 									<td><fmt:formatDate value="${payment.PURCHASEDDATE }" pattern="yyyy/MM/dd HH:mm"/></td>
-									<td><button class="btn btn-sm btn-outline-danger">결제취소</button></td>
+									<c:choose>
+										<c:when test="${payment.USED eq 'Y' }">
+											<td>사용됨</td>
+										</c:when>
+										<c:otherwise>
+											<td><button class="btn btn-sm btn-outline-danger">결제취소</button></td>
+										</c:otherwise>
+									</c:choose>
 								</tr>
 
 							</c:forEach>
@@ -160,10 +167,19 @@ span.large{
       crossorigin="anonymous"></script>          
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	
-	<script type="text/javascript">
-	$(function(){
-		
+<script type="text/javascript">
+$(function(){
+	$('#give-table tbody').on('click', '.btn-outline-danger', function(){
+		var giftCode = $(this).closest('tr').attr('id');
+		var confirmValue = confirm('결제를 취소하시겠습니까? \n * 다른 사용자에게 선물하신 경우, 선물이 취소됩니다.');
+		if(!confirmValue){
+			return false;
+		}
+		location.href = "payment/cancel?giftCode="+giftCode;
 	})
-	</script>
+	
+	
+})
+</script>
 </body>
 </html>
