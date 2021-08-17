@@ -1,8 +1,8 @@
 package com.hmc.dao;
 
 import java.util.List;
+import java.util.Map;
 
-import com.hmc.vo.Coupon;
 import com.hmc.vo.PublishedCoupon;
 
 public interface PublishedCouponDao {
@@ -12,4 +12,10 @@ public interface PublishedCouponDao {
 	List<PublishedCoupon> getMyCoupons(String userId);
 	
 	void updatePublishedCouponStatusToY(String couponCode);
+	
+	int getTotalRows(Map<String, Object> param);
+	
+	List<Map<String, Object>> getMyCouponsByUserId(Map<String, Object> param);
+	
+	
 }

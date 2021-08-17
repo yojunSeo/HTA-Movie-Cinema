@@ -35,7 +35,38 @@
 			published_used_date = sysdate
 		where
 			published_code = #{value}
-			
 	</update>
+	
+	<select id="getTotalRows" parameterType="map" resultType="int">
+		select
+			count(*)
+		from 
+			t_published_coupon
+		where
+			user_id = #{userId}	
+	
+	</select>
+	
+	<select id="getMyCouponsByUserId" parameterType="map" resultType="hashmap">
+		select
+	    published_code as publishedCode, coupon_code as couponCode, user_id as userId, published_given_date as givenDate,
+	    published_end_date as endDate, published_used as isUsed, published_used_date as usedDate,
+	    coupon_type as couponType, coupon_name as couponName, event_code as eventCode
+	    from(
+	    select row_number() over (order by p.coupon_code desc) rn,
+	        p.published_code, p.coupon_code, p.user_id, p.published_given_date,  p.published_end_date,  p.published_used,  p.published_used_date,
+	    c.coupon_type, c.coupon_name, c.event_code
+	    from t_published_coupon p, t_coupon c
+	    where p.coupon_code = c.coupon_code 
+	    and user_id= #{userId}
+	    )
+	    where rn between #{beginIndex} and #{endIndex}
+	
+	</select>
+	
+	
+	
+	
+	
 	
 </mapper>
