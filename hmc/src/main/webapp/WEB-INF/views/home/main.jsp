@@ -645,6 +645,14 @@ $(function(){
 		alert("회원탈퇴가 완료되었습니다.");
 		location.href = "home";
 	}
+	
+	// 비밀번호가 성공적으로 변경되었을때 실행할 alert창
+	var urlParams = new URLSearchParams(window.location.search);
+	var userchangePwd = urlParams.get('changePwd');
+	if(userchangePwd != null){
+		alert("비밀번호가 변경되었습니다.");
+		location.href = "home";
+	}
 
 </script>
 <footer>
