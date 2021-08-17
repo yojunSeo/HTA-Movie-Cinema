@@ -168,10 +168,8 @@ public class AdminEventController {
 		
 		PublishedCoupon publishedCoupon = new PublishedCoupon();
 		
-		publishedCoupon.setCouponCode(couponCode);
-		publishedCoupon.setUserId(userId);
 		
-		publishedCouponDao.insertPublishedCoupon(publishedCoupon);
+		publishedCouponDao.insertPublichedCouponJoin(couponCode);
 		
 		
 		
