@@ -21,7 +21,7 @@ import com.hmc.service.EventService;
 import com.hmc.service.ReviewService;
 import com.hmc.service.StoreService;
 import com.hmc.service.UserService;
-import com.hmc.service.publishedCouponService;
+import com.hmc.service.PublishedCouponService;
 import com.hmc.vo.Pagination;
 import com.hmc.vo.PublishedCoupon;
 import com.hmc.vo.User;
@@ -44,7 +44,7 @@ public class MypageController {
 	@Autowired
 	EventService eventService;
 	@Autowired
-	publishedCouponService publishedCouponService;
+	PublishedCouponService PublishedCouponService;
 	
 	// 한 페이지당 표시할 게시글 행의 개수
 	private static final int ROWS_PER_PAGE = 7;
@@ -86,11 +86,11 @@ public class MypageController {
 		param.put("beginIndex", (page-1)*ROWS_PER_PAGE +1);
 		param.put("endIndex", page*ROWS_PER_PAGE);
 		
-		List<Map<String, Object>> coupons = publishedCouponService.getMyCouponsByUserId(param);
+		List<Map<String, Object>> coupons = PublishedCouponService.getMyCouponsByUserId(param);
 		
 		model.addAttribute("coupons", coupons);
 		System.out.println(coupons);
-		int totalRows = publishedCouponService.getTotalRows(param);
+		int totalRows = PublishedCouponService.getTotalRows(param);
 		int totalPages = (int) Math.ceil((double) totalRows/ROWS_PER_PAGE);
 		int totalPageBlocks = (int)Math.ceil((double)totalPages/PAGES_PER_PAGE_BLOCK);
 		int currentPageBlock = (int) Math.ceil((double)page/PAGES_PER_PAGE_BLOCK);

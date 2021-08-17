@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.hmc.dao.PublishedCouponDao;
 
 @Service
-public class publishedCouponServiceImpl implements publishedCouponService {
+public class PublishedCouponServiceImpl implements PublishedCouponService {
 	
 	@Autowired
 	private PublishedCouponDao publisedCouponDao;
