@@ -188,7 +188,7 @@ public class MypageController {
 	   userSerivce.updateUser(user);
 	   SessionUtils.addAttribute("LOGINED_USER", user);
 	   
-	   return "redirect:home";
+	   return "redirect:home?changeMyInfo=true";
 	   
    }
 
