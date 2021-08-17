@@ -14,10 +14,8 @@
     <main>
 	    <div class="container-fluid mt-5">
 			<div class="row">
-			   <div class="col-2">
-			      <%@include file ="../sidebar.jsp"%>
-			   </div>
 		    	<div class="col-10">
+		    	<%@include file ="../sidebar.jsp"%>
 					<div class="row my-3">
 						<div class="border p-2 bg-light d-flex justify-content-between">
 							<span>이벤트 목록</span>
@@ -54,7 +52,7 @@
 														<tr data-event-code="${events.code }" class="align-middle">
 															<th>${events.code }</th>
 															<td style="cursor:pointer;">
-															<a href="/hmc/event/detail?no=${events.code }">
+															<a href="/hmc/admin/event/detail?no=${events.code }">
 															${events.title }</a>
 															</td>						
 															<td><fmt:formatDate value="${events.startDate }" pattern="yyyy년  M월  d일"/></td>						

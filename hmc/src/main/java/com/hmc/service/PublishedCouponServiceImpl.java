@@ -26,6 +26,4 @@ public class PublishedCouponServiceImpl implements PublishedCouponService {
 		return lists;
 	}
 
-
-
 }
