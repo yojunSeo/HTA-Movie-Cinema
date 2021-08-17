@@ -27,6 +27,19 @@
     		event_code = #{eventCode}
 	</update>
 	
+	<update id="eventDraw" parameterType="com.hmc.vo.EventJoin">
+		update
+		   t_event_join
+		set
+		   event_join_result = 'Y'
+		where (event_code, user_id) in (select event_code, user_id
+		                                from ( select *
+		                                       from t_event_join
+		                                       where event_code = #{value}
+		                                       order by dbms_random.random )
+		                                 <![CDATA[where rownum <= 10]]>)
+	</update>
+	
 	<select id="getEventJoinByUserId" parameterType="string" resultMap="EventJoinResultMap">
 		select 
     		*

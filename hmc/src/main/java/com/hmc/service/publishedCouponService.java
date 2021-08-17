@@ -11,4 +11,5 @@ public interface publishedCouponService {
 	
 	List<PublishedCoupon> getAllCouponsByUserId(Map<String, Object> param);
 
+	void insertPublishedCoupon(PublishedCoupon publishedCoupon);
 }

@@ -76,6 +76,7 @@
 			event_code = #{eventCode}
 	</update>
 	
+	
 	<update id="updateEvent" parameterType="com.hmc.vo.Event">
 		update t_event
 		set

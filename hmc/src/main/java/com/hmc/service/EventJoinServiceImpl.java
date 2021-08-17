@@ -42,6 +42,10 @@ public class EventJoinServiceImpl implements EventJoinService {
 		return null;
 	}
 	
-	
+	@Override
+	public void eventDraw(String eventCode) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

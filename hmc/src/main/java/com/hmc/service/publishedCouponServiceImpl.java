@@ -27,5 +27,12 @@ public class publishedCouponServiceImpl implements publishedCouponService {
 		List<PublishedCoupon> publishedCoupon = publisedCouponDao.getAllCouponsByUserId(param);
 		return publishedCoupon;
 	}
+	
+	
+	@Override
+	public void insertPublishedCoupon(PublishedCoupon publishedCoupon) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

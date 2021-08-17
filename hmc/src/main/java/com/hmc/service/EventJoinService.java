@@ -14,4 +14,5 @@ public interface EventJoinService {
 	
 	List<EventJoin> getEventJoinByEventCode(String eventCode);
 	
+	void eventDraw(String eventCode);
 }

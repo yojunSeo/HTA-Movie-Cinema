@@ -16,7 +16,9 @@
 </style>
 </head>
 <body>
-<%@ include file="../common/header.jsp" %>
+<div class="col-2">
+   <%@include file ="../sidebar.jsp"%>
+</div>
 <div class="container my-3" style="border:6px solid #e9e9e9;">
 	<main>
 		<div class="eventHeader">
@@ -38,11 +40,11 @@
 	    		<p>${LOGINED_USER.id } </p>
 	    	</div>
 	    	<div class="test2">
-	    		<p>asd </p>
+	    		<p>관리자 </p>
 	    	</div>
 	    </div>
     	<div class="btn-eventJoin" style="text-align:center;">
-    		<button id="btn-open-event-modal"  class="btn btn-danger btn-lg w-25 text-light" >참여</button>
+    		<button id="btn-open-event-modal"  class="btn btn-danger btn-lg w-25 text-light" >뽑기</button>
     	</div>
     	
     	<table class="table" id="table-event"  style="display:block;">
@@ -75,12 +77,13 @@
 						</form>
 						<form id="form-eventjoin">
 							<div><input type="hidden" id="eventCode" name="eventCode" value="${event.code }"></div>
+							<div><input type="hidden" id="couponCode" name="couponCode" value="${event.couponCode }"></div>
 							<div><input type="hidden" id="userId" name="userId" value="${LOGINED_USER.id }"></div>
 						</form>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-						<button type="button" class="btn btn-primary" id="btn-post-event">등록</button>
+						<button type="button" class="btn btn-primary" id="btn-post-event">뽑기</button>
 					</div>
 				</div>
 		</div>
@@ -92,20 +95,15 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
 $(function(){
-	var request = "등록"
-	var requestURI = "/hmc/event/eventJoin";
+	var userid = $("#userId").val();
 	
 	var eventModal = new bootstrap.Modal(document.getElementById("form-event-modal"), {
 		keyboard: false
 	})
 	
-	// 이벤트 등록
+	
 	$("#btn-open-event-modal").click(function(){
 		console.log("등록 실행이에요");
-		request = "등록"
-		
-			$("#eventJoin-code").val("");
-			$("#eventJoin-name").val("");
 		
 		eventModal.show();
 	})
@@ -113,13 +111,15 @@ $(function(){
 	$("#btn-post-event").click(function() {
 		$.ajax({
 			type: "POST",
-			url: requestURI,
-			data: $("#form-eventjoin").serialize(),
+			url: "/hmc/admin/event/draw",
+			data:{
+				eventCode:$("#eventCode").val(),
+				couponCode:$("#couponCode").val(),
+				userId:$("#userId").val()
+				},
 			dataType: 'json',
 			success: function(eventJoin) {
-				if (request == "등록") {
-					console.log("이벤트 참여");
-				} 
+				console.log(eventJoin);
 			},
 			complete: function() {
 				eventModal.hide();
@@ -135,8 +135,5 @@ $(function(){
 
 
 </script>
-<footer>
-	<%@ include file="../common/footer.jsp" %>
-</footer>
 </body>
 </html>

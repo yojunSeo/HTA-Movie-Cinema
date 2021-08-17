@@ -31,4 +31,6 @@ public interface EventJoinDao {
 	 * @return 그 이벤트 코드의 참여 정보들
 	 */
 	List<EventJoin> getEventJoinByEventCode(String eventCode);
+	
+	void eventDraw(String eventCode);
 }
