@@ -2,6 +2,8 @@ package com.hmc.web.controller;
 
 import java.util.List;
 
+import javax.print.DocPrintJob;
+
 import org.apache.commons.io.filefilter.FalseFileFilter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -68,14 +70,22 @@ public class MovieController {
 	 */
 	@GetMapping("/detail")
 	public String detail (@RequestParam("movieCode") String movieCode, Model model) throws Exception {
-		System.out.println("code ???  "+movieCode);
-		logger.debug("###########detail실행됨" +movieCode);
 		Movie movie = movieService.getMovieDetail(movieCode); 
+		logger.debug("###########detail실행됨movie" +movie);
 		model.addAttribute("movie", movie);
-
+		
+		int cnt = movie.getTotalScore();
+		int total = movie.getReviewCnt();
+		if (cnt!=0 || total!=0) {
+			int reviewScoreAvg = cnt/total;
+			model.addAttribute("reviewScoreAvg",reviewScoreAvg); 
+			System.out.println("###########reviewScoreAvg: "+reviewScoreAvg); 
+		}
+				
 		List<Actor> actors = actorService.getAllActorByCode(movieCode);
 		model.addAttribute("actors", actors);
 		logger.debug("###########detail실행됨actors:" +actors);
+		
 		List<Review> reviews = reviewService.getReviewByMovieCode(movieCode);
 		System.out.println("##########detail실행됨reviews" + reviews);
 		model.addAttribute("reviews", reviews);

@@ -115,7 +115,7 @@ ul.nav.nav-tabs li.nav-item button.active {
 									<h3 class="card-title"> <strong>${movie.movieName }</strong></h3>
 									<p class="card-text">
 										${movie.grade } <br />
-										관람객 평점 <strong>${movie.reviewCnt }</strong>         예매율 <strong>${movie.rank }위</strong>
+										관람객 평점 <strong>${reviewScoreAvg }</strong>         예매율 <strong>${movie.rank }위</strong>
 										누적관객수 <strong><fmt:formatNumber value="${movie.audiacc }" />명</strong> 
 									</p>
 									<hr style="border: solid 1px gray;">
@@ -203,7 +203,7 @@ ul.nav.nav-tabs li.nav-item button.active {
 								</div>
 								<div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
 									<div class="score-box mb-5">
-										<p align="center">평점 <strong>${movie.totalScore }</strong></p>
+										<p align="center">평점 ★<strong>${reviewScoreAvg }</strong></p>
 										<p align="center">영화 관람 후 관람평을 작성하시면 50P를 적립해드립니다.</p>
 									</div>
 									<div class="reivew-list">
@@ -212,22 +212,25 @@ ul.nav.nav-tabs li.nav-item button.active {
 											<hr style="border: solid 1px gray;">
 										</div>
 										<div class="review">
+											<c:forEach items="${reviews }" var="reviews">
 											<c:choose>
 												<c:when test="${empty reviews }">
 													<p align="center">작성된 관람평이 없습니다.</p>
 												</c:when>
 												<c:otherwise>
-													<c:forEach var="reviews" items="reviews">
 													<div>
 														<span>${reviews.userId }</span>
-														<span>${reviews.score }</span>
+														<span>★${reviews.score }</span>
 													</div>
 													<div>
 														<span>${reviews.content }</span>
 													</div>
-													</c:forEach>
+													<div class="mb-3" style="font-size:15px;">
+														<span><fmt:formatDate value="${reviews.createdDate }" pattern="yyyy.MM.dd" /></span>
+													</div>
 												</c:otherwise>
 											</c:choose>
+											</c:forEach>
 										</div>
 									</div>
 									

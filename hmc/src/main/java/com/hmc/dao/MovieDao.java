@@ -1,6 +1,6 @@
 package com.hmc.dao;
 
-import java.util.List;import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MoveAction;
+import java.util.List;
 
 import com.hmc.vo.Movie;
 
@@ -23,4 +23,9 @@ public interface MovieDao {
 	List<Movie> getNowAllMovies();
 		
 	List<Movie> getCommingAllMovies();
+	
+	void updateReviewCnt(String movieCode);
+	
+	void updateReviewTotalScore(String movieCode);
+
 }

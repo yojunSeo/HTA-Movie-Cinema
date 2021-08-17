@@ -74,10 +74,9 @@
 	
 	<select id="getReviewByMovieCode" parameterType="string" resultType="com.hmc.dto.ReviewDto"> 
 		select 
-			mv.movie_code		as movieCode,				
-			rw.user_id		as userId,			
-			rw.review_content	as content,		
-			rw.review_score		as score,			
+			rw.user_id				as userId,			
+			rw.review_content		as content,		
+			rw.review_score			as score,			
 			rw.review_created_date	as createdDate		
 		from 
 			t_movie mv, t_review rw, t_screen_movie sc

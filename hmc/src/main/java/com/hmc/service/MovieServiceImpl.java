@@ -18,6 +18,8 @@ public class MovieServiceImpl implements MovieService {
 	  
 	@Override
 	public Movie getMovieDetail(String movieCode) {
+		movieDao.updateReviewCnt(movieCode);
+		movieDao.updateReviewTotalScore(movieCode);
 		return movieDao.getMovieInfoByCode(movieCode);
 	}
 	

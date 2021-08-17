@@ -144,8 +144,36 @@
 			movie_code = #{movieCode}
 	</update>
 	
+	<update id="updateReviewCnt" parameterType="com.hmc.vo.Movie">
+	update t_movie
+		set movie_review_cnt = (select
+									COUNT(rw.review_code)
+								from
+									t_movie mv, t_review rw, t_screen_movie sc
+								where
+									mv.movie_code = #{movie_code}
+								and
+									mv.movie_code = sc.movie_code
+								and
+									sc.screen_code = rw.screen_code)
+		where
+			movie_code = #{movieCode}
+	</update>
 	
+	<update id="updateReviewTotalScore" parameterType="com.hmc.vo.Movie">
+	update t_movie
+		set movie_total_score = (select
+									sum(rw.review_score)
+								from
+									t_movie mv, t_review rw, t_screen_movie sc
+								where
+									mv.movie_code = #{movie_code}
+								and
+									mv.movie_code = sc.movie_code
+								and
+									sc.screen_code = rw.screen_code)
+		where
+			movie_code = #{movieCode}
+	</update>
 	
-	
-
 </mapper>

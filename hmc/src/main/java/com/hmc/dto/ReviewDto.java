@@ -11,7 +11,6 @@ import lombok.ToString;
 @ToString
 public class ReviewDto {
 
-	private String movieCode;
 	private String userId;
 	private String content;
 	private int score;
