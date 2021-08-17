@@ -52,6 +52,18 @@ public class StoreController {
 		return "store/detail";
 	}
 	
+	@GetMapping("/present")
+	public String productPresent(@LoginUser User loginedUser, @RequestParam("code") String productCode, @RequestParam("amount") int amount, Model model) {
+		
+		model.addAttribute("isPresent","Y");
+		model.addAttribute("amount", amount);
+		Product finededProduct = storeService.getProductByCode(productCode);
+		
+		model.addAttribute("product", finededProduct);
+		
+		return "store/detail";
+	}
+	
 	@RequestMapping("/purchase")
 	public String purchase(@RequestParam("amount") int amount, @RequestParam("totalPrice") int totalPrice,
 						@RequestParam("productCode") String productCode, Model model, @LoginUser User user) {
