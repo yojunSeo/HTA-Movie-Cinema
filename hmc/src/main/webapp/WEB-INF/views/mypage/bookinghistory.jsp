@@ -109,12 +109,12 @@ html, body {
 						<c:otherwise>
 							<c:forEach var="booking" items="${bookings }">
 								<tr class="text-center" id="${booking.BOOKINGCODE }" data-screen-code=${booking.SCREENCODE }>
-									<td>${booking.BOOKINGCODE }</td>
-									<td class="text-start">${booking.MOVIENAME }</td>
-									<td>${booking.BRANCHNAME }(${booking.ROOMNAME })</td>
-									<td><span id="screen-date"><fmt:formatDate value="${booking.SCHEDULEDATE }" pattern="yyyy-MM-dd"/></span> (<fmt:formatDate value="${booking.STARTTIME }" pattern="HH:mm"/> ~ <fmt:formatDate value="${booking.ENDTIME }" pattern="HH:mm"/>)</td>
-									<td><fmt:formatDate value="${booking.BOOKINGDATE }" pattern="yyyy/MM/dd"/></td>
-									<td><fmt:formatNumber>${booking.TOTALPRICE }</fmt:formatNumber> 원</td>
+									<td class="bookInfo">${booking.BOOKINGCODE }</td>
+									<td class="text-start bookInfo">${booking.MOVIENAME }</td>
+									<td class="bookInfo">${booking.BRANCHNAME }(${booking.ROOMNAME })</td>
+									<td class="bookInfo"><span id="screen-date"><fmt:formatDate value="${booking.SCHEDULEDATE }" pattern="yyyy-MM-dd"/></span> (<fmt:formatDate value="${booking.STARTTIME }" pattern="HH:mm"/> ~ <fmt:formatDate value="${booking.ENDTIME }" pattern="HH:mm"/>)</td>
+									<td class="bookInfo"><fmt:formatDate value="${booking.BOOKINGDATE }" pattern="yyyy/MM/dd"/></td>
+									<td class="bookInfo"><fmt:formatNumber>${booking.TOTALPRICE }</fmt:formatNumber> 원</td>
 									<c:choose>
 										<c:when test="${today gt booking.ENDTIME and booking.STATUS eq 'Y'}">
 											<c:choose>
@@ -151,6 +151,24 @@ html, body {
 					</c:choose>
 				</tbody>
 			</table>
+			<!-- 예약 모달 시작 -->
+			<div class="modal fade" id="booking-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">예매정보</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-dark" data-bs-dismiss="modal">확인</button>
+					</div>
+				</div>
+				</div>
+			</div>
+			<!-- 예약 모달 종료 -->
 			<!-- 리뷰 모달 시작 -->
 			<div class="modal fade" id="review-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
@@ -209,32 +227,30 @@ html, body {
 						<button type="button" class="btn text-white btn-secondary" id="review-delete" hidden>삭제</button>
 					</div>
 				</div>
-		</div>
-		</div>
-		<!-- 페이징 -->
-		<c:if test="${pagination.totalRows gt 0 }">
-			<div class="row mb-2">
-				<div class="col-12">
-					<ul class="pagination justify-content-center">
-						<li class="page-item ${pagination.pageNo le 1 ? 'disabled' : ''}">
-							<a class="page-link" href="booking?page=${pagination.pageNo - 1 }">이전</a>
-						</li>
-						<c:forEach var="num" begin="${pagination.beginPage }" end="${pagination.endPage }">
-							<li class="page-item ${pagination.pageNo eq num ? 'active' : '' }">
-								<a class="page-link" href="booking?page=${num }">${num }</a>
-							</li>
-						</c:forEach>
-						<li class="page-item ${pagination.pageNo ge pagination.totalPages ? 'disabled' : ''}">
-							<a class="page-link" href="booking?page=${pagination.pageNo + 1 }">다음</a>
-						</li>
-					</ul>
 				</div>
 			</div>
-		</c:if>
+			<!-- 페이징 -->
+			<c:if test="${pagination.totalRows gt 0 }">
+				<div class="row mb-2">
+					<div class="col-12">
+						<ul class="pagination justify-content-center">
+							<li class="page-item ${pagination.pageNo le 1 ? 'disabled' : ''}">
+								<a class="page-link" href="booking?page=${pagination.pageNo - 1 }">이전</a>
+							</li>
+							<c:forEach var="num" begin="${pagination.beginPage }" end="${pagination.endPage }">
+								<li class="page-item ${pagination.pageNo eq num ? 'active' : '' }">
+									<a class="page-link" href="booking?page=${num }">${num }</a>
+								</li>
+							</c:forEach>
+							<li class="page-item ${pagination.pageNo ge pagination.totalPages ? 'disabled' : ''}">
+								<a class="page-link" href="booking?page=${pagination.pageNo + 1 }">다음</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</c:if>
 		</main>
-
 		<footer><%@ include file="../common/footer.jsp"%></footer>
-
 	</div>
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -246,6 +262,14 @@ html, body {
 		var reviewModal = new bootstrap.Modal(document.getElementById("review-modal"), {
 			keyboard: false
 		});
+		
+		var bookingModal = new bootstrap.Modal(document.getElementById("booking-modal"), {
+			keyboard: false
+		});
+		
+		$('#booking-table tbody').on('click', '.bookInfo', function(){
+			bookingModal.show();
+		})
 		
 		$('#booking-table tbody td').on('click', '.review', function(){
 			var bookingCode = $(this).closest('tr').attr('id');
