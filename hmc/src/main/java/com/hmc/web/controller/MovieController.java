@@ -2,6 +2,7 @@ package com.hmc.web.controller;
 
 import java.util.List;
 
+import org.apache.commons.io.filefilter.FalseFileFilter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +12,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.hmc.service.ActorService;
 import com.hmc.service.MovieApiService;
 import com.hmc.service.MovieService;
+import com.hmc.service.ReviewService;
+import com.hmc.vo.Actor;
 import com.hmc.vo.Movie;
+import com.hmc.vo.Review;
 
 
 @Controller
@@ -23,10 +28,14 @@ public class MovieController {
 	private Logger logger = LogManager.getLogger(MovieController.class);
 	
 	@Autowired
-	private MovieService movieService;
+	MovieService movieService;
 	@Autowired
-	private MovieApiService movieApiService;
-
+	MovieApiService movieApiService;
+	@Autowired
+	ActorService actorService;
+	@Autowired
+	ReviewService reviewService;
+	
 	private String movieCode;
 	
 	/**
@@ -58,22 +67,35 @@ public class MovieController {
 	 * @throws Exception
 	 */
 	@GetMapping("/detail")
-	public String detail (@RequestParam(value="movieCode") String movieCode, Model model) throws Exception {
+	public String detail (@RequestParam("movieCode") String movieCode, Model model) throws Exception {
 		System.out.println("code ???  "+movieCode);
 		logger.debug("###########detail실행됨" +movieCode);
 		Movie movie = movieService.getMovieDetail(movieCode); 
 		model.addAttribute("movie", movie);
 
+		List<Actor> actors = actorService.getAllActorByCode(movieCode);
+		model.addAttribute("actors", actors);
+		logger.debug("###########detail실행됨actors:" +actors);
+		List<Review> reviews = reviewService.getReviewByMovieCode(movieCode);
+		System.out.println("##########detail실행됨reviews" + reviews);
+		model.addAttribute("reviews", reviews);
+
 		return "movie/detail";
 	}
 	
 	@GetMapping("/now")
-	public String now (@RequestParam(value="rank", required = false, defaultValue = "20") int rank, Model model) throws Exception {
-		List<Movie> topMovies = movieService.getTopMovies(rank);
-		model.addAttribute("movie", topMovies);
+	public String now ( Model model) throws Exception {
+		List<Movie> nowAllMovies = movieService.getNowAllMovies();
+		model.addAttribute("nowAllMovies", nowAllMovies);
 		return "movie/now";
 	}
 	
+	@GetMapping("/commingsoon")
+	public String commingsoon (Model model) throws Exception {
+		List<Movie> commingAllMovies = movieService.getCommingAllMovies();
+		model.addAttribute("commingAllMovies", commingAllMovies);
+		return "movie/commingsoon";
+	}
 	
 	
 }

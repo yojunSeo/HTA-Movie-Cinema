@@ -17,6 +17,10 @@
 			movie_release_date desc
 	</select>
 	
+	<select id="getAllMovieCode" resultType="com.hmc.vo.Movie">
+		select 	movie_code	movieCode
+		from 	t_movie 
+	</select>
       
     <select id="getMovieInfoByCode" parameterType="String" resultType="com.hmc.vo.Movie">
        select
@@ -31,12 +35,15 @@
             movie_company         	company,
             movie_poster         	poster,
             movie_synopsis         	synopsis,
-            movie_stillcut         	stillcut,
+            movie_stillcut1        	stillcut1,
+            movie_stillcut2        	stillcut2,
+            movie_stillcut3        	stillcut3,
+            movie_stillcut4        	stillcut4,
             movie_trailer         	trailer,
             movie_total_score      	totalScore,
             movie_review_cnt      	reviewCnt,
             movie_rank				rank,
-            movie_audiacc			audeAcc
+            movie_audiacc			audiacc
          from
             T_MOVIE
          where
@@ -58,6 +65,25 @@
          	movie_rank asc
     </select>
     
+    <select id="getNowAllMovies" resultType="com.hmc.vo.Movie">
+       <![CDATA[
+       select *
+       from (
+	       select
+	            movie_code         		movieCode,
+	            movie_name            	movieName,
+	            movie_poster         	poster,
+	            movie_total_score      	totalScore,
+	            movie_rank				rank           
+	         from
+	            T_MOVIE
+	         where 
+	         	movie_release_date<sysdate
+	         order by 
+	         	movie_rank asc)
+	    ]]>
+    </select>
+    
     <select id="getCommingMovie" resultType="com.hmc.vo.Movie">
        <![CDATA[ 
        select *
@@ -76,16 +102,35 @@
          	 rownum between 1 and 5
         ]]> 
     </select>
+    
+    <select id="getCommingAllMovies" resultType="com.hmc.vo.Movie">
+       <![CDATA[ 
+       select *
+       from (select
+	            movie_code         		movieCode,
+	            movie_release_date      releaseDate,
+	            movie_name            	movieName,
+	            movie_poster         	poster,
+	            movie_total_score      	totalScore,
+	            movie_rank				rank           
+	         from
+	            T_MOVIE
+             where movie_release_date>sysdate
+             order by movie_release_date asc)
+       
+        ]]> 
+    </select>
 
 	<insert id="insertMovie" parameterType="com.hmc.vo.Movie">
 		insert into t_movie
 			(movie_code, movie_release_date, movie_name, movie_running_time, movie_genre, movie_grade,
 			movie_country, movie_director, movie_company, movie_poster, movie_synopsis, 
-			movie_stillcut, movie_trailer, movie_total_score, movie_review_cnt, movie_rank, movie_audiacc)
+			movie_stillcut1, movie_stillcut2, movie_stillcut3, movie_stillcut4, 
+			movie_trailer, movie_total_score, movie_review_cnt, movie_rank, movie_audiacc)
 		values
 			(#{movieCode}, #{releaseDate}, #{movieName}, #{runningTime}, #{genre}, #{grade}, 
 			#{country}, #{director}, #{company}, #{poster}, #{synopsis}, 
-			#{stillcut}, #{trailer}, #{totalScore}, #{reviewCnt}, #{rank}, #{audiAcc})
+			#{stillcut1}, #{stillcut2}, #{stillcut3}, #{stillcut4}, #{trailer}, #{totalScore}, #{reviewCnt}, #{rank}, #{audiacc})
 	</insert>
 	
 	 <update id="updateMovie" parameterType="com.hmc.vo.Movie">
@@ -94,25 +139,13 @@
 		set
 			movie_release_date = #{releaseDate},
 			movie_rank = #{rank},
-			movie_audiacc = #{audiAcc}
+			movie_audiacc = #{audiacc}
 		where
 			movie_code = #{movieCode}
 	</update>
 	
-	<select id="getTopMovies" resultType="com.hmc.vo.Movie">
-		select
-			movie_code         		movieCode,
-	        movie_release_date      releaseDate,
-	        movie_name            	movieName,
-	        movie_poster         	poster,
-	        movie_rank				rank
-        from
-            T_MOVIE
-        where
-            movie_code = #{value}
-        order by 
-			movie_release_date desc
-	</select> 
+	
+	
 	
 
 </mapper>
