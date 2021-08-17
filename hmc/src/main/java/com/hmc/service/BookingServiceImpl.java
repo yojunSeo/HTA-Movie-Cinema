@@ -317,6 +317,7 @@ public class BookingServiceImpl implements BookingService{
 		// 등급이 변경되었는지 확인
 		if(!user.getGrade().equals(expectGrade)) {
 			System.out.println("변경됨");
+			// 준 쿠폰과 포인트 가져가기
 		}
 		userDao.updateUser(user);
 	}

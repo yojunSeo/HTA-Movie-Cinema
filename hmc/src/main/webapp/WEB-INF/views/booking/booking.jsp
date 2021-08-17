@@ -73,7 +73,7 @@
 						<!-- 예매정보 -->
 						<div class="col-4 border-end border-secondary" style="height: 600px">
 							<div id="booking-info">
-								<img class="mt-3 offset-3" src="https://caching.lottecinema.co.kr//Media/MovieFile/MovieImg/202107/17616_104_1.jpg" width="150px" height="230px">
+								<img class="mt-3 offset-3" src="${schedule.poster }" width="150px" height="230px">
 								<p class="mx-2"><span class='badge rounded-pill mx-3' data-movie-grade="${schedule.movieGrade }">12</span>${schedule.movieName }</p>
 								<p class="mx-5"><span class="large">일시 : </span><span class="fw-bold"><fmt:formatDate value="${schedule.scheduleDate }" pattern="yyyy-MM-dd"/> / </span><span><fmt:formatDate value="${schedule.startTime }" pattern="HH:mm"/> ~ <fmt:formatDate value="${schedule.endTime }" pattern="HH:mm"/></span></p>
 								<p class="mx-5"><span class="large">영화관 : </span><span>${schedule.branchName } / ${schedule.roomName }</span></p>

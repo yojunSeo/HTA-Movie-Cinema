@@ -73,7 +73,6 @@ public class BookingController {
 		model.addAttribute("seats",seatNames);
 		model.addAttribute("price", totalPrice);
 		model.addAttribute("coupons", coupon);
-		System.out.println(coupon);
 		model.addAttribute("user", user);
 		return "booking/booking";
 	}

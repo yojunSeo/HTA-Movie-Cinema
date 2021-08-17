@@ -15,5 +15,7 @@ public interface PublishedCouponDao {
 	
 	int getTotalRows(Map<String, Object> param);
 	
-	List<PublishedCoupon> getAllCouponsByUserId(Map<String, Object> param);
+	List<Map<String, Object>> getMyCouponsByUserId(Map<String, Object> param);
+	
+	
 }

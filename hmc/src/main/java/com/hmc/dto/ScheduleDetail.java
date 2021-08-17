@@ -18,6 +18,7 @@ public class ScheduleDetail {
 	private String scheduleCode;
 	private String screenCode;
 	private String movieName;
+	private String poster;
 	private int runningTime;
 	private String branchCode;
 	private String branchName;

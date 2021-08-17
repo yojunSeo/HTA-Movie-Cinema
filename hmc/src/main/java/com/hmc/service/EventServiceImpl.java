@@ -79,4 +79,9 @@ public class EventServiceImpl implements EventService {
 		int rows = eventDao.getTotalRows(param);
 		return rows;
 	}
+	
+	@Override
+	public List<Map<String, Object>> getUserEventJoins(String userId) {
+		return eventJoinDao.getUserEventJoin(userId);
+	}
 }

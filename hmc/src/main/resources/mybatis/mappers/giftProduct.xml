@@ -32,6 +32,15 @@
 			gift_receive_user_id = #{value}
 	</select>
 	
+	<select id="getGiftProductByCode" parameterType="string" resultMap="GiftProductResultMap">
+		select
+			*
+		from
+			t_gift_product
+		where
+			gift_code = #{value}
+	</select>
+	
 	<update id="updateUsedStatusToY" parameterType="string">
 		update t_gift_product
 		set
@@ -95,16 +104,23 @@
 		select
   			count(*)
 		from
-			t_gift_product gp
+			t_gift_product 
 		where
 			gift_give_user_id = #{value}
 	</select>
 	
+	<delete id="deleteGiftByCode" parameterType="string">
+		delete from 
+			t_gift_product
+		where 
+			gift_code = #{value}
+	</delete>
+	
 	<select id="getMyReceiveGiftCnt" parameterType="string" resultType="int">
-		select
+		select 
   			count(*)
 		from
-			t_gift_product gp
+			t_gift_product
 		where
 			gift_receive_user_id = #{value}
 	</select>

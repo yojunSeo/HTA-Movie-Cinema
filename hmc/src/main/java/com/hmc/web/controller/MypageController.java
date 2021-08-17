@@ -2,6 +2,7 @@ package com.hmc.web.controller;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -13,12 +14,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.hmc.exception.FindException;
+import com.hmc.exception.LoginException;
+import com.hmc.exception.UserRegisterException;
 import com.hmc.service.BookingService;
+import com.hmc.service.EventService;
 import com.hmc.service.ReviewService;
 import com.hmc.service.StoreService;
 import com.hmc.service.UserService;
+import com.hmc.service.PublishedCouponService;
+import com.hmc.vo.Pagination;
+import com.hmc.vo.PublishedCoupon;
 import com.hmc.vo.User;
+import com.hmc.web.annotation.LoginAdmin;
 import com.hmc.web.annotation.LoginUser;
 import com.hmc.web.util.SessionUtils;
 
@@ -34,6 +41,15 @@ public class MypageController {
 	ReviewService reviewService;
 	@Autowired
 	StoreService storeService;
+	@Autowired
+	EventService eventService;
+	@Autowired
+	PublishedCouponService PublishedCouponService;
+	
+	// 한 페이지당 표시할 게시글 행의 개수
+	private static final int ROWS_PER_PAGE = 7;
+	// 페이지블록 당 한번에 표시할 페이지번호 개수
+	private static final int PAGES_PER_PAGE_BLOCK = 5;
 
 	@GetMapping(path = {"/home" , "/booking"})
 	public String goToHome(@LoginUser User user, Model model, @RequestParam(name = "page", required = false, defaultValue = "1") int pageNo) throws Exception {
@@ -62,12 +78,45 @@ public class MypageController {
 	}
 	
 	@GetMapping("/coupon")
-	public String myCoupon(@LoginUser User user, Model model) throws Exception {
+	public String myCoupon(@RequestParam(name = "page", required = false, defaultValue = "1") int page, Model model, @LoginUser User user) {
+		
+		Map<String,Object> param = new HashMap<String, Object>();
+		User loginedUser = (User)SessionUtils.getAttribute("LOGINED_USER");
+		param.put("userId", loginedUser.getId());
+		param.put("beginIndex", (page-1)*ROWS_PER_PAGE +1);
+		param.put("endIndex", page*ROWS_PER_PAGE);
+		
+		List<Map<String, Object>> coupons = PublishedCouponService.getMyCouponsByUserId(param);
+		
+		model.addAttribute("coupons", coupons);
+		System.out.println(coupons);
+		int totalRows = PublishedCouponService.getTotalRows(param);
+		int totalPages = (int) Math.ceil((double) totalRows/ROWS_PER_PAGE);
+		int totalPageBlocks = (int)Math.ceil((double)totalPages/PAGES_PER_PAGE_BLOCK);
+		int currentPageBlock = (int) Math.ceil((double)page/PAGES_PER_PAGE_BLOCK);
+		int beginPage = (currentPageBlock -1)*PAGES_PER_PAGE_BLOCK+1;
+		int endPage = currentPageBlock*PAGES_PER_PAGE_BLOCK;
+		if(currentPageBlock == totalPageBlocks) {
+			endPage = totalPages;
+		}
+		
+		Pagination pagination = new Pagination();
+		pagination.setPageNo(page);
+		pagination.setTotalRows(totalRows);
+		pagination.setTotalPages(totalPages);
+		pagination.setTotalPageBlocks(totalPageBlocks);
+		pagination.setCurrentPageBlock(currentPageBlock);
+		pagination.setBeginPage(beginPage);
+		pagination.setEndPage(endPage);
+		
+		model.addAttribute("pagination", pagination);
 		return "mypage/mycoupon";
 	}
 	
 	@GetMapping("/event")
 	public String myEvent(@LoginUser User user, Model model) throws Exception {
+		List<Map<String, Object>> events = eventService.getUserEventJoins(user.getId()); 
+		model.addAttribute("events", events);
 		return "mypage/myevent";
 	}
 	
@@ -84,6 +133,16 @@ public class MypageController {
 	@GetMapping("/changePwd")
 	public String changePassword(@LoginUser User user, Model model) throws Exception {
 		return "mypage/pwdchange";
+	}
+	
+	@PostMapping("/changePwd")
+	public String changePwd(@LoginUser User user, Model model, @RequestParam("password") String password) throws Exception {
+		User savedUser = (User)SessionUtils.getAttribute("LOGINED_USER");
+		String secretPwd = DigestUtils.sha256Hex(password);
+		savedUser.setPassword(secretPwd);
+		userSerivce.updateUser(savedUser);
+		
+		return "redirect:../home?changePwd=true";
 	}
 	
 	@GetMapping("/cancelBooking")
@@ -133,5 +192,10 @@ public class MypageController {
 	   
    }
 
+   @GetMapping("/payment/cancel")
+   public String cancelGift(@RequestParam("giftCode")String giftCode) {
+	   storeService.cancelGift(giftCode);
+	   return "redirect:../payment";
+   }
    
 }
