@@ -70,6 +70,8 @@ public class StoreController {
 		model.addAttribute("amount", amount);
 		model.addAttribute("totalPrice", totalPrice);
 		
+		User findedUser = userDao.getUserById(user.getId());
+		model.addAttribute("findedUser", findedUser);
 		Product findedProduct = storeService.getProductByCode(productCode);
 		model.addAttribute("product", findedProduct);
 		

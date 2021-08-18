@@ -76,12 +76,12 @@
 					<td class="text-end">
 						<c:choose>
 							<c:when test="${empty LOGINED_USER}">	<!-- 로그인이 안되어 있을때 -->
-								<button class="btn btn-outline-secondary">
+								<button id="btn-my-theater" class="btn btn-outline-secondary">
 									<img alt="" src="../resources/images/branch/unfavorite.png" width="30px">
 									나의 영화관 등록
 								</button>
 							</c:when>
-							<c:when test="${LOGINED_USER.favoriteBranch1 == branchCode || LOGINED_USER.favoriteBranch1 == branchCode || LOGINED_USER.favoriteBranch1 == branchCode}">
+							<c:when test="${LOGINED_USER.favoriteBranch1 == branchCode || LOGINED_USER.favoriteBranch2 == branchCode || LOGINED_USER.favoriteBranch3 == branchCode}">
 								<!-- 로그인 되어있고 나의 영화관 일때 -->
 								<span class="p-3 mt-2">
 									<img alt="" src="../resources/images/branch/favorite.png" width="30px">
@@ -90,8 +90,8 @@
 							</c:when>
 							<c:otherwise>
 								<!-- 로그인 되어 있고 나의 영화관이 아닐때 -->
-								<button class="btn btn-outline-secondary">
-									<img alt="" src="../resources/images/branch/unfavorite.png" width="30px">
+								<button id="btn-my-theater" class="btn btn-outline-secondary">
+									<img src="../resources/images/branch/unfavorite.png" width="30px">
 									나의 영화관 등록
 								</button>
 							</c:otherwise>
@@ -187,7 +187,7 @@
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-								<button type="button" class="btn btn-primary" id="btn-post-todo">예매하러가기</button>
+								<button type="button" class="btn btn-primary" data-schedule-code="" id="btn-post-todo">예매하러가기</button>
 							</div>
 						</div>
 				</div>
@@ -371,13 +371,17 @@
 					$("#todal-table tr td").eq(4).text(schedule.emptySeat);
 					$("#todal-table tr td").eq(5).text($("#modalGrade").html()).append("<span> 관람등급입니다</span>");
 					
-					console.log($("#modalLabel").html());
-					
 				})
+				$("#btn-post-todo").data("schedule-code", schCode);
+				
 				bookingModal.show();
 			})
 			
-			
+			$("#btn-post-todo").click(function() {
+				
+				location.href = '/hmc/booking/seat?scheduleCode='+$("#btn-post-todo").data("schedule-code");
+				
+			})
 		});
 	</script>
 </body>

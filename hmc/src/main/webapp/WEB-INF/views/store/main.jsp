@@ -45,7 +45,7 @@
 				<c:forEach var="product" items="${products}">
 					<c:if test="${product.category eq '패키지'}">
 						<div class="col-3 mt-3">
-							<div class="card text-center" >
+							<div class="card text-center" onclick="location.href='detail?code=${product.code}'" style="cursor:pointer;">
 								<img src="../resources/images/store/product/${product.imageFileName}" class="card-img-top" alt="...">
 							  	<div class="card-body">
 							    	<h5 class="card-title fs-5">${product.name}</h5>
@@ -61,7 +61,6 @@
 								    		</p>
 							    		</c:otherwise>
 							    	</c:choose>
-							    	<a href="detail?code=${product.code}" class="card-link" data-product-code="${product.code}">상세보기</a>
 							  	</div>
 							</div>
 						</div>
@@ -76,8 +75,8 @@
 				<c:forEach var="product" items="${products}">
 					<c:if test="${product.category eq '관람권'}">
 						<div class="col-3 mt-3">
-							<div class="card text-center" >
-								<img src="../resources/images/store/product/${product.imageFileName}" class="card-img-top" alt="...">
+							<div class="card text-center" onclick="location.href='detail?code=${product.code}'" style="cursor:pointer;" >
+								<a href="detail?code=${product.code}""> <img src="../resources/images/store/product/${product.imageFileName}" class="card-img-top" alt="..."> </a>
 							  	<div class="card-body">
 							    	<h5 class="card-title fs-5">${product.name}</h5>
 							    	<p class="card-text" style="height:30px;">${product.memo}</p>
@@ -93,7 +92,6 @@
 								    		</p>
 							    		</c:otherwise>
 							    	</c:choose>
-							    	<a href="detail?code=${product.code}" class="card-link" data-product-code="${product.code}">상세보기</a>
 							  	</div>
 							</div>
 						</div>
@@ -108,8 +106,8 @@
 				<c:forEach var="product" items="${products}">
 					<c:if test="${product.category eq '스낵/음료'}">
 						<div class="col-3 mt-3">
-							<div class="card text-center" >
-								<img src="../resources/images/store/product/${product.imageFileName}" class="card-img-top" alt="...">
+							<div class="card text-center" onclick="location.href='detail?code=${product.code}'" style="cursor:pointer;">
+								<a href="detail?code=${product.code}""> <img src="../resources/images/store/product/${product.imageFileName}" class="card-img-top" alt="..."> </a>
 							  	<div class="card-body">
 							    	<h5 class="card-title fs-5">${product.name}</h5>
 							    	<p class="card-text" style="height:30px;">${product.memo}</p>
@@ -125,7 +123,6 @@
 								    		</p>
 							    		</c:otherwise>
 							    	</c:choose>
-							    	<a href="detail?code=${product.code}" class="card-link" data-product-code="${product.code}">상세보기</a>
 							  	</div>
 							</div>
 						</div>

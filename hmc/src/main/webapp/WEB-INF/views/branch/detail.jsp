@@ -50,7 +50,6 @@
 				<tr>
 					<td></td>
 					<td class="text-end">
-
 						<c:choose>
 							<c:when test="${empty LOGINED_USER}">	<!-- 로그인이 안되어 있을때 -->
 								<button id="btn-my-theater" class="btn btn-outline-secondary">

@@ -49,14 +49,14 @@
 				<tr>
 					<td></td>
 					<td class="text-end">
-					<c:choose>
+						<c:choose>
 							<c:when test="${empty LOGINED_USER}">	<!-- 로그인이 안되어 있을때 -->
-								<button class="btn btn-outline-secondary">
+								<button id="btn-my-theater" class="btn btn-outline-secondary">
 									<img alt="" src="../resources/images/branch/unfavorite.png" width="30px">
 									나의 영화관 등록
 								</button>
 							</c:when>
-							<c:when test="${LOGINED_USER.favoriteBranch1 == branchCode || LOGINED_USER.favoriteBranch1 == branchCode || LOGINED_USER.favoriteBranch1 == branchCode}">
+							<c:when test="${LOGINED_USER.favoriteBranch1 == branchCode || LOGINED_USER.favoriteBranch2 == branchCode || LOGINED_USER.favoriteBranch3 == branchCode}">
 								<!-- 로그인 되어있고 나의 영화관 일때 -->
 								<span class="p-3 mt-2">
 									<img alt="" src="../resources/images/branch/favorite.png" width="30px">
@@ -65,8 +65,8 @@
 							</c:when>
 							<c:otherwise>
 								<!-- 로그인 되어 있고 나의 영화관이 아닐때 -->
-								<button class="btn btn-outline-secondary">
-									<img alt="" src="../resources/images/branch/unfavorite.png" width="30px">
+								<button id="btn-my-theater" class="btn btn-outline-secondary">
+									<img src="../resources/images/branch/unfavorite.png" width="30px">
 									나의 영화관 등록
 								</button>
 							</c:otherwise>
@@ -139,7 +139,7 @@
 					</table>
 				</div>
 
-				<div class="col-4 offset-1">
+				<div class="col-4 offset-1 mt-3">
 				<ul>
 					<li><h4>3D</h4></li>
 				</ul>
@@ -170,9 +170,9 @@
 				</div>
 			</div>
 			
-			<div class="row justify-content-center mt-3">
+			<div class="row justify-content-center mt-5 mb-3">
 				<h3>요금제</h3>
-				<div class="col-12 p-3" style="background-color:#F2F2F2;">
+				<div class="col-12 p-3 mt-2" style="background-color:#F2F2F2;">
 					<span>
 					• <strong>청소년 요금  만7세~ 만18세</strong> : 초등학생~고등학생(학생증, 교복, 청소년증, 의료보험증, 주민등록 등/초본, 그 외 청소년 확인 가능 서류) <strong>지참시 20% 할인</strong><br/>
 					• <strong>48개월 미만</strong>의 경우 증빙원(예 : 의료보험증, 주민등록 초/등본 등) 지참 시에만 무료 관람 가능
@@ -182,7 +182,7 @@
 			
 			<div class="row justify-content-center mt-5">
 				<h3>우대적용</h3>
-				<div class="col-12 p-3" style="background-color:#F2F2F2;">
+				<div class="col-12 p-3 mt-2" style="background-color:#F2F2F2;">
 					<span>
 					• <strong>국가유공자</strong> : 현장에서 국가유공자증을 소지한 본인 외 동반 1인까지 적용<br/>
 					• <strong>장애인</strong> : 현장에서 복지카드를 소지한 장애인(중증:1급~3급까지 동반 1인까지 적용 / 경증:4급~6급은 본인에 한함)<br/>

@@ -62,16 +62,16 @@
 									<button id="is-use-point" class="btn fw-bold" style="width:100%; height:100%;">포인트 사용</button>
 								</div>
 							</div>
-							<div id="box-point-use" class="row" style="display:none;" data-user-point="${LOGINED_USER.point}">
+							<div id="box-point-use" class="row" style="display:none;" data-user-point="${findedUser.point}">
 								<div class="row">
 									<div class="col-10 offset-1" style="background-color:white">
-										<p><span>보유 포인트 </span> <span style="font-size:20px; color: #FF243E; font-weight:bold;">${LOGINED_USER.point} P </span> </p>
+										<p><span>보유 포인트 </span> <span style="font-size:20px; color: #FF243E; font-weight:bold;">${findedUser.point} P </span> </p>
 									</div>
 								</div>
 								<div class="row">
 									<div class="col-10 offset-1 pb-3" style="background-color:white">
 										<span>사용 포인트 </span> 
-										<input id="point" class="text-center" type="number" min="0" max="${LOGINED_USER.point}" step="100" style="width:140px;" placeholder="100원 단위 입력">
+										<input id="point" class="text-center" type="number" min="0" max="${findedUser.point}" step="100" style="width:140px;" placeholder="100원 단위 입력">
 										<button id="point-apply" class="btn btn-secondary">적용</button> 
 										<button id="point-apply-all" class="btn btn-warning">모두사용</button> 
 									</div>
@@ -213,7 +213,7 @@
 					inputPoint = $("#point").val();
 				}
 				
-				$("#discount-price").text(inputPoint);
+				$("#discount-price").text(new Number(inputPoint).toLocaleString());
 				paymentPrice = totalPrice-inputPoint;
 				$("#total-payment").text(new Number(paymentPrice).toLocaleString());
 			})
@@ -228,7 +228,7 @@
 				}
 				
 				$("#point").val(inputPoint);
-				$("#discount-price").text(inputPoint);
+				$("#discount-price").text(new Number(inputPoint).toLocaleString());
 				paymentPrice = totalPrice-inputPoint;
 				$("#total-payment").text(new Number(paymentPrice).toLocaleString());
 			})
