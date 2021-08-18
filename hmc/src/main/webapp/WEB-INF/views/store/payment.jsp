@@ -45,7 +45,7 @@
 						<div class="col-3 text-center" style="background-color:white">
 							<img class="mt-3" src="../resources/images/store/product/${product.imageFileName}" style="width:70%;">
 							<div class="text-start mx-2">
-								<span class="fs-5 fw-bold">${product.name}</span><br/>
+								<span class="fs-5 fw-bold" id="product-name">${product.name}</span><br/>
 								<span>${product.memo}</span>
 								<p class="">수량 : ${amount} 개</p>
 								<p>
@@ -148,7 +148,7 @@
 					</div>
 				</div>
 			</div>
-			<div id="data-div" data-total-price="${totalPrice}" data-amount="${amount}"></div>
+			<div id="data-div" data-total-price="${totalPrice}" data-amount="${amount}" data-buyer-name="${LOGINED_USER.name}" data-buyer-phone="${LOGINED_USER.phone }"></div>
 
 		</main>
 
@@ -168,7 +168,10 @@
 		</form>
 
 	</div>
-	
+	<!-- 카카오페이(import통해서) -->
+  	<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.8.js"></script>
+  	<!-- 네이버페이 -->
+  	<script src="https://nsp.pay.naver.com/sdk/js/naverpay.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
 
@@ -252,25 +255,56 @@
 				}
 				
 				if(paymentMethod == "KakaoPay") {
-					kakaoPay();
+					kakaoPay("kakao");
 				} else if(paymentMethod == "NaverPay") {
-					naverPay();
+					naverPay("naver");
 				}
-				
 			})
 			
 			// 카카오페이로 결제
-			function kakaoPay() {
-				alert("카카오페이로 결제 성공!!");
-				submitSuccess();
+			function kakaoPay(method) {
+				var IMP = window.IMP;
+				var productName = $("#product-name").text();
+				var buyerName = $("#data-div").data("buyer-name");
+				var buyerPhone = $("#data-div").data("buyer-phone");;
+				
+				IMP.init('imp16244476');
+				IMP.request_pay({
+					pg: 'kakao', 
+					pay_method: 'card',
+					merchant_uid: 'merchant_' + new Date().getTime(),
+					name: productName,
+					
+					//결제창에서 보여질 이름
+					amount: paymentPrice,	//가격
+					buyer_name: buyerName,
+					buyer_tel: buyerPhone
+				}, function (rsp) {
+					if (rsp.success) {
+						var msg = '결제가 완료되었습니다.';
+						alert(msg);
+						submitSuccess();
+					} else {
+						var msg = '결제에 실패하였습니다.';
+						msg += '에러내용 : ' + rsp.error_msg;
+						alert(msg);
+					}
+				});
 			}
 			
 			// 네이버페이로 결제
 			function naverPay() {
-				alert("네이버페이로 결제 성공!!");
+				alert("결제 수단 중비중입니다. 자동 결제 처리 합니다.");
+				
+				/*
+					네이버 페이의 경우 가맹점 등록 후 테스트 진행을 해야하는 번거로움이 있으며,
+					가맹점 등록도 네이버담당자의 승인이 필요하여, 포트폴리오 수준에서 구현이 어려울것으로 사료됨.
+					어찌하여 가맹점 인증키를 부여받은 후에도 테스트 ID 한개에서만 결제 테스트가 가능하니, 결제과정에서 실제 금액이 지불될 우려가 있음
+				*/
 				submitSuccess();
 			}
 			
+			// 결제 완료 페이지로 제출
 			function submitSuccess() {
 				
 				
@@ -279,16 +313,8 @@
 				if(!inputPoint) $("#form-point-used").val(0); 
 				$("#form-method-payment").val(paymentMethod);
 
-				console.log($("#form-give-user").val());
-				console.log($("#form-receive-user").val());
-				console.log($("#form-product-code").val());
-				console.log($("#form-product-price").val());
-				console.log($("#form-amount").val());
-				console.log($("#form-price-payment").val());
-				console.log($("#form-method-payment").val());
-				console.log($("#form-point-used").val());
 				
-				$("#form-success").submit();1
+				$("#form-success").submit();
 			}
 		})
 	</script>

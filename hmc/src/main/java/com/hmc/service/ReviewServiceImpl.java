@@ -41,5 +41,9 @@ public class ReviewServiceImpl implements ReviewService{
 	public Review getReviewByCode(String reviewCode) {
 		return reviewDao.getReviewByCode(reviewCode);
 	}
-
+	
+	@Override
+	public List<Review> getReviewByMovieCode(String movieCode) {
+		return reviewDao.getReviewByMovieCode(movieCode);
+	}
 }

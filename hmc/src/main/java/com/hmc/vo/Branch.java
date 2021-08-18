@@ -13,8 +13,9 @@ public class Branch {
 	private String name;
 	private String info;
 	private int facility;
-	private String parking_info;
+	private String parkingInfo;
 	private String status;
 	private double latitude;
 	private double longitude;
+	private String address;
 }

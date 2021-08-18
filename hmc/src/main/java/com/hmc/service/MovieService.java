@@ -15,10 +15,12 @@ public interface MovieService {
 
 	Movie getMovieDetail(String movieCode);
 
-	List<Movie> getTopMovies(int rank);
-
 	List<Movie> getNowMovie();
 
 	List<Movie> getCommingMovie();
+
+	List<Movie> getNowAllMovies();
+
+	List<Movie> getCommingAllMovies();
 
 }

@@ -53,12 +53,12 @@
 
 						<c:choose>
 							<c:when test="${empty LOGINED_USER}">	<!-- 로그인이 안되어 있을때 -->
-								<button class="btn btn-outline-secondary">
+								<button id="btn-my-theater" class="btn btn-outline-secondary">
 									<img alt="" src="../resources/images/branch/unfavorite.png" width="30px">
 									나의 영화관 등록
 								</button>
 							</c:when>
-							<c:when test="${LOGINED_USER.favoriteBranch1 == branchDetail.branchCode || LOGINED_USER.favoriteBranch1 == branchDetail.branchCode || LOGINED_USER.favoriteBranch1 == branchDetail.branchCode}">
+							<c:when test="${LOGINED_USER.favoriteBranch1 == branchDetail.branchCode || LOGINED_USER.favoriteBranch2 == branchDetail.branchCode || LOGINED_USER.favoriteBranch3 == branchDetail.branchCode}">
 								<!-- 로그인 되어있고 나의 영화관 일때 -->
 								<span class="p-3 mt-2">
 									<img alt="" src="../resources/images/branch/favorite.png" width="30px">
@@ -67,8 +67,8 @@
 							</c:when>
 							<c:otherwise>
 								<!-- 로그인 되어 있고 나의 영화관이 아닐때 -->
-								<button class="btn btn-outline-secondary">
-									<img alt="" src="../resources/images/branch/unfavorite.png" width="30px">
+								<button id="btn-my-theater" class="btn btn-outline-secondary">
+									<img src="../resources/images/branch/unfavorite.png" width="30px">
 									나의 영화관 등록
 								</button>
 							</c:otherwise>
@@ -130,42 +130,42 @@
 				
 				
 				<c:if test="${facility[0] eq 1}">
-						<div class="card" style="width: 140px;">
+						<div class="card p-1 mx-2 border-light" style="width: 160px;">
 							<img src="../resources/images/facility/armchair.png" class="card-img-top" alt="sweet">
 							<div class="card-body">
-								<p class="card-text">프리미엄석</p>
+								<p class="card-text text-center">프리미엄석</p>
 							</div>
 						</div>
 				</c:if>
 				<c:if test="${facility[1] eq 1}">
-						<div class="card" style="width: 140px;">
+						<div class="card p-1 mx-2 border-light" style="width: 160px;">
 							<img src="../resources/images/facility/sofa.png" class="card-img-top" alt="couple">
 							<div class="card-body">
-								<p class="card-text">커플석</p>
+								<p class="card-text text-center">커플석</p>
 							</div>
 						</div>
 				</c:if>
 				<c:if test="${facility[2] eq 1}">
-						<div class="card" style="width: 140px;">
+						<div class="card p-1 mx-2 border-light" style="width: 160px;">
 							<img src="../resources/images/facility/disabled.png" class="card-img-top" alt="disabled">
 							<div class="card-body">
-								<p class="card-text">장애인석</p>
+								<p class="card-text text-center">장애인석</p>
 							</div>
 						</div>
 				</c:if>
 				<c:if test="${facility[4] eq 1}">
-						<div class="card" style="width: 140px;">
+						<div class="card p-1 mx-2 border-light" style="width: 160px;">
 							<img src="../resources/images/facility/3d.png" class="card-img-top" alt="3d">
 							<div class="card-body">
-								<p class="card-text">3D 상영관</p>
+								<p class="card-text text-center">3D 상영관</p>
 							</div>
 						</div>
 				</c:if>
 				<c:if test="${facility[3] eq 1}">
-						<div class="card" style="width: 140px;">
+						<div class="card p-1 mx-2 border-light" style="width: 160px;">
 							<img src="../resources/images/facility/theater.png" class="card-img-top" alt="nomal">
 							<div class="card-body">
-								<p class="card-text">일반 상영관</p>
+								<p class="card-text text-center">일반 상영관</p>
 							</div>
 						</div>
 				</c:if>
@@ -193,7 +193,16 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
 
 	<script>
-		
+		$(function() {
+			
+			$("#btn-my-theater").click(function() {
+				confirm("나의 영화관 설정을 위해 마이페이지로 이동하시겠습니까?");
+				var link = '/hmc/mypage/home';
+				 
+				location.href=link;
+			});
+			
+		})
 	</script>
 </body>
 </html>

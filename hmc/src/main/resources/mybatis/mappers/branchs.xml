@@ -6,10 +6,11 @@
 		<result column="branch_name" property="name" />
 		<result column="branch_info" property="info" />
 		<result column="branch_facility" property="facility" />
-		<result column="branch_prking_info" property="parking_info" />
+		<result column="branch_parking_info" property="parkingInfo" />
 		<result column="branch_status" property="status" />
 		<result column="branch_latitude" property="latitude" />
 		<result column="branch_longitude" property="longitude" />
+		<result column="branch_address" property="address" />
 	</resultMap>
 	
 	<resultMap  type="com.hmc.dto.BranchDetailDto" id="branchDeatilResultMap">
@@ -20,6 +21,7 @@
 		<result column="branch_parking_info" property="parkingInfo"/>
 		<result column="total_room" property="totalRoom"/>
 		<result column="total_seat" property="totalSeat"/>
+		<result column="branch_address" property="address" />
 	</resultMap>
 	
 	<select id="getAllBranchs" resultMap="branchResultMap">
@@ -70,8 +72,12 @@
 		update t_branch
 		set
 			branch_info = #{info},
-			branch_parking_info = #{parking_info},
-			branch_status = #{status}
+			branch_parking_info = #{parkingInfo},
+			branch_status = #{status},
+			branch_facility = #{facility},
+			branch_latitude = #{latitude},
+			branch_longitude = #{longitude},
+			branch_address = #{address}
 		where
 			branch_code = #{code}
 	</update>

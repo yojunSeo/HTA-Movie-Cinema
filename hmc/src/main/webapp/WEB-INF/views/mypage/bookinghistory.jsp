@@ -398,6 +398,14 @@ span.info {
 			var bookingCode = $(this).closest('tr').attr('id');
 			location.href = "cancelBooking?bookingCode="+bookingCode;
 		});
+		
+		// 회원정보가 성공적으로 변경되었을때 실행할 alert창
+		var urlParams = new URLSearchParams(window.location.search);
+		var userchangeMyInfo = urlParams.get('changeMyInfo');
+		if(userchangeMyInfo != null){
+			alert("회원정보가 변경되었습니다.");
+			location.href = "home";
+		}
 	});
 		
 		

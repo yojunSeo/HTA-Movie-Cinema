@@ -5,28 +5,25 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
-<title>상영예정작-HMC</title>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" >
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+<title>현재상영작-HMC</title>
 </head>
 <style type= "text/css">
-.poster {
-	width: 150px;
-	height: 200px;
+html, body {
+	width: 100%;
+	height: 100%;
 }
-
+.topinfo img {
+	width: 210px;
+	height: 300px;
+}
 .wrapper {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-}
-html, body {
-    width: 100%;
-    height: 100%;
-}
-* {
-	margin: 0px;
-	padding: 0px;
+	
 }
 /* 슬라이드 */
 .swiper-container {
@@ -36,9 +33,7 @@ html, body {
 }
 
 .swiper-wrapper {
-	width: 100%;
 	height: 100%;
-	
 }
 
 .swiper-slide {
@@ -65,6 +60,7 @@ html, body {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
+	
 }
 
 .swiper-button-next, .swiper-button-prev {
@@ -79,7 +75,21 @@ html, body {
 	color: #FF243E;
 	background: #FF243E;
 }
+.overbox {
+	color: #FFF;
+	width: 210px;
+	height: 300px;
+	
+}
+.inner {
+	text-align:center;
+	padding-top: 110px;
+	padding-bottom: 110px;
+}
+.overbox a {	
+	outline: solid 1px gray;
 
+}
 </style>
 <body>
 	<div class="container">
@@ -105,142 +115,79 @@ html, body {
 					</div>
 				</div>
 			</div>
-			<div class="row mt-5">
-					<div class="wrapper">
-						<ul class="commingsoonmovie">
-							<p>상영 예정작 <strong>TOP5</strong></p>
+			<div class="row">
+				<div class="wrapper mt-5">
+					<ul class="nowmovie" style="max-width : 1100px;">
+						<div class="mb-3">
+							<h5>
+								<strong>상영 예정작</strong>
+							</h5>
+						</div>
+						<c:forEach var="commingAllMovies" items="${commingAllMovies }">
 							<li>
 								<div class="topinfo">
-									<span> <img class="poster"
-										src="https://caching.lottecinema.co.kr//Media/MovieFile/MovieImg/202108/17652_103_1.jpg"
-										alt="더수어사이드스쿼드">
-										 <!-- 								<em class="numinfo">1</em> -->
-										<!-- 								<span class="ic_grade gr_15"> :: before</span> -->
+									<span> <img onmouseover="overclass(this)"
+										src="${commingAllMovies.poster }" alt=""> 
+<!-- 										<em class="numinfo">1</em> -->
+<!-- 										<span class="ic_grade gr_15"></span> -->
 									</span>
-									<div class="overbox">
-										<div class="inner" style="margin-top: -20px;">
-											<a href="예매페이지">예매하기</a> <a href="/movie/detail.jsp">상세정보</a>
-										</div>
+								</div>
+								<div class="overbox">
+									<div class="inner">
+										<a href="detail?movieCode=${commingAllMovies.movieCode }">  상세정보    </a>
 									</div>
 								</div>
 								<div class="btminfo">
-									<strong>더 수어사이드 스쿼드</strong><br /> <span> <span>예매율<em>9.3%</em></span>
-										<span>${movie.totalScore }</span>
+									<strong>${commingAllMovies.movieName }</strong><br /> 
+									<span>개봉일
+										<em><fmt:formatDate value="${commingAllMovies.releaseDate }" pattern="yyyy.MM.dd" /></em>
 									</span>
 								</div>
 							</li>
-							<li>
-								<div class="topinfo">
-									<span> <img class="poster"
-										src="https://caching.lottecinema.co.kr//Media/MovieFile/MovieImg/202108/17669_103_1.jpg"
-										alt="극장판 도라에몽:진구의 신공룡"> 
-										<!-- 								<em class="numinfo">1</em> -->
-										<!-- 								<span class="ic_grade gr_15"> :: before</span> -->
-									</span>
-									<div class="overbox">
-										<div class="inner" style="margin-top: -20px;">
-											<a href="예매페이지">예매하기</a> <a href="/movie/detail.jsp">상세정보</a>
-										</div>
-									</div>
-								</div>
-								<div class="btminfo">
-									<strong>극장판 도라에몽</strong><br /> <span> <span>예매율<em>14.4%</em></span>
-										<span>${movie.totalScore }</span>
-									</span>
-								</div>
-							</li>
-							<li>
-								<div class="topinfo">
-									<span> <img class="poster"
-										src="https://caching.lottecinema.co.kr//Media/MovieFile/MovieImg/202108/17637_103_1.jpg"
-										alt="잘리카투"> 
-										<!--<em class="numinfo">1</em> -->
-										<!-- <span class="ic_grade gr_15"> :: before</span> -->
-									</span>
-									<div class="overbox">
-										<div class="inner" style="margin-top: -20px;">
-											<a href="예매페이지">예매하기</a> <a href="/movie/detail.jsp">상세정보</a>
-										</div>
-									</div>
-								</div>
-								<div class="btminfo">
-									<strong>잘리카투</strong><br /> <span> <span>예매율<em>0.2%</em></span>
-										<span>${movie.totalScore }</span>
-									</span>
-								</div>
-							</li>
-							<li>
-								<div class="topinfo">
-									<span> <img class="poster"
-										src="https://caching.lottecinema.co.kr//Media/MovieFile/MovieImg/202107/17691_103_1.jpg"
-										alt="그린나이트">
-										<!--<em class="numinfo">1</em> -->
-										<!-- <span class="ic_grade gr_15"> :: before</span> -->
-									</span>
-									<div class="overbox">
-										<div class="inner" style="margin-top: -20px;">
-											<a href="예매페이지">예매하기</a> <a href="/movie/detail.jsp">상세정보</a>
-										</div>
-									</div>
-								</div>
-								<div class="btminfo">
-									<strong>그린 나이트</strong><br /> <span> <span>예매율<em>4.1%</em></span>
-										<span>${movie.totalScore }</span>
-									</span>
-								</div>
-							</li>
-							<li>
-								<div class="topinfo">
-									<span> <img class="poster"
-										src="https://caching.lottecinema.co.kr//Media/MovieFile/MovieImg/202108/17646_103_1.jpg"
-										alt="더그레이트샤크">
-										<!--<em class="numinfo">1</em> -->
-										<!--<span class="ic_grade gr_15"> :: before</span> -->
-									</span>
-									<div class="overbox">
-										<div class="inner" style="margin-top: -20px;">
-											<a href="예매페이지">예매하기</a> <a href="/movie/detail.jsp">상세정보</a>
-										</div>
-									</div>
-								</div>
-								<div class="btminfo">
-									<strong>더 그레이트 샤크</strong><br /> <span> <span>예매율<em>1.6%</em></span>
-										<span>${movie.totalScore }</span>
-									</span>
-								</div>
-							</li>
-						</ul>
-					</div>
+						</c:forEach>
+					</ul>
 				</div>
-			</main>
-
-		<footer>
-		</footer>
-
+			</div>
+		</main>
+		<footer><%@ include file="../common/footer.jsp"%></footer>
 	</div>
 	
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 	<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 	<script type="text/javascript">
-	$(function() {
-	    var swiper = new Swiper(".mySwiper", {
-	      spaceBetween: 30,
-	      centeredSlides: true,
-	      autoplay: {
-	        delay: 2500,
-	        disableOnInteraction: false,
-	      },
-	      pagination: {
-	        el: ".swiper-pagination",
-	        clickable: true,
-	      },
-	      navigation: {
-	        nextEl: ".swiper-button-next",
-	        prevEl: ".swiper-button-prev",
-	      },
-	    });
-	})
+		$(function() {
+			var swiper = new Swiper(".mySwiper", {
+				spaceBetween : 30,
+				centeredSlides : true,
+				autoplay : {
+					delay : 2500,
+					disableOnInteraction : false,
+				},
+				pagination : {
+					el : ".swiper-pagination",
+					clickable : true,
+				},
+				navigation : {
+					nextEl : ".swiper-button-next",
+					prevEl : ".swiper-button-prev",
+				},
+			});
+		})
+
+		function overclass(obj) {
+			//마우스 인
+			obj.className = 'on';
+			$(".on").hide();
+			$(".on").parent().parent().next().show();
+
+			//마우스 아웃
+			obj.onmouseout = function() {
+				this.className = '';
+				$(this).show();
+				$(this).parent().parent().next().hide();
+			}
+		}
 	</script>
 </body>
 </html>

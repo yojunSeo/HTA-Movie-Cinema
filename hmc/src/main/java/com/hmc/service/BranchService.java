@@ -15,4 +15,8 @@ public interface BranchService {
 	Branch getBranchByCode(String branchCode);
 	
 	List<Facility> getAllFacility();
+	
+	Boolean isFaveriteBranch(String branchCode, String userId);
+	
+	void updateBranch(Branch branch);
 }

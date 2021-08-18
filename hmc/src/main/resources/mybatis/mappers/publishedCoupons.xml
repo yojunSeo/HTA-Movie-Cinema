@@ -19,6 +19,19 @@
 			('PC' || lpad(T_PUBLISHED_COUPON_SEQ.nextval, 6,0), #{couponCode}, #{userId})
 	</insert>
 	
+	<insert id="insertPublichedCouponJoin" parameterType="string">
+		insert into t_published_coupon
+			(published_code, coupon_code, user_id)
+		select 
+			('PC' || lpad(T_PUBLISHED_COUPON_SEQ.nextval, 6,0)), e.coupon_code, ev.user_id
+		from 
+			t_event_join ev, t_event e
+		where 
+			ev.event_code = e.event_code 
+			and e.coupon_code = #{value}
+			and ev.event_join_result = 'Y'
+	</insert>
+	
 	<select id="getMyCoupons" parameterType="string" resultMap="PublishedCouponMap">
 		select
 			*

@@ -37,10 +37,23 @@
 
 			<div class="row justify-content-center">
 				<div class="col-3 p-5">
-					<ul class="list-group list-group" >
+					<ul class="list-group" >
 						<c:forEach var="branch" items="${branchList}">
-							<li class="btn mt-3 text-center list-group-item fw-bold fs-5" style="border: 1px solid black;"
-								data-branch-code="${branch.code }">${branch.name }</li>
+							<li class="btn mt-3 text-center list-group-item fw-bold fs-5 " style="border: 1px solid black;"
+								data-branch-code="${branch.code}">${branch.name}
+								<c:choose>
+									<c:when test="${LOGINED_USER.favoriteBranch1 eq branch.code}">
+										<span class="badge bg-warning rounded-pill text-end mx-1"  style="font-size:8px;"> &#9829;</span>
+									</c:when>
+									<c:when test="${LOGINED_USER.favoriteBranch2 eq branch.code}">
+										<span class="badge bg-warning rounded-pill text-end mx-1"  style="font-size:8px;"> &#9829;</span>
+									</c:when>
+									<c:when test="${LOGINED_USER.favoriteBranch3 eq branch.code}">
+										<span class="badge bg-warning rounded-pill text-end mx-1"  style="font-size:8px;"> &#9829;</span>
+									</c:when>
+								</c:choose>
+								
+							</li>
 						</c:forEach>
 					</ul>
 				</div>
@@ -56,6 +69,10 @@
 			<%@ include file="../common/footer.jsp"%>
 		</footer>
 	</div>
+	
+	<div id="data-div" data-faverit1="${LOGINED_USER.favoriteBranch1}"
+						data-faverit2="${LOGINED_USER.favoriteBranch2}"
+						data-faverit3="${LOGINED_USER.favoriteBranch3}"></div>
 
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -88,10 +105,17 @@
 				dataType : "json", // 응답데이터 타입
 				success : function(branchList) {
 					branchList.forEach(function(branch) {
+						
+						var isFaverite = false;
+						if(faveriteBrachCheck(branch.code)) {
+							isFaverite = true;
+						}
+						
 						positions.push({
 							title : branch.name,
 							latlng : new kakao.maps.LatLng(branch.latitude, branch.longitude),
-							code : branch.code
+							code : branch.code,
+							isFaverite : isFaverite
 						});
 					})
 				}
@@ -149,7 +173,10 @@
 				var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
 				
 				// 관심영화관일때 아래의 이미지를 사용합니다.
-				//var markerImage = new kakao.maps.MarkerImage(imageLikeSrc, imageSize);
+				
+				if(position.isFaverite == true) {
+					markerImage = new kakao.maps.MarkerImage(imageLikeSrc, imageSize);
+				}
 				
 				var marker = new kakao.maps.Marker({
 					map : map, // 마커를 표시할 지도
@@ -203,10 +230,22 @@
 					// 기존 지점 선택을 없애고 현재 선택지점을 표시합니다.
 					$(".list-group-item").css("background-color", 'transparent').css("color","black");
 					$(".list-group-item:contains('" + position.title + "')").css("background-color","#FF243E").css("color","#FFFFFF");
-					
-					
 				})
+			}
+			
+			function faveriteBrachCheck(branchCode) {
+				var faverite1 = $("#data-div").data("faverit1");
+				var faverite2 = $("#data-div").data("faverit2");
+				var faverite3 = $("#data-div").data("faverit3");
 				
+				if(branchCode == faverite1) {
+					return true;
+				} else if(branchCode == faverite2) {
+					return true;
+				} else if(branchCode == faverite3) {
+					return true;
+				}
+				return false;
 			}
 		});
 	</script>

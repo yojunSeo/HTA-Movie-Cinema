@@ -15,4 +15,6 @@ public interface ReviewService {
 	Review getReviewByCode(String reviewCode);
 	
 	void deleteReview(String reviewCode);
+
+	List<Review> getReviewByMovieCode(String movieCode);
 }

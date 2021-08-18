@@ -69,6 +69,14 @@
   		</ul>
       </li>
       <li class="mb-1" style="width: 200px">
+      	<button class="btn btn-light fw-bold fs-6" type="button" data-bs-toggle="collapse" data-bs-target="#branch-service" aria-expanded="false" aria-controls="branch-service">
+    		지점 관리
+  		</button>
+  		<ul class="collapes collapse" id="branch-service">
+  			<li class="p-2" style="width: 200px"><a href="/hmc/admin/branch/home">지점 관리</a></li>
+  		</ul>
+      </li>
+      <li class="mb-1" style="width: 200px">
       	<button class="btn btn-light fw-bold fs-6" type="button" data-bs-toggle="collapse" data-bs-target="#store-service" aria-expanded="false" aria-controls="store-service">
     		스토어 관리
   		</button>

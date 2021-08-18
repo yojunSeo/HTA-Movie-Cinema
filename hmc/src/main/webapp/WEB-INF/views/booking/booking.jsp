@@ -306,7 +306,7 @@ $(function(){
 		var payname = $('#payment').data('booking-info');
 		var payPrice = basePrice - discountPrice;
 		//가맹점 식별코드
-		IMP.init('imp11307855');
+		IMP.init('imp16244476');
 		IMP.request_pay({
 		    pg : 'kakao',
 		    pay_method : 'card',

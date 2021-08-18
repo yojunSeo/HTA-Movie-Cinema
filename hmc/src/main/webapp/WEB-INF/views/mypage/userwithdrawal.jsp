@@ -89,10 +89,16 @@ html, body {
                   <p>- 전자상거래 서비스 등의 거래내역은 전자상거래 등에서의 소비자보호에 관한 법률에 의거하여 보호됩니다.</p>
                   <hr style="border: solid 1px gray;">
                </div>
-               <div class="form-check mb-5">
-                  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault"> 
-                  <label class="form-check-label fw-bold" for="flexRadioDefault1"> 위 유의사항을 모두 확인하였고 회원탈퇴에 동의합니다.</label>
-               </div>
+               <div class="row my-3" id="agreeCheck">
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="agree" value="Y" id="agree"> 
+						<label class="form-check-label" for="inlineCheckbox1">위  유의사항을 모두 확인하였고 회원탈퇴에 동의합니다.</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="agree" value="N"> 
+						<label class="form-check-label" for="inlineCheckbox1">동의하지않음</label>
+					</div>
+				</div>
                <div class="row mt-5 mb-3 text-center my-5">
                   <div class="col-12">
                      <a href="home" class="btn btn-dark btn-lg w-25 text-light">취소</a>
@@ -113,12 +119,13 @@ html, body {
    <script>
    $(function(){
 	   $("#userwithdrawal-form").submit(function(){
-		      var agree = $.trim($("#userwithdrawal-form :radio:checked").val());
-		      if(!agree){
-		         alert("회원탈퇴에 동의하셔야 탈퇴 가능합니다.");
-		         return false;
-		      }
-		      return true;
+		   var agree = $("#agree:radio:checked").length;
+			if(agree == 0){
+				alert("회원탈퇴에 동의하셔야 탈퇴가 가능합니다.");
+				$("#agree").focus();
+				return false;
+			}	
+			return true;
 		   })
    
    })

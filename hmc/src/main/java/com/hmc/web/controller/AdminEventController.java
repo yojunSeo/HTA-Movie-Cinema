@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,15 +15,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.hmc.dao.EventJoinDao;
+import com.hmc.dao.PublishedCouponDao;
 import com.hmc.service.CouponService;
+import com.hmc.service.EventJoinService;
 import com.hmc.service.EventService;
 import com.hmc.service.UserService;
 import com.hmc.vo.Coupon;
 import com.hmc.vo.Event;
+import com.hmc.vo.EventJoin;
 import com.hmc.vo.Notice;
 import com.hmc.vo.Pagination;
+import com.hmc.vo.PublishedCoupon;
 import com.hmc.vo.User;
 import com.hmc.web.annotation.LoginAdmin;
+import com.hmc.web.annotation.LoginUser;
 import com.hmc.web.util.DateUtils;
 import com.hmc.web.util.SessionUtils;
 
@@ -38,6 +45,15 @@ public class AdminEventController {
 	
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	EventJoinService eventJoinService;
+	
+	@Autowired
+	EventJoinDao eventJoindao;
+	
+	@Autowired
+	PublishedCouponDao publishedCouponDao;
 	
 	// 한 페이지당 표시할 게시글 행의 개수
 	private static final int ROWS_PER_PAGE = 10;
@@ -125,6 +141,39 @@ public class AdminEventController {
 		eventService.insertEvent(event);
 		
 		return "rediret:eventList?insertEvent=true";
+	}
+	
+	@GetMapping("/detail")
+	public String eventDetail(@RequestParam("no") String eventCode, @LoginUser User user, Model model) {
+		
+		Event events = eventService.eventDetail(eventCode);
+		Event event = eventService.getEventByCode(eventCode);
+		EventJoin eventJoins = (EventJoin) eventJoinService.getEventJoinByEventCode(eventCode);
+		
+		model.addAttribute("event", event);
+		model.addAttribute("events", events);
+		model.addAttribute("eventJoins", eventJoins);
+		
+		
+		return "/admin/event/detail";
+	}
+	
+	@PostMapping("/draw")
+	public String eventJoin(@RequestParam(value="eventCode",required=false) String eventCode,
+			@RequestParam("userId") String userId ,
+			@RequestParam("couponCode") String couponCode,Model model) {
+		System.out.println(couponCode);
+		System.out.println(eventCode);
+		eventJoindao.eventDraw(eventCode);
+		
+		PublishedCoupon publishedCoupon = new PublishedCoupon();
+		
+		
+		publishedCouponDao.insertPublichedCouponJoin(couponCode);
+		
+		
+		
+		return "redirect:/event/home";
 	}
 
 }

@@ -57,11 +57,11 @@
 							<td><strong>사용가능 영화관</strong></td><td>모든 영화관</td>
 						</tr>
 					</table>
-					<form id="form" class="from-group mt-3" method="post" action="purchase" style="width:80%;">
+					<form id="form" class="from-group mt-3" method="get" action="purchase" style="width:80%;">
 						<div class="row">
 							<div class="input-group">
 								<span class="input-group-text">수량</span>
-								<input class="form-control text-center" type="number" min="0" max="5" id="amount" name="amount" value="0" />
+								<input class="form-control text-center" type="number" min="0" max="5" id="amount" name="amount" value="1" />
 							</div>
 							<div class="text-end mt-3">
 								<span>총 상품금액 : </span><span class="fs-4 fw-bold" style="color:#FF243E;" id="totalPrice"></span>
@@ -226,7 +226,8 @@
 		</div>
 
 		</main>
-
+		
+		<div id="data-div" data-is-present="${isPresent}" data-present-amount="${amount}"></div>
 		<footer>
 			<%@ include file="../common/footer.jsp" %>
 		</footer>
@@ -241,6 +242,21 @@
 			var unitPrice = $("#price").data("price");
 			var amount;
 			var totalPrice;
+			
+			
+			amount = $("#amount").val();
+			totalPrice = new Number(amount*unitPrice).toLocaleString();
+			
+			$("#totalPrice").empty().text(totalPrice+' 원');
+			
+			if($("#data-div").data("is-present") == 'Y') {
+				presentAmount = $("#data-div").data("present-amount");
+				$("#amount").val(presentAmount);
+				totalPrice = new Number(presentAmount*unitPrice).toLocaleString();
+				
+				$("#totalPrice").empty().text(totalPrice+' 원');
+				modalshow();
+			}
 			
 			$("#amount").change(function() {
 				amount = $("#amount").val();
@@ -261,18 +277,25 @@
 				
 				 document.getElementById("form").submit();
 			})
-			
-			var presentModal = new bootstrap.Modal(document.getElementById("form-present-modal"), {
-				keyboard: false
-			})
-			
+
 			
 			$("#present").click(function() {
-				
+				modalshow();				
+			})
+			
+			function modalshow() {
 				if($("#amount").val() < 1) {
 					alert("수량은 1개이상이어야합니다.");
 					$("#amount").focus();
 					return;
+				}
+				
+				var presentModal = new bootstrap.Modal(document.getElementById("form-present-modal"), {
+					keyboard: false
+				})
+				
+				if($("#data-div").data("is-present") != 'Y') {
+					window.location.href='present?code='+$("#product-code").val()+'&amount='+amount;
 				}
 				
 				amount = $("#amount").val();
@@ -281,8 +304,7 @@
 				$("#modal-total-price").text(totalPriceLocale);
 				$("#modal-amount").text(amount);
 				presentModal.show();
-				
-			})
+			}
 			
 			
 			$("#form-user-check").click(function() {

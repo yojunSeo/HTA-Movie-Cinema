@@ -33,5 +33,9 @@ public interface EventJoinDao {
 	 */
 	List<EventJoin> getEventJoinByEventCode(String eventCode);
 	
+
 	List<Map<String, Object>> getUserEventJoin(String userId);
+
+	void eventDraw(String eventCode);
+
 }
