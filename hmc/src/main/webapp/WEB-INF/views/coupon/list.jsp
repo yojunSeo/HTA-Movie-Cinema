@@ -212,8 +212,6 @@ $(function(){
 	})
 	
 	
-	
-	
 	// 삭제버튼
 	$("#table-coupon tbody").on('click', '.btn-outline-danger', function() {
 		console.log("삭제");
@@ -238,7 +236,6 @@ $(function(){
 		return row;
 	}
 	
-	
 	function bgColor(status) {
 		if (status == '등록') {
 			return "bg-primary";
@@ -251,7 +248,6 @@ $(function(){
 		}
 	}
 })
-
 
 </script>
 <footer>

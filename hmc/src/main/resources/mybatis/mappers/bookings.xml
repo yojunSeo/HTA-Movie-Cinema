@@ -36,7 +36,7 @@
 		where
     		booking_code = #{value}
 	</update>
-	
+	 
 	<select id="getBookingsByUserId" parameterType="string" resultMap="BookingResultMap">
 		select
 			*
@@ -104,7 +104,7 @@
 	
 	<select id="getBookingPageByUser" parameterType="map" resultType="hashmap">
 		select *
-        from (
+        from ( 
             select
             row_number() over (order by sh.schedule_start_time desc) rn,
 			booking_code 			as bookingcode,
@@ -138,5 +138,40 @@
         and
             bk.user_id = #{userId})
             where  rn between #{beginIndex} and #{endIndex}
+	</select>
+	
+	<insert id="insertBookingDetail" parameterType="com.hmc.vo.BookingDetail">
+		insert into 
+			t_booking_detail
+			(BOOKING_CODE ,USER_ID ,SCHEDULE_CODE ,USED_COUPON ,USED_POINT ,SAVED_POINT ,BOOKED_SEAT)
+		values
+			(#{bookingCode}, #{userId}, #{scheduleCode}, #{usedCoupon}, #{usedPoint}, #{savedPoint}, #{bookedSeats})
+	</insert>
+	 
+	<delete id="deleteBookingDetail" parameterType="string">
+		delete from
+			t_booking_detail
+		where
+			booking_code = #{bookingCode}
+	</delete>
+	
+	<select id="getBookingDetailByBookingCode" parameterType="string" resultType="hashmap">
+		select 
+		    booking_code,
+		    bd.user_id,
+		    schedule_code,
+		    used_coupon,
+		    used_point,
+		    saved_point,
+		    booked_seat,
+		    coupon_name
+		from 
+			t_booking_detail bd,  t_published_coupon pc, t_coupon cp
+		where 
+		    booking_code = #{value}
+		and
+		    bd.used_coupon = pc.published_code(+)
+		and
+		    pc.coupon_code = cp.coupon_code(+)
 	</select>
 </mapper>

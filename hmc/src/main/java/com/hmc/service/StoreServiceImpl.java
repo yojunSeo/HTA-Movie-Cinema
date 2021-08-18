@@ -255,17 +255,5 @@ public class StoreServiceImpl implements StoreService{
 		return result;
 	}
 	
-	
-	@Override
-	public void cancelGift(String giftCode) {
-		// gift 삭제
-		GiftProduct gProduct = giftProductDao.getGiftProductByCode(giftCode);
-		giftProductDao.deleteGiftByCode(giftCode);
-		// payment status 변경
-		paymentDao.updatePaymentStatus(gProduct.getPaymentCode());
-		// 포인트 적립한거 뺴기
-		
-		// 등급변경확인 
-	}
 
 }

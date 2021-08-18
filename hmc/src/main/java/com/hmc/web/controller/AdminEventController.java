@@ -168,10 +168,7 @@ public class AdminEventController {
 		
 		PublishedCoupon publishedCoupon = new PublishedCoupon();
 		
-		
 		publishedCouponDao.insertPublichedCouponJoin(couponCode);
-		
-		
 		
 		return "redirect:/event/home";
 	}

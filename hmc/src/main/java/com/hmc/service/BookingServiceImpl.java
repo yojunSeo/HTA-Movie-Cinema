@@ -21,6 +21,7 @@ import com.hmc.dao.UserDao;
 import com.hmc.dto.BookingDto;
 import com.hmc.dto.Membership;
 import com.hmc.vo.Booking;
+import com.hmc.vo.BookingDetail;
 import com.hmc.vo.Pagination;
 import com.hmc.vo.Payment;
 import com.hmc.vo.PublishedCoupon;
@@ -29,8 +30,8 @@ import com.hmc.vo.SeatBooking;
 import com.hmc.vo.User;
 import com.hmc.web.util.SessionUtils;
 
-@Transactional
 @Service
+@Transactional
 public class BookingServiceImpl implements BookingService{
 	
 	private static final int ROWS_PER_PAGE = 7;
@@ -136,6 +137,7 @@ public class BookingServiceImpl implements BookingService{
 	@Override
 	public Map<String, Object> successBooking(BookingDto book) {
 		User user = (User)SessionUtils.getAttribute("LOGINED_USER");
+		BookingDetail bookedDetail = new BookingDetail();
 		// Payment 생성 후 인서트
 		Payment payment = new Payment();
 		payment.setUserId(user.getId());
@@ -156,6 +158,9 @@ public class BookingServiceImpl implements BookingService{
 		bookingDao.insertBooking(booking);
 		String bookingCode = booking.getCode();
 		
+		bookedDetail.setBookingCode(bookingCode);
+		bookedDetail.setScheduleCode(book.getScheduleCode());
+		
 		List<String> seatName = new ArrayList<String>();
 		// SeatBooking 생성 후 인서트
 		for(String seatCode : book.getSeatCode()) {
@@ -170,9 +175,16 @@ public class BookingServiceImpl implements BookingService{
 		// 쿠폰 사용했으면 사용 상태 변경
 		if(book.getUsedCoupon() != null) {
 			publishedCouponDao.updatePublishedCouponStatusToY(book.getUsedCoupon());
+			bookedDetail.setUsedCoupon(book.getUsedCoupon());
 		}
 		// 포인트 사용한만큼 사용자포인트에서 차감 // 적립예정포인트 적립하기
 		user.setPoint(user.getPoint() - book.getUsedPoint() + book.getSavedPoint());
+		bookedDetail.setUsedPoint(book.getUsedPoint());
+		bookedDetail.setSavedPoint(book.getSavedPoint());
+		bookedDetail.setUserId(user.getId());
+		bookedDetail.setBookedSeats(seatName.toString());
+		System.out.println(bookedDetail);
+		bookingDao.insertBookingDetail(bookedDetail);
 		// 만약 사용자의 현재등급이랑 예상등급이 다르다면!
 		if(!book.getExceptGrade().equals(user.getGrade())) {
 			insertGradeCouponAndPoint(book.getExceptGrade(), user);
@@ -320,6 +332,7 @@ public class BookingServiceImpl implements BookingService{
 			// 준 쿠폰과 포인트 가져가기
 		}
 		userDao.updateUser(user);
+		bookingDao.deleteBookingDetail(cancelBook.getCode());
 	}
 
 }

@@ -93,7 +93,6 @@ span.large{
 					<col width="20%"/>
 					<col width="15%"/>
 					<col width="15%"/>
-					<col width="8%"/>
 				</colgroup>
 				<thead>
 					<tr class="text-center">
@@ -103,14 +102,13 @@ span.large{
 						<th>상품 개수</th>
 						<th>결제금액</th>
 						<th>구매일시</th>
-						<th></th>
 					</tr>
 				</thead>
 				<tbody>
 					<c:choose>
 						<c:when test="${empty payments }">
 							<tr class="text-center">
-									<td colspan="5">구매내역이 존재하지 않습니다.</td>
+									<td colspan="6">구매내역이 존재하지 않습니다.</td>
 								</tr>
 						</c:when>
 						<c:otherwise>
@@ -122,14 +120,6 @@ span.large{
 									<td>${payment.AMOUNT } 개</td>
 									<td><fmt:formatNumber>${payment.PRICE }</fmt:formatNumber> 원</td>
 									<td><fmt:formatDate value="${payment.PURCHASEDDATE }" pattern="yyyy/MM/dd HH:mm"/></td>
-									<c:choose>
-										<c:when test="${payment.USED eq 'Y' }">
-											<td>사용됨</td>
-										</c:when>
-										<c:otherwise>
-											<td><button class="btn btn-sm btn-outline-danger">결제취소</button></td>
-										</c:otherwise>
-									</c:choose>
 								</tr>
 
 							</c:forEach>
@@ -169,14 +159,6 @@ span.large{
 	
 <script type="text/javascript">
 $(function(){
-	$('#give-table tbody').on('click', '.btn-outline-danger', function(){
-		var giftCode = $(this).closest('tr').attr('id');
-		var confirmValue = confirm('결제를 취소하시겠습니까? \n * 다른 사용자에게 선물하신 경우, 선물이 취소됩니다.');
-		if(!confirmValue){
-			return false;
-		}
-		location.href = "payment/cancel?giftCode="+giftCode;
-	})
 	
 	
 })

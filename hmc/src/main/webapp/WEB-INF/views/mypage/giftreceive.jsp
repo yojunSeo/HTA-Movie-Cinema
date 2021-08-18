@@ -110,7 +110,7 @@ span.large{
 					<c:choose>
 						<c:when test="${empty receives }">
 							<tr class="text-center">
-									<td colspan="5">선물받은 내역이 존재하지 않습니다.</td>
+									<td colspan="7">선물받은 내역이 존재하지 않습니다.</td>
 								</tr>
 						</c:when>
 						<c:otherwise>
