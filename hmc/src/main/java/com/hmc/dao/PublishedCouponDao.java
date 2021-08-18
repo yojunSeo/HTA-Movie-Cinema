@@ -17,5 +17,6 @@ public interface PublishedCouponDao {
 	
 	List<Map<String, Object>> getMyCouponsByUserId(Map<String, Object> param);
 	
+	void insertPublichedCouponJoin(String couponCode);
 	
 }
