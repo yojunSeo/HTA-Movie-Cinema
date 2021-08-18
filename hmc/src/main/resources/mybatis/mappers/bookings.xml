@@ -106,7 +106,7 @@
 		select *
         from (
             select
-            row_number() over (order by booking_code desc) rn,
+            row_number() over (order by sh.schedule_start_time desc) rn,
 			booking_code 			as bookingcode,
             sh.schedule_code 		as scheduleCode,
             sc.screen_code			as screenCode,
@@ -136,9 +136,7 @@
         and
             sh.screen_code = sc.screen_code
         and
-            bk.user_id = #{userId}
-		order by
-			booking_code desc)
+            bk.user_id = #{userId})
             where  rn between #{beginIndex} and #{endIndex}
 	</select>
 </mapper>

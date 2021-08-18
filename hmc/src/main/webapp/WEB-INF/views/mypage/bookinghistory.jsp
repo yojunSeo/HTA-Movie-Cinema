@@ -18,6 +18,12 @@ html, body {
 	margin-left: calc(-50vw + 50%);
 	
 }
+p.info {
+	font-size: 17px;
+}
+span.info {
+	font-size: 17px;
+}
 .box1 {
 	background-color: #FF243E;
 	width: 100vw;
@@ -108,7 +114,7 @@ html, body {
 						</c:when>
 						<c:otherwise>
 							<c:forEach var="booking" items="${bookings }">
-								<tr class="text-center" id="${booking.BOOKINGCODE }" data-screen-code=${booking.SCREENCODE }>
+								<tr class="text-center" id="${booking.BOOKINGCODE }" data-schedule-code=${booking.SCHEDULECODE } data-screen-code=${booking.SCREENCODE }>
 									<td class="bookInfo">${booking.BOOKINGCODE }</td>
 									<td class="text-start bookInfo">${booking.MOVIENAME }</td>
 									<td class="bookInfo">${booking.BRANCHNAME }(${booking.ROOMNAME })</td>
@@ -155,15 +161,30 @@ html, body {
 			<div class="modal fade" id="booking-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog modal-lg">
 				<div class="modal-content">
-					<div class="modal-header">
+					<div class="modal-header bg-dark text-white">
 						<h5 class="modal-title" id="exampleModalLabel">예매정보</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
-
+					<div class="row">
+						<div class="col-5">
+								<img class="mt-3 offset-2" src="https://caching.lottecinema.co.kr//Media/MovieFile/MovieImg/202108/17652_103_1.jpg" width="220px" height="300px">
+								<p class="mx-2 info fw-bold"><span class='badge rounded-pill mx-3'>15</span>더 수어사이드 스쿼드</p>
+							</div>
+						<div class="col-7 border border-2 border-secondary">
+							<p class="info"><strong>예매정보</strong></p>
+							<p class="info"><span>2021-08-18 (18:00 ~ 20:40)</span> 왕십리점 (3관) [D3/D4]</p>
+							<p class="info"><strong>사용쿠폰 :</strong> BRONZE 등급 5000원 할인 쿠폰</p>
+							<p class="info"><strong>사용포인트 :</strong> 3000 point</p>
+							<p class="info"><strong>적립된포인트 :</strong> 350 point</p>
+							<p class="info"><strong>결제금액 :</strong> <span class="fw-bold">30,000</span> 원</p>
+							<p class="info"><strong>할인금액 :</strong> <span class="fw-bold text-warning">4,000</span> 원</p>
+							<p class="info"><strong>총 결제금액 :</strong> <span class="fw-bold text-danger">26,000</span> 원</p>
+						</div>
+					</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-dark" data-bs-dismiss="modal">확인</button>
+						<button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">확인</button>
 					</div>
 				</div>
 				</div>
@@ -268,7 +289,18 @@ html, body {
 		});
 		
 		$('#booking-table tbody').on('click', '.bookInfo', function(){
-			bookingModal.show();
+			var scheduleCode = $(this).closest('tr').data('schedule-code');
+			var bookingCode = $(this).closest('tr').attr('id');
+			console.log(scheduleCode);
+			console.log(bookingCode);
+			$.ajax({
+				type:"GET",
+				url:"rest/booking/modal",
+				data:{scheduleCode:scheduleCode,bookingCode:bookingCode},
+				dataType:"json"
+			}).done(function(){
+				bookingModal.show();
+			})
 		})
 		
 		$('#booking-table tbody td').on('click', '.review', function(){

@@ -129,4 +129,10 @@ public class MypageAjaxController {
 		 }
 		 return new ResponseEntity<String>(isExist,HttpStatus.OK);
 	 }
+	 
+	 @RequestMapping("/booking/modal")
+	 public Map<String, Object> getBookingModalInfo(@RequestParam("scheduleCode")String scheduleCode, @RequestParam("bookingCode")String bookingCode){
+		 Map<String, Object> result = new HashMap<String, Object>();
+		 return result;
+	 }
 }
