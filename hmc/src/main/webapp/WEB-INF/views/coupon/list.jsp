@@ -98,7 +98,7 @@
 		<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">새 일정쓰기</h5>
+						<h5 class="modal-title" id="exampleModalLabel">새 쿠폰등록</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
@@ -106,22 +106,20 @@
 							<input type="hidden" name="code" id="coupon-code">
 							<div class="row px-2 mb-2">
 								<div class="form-check">
-									<div class="form-check form-check-inline">
-										<input class="form-check-input" type="radio" name="type" value="50%할인" >
-										<label class="form-check-label">50%할인</label>
-									</div>
-									<div class="form-check form-check-inline">
-										<input class="form-check-input" type="radio" name="type" value="30%할인">
-										<label class="form-check-label">30%할인</label>
-									</div>
-									<div class="form-check form-check-inline">
-										<input class="form-check-input" type="radio" name="type" value="5000원 할인">
-										<label class="form-check-label">5000원 할인</label>
-									</div>
-									<div class="form-check form-check-inline">
-										<input class="form-check-input" type="radio" name="type" value="영화관람권">
-										<label class="form-check-label">영화관람권</label>
-									</div>
+									<c:forEach var="category" items="${categories }">
+										<div class="form-check form-check-inline">
+											<c:choose>
+												<c:when test="${coupon eq '영화관람권'}">
+													<input class="form-check-input" type="radio" name="type" value="영화관람권">
+												</c:when>
+												<c:otherwise>
+													<input class="form-check-input" type="radio" name="type" value="${category}" >
+												</c:otherwise>
+											</c:choose>
+											<label class="form-check-label">${category}</label>
+										
+										</div>
+									</c:forEach>
 								</div>
 							</div>
 							<div class="row px-2 mb-2">
@@ -192,12 +190,23 @@ $(function(){
 	
 	
 	// 수정버튼
+	
 	$("#table-coupon tbody").on('click', '.btn-outline-primary', function(event){
 		request = "수정";
 		requestURI = "/hmc/coupon/modify";
+		data:{
+			type:$("#type").val();
+			name:$("#name").val();
+			code:$("#code").val();
+		};
 		$("#btn-post-coupon").text("수정");
 		$(":input:disabled").prop("disabled", false);
-		
+		console.log("123");
+		console.log($(":radio[name=type][value="+"영화관람권"+"]").prop("checked"));
+		if($(":radio[name=type][value="+"영화관람권"+"]").prop("checked")) {
+			console.log("123");
+			$(":radio[name=type][value="+"영화관람권"+"]").val("영화관람권");
+		}
 		console.log("수정 실행임니당");
 		event.preventDefault();
 		$.getJSON("/hmc/coupon/detail?code=" + $(this).data("coupon-code"))
@@ -208,6 +217,8 @@ $(function(){
 				$("#coupon-name").val(coupons.name);
 				couponModal.show();
 			})
+			
+		
 		
 	})
 	
@@ -239,17 +250,6 @@ $(function(){
 	}
 	
 	
-	function bgColor(status) {
-		if (status == '등록') {
-			return "bg-primary";
-		}
-		if (status == '완료') {
-			return "bg-success";
-		}
-		if (status == '보류') {
-			return "bg-secondary";
-		}
-	}
 })
 
 

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hmc.dao.CouponCategoryDao;
 import com.hmc.dao.CouponDao;
 import com.hmc.service.CouponService;
 import com.hmc.vo.Coupon;
@@ -27,6 +28,9 @@ public class CouponController {
 	
 	@Autowired
 	private CouponDao couponDao;
+	
+	@Autowired
+	private CouponCategoryDao couponCategoryDao;
 	
 	// 한 페이지당 표시할 게시글 행의 개수
 	private static final int ROWS_PER_PAGE = 10;
@@ -53,6 +57,9 @@ public class CouponController {
 		model.addAttribute("coupons", coupons);
 		
 		//List<Coupon> eventCodes = couponService.
+		
+		List<String> categories = couponCategoryDao.getAllCouponCategorys();
+		model.addAttribute("categories", categories);
 		
 		int totalRows = couponService.getTotalRows(param);
 		int totalPages = (int) Math.ceil((double) totalRows/ROWS_PER_PAGE);
@@ -114,12 +121,12 @@ public class CouponController {
 			System.out.println("if문 실행");
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		savedCoupon.setCode(coupon.getCode());
+		System.out.println(coupon.getType());
+		System.out.println(coupon.getName());
 		savedCoupon.setType(coupon.getType());
 		savedCoupon.setName(coupon.getName());
-		savedCoupon.setEventCode(coupon.getEventCode());
 		
-		couponDao.updateCoupon(savedCoupon);
+		couponDao.modifyCoupon(savedCoupon);
 		
 		return new ResponseEntity<>(savedCoupon, HttpStatus.OK);
 	}

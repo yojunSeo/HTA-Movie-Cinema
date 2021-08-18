@@ -76,6 +76,15 @@
 			coupon_code = #{code}
 	</update>
 	
+	<update id="modifyCoupon" parameterType="com.hmc.vo.Coupon">
+		update t_coupon
+		set
+			coupon_type = #{type},
+			coupon_name = #{name}
+		where
+			coupon_code = #{code}
+	</update>
+	
 	<delete id="deleteCoupon" parameterType="string">
 		delete from
 			t_coupon
@@ -121,4 +130,5 @@
 			pc.published_code = #{value}
 	
 	</select>
+	
 </mapper>
