@@ -40,6 +40,7 @@
 			<%@ include file="../common/header.jsp" %>
 		</header>
 		<main class="mt-5 mb-5" >
+			<!-- 상단 배너 출력 -->
 			<table class="table table-borderless banner" style="color:#FFFFFF; background-image: url(../resources/images/branch/thater_room.png); background-repeat: no-repeat; width:98vw; height:280px;">
 				<colgroup>
 					<col width="15%">
@@ -82,6 +83,7 @@
 					<td></td>
 				</tr>
 			</table>
+			<!-- 상단배너 출력 끝 -->
 			
 			<!-- 탭 구현 -->
 			<div class="row fs-6 justify-content-center text-center" style="display: flex;">
@@ -96,9 +98,8 @@
 				</div>
 			</div>
 		
-			
+			<!-- 영화관람료 정보 출력 -->
 			<div class="row mt-5">
-			
 			<h3>영화 관람료</h3>
 			
 				<div class="col-4 offset-1 mt-3">

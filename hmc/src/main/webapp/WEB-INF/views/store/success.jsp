@@ -41,6 +41,7 @@
 						</div>
 						<div class="col-12 text-center" style="background-color:white; height:400px;">
 							<p class="fs-5 fw-bold">적립 및 지급포인트 : <span style="color:red">${plusPoint}</span></p>
+							<!-- 등급 업그레이드 시 출력 -->
 							<c:if test="${beforeGrade ne afterGrade}">
 								<p class="fs-5 fw-bold">축하합니다. 구매 실적이 달성되어 등급이 업그레이드 되었습니다.</p>
 								<span id="badge-before-grade" class="badge rounded-pill">${beforeGrade}</span> --> <span  id="badge-after-grade" class="badge rounded-pill">${afterGrade }</span>

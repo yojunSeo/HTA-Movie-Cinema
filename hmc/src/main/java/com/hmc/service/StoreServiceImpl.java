@@ -124,12 +124,12 @@ public class StoreServiceImpl implements StoreService{
 		
 		
 		// 등급 업그레이드 판별
+		// 결제 전과 결제 후의 결제총액으로 해당하는 등급을 산출한 후 서로 비교하여 변동여부를 판별
 		User user = userDao.getUserById(payment.getUserId());
 		String beforeGrade = user.getGrade();
 		String afterGrade;
 		String userId = payment.getUserId();
 		int yearTotalPayment = paymentDao.getUserTotalPayment(userId);
-		System.out.println("========yearPayment : " + yearTotalPayment);
 		
 		if(yearTotalPayment >= 1000000) {
 			afterGrade = "PLATINUM";

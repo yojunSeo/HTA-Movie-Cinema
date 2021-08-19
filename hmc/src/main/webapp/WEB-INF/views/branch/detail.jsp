@@ -41,6 +41,8 @@
 		</header>
 
 		<main class="mt-5">
+		
+			<!-- 상단 배너 -->
 			<table class="table table-borderless banner" style="color:#FFFFFF; background-image: url(../resources/images/branch/thater_room.png); background-repeat: no-repeat; width:98vw; height:280px;">
 				<colgroup>
 					<col width="15%">
@@ -119,6 +121,7 @@
 						<th>영화관위치</th><td colspan="3">${branchDetail.address} <td>
 					</tr>
 				</table>
+				<!-- 상단배너 출력 끝 -->
 			</div>
 			
 			<div class="row mt-5">
@@ -127,7 +130,7 @@
 				
 				<div class="row mt-3">
 				
-				
+				<!-- 시설정보 출력 -->
 				<c:if test="${facility[0] eq 1}">
 						<div class="card p-1 mx-2 border-light" style="width: 160px;">
 							<img src="../resources/images/facility/armchair.png" class="card-img-top" alt="sweet">
@@ -168,16 +171,17 @@
 							</div>
 						</div>
 				</c:if>
+				<!-- 시설정보 출력 끝 -->
 				</div>
 			</div>
 			
+			<!-- 주차정보 출력 -->
 			<div class="row mt-5">
 				<h3 class="mt-3"><i class="bi bi-info-circle"></i> 주차안내</h3>
 				<div class="col-10">
 					${branchDetail.parkingInfo}
 				</div>
 			</div>
-			
 			
 			
 		</main>
@@ -194,6 +198,7 @@
 	<script>
 		$(function() {
 			
+			// 나의 영화관 설정 버튼 클릭시
 			$("#btn-my-theater").click(function() {
 				confirm("나의 영화관 설정을 위해 마이페이지로 이동하시겠습니까?");
 				var link = '/hmc/mypage/home';

@@ -24,7 +24,8 @@
 		<header>
 			<%@ include file="../common/header.jsp" %>
 		</header>
-
+		
+		<!-- 상단배너 출력 -->
 		<img class="banner" src="../resources/images/store/banner.png">
 		<main class="mt-5">
 			<div class="row justify-content-center">

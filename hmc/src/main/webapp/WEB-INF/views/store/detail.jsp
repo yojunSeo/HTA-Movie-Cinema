@@ -18,6 +18,7 @@
 
 		<main class="mt-5">
 			
+			<!-- 상품정보출력 -->
 			<div class="row justify-content-center">
 				<div class="col-5">
 					<img src="../resources/images/store/product/${product.imageFileName}" style="width:100%; height: auto;">
@@ -76,7 +77,9 @@
 					</form>
 				</div>
 			</div>
+			<!-- 상품정보 출력 끝 -->
 			
+			<!-- 유의사항 탭 -->
 			<div class="row justify-content-center mt-5">
 				<div class="col-10">
 					<nav>
@@ -129,7 +132,9 @@
 					</div>					
 				</div>
 			</div>
+			<!-- 유의사항 탭 끝 -->
 
+		<!-- 선물 시 받는사람 입력을 위한 모달창 -->
 		<div class="modal fade" id="form-present-modal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered modal-lg">
 				<div class="modal-content">
@@ -243,12 +248,12 @@
 			var amount;
 			var totalPrice;
 			
-			
+			// 디폴트 수량으로 총금액 초기화
 			amount = $("#amount").val();
 			totalPrice = new Number(amount*unitPrice).toLocaleString();
-			
 			$("#totalPrice").empty().text(totalPrice+' 원');
 			
+			// 선물일경우 get으로 넘어온 수량으로 총금액 초기화
 			if($("#data-div").data("is-present") == 'Y') {
 				presentAmount = $("#data-div").data("present-amount");
 				$("#amount").val(presentAmount);
@@ -258,6 +263,7 @@
 				modalshow();
 			}
 			
+			// 수량을 변동할 경우 총 금액 변동
 			$("#amount").change(function() {
 				amount = $("#amount").val();
 				totalPrice = new Number(amount*unitPrice).toLocaleString();
@@ -265,8 +271,10 @@
 				$("#totalPrice").empty().text(totalPrice+' 원');
 			})	
 			
+			// 구매하기 클릭시 유효성 검사
 			$("#buy").click(function() {
 				
+				// 수량 유효성 체크
 				if($("#amount").val() < 1) {
 					alert("수량은 1개이상이어야합니다.");
 					$("#amount").focus();
@@ -279,10 +287,12 @@
 			})
 
 			
+			// 선물하기 클릭시 모달 출력
 			$("#present").click(function() {
 				modalshow();				
 			})
 			
+			// 모달 출력 시 form 값 넣어주기
 			function modalshow() {
 				if($("#amount").val() < 1) {
 					alert("수량은 1개이상이어야합니다.");
@@ -306,7 +316,7 @@
 				presentModal.show();
 			}
 			
-			
+			// 모달창에서 받는 사람의 전화번호로 유저 조회해서 form 값에 입력
 			$("#form-user-check").click(function() {
 				
 				var phone = $("#form-phone").val();
@@ -325,6 +335,7 @@
 					})				
 			})
 			
+			// 모달창에서 선물하기 클릭시 유효성 체크 후 결제화면으로 이동
 			$("#btn-post-present").click(function() {
 
 				// 선물 받는 사람이 제대로 검색되었는지 확인

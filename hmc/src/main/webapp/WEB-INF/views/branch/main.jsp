@@ -20,6 +20,14 @@
 .customoverlay a {display:block;text-decoration:none;color:#000;text-align:center;border-radius:6px;font-size:14px;font-weight:bold;overflow:hidden;background: #FF243E url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
 .customoverlay .title {display:block;text-align:center;background:#fff;margin-right:35px;padding:10px 15px;font-size:14px;font-weight:bold;}
 .customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+	.banner {
+		position: relative;
+		width:100vw;
+		margin-left: calc(-49vw + 50%);
+		padding-right: 15px;
+		padding-left: 15px;
+		margin-right: auto;
+	}
 </style>
 
 
@@ -33,7 +41,22 @@
 		</header>
 
 		<main class="mt-5">
-			<h2>전체극장</h2>
+			
+			<table class="table table-borderless banner" style="color:#FFFFFF; background-image: url(../resources/images/branch/thater_room.png); background-repeat: no-repeat; width:98vw; height:280px;">
+				<colgroup>
+					<col width="15%">
+					<col width="60%">
+					<col width="15%">
+				</colgroup>
+				<tr>
+					<td></td>
+					<td class="align-middle text-center" style="">
+					<h2>고객을 위한 HMC의 영화관을 만나보세요</h2>
+					</td>
+					<td></td>
+				</tr>
+			</table>
+			
 
 			<div class="row justify-content-center">
 				<div class="col-3 p-5">

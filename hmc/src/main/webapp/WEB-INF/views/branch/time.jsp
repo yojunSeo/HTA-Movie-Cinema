@@ -65,6 +65,7 @@
 		</header>
 
 		<main class="mt-5">
+			<!-- 상단 배너 출력 -->
 			<table class="table table-borderless banner" style="color:#FFFFFF; background-image: url(../resources/images/branch/thater_room.png); background-repeat: no-repeat; width:98vw; height:280px;">
 				<colgroup>
 					<col width="15%">
@@ -107,6 +108,7 @@
 					<td></td>
 				</tr>
 			</table>
+			<!-- 상단배너 출력 끝 -->
 			
 			<!-- 탭 구현 -->
 			<div class="row fs-6 justify-content-center text-center" style="display: flex;">
@@ -238,14 +240,18 @@
 			}
 			
 			// 토, 일은 color 부여
-			$(".calendar-btn p:contains('토')").css("color","blue").prev().css("color","blue");
-			$(".calendar-btn p:contains('일')").css("color","red").prev().css("color","red");
+			//$(".calendar-btn p:contains('토')").css("color","blue").prev().css("color","blue");
+			$(".calendar-btn p:contains('토')").addClass("text-primary");
+			//$(".calendar-btn p:contains('일')").css("color","red").prev().css("color","red");
+			$(".calendar-btn p:contains('일')").addClass("text-danger");
 			
 			// 오늘이 토,일 일 경우 color 부여
 			if(today.getDay() == 6) {
-				$(".calendar-btn p:contains('오늘')").css("color","blue").prev().css("color","blue");
+				//$(".calendar-btn p:contains('오늘')").css("color","blue").prev().css("color","blue");
+				$(".calendar-btn p:contains('오늘')").addClass("text-primary");
 			} else if(today.getDay() == 0) {
-				$(".calendar-btn p:contains('오늘')").css("color","red").prev().css("color","red");
+				//$(".calendar-btn p:contains('오늘')").css("color","red").prev().css("color","red");
+				$(".calendar-btn p:contains('오늘')").addClass("text-danger");
 			}
 			
 			
@@ -286,6 +292,7 @@
 				})
 			}
 			
+			// 상영시간표 출력
 			function printTimeTable(movies) {
 				
 				var TTdiv;
@@ -306,8 +313,6 @@
 						
 					TTdiv += '<span id="movieName">' + movie.movieName + '</sapn></div><div class="row">';
 					
-					// 3D, 2D 여부 처리 어케 해야할지
-					// var += '<p id="movie-type">2D</p>'
 					$.each(movie.schedules, function(index, schedule) {
 
 						TTdiv += '<div class="col-2 mt-3 d-grid gap-4">';
@@ -319,7 +324,7 @@
 							TTdiv += '<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark">' + schedule.roomName + '</span>';
 						}
 						TTdiv += '<p style="margin:0px;">' + schedule.startTime +'</p>'
-						TTdiv += '<pstyle="margin:0px;">' + schedule.emptySeat + '/'+ schedule.totalSeat +'</p>'
+						TTdiv += '<p style="margin:0px;">' + schedule.emptySeat + '/'+ schedule.totalSeat +'</p>'
 						TTdiv += '</button>';
 						TTdiv += '</div>'
 					})
@@ -328,6 +333,8 @@
 				})
 			}
 			
+			// 마우스 오버시 종료시간 출력
+			// 구현중
 			var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
 			var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
 			  return new bootstrap.Popover(popoverTriggerEl)
@@ -345,6 +352,7 @@
 			keyboard: false
 			})
 			
+			// 스케줄 클릭시 모달 form 정보 입력 후 모달 출력
 			$("#movie-time").on('click', '.btn-outline-secondary', function() {
 				var schCode = $(this).data("schedule-code");
 				
@@ -377,6 +385,7 @@
 				bookingModal.show();
 			})
 			
+			// 모달창에서 예매하기 버튼 클릭시 예매화면으로 이동
 			$("#btn-post-todo").click(function() {
 				
 				location.href = '/hmc/booking/seat?scheduleCode='+$("#btn-post-todo").data("schedule-code");

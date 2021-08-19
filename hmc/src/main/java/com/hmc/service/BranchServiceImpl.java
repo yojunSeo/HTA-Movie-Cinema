@@ -65,6 +65,7 @@ public class BranchServiceImpl implements BranchService{
 		
 		boolean isFaverite = false;
 		
+		// 나의 지점인지 판별
 		if(loginedUser.getFavoriteBranch1().equals(branchCode)) {
 			isFaverite = true;
 		} else if(loginedUser.getFavoriteBranch2().equals(branchCode)) {
