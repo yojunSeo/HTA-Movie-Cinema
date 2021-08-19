@@ -44,5 +44,7 @@ public interface BookingDao {
 	
 	void deleteBookingDetail(String bookingCode);
 	
-	Map<String, Object> getBookingDetailByBookingCode(String bookingCode);
+	Map<String, Object> getBookingDetailInfoByBookingCode(String bookingCode);
+	
+	BookingDetail getBookingDetailByBookingCode(String bookingCode);
 }

@@ -140,15 +140,15 @@ span.info {
 										<c:when test="${today lt booking.STARTTIME }">
 											<c:choose>
 												<c:when test="${booking.STATUS eq 'Y' }">
-													<td><button class="btn btn-sm btn-outline-danger">예매취소</button></td>
+													<td data-booking-status="${booking.STATUS }"><button class="btn btn-sm btn-outline-danger">예매취소</button></td>
 												</c:when>
 												<c:otherwise>
-													<td>취소됨</td>
+													<td data-booking-status="${booking.STATUS }">취소됨</td>
 												</c:otherwise>
 											</c:choose>
 										</c:when>
 										<c:otherwise>
-											<td></td>
+											<td data-booking-status="${booking.STATUS }"></td>
 										</c:otherwise>
 									</c:choose>
 								</tr>
@@ -298,47 +298,48 @@ span.info {
 		});
 		
 		$('#booking-table tbody').on('click', '.bookInfo', function(){
-			var scheduleCode = $(this).closest('tr').data('schedule-code');
-			var bookingCode = $(this).closest('tr').attr('id');
-			$.ajax({
-				type:"GET",
-				url:"rest/booking/modal",
-				data:{scheduleCode:scheduleCode,bookingCode:bookingCode},
-				dataType:"json"
-			}).done(function(result){
-				var schedule = result.schedule;
-				var booking = result.booking;
-				var bookedDetail = result.bookDetail;
-				console.log(schedule)
-				console.log(booking)
-				console.log(bookedDetail)
-				$('#booking-modal #booked-info img').attr('src', schedule.poster);
-				var gradeInfo = getMovieGrade(schedule.movieGrade);
-				$('#booking-modal #booked-info > div:first p:first').empty();
-				$('#booking-modal #booked-info > div:first p:first').append("<span><span class='badge rounded-pill mx-1 "+gradeInfo.gradeClass+"'>"+gradeInfo.movieGrade+"</span><span>"+schedule.movieName+"</span>");
-				var infoText1 = schedule.scheduleDate + " (" + schedule.startTime + " ~ " + schedule.endTime + ")";
-				$('#booking-modal #booked-info > div:first p:eq(1)').text(infoText1);
-				var infoText2;
-				if(bookedDetail){
-					var infoText2 = schedule.branchName + " (" + schedule.roomName + ") " + bookedDetail.BOOKEDSEAT;
-				}else{
-					var infoText2 = schedule.branchName + " (" + schedule.roomName + ") ";
-				}
-				$('#booking-modal #booked-info > div:first p:eq(2)').text(infoText2);
-				if(bookedDetail){
-					$('#booking-modal #booked-info > div:eq(1) > p:eq(2)').text(bookedDetail.COUPONNAME);
-					$('#booking-modal #booked-info > div:eq(1) > p:eq(4) span').text(bookedDetail.USEDPOINT);
-					$('#booking-modal #booked-info > div:eq(1) > p:eq(6) span').text(bookedDetail.SAVEDPOINT);
-				}else{
-					$('#booking-modal #booked-info > div:eq(1) > p:eq(2)').text('이전');
-					$('#booking-modal #booked-info > div:eq(1) > p:eq(4) span').text('이전');
-					$('#booking-modal #booked-info > div:eq(1) > p:eq(6) span').text('이전');
-				}
-				$('#booking-modal #booked-info > div:eq(1) > p:eq(8) span').text(booking.price);
-				$('#booking-modal #booked-info > div:eq(1) > p:eq(10) span').text(booking.discountPrice);
-				$('#booking-modal #booked-info > div:eq(1) > p:eq(12) span').text(booking.totalPrice);
-				bookingModal.show();
-			})
+			// 취소된 예매면 띄우지 않음 
+			var bookingStatus = $(this).closest('tr').children().last().data('booking-status');
+			if(bookingStatus == 'Y'){
+				var scheduleCode = $(this).closest('tr').data('schedule-code');
+				var bookingCode = $(this).closest('tr').attr('id');
+				$.ajax({
+					type:"GET",
+					url:"rest/booking/modal",
+					data:{scheduleCode:scheduleCode,bookingCode:bookingCode},
+					dataType:"json"
+				}).done(function(result){
+					var schedule = result.schedule;
+					var booking = result.booking;
+					var bookedDetail = result.bookDetail;
+					$('#booking-modal #booked-info img').attr('src', schedule.poster);
+					var gradeInfo = getMovieGrade(schedule.movieGrade);
+					$('#booking-modal #booked-info > div:first p:first').empty();
+					$('#booking-modal #booked-info > div:first p:first').append("<span><span class='badge rounded-pill mx-1 "+gradeInfo.gradeClass+"'>"+gradeInfo.movieGrade+"</span><span>"+schedule.movieName+"</span>");
+					var infoText1 = schedule.scheduleDate + " (" + schedule.startTime + " ~ " + schedule.endTime + ")";
+					$('#booking-modal #booked-info > div:first p:eq(1)').text(infoText1);
+					var infoText2;
+					if(bookedDetail){
+						var infoText2 = schedule.branchName + " (" + schedule.roomName + ") " + bookedDetail.BOOKEDSEAT;
+					}else{
+						var infoText2 = schedule.branchName + " (" + schedule.roomName + ") ";
+					}
+					$('#booking-modal #booked-info > div:first p:eq(2)').text(infoText2);
+					if(bookedDetail){
+						$('#booking-modal #booked-info > div:eq(1) > p:eq(2)').text(bookedDetail.COUPONNAME);
+						$('#booking-modal #booked-info > div:eq(1) > p:eq(4) span').text(bookedDetail.USEDPOINT);
+						$('#booking-modal #booked-info > div:eq(1) > p:eq(6) span').text(bookedDetail.SAVEDPOINT);
+					}else{
+						$('#booking-modal #booked-info > div:eq(1) > p:eq(2)').text('이전');
+						$('#booking-modal #booked-info > div:eq(1) > p:eq(4) span').text('이전');
+						$('#booking-modal #booked-info > div:eq(1) > p:eq(6) span').text('이전');
+					}
+					$('#booking-modal #booked-info > div:eq(1) > p:eq(8) span').text(booking.price);
+					$('#booking-modal #booked-info > div:eq(1) > p:eq(10) span').text(booking.discountPrice);
+					$('#booking-modal #booked-info > div:eq(1) > p:eq(12) span').text(booking.totalPrice);
+					bookingModal.show();
+				})
+			}
 		})
 		
 		$('#booking-table tbody td').on('click', '.review', function(){
@@ -383,7 +384,6 @@ span.info {
 		function getMovieGrade(grade){
 			var movieGrade;
 			var gradeClass;
-			console.log(grade)
 			if(grade == "12세이상관람가"){
 				movieGrade = 12;
 				gradeClass = "bg-warning";
@@ -398,7 +398,6 @@ span.info {
 				gradeClass = "bg-danger";					
 			}
 			var result = {movieGrade:movieGrade , gradeClass:gradeClass}
-			console.log(result)
 			return result;
 		}
 		

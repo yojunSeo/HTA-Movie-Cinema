@@ -155,7 +155,7 @@
 			booking_code = #{bookingCode}
 	</delete>
 	
-	<select id="getBookingDetailByBookingCode" parameterType="string" resultType="hashmap">
+	<select id="getBookingDetailInfoByBookingCode" parameterType="string" resultType="hashmap">
 		select 
 		     booking_code as bookingCode,
 		    bd.user_id as userId,
@@ -173,5 +173,20 @@
 		    bd.used_coupon = pc.published_code(+)
 		and
 		    pc.coupon_code = cp.coupon_code(+)
+	</select>
+	
+	<select id="getBookingDetailByBookingCode" parameterType="string" resultType="com.hmc.vo.BookingDetail">
+		select 
+		     booking_code as bookingCode,
+		    user_id as userId,
+		    schedule_code as scheduleCode,
+		   used_coupon as usedCoupon,
+		    booked_seat as bookedSeats,
+		    used_point as usedPoint,
+		    saved_point as savedPoint
+		from 
+			t_booking_detail
+		where 
+		    booking_code = #{value}
 	</select>
 </mapper>

@@ -184,7 +184,6 @@ public class BookingServiceImpl implements BookingService{
 		bookedDetail.setSavedPoint(book.getSavedPoint());
 		bookedDetail.setUserId(user.getId());
 		bookedDetail.setBookedSeats(seatName.toString());
-		System.out.println(bookedDetail);
 		bookingDao.insertBookingDetail(bookedDetail);
 		// 만약 사용자의 현재등급이랑 예상등급이 다르다면!
 		if(!book.getExceptGrade().equals(user.getGrade())) {
@@ -267,36 +266,6 @@ public class BookingServiceImpl implements BookingService{
 		return result;
 	}
 	
-	@Override
-	public Map<String, Object> getCancelBookingUserPointAndExpectGrade(int paymentPrice) {
-		String expectGrade;
-		int savePoint = 0;
-		Map<String, Object> result = new HashMap<String, Object>();
-		User user = (User)SessionUtils.getAttribute("LOGINED_USER");
-		int totalPayment = paymentDao.getUserTotalPayment(user.getId());
-		int sumPayment = paymentPrice - totalPayment;
-		if(sumPayment >= 200000) {
-			expectGrade = "BRONZE";
-		}else if(sumPayment >= 400000) {
-			expectGrade = "SILVER";
-		}else if(sumPayment >= 700000) {
-			expectGrade = "GOLD";
-		}else if(sumPayment >= 1000000) {
-			expectGrade = "PLATINUM";
-		}else {
-			expectGrade = "NORMAL";
-		}
-		if("NORMAL".equals(user.getGrade())) {
-			savePoint = (int)(paymentPrice*(0.01));
-		}else {
-			Membership membership = membershipMap.get(user.getGrade());
-			savePoint = (int)(paymentPrice*membership.getSavedRate());
-		}
-		
-		result.put("expectGrade", expectGrade);
-		result.put("savePoint", savePoint);
-		return result;
-	}
 	
 	@Override
 	public List<Map<String, Object>> getUserBookingDetail(String userId) {
@@ -320,20 +289,89 @@ public class BookingServiceImpl implements BookingService{
 		Schedule schedule = scheduleDao.getScheduleByCode(cancelBook.getScheduleCode());
 		schedule.setEmptySeat(schedule.getEmptySeat() + cancelBook.getCount());
 		scheduleDao.updateSchedule(schedule);
-		// 적립된 포인트만큼 삭제하기
-		Map<String, Object> result = getCancelBookingUserPointAndExpectGrade(cancelBook.getTotalPrice());
-		int minusPoint = Integer.parseInt(result.get("savePoint").toString());
-		user.setPoint(user.getPoint() - minusPoint);
-		System.out.println(minusPoint);
-		String expectGrade = result.get("expectGrade").toString();
-		System.out.println(expectGrade);
-		// 등급이 변경되었는지 확인
-		if(!user.getGrade().equals(expectGrade)) {
-			System.out.println("변경됨");
-			// 준 쿠폰과 포인트 가져가기
+		//// 포인트, 쿠폰, 등급처리
+		BookingDetail bookedDetail = bookingDao.getBookingDetailByBookingCode(bookingCode);
+		if(bookedDetail != null) {
+			// 적립된 포인트만큼 삭제, 썼던 포인트는 환불하기
+			int savedPoint = bookedDetail.getSavedPoint();
+			int usedPoint = bookedDetail.getUsedPoint();
+			user.setPoint(user.getPoint() + usedPoint - savedPoint);
+			userDao.updateUser(user);
+			// 썼던 쿠폰 반환하기
+			String usedCoupon = bookedDetail.getUsedCoupon();
+			if(usedCoupon != null) {
+				publishedCouponDao.updatePublishedCouponStatusToN(usedCoupon);
+			}
 		}
-		userDao.updateUser(user);
+		// 등급 변경된 경우 쿠폰 뺐고 포인트 뺐기
+		int totalPayment2 = paymentDao.getUserTotalPayment(user.getId());
+		System.out.println(totalPayment2);
+		Map<String, Object> gradeResult = isUserDownGrade(totalPayment1, totalPayment2);
+		if("true".equals(gradeResult.get("isDownGrade").toString())) {
+			System.out.println("다운그레이드 함수 실행시작");
+			userDownGrade(user.getGrade());
+			String downGrade = gradeResult.get("downGrade").toString();
+			user.setGrade(downGrade);
+			System.out.println(user);
+			userDao.updateUser(user);
+			System.out.println("다운그레이드 함수 실행완료");
+		}
 		bookingDao.deleteBookingDetail(cancelBook.getCode());
+	}
+	
+	@Override
+	public void userDownGrade(String grade) {
+		Membership membership = membershipMap.get(grade);
+		User user = (User)SessionUtils.getAttribute("LOGINED_USER");
+		System.out.println("사용자 포인트 삭제");
+		System.out.println("기존포인트: " + user.getPoint());
+		System.out.println("삭제할포인트: " +  membership.getSavedPoint());
+		// 포인트 삭제
+		user.setPoint(user.getPoint() - membership.getSavedPoint());
+		user.setGrade(grade);
+		userDao.updateUser(user);
+		// 쿠폰삭제
+		String cp5000Code = membership.getCp5000();
+		String cpMovieCode = membership.getCpMovie();
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("cp5000", cp5000Code);
+		param.put("cpMovie", cpMovieCode);
+		param.put("userId", user.getId());
+		// 삭제할 쿠폰 리스트
+		List<String> deleteCouponList = publishedCouponDao.getDeletePublishedCouponCode(param);
+		System.out.println("삭제할 리스트");
+		System.out.println(deleteCouponList);
+		for(String coupon : deleteCouponList) {
+			publishedCouponDao.deletePublishedCoupon(coupon);
+		}
+	}
+	
+	@Override
+	public Map<String, Object> isUserDownGrade(int beforeTotalPayment, int afterTotalPayment) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		boolean isDownGrade = false;
+		String downGrade = null;
+		if(beforeTotalPayment >= 1000000 && afterTotalPayment < 1000000) {
+			System.out.println("PLATINUM에서 로 떨어짐");
+			isDownGrade = true;
+			downGrade = "GOLD";
+		}else if(beforeTotalPayment >= 700000 && afterTotalPayment < 700000) {
+			System.out.println("GOLD에서 SILVER로 떨어짐");
+			isDownGrade = true;
+			downGrade = "SILVER";
+		}else if(beforeTotalPayment >= 400000 && afterTotalPayment < 400000) {
+			System.out.println("SILVER에서 BRONZE로 떨어짐");
+			isDownGrade = true;
+			downGrade = "BRONZE";
+		}else if(beforeTotalPayment >= 200000 && afterTotalPayment < 200000) {
+			System.out.println("BRONZE에서 NORMAL로 떨어짐");
+			isDownGrade = true;
+			downGrade = "NORMAL";
+		}
+		result.put("isDownGrade", isDownGrade);
+		result.put("downGrade", downGrade);
+		System.out.println("떨어졌냐?" + result);
+		return result;
 	}
 	
 	@Override
@@ -341,7 +379,7 @@ public class BookingServiceImpl implements BookingService{
 		Map<String, Object> result = new HashMap<String, Object>();
 		ScheduleDetail schedule = scheduleDao.getScheduleDetailByCode(scheduleCode);
 		Booking booking = bookingDao.getBookingByCode(bookingCode);
-		Map<String, Object> bookDetail = bookingDao.getBookingDetailByBookingCode(bookingCode);
+		Map<String, Object> bookDetail = bookingDao.getBookingDetailInfoByBookingCode(bookingCode);
 		result.put("schedule", schedule);
 		result.put("booking", booking);
 		result.put("bookDetail", bookDetail);
