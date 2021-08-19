@@ -54,6 +54,7 @@
        select
             movie_code         		movieCode,
             movie_name            	movieName,
+            movie_grade				grade,
             movie_poster         	poster,
             movie_total_score      	totalScore,
             movie_rank				rank           
@@ -72,6 +73,7 @@
 	       select
 	            movie_code         		movieCode,
 	            movie_name            	movieName,
+	            movie_grade				grade,
 	            movie_poster         	poster,
 	            movie_total_score      	totalScore,
 	            movie_rank				rank           
@@ -91,6 +93,7 @@
 	            movie_code         		movieCode,
 	            movie_release_date      releaseDate,
 	            movie_name            	movieName,
+	            movie_grade				grade,
 	            movie_poster         	poster,
 	            movie_total_score      	totalScore,
 	            movie_rank				rank           
@@ -110,6 +113,7 @@
 	            movie_code         		movieCode,
 	            movie_release_date      releaseDate,
 	            movie_name            	movieName,
+	            movie_grade				grade,
 	            movie_poster         	poster,
 	            movie_total_score      	totalScore,
 	            movie_rank				rank           
