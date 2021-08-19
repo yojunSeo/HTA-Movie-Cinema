@@ -97,14 +97,14 @@ html, body {
 		            			<div class="row">
 		            				<div class="row">
 			            				<div class="col-9">
-			            					<input type="password" class="form-control w-100 mb-2 bg-light" id="password" name="password" placeholder="비밀번호를 입력해주세요.">
+			            					<input type="password" class="form-control w-100 mb-2 bg-light" id="beforePwd" name="beforePwd" placeholder="비밀번호를 입력해주세요.">
 			            				</div>
 			            				<div class="col-3">
 			            					<button type="button" class="btn btn-danger" id="btn-post-pwd">본인인증</button>
 			            				</div>
 		            				</div>
 		            				<div class="row">
-		            					<p></p>
+		            					<p id="confirmPwdResult"></p>
 		            				</div>
 		            			</div>
 		            			<div class="rowspan">
@@ -135,6 +135,33 @@ html, body {
 
    <script>
    $(function(){
+	   
+	// 기존 비밀번호 확인
+	   $("#beforePwd").change(function(){
+		   $("#btn-save").prop("disabled",true);
+		   
+		   $("#btn-post-pwd").click(function(){
+			   var password  = $("#beforePwd").val();
+			   
+			   $.ajax({
+				   type:"POST",
+				   url:"rest/confirmPwd",
+				   data:{beforePwd:password},
+				   dataType: 'text',
+				   success: function(isExist){
+					   if(isExist == "false"){
+						   $("#confirmPwdResult").text("본인인증이 완료되었습니다.").removeClass("text-danger").addClass("text-success");
+						   $("#btn-save").prop("disabled",false);
+						   
+					   } else if(isExist == "true"){
+						   $("#confirmPwdResult").text("본인인증에 실패하셨습니다. 다시 입력해주세요.").removeClass("text-success").addClass("text-danger");
+						   $("#btn-save").prop("disabled",true);
+						   
+					   }
+				   }
+			   })
+		   })
+	   })
 	   
 	   $("#changePwd-form").submit(function(){
 		   var password = $.trim($("#password").val());
