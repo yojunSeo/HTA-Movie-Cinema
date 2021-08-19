@@ -1,0 +1,116 @@
+.cf {
+	position:relative;
+	margin-left: calc((100% - 1320px)/2);
+	margin-top: 100px;
+}
+
+.cf img{
+	margin-top: 30px;
+	width: 1320px;
+}
+
+.footer .f_logo {
+    display: block;
+    margin-bottom: 20px;
+}
+
+.footer {
+	position: relative;
+    width:100vw;
+	margin-left: calc(-50vw + 49%);
+	margin-right: auto;
+    margin-top: 50px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-color: #F7F8E0;
+    font-size:18px;
+}
+
+.footer .inner {
+    position: relative;
+    width: 1280px;
+    margin: 0 auto;
+}
+
+
+
+.footer .f_menu {
+    margin-bottom: 15px;
+}
+
+ul, ol {
+    list-style: none;
+}
+
+
+.footer .bx_address {
+    line-height: 1.5;
+    font-size: 12px;
+    color: #4D4D4D;
+}
+
+.footer .bx_info {
+	float:right;
+    line-height: 1.5;
+    font-size: 12px;
+    color: #4D4D4D;
+}
+
+
+.footer .bx_address .a .bar::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 4px;
+    height: 10px;
+    border-left: 1px solid #707070;
+}
+
+p {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+
+.footer .copyright {
+    display: block;
+    margin-top: 4px;
+    font-size: 12px;
+    color: #4D4D4D;
+}
+
+.footer .f_menu a:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 2px;
+    height: 10px;
+    border-left: 1px solid #707070;
+}
+
+.footer .f_menu a {
+    position: relative;
+    float: left;
+    margin-right: 10px;
+    padding-left: 10px;
+}
+
+a, a:link, a:visited, a:active, a:hover {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.artivle_award {
+	text-align: center;
+}
+
+.artivle_award .inner{
+	display: inline-block;
+}
+.artivle_award .inner ul li{
+	padding-left:10px;
+	padding-right:10px;
+}
