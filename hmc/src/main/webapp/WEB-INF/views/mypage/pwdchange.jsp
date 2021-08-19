@@ -89,21 +89,35 @@ html, body {
 	            	<form action="changePwd" method="post" id="changePwd-form">
 	            		<div class="row mt-4">
 		            		<div class="col-2">
-		            			<div class="row mb-2"><p class="fw-lighter">비밀번호</p></div>
-		            			<div class="row"><p class="fw-lighter">비밀번호 확인</p></div>
+		            			<div class="row mb-2"><p class="fw-lighter">이전 비밀번호</p></div>
+		            			<div class="row mb-2"><p class="fw-lighter">비밀번호 </p></div>
+		            			<div class="row"><p class="fw-lighter">비밀번호 확인 </p></div>
 		            		</div>
 		            		<div class="col-8">
 		            			<div class="row">
+		            				<div class="row">
+			            				<div class="col-9">
+			            					<input type="password" class="form-control w-100 mb-2 bg-light" id="password" name="password" placeholder="비밀번호를 입력해주세요.">
+			            				</div>
+			            				<div class="col-3">
+			            					<button type="button" class="btn btn-danger" id="btn-post-pwd">본인인증</button>
+			            				</div>
+		            				</div>
+		            				<div class="row">
+		            					<p></p>
+		            				</div>
+		            			</div>
+		            			<div class="rowspan">
 		            				<input type="password" class="form-control w-100 mb-2 bg-light" id="password" name="password" placeholder="비밀번호를 입력해주세요.">
 		            			</div>
-		            			<div class="row">
+		            			<div class="rowspan">
 		            				<input type="password" class="form-control w-100 bg-light" id="confirmPwd" name="confirmPwd" placeholder="입력하신 비밀번호를 다시 한번 입력해주세요.">
 		            			</div>
 		            		</div>
 		            		<div class="row my-3 text-center my-5">
 								<div class="col-12">
 									<a href="home" class="btn btn-dark btn-lg w-25 text-light">취소</a>
-									<button type="submit" id="btn-save" class="btn btn-danger btn-lg w-25 text-light">변경</button>
+									<button type="submit" id="btn-save" class="btn btn-danger btn-lg w-25 text-light" disabled="disabled">변경</button>
 								</div>
 							</div>
 	            		</div>

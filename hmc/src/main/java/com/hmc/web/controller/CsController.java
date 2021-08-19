@@ -171,7 +171,7 @@ public class CsController {
 		User loginedUser = (User) SessionUtils.getAttribute("LOGINED_USER");
 		inquery.setUserId(loginedUser.getId());
 		inqueryService.insertInquery(inquery);
-		return "redirect:../home?formsubmit=true";
+		return "redirect:inqueryForm?formsubmit=true";
 	}
 
 }
