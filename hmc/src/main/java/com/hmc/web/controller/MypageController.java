@@ -192,10 +192,5 @@ public class MypageController {
 	   
    }
 
-   @GetMapping("/payment/cancel")
-   public String cancelGift(@RequestParam("giftCode")String giftCode) {
-	   storeService.cancelGift(giftCode);
-	   return "redirect:../payment";
-   }
    
 }

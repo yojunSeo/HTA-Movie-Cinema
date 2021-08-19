@@ -26,6 +26,10 @@ public interface BookingService {
 	
 	void cancelBooking(String bookingCode);
 	
-	Map<String, Object> getCancelBookingUserPointAndExpectGrade(int paymentPrice);
+	Map<String, Object> getBookingModalInfo(String scheduleCode, String bookingCode);
+	
+	Map<String, Object> isUserDownGrade(int beforeTotalPayment, int afterTotalPayment);
+	
+	void userDownGrade(String grade);
 	
 }

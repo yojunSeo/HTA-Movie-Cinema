@@ -36,7 +36,7 @@
 		where
     		booking_code = #{value}
 	</update>
-	
+	 
 	<select id="getBookingsByUserId" parameterType="string" resultMap="BookingResultMap">
 		select
 			*
@@ -104,9 +104,9 @@
 	
 	<select id="getBookingPageByUser" parameterType="map" resultType="hashmap">
 		select *
-        from (
+        from ( 
             select
-            row_number() over (order by booking_code desc) rn,
+            row_number() over (order by sh.schedule_start_time desc) rn,
 			booking_code 			as bookingcode,
             sh.schedule_code 		as scheduleCode,
             sc.screen_code			as screenCode,
@@ -136,9 +136,57 @@
         and
             sh.screen_code = sc.screen_code
         and
-            bk.user_id = #{userId}
-		order by
-			booking_code desc)
+            bk.user_id = #{userId})
             where  rn between #{beginIndex} and #{endIndex}
+	</select>
+	
+	<insert id="insertBookingDetail" parameterType="com.hmc.vo.BookingDetail">
+		insert into 
+			t_booking_detail
+			(BOOKING_CODE ,USER_ID ,SCHEDULE_CODE ,USED_COUPON ,USED_POINT ,SAVED_POINT ,BOOKED_SEAT)
+		values
+			(#{bookingCode}, #{userId}, #{scheduleCode}, #{usedCoupon}, #{usedPoint}, #{savedPoint}, #{bookedSeats})
+	</insert>
+	 
+	<delete id="deleteBookingDetail" parameterType="string">
+		delete from
+			t_booking_detail
+		where
+			booking_code = #{bookingCode}
+	</delete>
+	
+	<select id="getBookingDetailInfoByBookingCode" parameterType="string" resultType="hashmap">
+		select 
+		     booking_code as bookingCode,
+		    bd.user_id as userId,
+		    schedule_code as scheduleCode,
+		   used_coupon as usedCoupon,
+		    used_point as usedPoint,
+		    saved_point as savedPoint,
+		    booked_seat as bookedSeat,
+		    nvl(coupon_name, '없음') as couponName
+		from 
+			t_booking_detail bd,  t_published_coupon pc, t_coupon cp
+		where 
+		    booking_code = #{value}
+		and
+		    bd.used_coupon = pc.published_code(+)
+		and
+		    pc.coupon_code = cp.coupon_code(+)
+	</select>
+	
+	<select id="getBookingDetailByBookingCode" parameterType="string" resultType="com.hmc.vo.BookingDetail">
+		select 
+		     booking_code as bookingCode,
+		    user_id as userId,
+		    schedule_code as scheduleCode,
+		   used_coupon as usedCoupon,
+		    booked_seat as bookedSeats,
+		    used_point as usedPoint,
+		    saved_point as savedPoint
+		from 
+			t_booking_detail
+		where 
+		    booking_code = #{value}
 	</select>
 </mapper>

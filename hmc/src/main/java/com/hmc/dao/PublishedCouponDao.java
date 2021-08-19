@@ -13,10 +13,16 @@ public interface PublishedCouponDao {
 	
 	void updatePublishedCouponStatusToY(String couponCode);
 	
+	void updatePublishedCouponStatusToN(String couponCode);
+	
 	int getTotalRows(Map<String, Object> param);
 	
 	List<Map<String, Object>> getMyCouponsByUserId(Map<String, Object> param);
 	
 	void insertPublichedCouponJoin(String couponCode);
+	
+	void deletePublishedCoupon(String couponCode);
+	
+	List<String> getDeletePublishedCouponCode(Map<String, Object> param);
 	
 }

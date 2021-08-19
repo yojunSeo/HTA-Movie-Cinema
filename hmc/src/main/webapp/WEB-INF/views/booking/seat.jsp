@@ -153,7 +153,6 @@ $(function(){
 	$.getJSON("book/rest/seat/info?code="+scheduleCode, function(result){
 		roomSeats = result.roomSeats;
 		bookedSeats = result.bookedSeats;
-		console.log(roomSeats)
 		for(var i=0; i<roomSeats.length; i++){
 			// 좌석하나마다 버튼을 생성해서 
 			var seat = roomSeats[i];
@@ -193,8 +192,14 @@ $(function(){
 		}
 		nonabledSeat(bookedSeats);
 		chageGrade();
+		
+		var moviegrade = $('#schedule-select p:first span').data('movie-grade');
+		if(moviegrade == "청소년관람불가"){
+			confirm('본 영화는 청소년 관람불가로, 관람시 신분증을 반드시 지참하셔야 합니다.');
+		}
 	}); 
-	
+		
+
 	function nonabledSeat(bookedSeats){
 		for(var i=0; i<bookedSeats.length; i++){
 			var bookedSeat = bookedSeats[i];

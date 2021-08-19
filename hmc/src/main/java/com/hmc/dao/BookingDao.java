@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.hmc.vo.Booking;
+import com.hmc.vo.BookingDetail;
 
 public interface BookingDao {
 
@@ -38,4 +39,12 @@ public interface BookingDao {
 	List<Map<String, Object>> getBookingPageByUser(Map<String, Object> param);
 	
 	int getBookingCntByUserId(String userId);
+	
+	void insertBookingDetail(BookingDetail bookedDetail);
+	
+	void deleteBookingDetail(String bookingCode);
+	
+	Map<String, Object> getBookingDetailInfoByBookingCode(String bookingCode);
+	
+	BookingDetail getBookingDetailByBookingCode(String bookingCode);
 }

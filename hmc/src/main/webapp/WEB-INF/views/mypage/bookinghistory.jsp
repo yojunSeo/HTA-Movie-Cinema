@@ -18,6 +18,12 @@ html, body {
 	margin-left: calc(-50vw + 50%);
 	
 }
+p.info {
+	font-size: 17px;
+}
+span.info {
+	font-size: 17px;
+}
 .box1 {
 	background-color: #FF243E;
 	width: 100vw;
@@ -108,13 +114,13 @@ html, body {
 						</c:when>
 						<c:otherwise>
 							<c:forEach var="booking" items="${bookings }">
-								<tr class="text-center" id="${booking.BOOKINGCODE }" data-screen-code=${booking.SCREENCODE }>
-									<td>${booking.BOOKINGCODE }</td>
-									<td class="text-start">${booking.MOVIENAME }</td>
-									<td>${booking.BRANCHNAME }(${booking.ROOMNAME })</td>
-									<td><span id="screen-date"><fmt:formatDate value="${booking.SCHEDULEDATE }" pattern="yyyy-MM-dd"/></span> (<fmt:formatDate value="${booking.STARTTIME }" pattern="HH:mm"/> ~ <fmt:formatDate value="${booking.ENDTIME }" pattern="HH:mm"/>)</td>
-									<td><fmt:formatDate value="${booking.BOOKINGDATE }" pattern="yyyy/MM/dd"/></td>
-									<td><fmt:formatNumber>${booking.TOTALPRICE }</fmt:formatNumber> 원</td>
+								<tr class="text-center" id="${booking.BOOKINGCODE }" data-schedule-code=${booking.SCHEDULECODE } data-screen-code=${booking.SCREENCODE }>
+									<td class="bookInfo">${booking.BOOKINGCODE }</td>
+									<td class="text-start bookInfo">${booking.MOVIENAME }</td>
+									<td class="bookInfo">${booking.BRANCHNAME }(${booking.ROOMNAME })</td>
+									<td class="bookInfo"><span id="screen-date"><fmt:formatDate value="${booking.SCHEDULEDATE }" pattern="yyyy-MM-dd"/></span> (<fmt:formatDate value="${booking.STARTTIME }" pattern="HH:mm"/> ~ <fmt:formatDate value="${booking.ENDTIME }" pattern="HH:mm"/>)</td>
+									<td class="bookInfo"><fmt:formatDate value="${booking.BOOKINGDATE }" pattern="yyyy/MM/dd"/></td>
+									<td class="bookInfo"><fmt:formatNumber>${booking.TOTALPRICE }</fmt:formatNumber> 원</td>
 									<c:choose>
 										<c:when test="${today gt booking.ENDTIME and booking.STATUS eq 'Y'}">
 											<c:choose>
@@ -134,15 +140,15 @@ html, body {
 										<c:when test="${today lt booking.STARTTIME }">
 											<c:choose>
 												<c:when test="${booking.STATUS eq 'Y' }">
-													<td><button class="btn btn-sm btn-outline-danger">예매취소</button></td>
+													<td data-booking-status="${booking.STATUS }"><button class="btn btn-sm btn-outline-danger">예매취소</button></td>
 												</c:when>
 												<c:otherwise>
-													<td>취소됨</td>
+													<td data-booking-status="${booking.STATUS }">취소됨</td>
 												</c:otherwise>
 											</c:choose>
 										</c:when>
 										<c:otherwise>
-											<td></td>
+											<td data-booking-status="${booking.STATUS }"></td>
 										</c:otherwise>
 									</c:choose>
 								</tr>
@@ -151,6 +157,48 @@ html, body {
 					</c:choose>
 				</tbody>
 			</table>
+			<!-- 예약 모달 시작 -->
+			<div class="modal fade" id="booking-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header bg-dark text-white">
+						<h5 class="modal-title" id="exampleModalLabel">예매정보</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+					<div class="row" id="booked-info">
+						<div class="col-6">
+							<div class="offset-2">
+								<img class="mt-3" src="https://caching.lottecinema.co.kr//Media/MovieFile/MovieImg/202108/17652_103_1.jpg" width="220px" height="300px">
+								<p class="mx-2 info fw-bold"><span class="badge rounded-pill mx-1">15</span><span>더 수어사이드 스쿼드</span></p>
+								<p class="fs-5">2021-08-18 (18:00 ~ 20:40)</p>
+								<p class="fs-5">왕십리점 (3관) [D3/D4]</p>
+							</div>
+						</div>
+						<div class="col-5 border border-2 border-secondary">
+							<p class="text-center"><strong class="fs-5">[ 결제정보 ]</strong></p>
+							<p class="info mb-0"><strong>- 사용쿠폰</strong></p>
+							<p class="fs-6 mt-0">BRONZE 등급 5000원 할인 쿠폰</p>
+							<p class="info mb-0"><strong>- 사용포인트</strong></p>
+							<p class="fs-6 mt-0"><span>3000</span> point</p>
+							<p class="info mb-0"><strong>- 적립포인트</strong></p>
+							<p class="fs-6 mt-0"><span>350</span> point</p>
+							<p class="info mb-0"><strong>- 결제금액</strong></p>
+							<p class="fs-6 mt-0"><span class="fw-bold">30,000</span> 원</p>
+							<p class="info mb-0"><strong>- 할인금액</strong></p>
+							<p class="fs-6 mt-0"><span class="fw-bold text-warning">4,000</span> 원</p>
+							<p class="info mb-0"><strong>- 총 결제금액</strong></p>
+							<p class="fs-6 mt-0"><span class="fw-bold text-danger">26,000</span> 원</p>
+						</div>
+					</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">확인</button>
+					</div>
+				</div>
+				</div>
+			</div>
+			<!-- 예약 모달 종료 -->
 			<!-- 리뷰 모달 시작 -->
 			<div class="modal fade" id="review-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
@@ -209,32 +257,30 @@ html, body {
 						<button type="button" class="btn text-white btn-secondary" id="review-delete" hidden>삭제</button>
 					</div>
 				</div>
-		</div>
-		</div>
-		<!-- 페이징 -->
-		<c:if test="${pagination.totalRows gt 0 }">
-			<div class="row mb-2">
-				<div class="col-12">
-					<ul class="pagination justify-content-center">
-						<li class="page-item ${pagination.pageNo le 1 ? 'disabled' : ''}">
-							<a class="page-link" href="booking?page=${pagination.pageNo - 1 }">이전</a>
-						</li>
-						<c:forEach var="num" begin="${pagination.beginPage }" end="${pagination.endPage }">
-							<li class="page-item ${pagination.pageNo eq num ? 'active' : '' }">
-								<a class="page-link" href="booking?page=${num }">${num }</a>
-							</li>
-						</c:forEach>
-						<li class="page-item ${pagination.pageNo ge pagination.totalPages ? 'disabled' : ''}">
-							<a class="page-link" href="booking?page=${pagination.pageNo + 1 }">다음</a>
-						</li>
-					</ul>
 				</div>
 			</div>
-		</c:if>
+			<!-- 페이징 -->
+			<c:if test="${pagination.totalRows gt 0 }">
+				<div class="row mb-2">
+					<div class="col-12">
+						<ul class="pagination justify-content-center">
+							<li class="page-item ${pagination.pageNo le 1 ? 'disabled' : ''}">
+								<a class="page-link" href="booking?page=${pagination.pageNo - 1 }">이전</a>
+							</li>
+							<c:forEach var="num" begin="${pagination.beginPage }" end="${pagination.endPage }">
+								<li class="page-item ${pagination.pageNo eq num ? 'active' : '' }">
+									<a class="page-link" href="booking?page=${num }">${num }</a>
+								</li>
+							</c:forEach>
+							<li class="page-item ${pagination.pageNo ge pagination.totalPages ? 'disabled' : ''}">
+								<a class="page-link" href="booking?page=${pagination.pageNo + 1 }">다음</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</c:if>
 		</main>
-
 		<footer><%@ include file="../common/footer.jsp"%></footer>
-
 	</div>
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -246,6 +292,55 @@ html, body {
 		var reviewModal = new bootstrap.Modal(document.getElementById("review-modal"), {
 			keyboard: false
 		});
+		
+		var bookingModal = new bootstrap.Modal(document.getElementById("booking-modal"), {
+			keyboard: false
+		});
+		
+		$('#booking-table tbody').on('click', '.bookInfo', function(){
+			// 취소된 예매면 띄우지 않음 
+			var bookingStatus = $(this).closest('tr').children().last().data('booking-status');
+			if(bookingStatus == 'Y'){
+				var scheduleCode = $(this).closest('tr').data('schedule-code');
+				var bookingCode = $(this).closest('tr').attr('id');
+				$.ajax({
+					type:"GET",
+					url:"rest/booking/modal",
+					data:{scheduleCode:scheduleCode,bookingCode:bookingCode},
+					dataType:"json"
+				}).done(function(result){
+					var schedule = result.schedule;
+					var booking = result.booking;
+					var bookedDetail = result.bookDetail;
+					$('#booking-modal #booked-info img').attr('src', schedule.poster);
+					var gradeInfo = getMovieGrade(schedule.movieGrade);
+					$('#booking-modal #booked-info > div:first p:first').empty();
+					$('#booking-modal #booked-info > div:first p:first').append("<span><span class='badge rounded-pill mx-1 "+gradeInfo.gradeClass+"'>"+gradeInfo.movieGrade+"</span><span>"+schedule.movieName+"</span>");
+					var infoText1 = schedule.scheduleDate + " (" + schedule.startTime + " ~ " + schedule.endTime + ")";
+					$('#booking-modal #booked-info > div:first p:eq(1)').text(infoText1);
+					var infoText2;
+					if(bookedDetail){
+						var infoText2 = schedule.branchName + " (" + schedule.roomName + ") " + bookedDetail.BOOKEDSEAT;
+					}else{
+						var infoText2 = schedule.branchName + " (" + schedule.roomName + ") ";
+					}
+					$('#booking-modal #booked-info > div:first p:eq(2)').text(infoText2);
+					if(bookedDetail){
+						$('#booking-modal #booked-info > div:eq(1) > p:eq(2)').text(bookedDetail.COUPONNAME);
+						$('#booking-modal #booked-info > div:eq(1) > p:eq(4) span').text(bookedDetail.USEDPOINT);
+						$('#booking-modal #booked-info > div:eq(1) > p:eq(6) span').text(bookedDetail.SAVEDPOINT);
+					}else{
+						$('#booking-modal #booked-info > div:eq(1) > p:eq(2)').text('이전');
+						$('#booking-modal #booked-info > div:eq(1) > p:eq(4) span').text('이전');
+						$('#booking-modal #booked-info > div:eq(1) > p:eq(6) span').text('이전');
+					}
+					$('#booking-modal #booked-info > div:eq(1) > p:eq(8) span').text(booking.price);
+					$('#booking-modal #booked-info > div:eq(1) > p:eq(10) span').text(booking.discountPrice);
+					$('#booking-modal #booked-info > div:eq(1) > p:eq(12) span').text(booking.totalPrice);
+					bookingModal.show();
+				})
+			}
+		})
 		
 		$('#booking-table tbody td').on('click', '.review', function(){
 			var bookingCode = $(this).closest('tr').attr('id');
@@ -285,6 +380,26 @@ html, body {
 			}
 			reviewModal.show();
 		})
+		
+		function getMovieGrade(grade){
+			var movieGrade;
+			var gradeClass;
+			if(grade == "12세이상관람가"){
+				movieGrade = 12;
+				gradeClass = "bg-warning";
+			}else if(grade == "15세이상관람가"){
+				movieGrade = 15;
+				gradeClass = "bg-success";
+			}else if(grade == "전체관람가"){
+				movieGrade = "All";
+				gradeClass = "bg-info";
+			}else{
+				movieGrade = "19";
+				gradeClass = "bg-danger";					
+			}
+			var result = {movieGrade:movieGrade , gradeClass:gradeClass}
+			return result;
+		}
 		
 		// 모달창에서 등록/수정 버튼을 클릭했을 때 실행된다.
 		$("#review-submit").click(function() {

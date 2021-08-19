@@ -46,9 +46,25 @@
 		set
 			published_used = 'Y',
 			published_used_date = sysdate
-		where
+		where 
 			published_code = #{value}
 	</update>
+	
+	<update id="updatePublishedCouponStatusToN" parameterType="string">
+		update t_published_coupon
+		set
+			published_used = 'N',
+			published_used_date = null
+		where
+			published_code = #{value}
+	</update> 
+	
+	<delete id="deletePublishedCoupon" parameterType="string">
+		delete from
+			t_published_coupon
+		where
+			published_code = #{value}
+	</delete>
 	
 	<select id="getTotalRows" parameterType="map" resultType="int">
 		select
@@ -58,6 +74,21 @@
 		where
 			user_id = #{userId}	
 	
+	</select>
+	
+	<select id="getDeletePublishedCouponCode" parameterType="map" resultType="string">
+		select 
+			published_code
+		from 
+			t_published_coupon 
+		where 
+			(coupon_code = #{cp5000}
+        or 
+            coupon_code = #{cpMovie})
+        and 
+			published_used = 'N' 
+		and 
+			user_id = #{userId}
 	</select>
 	
 	<select id="getMyCouponsByUserId" parameterType="map" resultType="hashmap">
