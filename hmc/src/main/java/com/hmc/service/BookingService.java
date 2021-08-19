@@ -28,4 +28,6 @@ public interface BookingService {
 	
 	Map<String, Object> getCancelBookingUserPointAndExpectGrade(int paymentPrice);
 	
+	Map<String, Object> getBookingModalInfo(String scheduleCode, String bookingCode);
+	
 }

@@ -157,14 +157,14 @@
 	
 	<select id="getBookingDetailByBookingCode" parameterType="string" resultType="hashmap">
 		select 
-		    booking_code,
-		    bd.user_id,
-		    schedule_code,
-		    used_coupon,
-		    used_point,
-		    saved_point,
-		    booked_seat,
-		    coupon_name
+		     booking_code as bookingCode,
+		    bd.user_id as userId,
+		    schedule_code as scheduleCode,
+		   used_coupon as usedCoupon,
+		    used_point as usedPoint,
+		    saved_point as savedPoint,
+		    booked_seat as bookedSeat,
+		    nvl(coupon_name, '없음') as couponName
 		from 
 			t_booking_detail bd,  t_published_coupon pc, t_coupon cp
 		where 

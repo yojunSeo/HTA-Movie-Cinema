@@ -20,6 +20,7 @@ import com.hmc.dao.SeatDao;
 import com.hmc.dao.UserDao;
 import com.hmc.dto.BookingDto;
 import com.hmc.dto.Membership;
+import com.hmc.dto.ScheduleDetail;
 import com.hmc.vo.Booking;
 import com.hmc.vo.BookingDetail;
 import com.hmc.vo.Pagination;
@@ -333,6 +334,18 @@ public class BookingServiceImpl implements BookingService{
 		}
 		userDao.updateUser(user);
 		bookingDao.deleteBookingDetail(cancelBook.getCode());
+	}
+	
+	@Override
+	public Map<String, Object> getBookingModalInfo(String scheduleCode, String bookingCode) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		ScheduleDetail schedule = scheduleDao.getScheduleDetailByCode(scheduleCode);
+		Booking booking = bookingDao.getBookingByCode(bookingCode);
+		Map<String, Object> bookDetail = bookingDao.getBookingDetailByBookingCode(bookingCode);
+		result.put("schedule", schedule);
+		result.put("booking", booking);
+		result.put("bookDetail", bookDetail);
+		return result;
 	}
 
 }

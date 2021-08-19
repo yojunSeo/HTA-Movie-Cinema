@@ -166,20 +166,29 @@ span.info {
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
-					<div class="row">
-						<div class="col-5">
-								<img class="mt-3 offset-2" src="https://caching.lottecinema.co.kr//Media/MovieFile/MovieImg/202108/17652_103_1.jpg" width="220px" height="300px">
-								<p class="mx-2 info fw-bold"><span class='badge rounded-pill mx-3'>15</span>더 수어사이드 스쿼드</p>
+					<div class="row" id="booked-info">
+						<div class="col-6">
+							<div class="offset-2">
+								<img class="mt-3" src="https://caching.lottecinema.co.kr//Media/MovieFile/MovieImg/202108/17652_103_1.jpg" width="220px" height="300px">
+								<p class="mx-2 info fw-bold"><span class="badge rounded-pill mx-1">15</span><span>더 수어사이드 스쿼드</span></p>
+								<p class="fs-5">2021-08-18 (18:00 ~ 20:40)</p>
+								<p class="fs-5">왕십리점 (3관) [D3/D4]</p>
 							</div>
-						<div class="col-7 border border-2 border-secondary">
-							<p class="info"><strong>예매정보</strong></p>
-							<p class="info"><span>2021-08-18 (18:00 ~ 20:40)</span> 왕십리점 (3관) [D3/D4]</p>
-							<p class="info"><strong>사용쿠폰 :</strong> BRONZE 등급 5000원 할인 쿠폰</p>
-							<p class="info"><strong>사용포인트 :</strong> 3000 point</p>
-							<p class="info"><strong>적립된포인트 :</strong> 350 point</p>
-							<p class="info"><strong>결제금액 :</strong> <span class="fw-bold">30,000</span> 원</p>
-							<p class="info"><strong>할인금액 :</strong> <span class="fw-bold text-warning">4,000</span> 원</p>
-							<p class="info"><strong>총 결제금액 :</strong> <span class="fw-bold text-danger">26,000</span> 원</p>
+						</div>
+						<div class="col-5 border border-2 border-secondary">
+							<p class="text-center"><strong class="fs-5">[ 결제정보 ]</strong></p>
+							<p class="info mb-0"><strong>- 사용쿠폰</strong></p>
+							<p class="fs-6 mt-0">BRONZE 등급 5000원 할인 쿠폰</p>
+							<p class="info mb-0"><strong>- 사용포인트</strong></p>
+							<p class="fs-6 mt-0"><span>3000</span> point</p>
+							<p class="info mb-0"><strong>- 적립포인트</strong></p>
+							<p class="fs-6 mt-0"><span>350</span> point</p>
+							<p class="info mb-0"><strong>- 결제금액</strong></p>
+							<p class="fs-6 mt-0"><span class="fw-bold">30,000</span> 원</p>
+							<p class="info mb-0"><strong>- 할인금액</strong></p>
+							<p class="fs-6 mt-0"><span class="fw-bold text-warning">4,000</span> 원</p>
+							<p class="info mb-0"><strong>- 총 결제금액</strong></p>
+							<p class="fs-6 mt-0"><span class="fw-bold text-danger">26,000</span> 원</p>
 						</div>
 					</div>
 					</div>
@@ -291,14 +300,43 @@ span.info {
 		$('#booking-table tbody').on('click', '.bookInfo', function(){
 			var scheduleCode = $(this).closest('tr').data('schedule-code');
 			var bookingCode = $(this).closest('tr').attr('id');
-			console.log(scheduleCode);
-			console.log(bookingCode);
 			$.ajax({
 				type:"GET",
 				url:"rest/booking/modal",
 				data:{scheduleCode:scheduleCode,bookingCode:bookingCode},
 				dataType:"json"
-			}).done(function(){
+			}).done(function(result){
+				var schedule = result.schedule;
+				var booking = result.booking;
+				var bookedDetail = result.bookDetail;
+				console.log(schedule)
+				console.log(booking)
+				console.log(bookedDetail)
+				$('#booking-modal #booked-info img').attr('src', schedule.poster);
+				var gradeInfo = getMovieGrade(schedule.movieGrade);
+				$('#booking-modal #booked-info > div:first p:first').empty();
+				$('#booking-modal #booked-info > div:first p:first').append("<span><span class='badge rounded-pill mx-1 "+gradeInfo.gradeClass+"'>"+gradeInfo.movieGrade+"</span><span>"+schedule.movieName+"</span>");
+				var infoText1 = schedule.scheduleDate + " (" + schedule.startTime + " ~ " + schedule.endTime + ")";
+				$('#booking-modal #booked-info > div:first p:eq(1)').text(infoText1);
+				var infoText2;
+				if(bookedDetail){
+					var infoText2 = schedule.branchName + " (" + schedule.roomName + ") " + bookedDetail.BOOKEDSEAT;
+				}else{
+					var infoText2 = schedule.branchName + " (" + schedule.roomName + ") ";
+				}
+				$('#booking-modal #booked-info > div:first p:eq(2)').text(infoText2);
+				if(bookedDetail){
+					$('#booking-modal #booked-info > div:eq(1) > p:eq(2)').text(bookedDetail.COUPONNAME);
+					$('#booking-modal #booked-info > div:eq(1) > p:eq(4) span').text(bookedDetail.USEDPOINT);
+					$('#booking-modal #booked-info > div:eq(1) > p:eq(6) span').text(bookedDetail.SAVEDPOINT);
+				}else{
+					$('#booking-modal #booked-info > div:eq(1) > p:eq(2)').text('이전');
+					$('#booking-modal #booked-info > div:eq(1) > p:eq(4) span').text('이전');
+					$('#booking-modal #booked-info > div:eq(1) > p:eq(6) span').text('이전');
+				}
+				$('#booking-modal #booked-info > div:eq(1) > p:eq(8) span').text(booking.price);
+				$('#booking-modal #booked-info > div:eq(1) > p:eq(10) span').text(booking.discountPrice);
+				$('#booking-modal #booked-info > div:eq(1) > p:eq(12) span').text(booking.totalPrice);
 				bookingModal.show();
 			})
 		})
@@ -341,6 +379,28 @@ span.info {
 			}
 			reviewModal.show();
 		})
+		
+		function getMovieGrade(grade){
+			var movieGrade;
+			var gradeClass;
+			console.log(grade)
+			if(grade == "12세이상관람가"){
+				movieGrade = 12;
+				gradeClass = "bg-warning";
+			}else if(grade == "15세이상관람가"){
+				movieGrade = 15;
+				gradeClass = "bg-success";
+			}else if(grade == "전체관람가"){
+				movieGrade = "All";
+				gradeClass = "bg-info";
+			}else{
+				movieGrade = "19";
+				gradeClass = "bg-danger";					
+			}
+			var result = {movieGrade:movieGrade , gradeClass:gradeClass}
+			console.log(result)
+			return result;
+		}
 		
 		// 모달창에서 등록/수정 버튼을 클릭했을 때 실행된다.
 		$("#review-submit").click(function() {

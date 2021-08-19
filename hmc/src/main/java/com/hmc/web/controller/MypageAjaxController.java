@@ -33,6 +33,8 @@ public class MypageAjaxController {
 	private UserService userService;
 	@Autowired
 	private ReviewService reviewService;
+	@Autowired
+	private BookingService bookingService;
 
 	@RequestMapping("/user/grade")
 	public Map<String, Object> getUserGradeExpected() {
@@ -132,7 +134,7 @@ public class MypageAjaxController {
 	 
 	 @RequestMapping("/booking/modal")
 	 public Map<String, Object> getBookingModalInfo(@RequestParam("scheduleCode")String scheduleCode, @RequestParam("bookingCode")String bookingCode){
-		 Map<String, Object> result = new HashMap<String, Object>();
+		 Map<String, Object> result = bookingService.getBookingModalInfo(scheduleCode, bookingCode);
 		 return result;
 	 }
 }
