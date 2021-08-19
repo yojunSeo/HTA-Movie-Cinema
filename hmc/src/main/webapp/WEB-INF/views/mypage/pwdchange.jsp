@@ -89,9 +89,9 @@ html, body {
 	            	<form action="changePwd" method="post" id="changePwd-form">
 	            		<div class="row mt-4">
 		            		<div class="col-2">
-		            			<div class="row mb-2"><p class="fw-lighter">이전 비밀번호</p></div>
-		            			<div class="row mb-2"><p class="fw-lighter">비밀번호 </p></div>
-		            			<div class="row"><p class="fw-lighter">비밀번호 확인 </p></div>
+		            			<div class="row mb-2" id="pwdRow"><p class="fw-lighter">이전 비밀번호</p></div>
+		            			<div class="row mt-4 mb-2"><p class="fw-lighter">비밀번호 </p></div>
+		            			<div class="row mt-3"><p class="fw-lighter">비밀번호 확인 </p></div>
 		            		</div>
 		            		<div class="col-8">
 		            			<div class="row">
@@ -150,10 +150,12 @@ html, body {
 				   dataType: 'text',
 				   success: function(isExist){
 					   if(isExist == "false"){
+						   $("#pwdRow").removeClass("mb-2").addClass("mb-5");
 						   $("#confirmPwdResult").text("본인인증이 완료되었습니다.").removeClass("text-danger").addClass("text-success");
 						   $("#btn-save").prop("disabled",false);
 						   
 					   } else if(isExist == "true"){
+						   $("#pwdRow").removeClass("mb-2").addClass("mb-5");
 						   $("#confirmPwdResult").text("본인인증에 실패하셨습니다. 다시 입력해주세요.").removeClass("text-success").addClass("text-danger");
 						   $("#btn-save").prop("disabled",true);
 						   
