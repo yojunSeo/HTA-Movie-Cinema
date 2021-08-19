@@ -1,96 +1,16 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<style>
+<!doctype html>
 
-.footer .f_logo {
-    display: block;
-    margin-bottom: 20px;
-}
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="/hmc/resources/css/footer.css">
+</head>
 
-.footer {
-		position: relative;
-    width: 100%;
-    margin-top: 300px;
-    padding-bottom: 20px;
-}
-
-.footer .inner {
-    position: relative;
-    width: 1280px;
-    margin: 0 auto;
-}
-
-
-
-.footer .f_menu {
-    margin-bottom: 15px;
-}
-
-ul, ol {
-    list-style: none;
-}
-
-
-.footer .bx_address {
-    line-height: 1.5;
-    font-size: 12px;
-    color: #4D4D4D;
-}
-
-.footer .bx_info {
-	float:right;
-    line-height: 1.5;
-    font-size: 12px;
-    color: #4D4D4D;
-}
-
-
-.footer .bx_address .a .bar::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 4px;
-    height: 10px;
-    border-left: 1px solid #707070;
-}
-
-p {
-    display: block;
-    margin-block-start: 1em;
-    margin-block-end: 1em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-}
-
-.footer .copyright {
-    display: block;
-    margin-top: 4px;
-    font-size: 12px;
-    color: #4D4D4D;
-}
-
-.footer .f_menu a:before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 2px;
-    height: 10px;
-    border-left: 1px solid #707070;
-}
-
-.footer .f_menu a {
-    position: relative;
-    float: left;
-    margin-right: 10px;
-    padding-left: 10px;
-}
-
-a, a:link, a:visited, a:active, a:hover {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-}
-</style>
+<div class="cf">
+	<img alt="" src="/hmc/resources/images/footer/footer_cf1.jpg">
+	<img alt="" src="/hmc/resources/images/footer/footer_cf2.png">
+</div>
 
 <div id="footer_section" class="footer">
 	<div class="inner">
