@@ -129,6 +129,13 @@ html, body {
 			alert("인증에 실패하셨습니다.\n 입력한 정보와 일치하는 회원이 존재하지 않습니다.");
 			location.href = "checkUser";
 		}
+		// 로그인한 정보와 입력한 정보가 일치하지 않을 때 실행할 alert창
+		var urlParams = new URLSearchParams(window.location.search);
+		var usernotCorrect = urlParams.get('notCorrect');
+		if(usernotCorrect != null){
+			alert("인증에 실패하셨습니다.\n 로그인한 정보와 입력하신 인증정보가 일치하지 않습니다");
+			location.href = "checkUser";
+		}
    })
    </script>
 </body>

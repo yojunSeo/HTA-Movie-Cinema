@@ -149,15 +149,7 @@ setInterval(function(){
 }, 3000);
 
 $(function(){
-	// 1:1문의가 성공적으로 submit되었을때 실행할 alert창
-	var urlParams = new URLSearchParams(window.location.search);
-	var formsubmit = urlParams.get('formsubmit');
-	if(formsubmit != null){
-		alert("1:1문의가 성공적으로 제출되었습니다.");
-		location.href = "home";
-	}
-})
-
+	
 	// 회원 탈퇴가 완료되었을때 실행할 alert창
 	var urlParams = new URLSearchParams(window.location.search);
 	var userWithdrawal = urlParams.get('witdrawal');
@@ -173,6 +165,8 @@ $(function(){
 		alert("비밀번호가 변경되었습니다.");
 		location.href = "home";
 	}
+})
+
 
 </script>
 <footer>

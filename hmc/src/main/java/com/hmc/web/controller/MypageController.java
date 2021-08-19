@@ -168,10 +168,14 @@ public class MypageController {
    @PostMapping("/checkUser")
    public String checkUser(@LoginUser User user, @RequestParam("id") String id, @RequestParam("password") String password) {
 	   User savedUser = userSerivce.getUserById(id);
+	   User confirmUser = (User)SessionUtils.getAttribute("LOGINED_USER");
 	   String secretPwd = DigestUtils.sha256Hex(password);
 	   
 	   if(savedUser == null) {
 		   return "redirect:checkUser?notFoundUser=true";
+		   
+	   } else if(!(savedUser.getId()).equals(confirmUser.getId())) {
+		   return "redirect:checkUser?notCorrect=true";
 		   
 	   } else if(!savedUser.getPassword().equals(secretPwd)) {
 		   return "redirect:checkUser?notFoundUser=true";

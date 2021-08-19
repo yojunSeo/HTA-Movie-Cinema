@@ -201,6 +201,14 @@
 			}	
 			return true;
 		});
+		
+		// 1:1문의가 성공적으로 submit되었을때 실행할 alert창
+		var urlParams = new URLSearchParams(window.location.search);
+		var formsubmit = urlParams.get('formsubmit');
+		if(formsubmit != null){
+			alert("1:1문의가 성공적으로 제출되었습니다.");
+			location.href = "myInqueryList";
+		}
 	})
 </script>
 </body>

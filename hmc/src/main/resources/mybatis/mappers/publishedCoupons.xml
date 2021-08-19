@@ -97,7 +97,7 @@
 	    published_end_date as endDate, published_used as isUsed, published_used_date as usedDate,
 	    coupon_type as couponType, coupon_name as couponName, event_code as eventCode
 	    from(
-	    select row_number() over (order by p.coupon_code desc) rn,
+	    select row_number() over (order by p.published_given_date desc) rn,
 	        p.published_code, p.coupon_code, p.user_id, p.published_given_date,  p.published_end_date,  p.published_used,  p.published_used_date,
 	    c.coupon_type, c.coupon_name, c.event_code
 	    from t_published_coupon p, t_coupon c

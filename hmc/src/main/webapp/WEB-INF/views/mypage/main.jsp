@@ -118,7 +118,7 @@ span.large{
 						</li>
 						<li class="nav-item"><a class="nav-link" href="coupon">쿠폰함</a></li>
 						<li class="nav-item"><a class="nav-link" href="event">My이벤트</a></li>
-						<li class="nav-item"><a class="nav-link" href="/hmc/cs/inqueryForm">1:1문의</a></li>
+						<li class="nav-item"><a class="nav-link" href="/hmc/cs/myInqueryList">1:1문의</a></li>
 						<li class="nav-item dropdown"><a
 							class="nav-link dropdown-toggle" aria-current="page" data-bs-toggle="dropdown" 
 							href="#" role="button" aria-expanded="false">My정보관리</a>

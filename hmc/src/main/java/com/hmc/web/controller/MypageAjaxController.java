@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -136,5 +137,21 @@ public class MypageAjaxController {
 	 public Map<String, Object> getBookingModalInfo(@RequestParam("scheduleCode")String scheduleCode, @RequestParam("bookingCode")String bookingCode){
 		 Map<String, Object> result = bookingService.getBookingModalInfo(scheduleCode, bookingCode);
 		 return result;
+	 }
+	 
+	 /**
+	  * 비밀번호 변경 전 기존 비밀번호 확인
+	  * @param beforePwd
+	  * @return 불린값
+	  */
+	 @RequestMapping(path = "/confirmPwd", produces="text/plain")
+	 public @ResponseBody ResponseEntity<String> confirmPwd(@RequestParam("beforePwd") String beforePwd){
+		 String isExist = "false";
+		 User findUser = (User)SessionUtils.getAttribute("LOGINED_USER");
+		 String secretPwd = DigestUtils.sha256Hex(beforePwd);
+		 if(!(findUser.getPassword()).equals(secretPwd)) {
+			 isExist = "true";
+		 }
+		 return new ResponseEntity<String>(isExist,HttpStatus.OK);
 	 }
 }
