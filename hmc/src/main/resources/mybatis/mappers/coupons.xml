@@ -41,6 +41,7 @@
 		
 		where
 			rn between #{beginIndex} and #{endIndex}
+		order by coupon_code desc
 	</select>
 	
 	<insert id="insertCoupon" parameterType="com.hmc.vo.Coupon">
@@ -129,6 +130,15 @@
 		and 
 			pc.published_code = #{value}
 	
+	</select>
+	
+	<select id="getEventCodeByCouponCode" parameterType="string" resultType="string">
+		select
+		    event_code
+		from
+		    t_coupon
+		where
+		    coupon_code = #{value}
 	</select>
 	
 </mapper>

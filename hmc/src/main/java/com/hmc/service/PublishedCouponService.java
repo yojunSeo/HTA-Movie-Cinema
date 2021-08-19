@@ -10,4 +10,5 @@ public interface PublishedCouponService {
 	int getTotalRows(Map<String, Object> param);
 	
 	List<Map<String, Object>> getMyCouponsByUserId(Map<String, Object> param);
+	
 }

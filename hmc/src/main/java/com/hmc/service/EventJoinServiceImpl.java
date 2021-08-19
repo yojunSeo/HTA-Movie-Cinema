@@ -48,4 +48,10 @@ public class EventJoinServiceImpl implements EventJoinService {
 		
 	}
 	
+	@Override
+	public List<EventJoin> getUserIdAndResult(String eventCode) {
+		List<EventJoin> joins = eventJoinDao.getUserIdAndResult(eventCode);
+		return joins;
+	}
+	
 }

@@ -3,6 +3,7 @@ package com.hmc.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.hmc.vo.Event;
 import com.hmc.vo.PublishedCoupon;
 
 public interface PublishedCouponDao {
@@ -19,4 +20,8 @@ public interface PublishedCouponDao {
 	
 	void insertPublichedCouponJoin(String couponCode);
 	
+	void deletePublichedCoupon(String couponCode);
+	
+	
+	String checkPublishedCouponCode(String couponCode);
 }

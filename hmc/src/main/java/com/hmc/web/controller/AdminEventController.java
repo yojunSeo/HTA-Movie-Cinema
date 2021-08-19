@@ -7,14 +7,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hmc.dao.EventDao;
 import com.hmc.dao.EventJoinDao;
 import com.hmc.dao.PublishedCouponDao;
 import com.hmc.service.CouponService;
@@ -30,6 +36,8 @@ import com.hmc.vo.PublishedCoupon;
 import com.hmc.vo.User;
 import com.hmc.web.annotation.LoginAdmin;
 import com.hmc.web.annotation.LoginUser;
+import com.hmc.web.form.EventForm;
+import com.hmc.web.form.ProductForm;
 import com.hmc.web.util.DateUtils;
 import com.hmc.web.util.SessionUtils;
 
@@ -55,6 +63,9 @@ public class AdminEventController {
 	@Autowired
 	PublishedCouponDao publishedCouponDao;
 	
+	@Autowired
+	EventDao eventDao;
+	
 	// 한 페이지당 표시할 게시글 행의 개수
 	private static final int ROWS_PER_PAGE = 10;
 	// 페이지블록 당 한번에 표시할 페이지번호 개수
@@ -75,7 +86,7 @@ public class AdminEventController {
 	public String eventForm(@RequestParam(name = "page", required = false, defaultValue = "1") int page, 
 			@RequestParam(name = "opt", required = false) String searchOption, 
 			@RequestParam(name = "keyword", required = false) String searchKeyword, 
-			Model model) {
+			Model model, @LoginAdmin User loginAdmin) {
 		
 		Map<String, Object> param = new HashMap<String, Object>();
 		if(searchOption != null && searchKeyword != null ) {
@@ -89,6 +100,15 @@ public class AdminEventController {
 		List<Event> events = eventService.eventListPage(param);
 		System.out.println("실행됨");
 		model.addAttribute("events", events);
+		
+		Map<String, Object> param2 = new HashMap<String, Object>();
+		
+		List<Coupon> coupons = couponService.getCouponInfo(param2);
+		model.addAttribute("coupons", coupons);
+		
+		User loginedUser = (User) SessionUtils.getAttribute("LOGINED_USER");
+		
+		model.addAttribute("loginedUser", loginedUser);
 		
 		int totalRows = eventService.getTotalRows(param);
 		int totalPages = (int) Math.ceil((double) totalRows/ROWS_PER_PAGE);
@@ -112,36 +132,37 @@ public class AdminEventController {
 		
 		
 		
+		
+		
 		return "admin/event/eventList";
 	}
 	
 	
 	@PostMapping("/insertEvent")
-	public String add(@RequestParam("title") String title, @RequestParam("writer") String writer, 
-					@RequestParam("eventContent") String eventContent, @RequestParam("startDate") String startDate,
-					@RequestParam("endDate") String endDate, @RequestParam("selectCoupon") String selectCoupon,
-					@RequestParam("couponAmount") int couponAmount, @RequestParam("status") String status,
-					@LoginAdmin User loginAdmin) throws ParseException {
+	public String add(EventForm form, HttpServletRequest request, @LoginAdmin User loginAdmin) throws ParseException {
 		
 		Event event = new Event();
-		event.setTitle(title);
-		event.setContent(eventContent);
-		Date eventStart = DateUtils.stringToDate(startDate);
+		event.setTitle(form.getTitle());
+		event.setContent(form.getEventContent());
+		Date eventStart = DateUtils.stringToDate(form.getStartDate());
 		event.setStartDate(eventStart);
-		Date eventEnd = DateUtils.stringToDate(endDate);
+		Date eventEnd = DateUtils.stringToDate(form.getEndDate());
 		event.setEndDate(eventEnd);
-		event.setCouponCode(selectCoupon);
-		event.setCouponAmount(couponAmount);
-		event.setStatus(status);
+		event.setCouponCode(form.getSelectCoupon());
+		event.setCouponAmount(form.getCouponAmount());
+		event.setStatus(form.getStatus());
 		
 		//event.setWriter(loginAdmin.getId());
 		User logginedUser = (User)SessionUtils.getAttribute("LOGINED_USER");
 		event.setWriter(logginedUser.getId());
 		System.out.println(event);
+		System.out.println("1");
 		eventService.insertEvent(event);
+		System.out.println("2");
 		
-		return "rediret:eventList?insertEvent=true";
+		return "redirect:eventList";
 	}
+	
 	
 	@GetMapping("/detail")
 	public String eventDetail(@RequestParam("no") String eventCode, @LoginUser User user, Model model) {
@@ -175,5 +196,20 @@ public class AdminEventController {
 		
 		return "redirect:/event/home";
 	}
+	
+	
+	@RequestMapping("/delete")
+	public @ResponseBody ResponseEntity<Void> delete(@RequestParam("code") String eventCode) {
+		System.out.println("딜리트");
+		Event savedEvent = eventDao.getEventByCode(eventCode);
+		if (savedEvent == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 
+		eventDao.deleteEvent(eventCode);
+		
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	
 }

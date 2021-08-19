@@ -55,8 +55,9 @@
 		)
 		where 
 			rn between #{beginIndex} and #{endIndex}
-		order by event_status
+		order by event_code desc
 	</select>
+	
 	
 	
 	<insert id="insertEvent" parameterType="com.hmc.vo.Event">
@@ -109,5 +110,11 @@
 			event_code = #{value}
 	</select>
 	
+	<delete id="deleteEvent" parameterType="string">
+		delete from
+			t_event
+		where
+			event_code = #{value}
+	</delete>
 	
 </mapper>

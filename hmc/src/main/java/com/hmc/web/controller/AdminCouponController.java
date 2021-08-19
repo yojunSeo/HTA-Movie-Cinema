@@ -16,12 +16,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hmc.dao.CouponCategoryDao;
 import com.hmc.dao.CouponDao;
+import com.hmc.dao.EventDao;
+import com.hmc.dao.EventJoinDao;
+import com.hmc.dao.PublishedCouponDao;
 import com.hmc.service.CouponService;
+import com.hmc.service.PublishedCouponService;
 import com.hmc.vo.Coupon;
+import com.hmc.vo.Event;
 import com.hmc.vo.Pagination;
+import com.hmc.vo.PublishedCoupon;
+import com.hmc.vo.User;
+import com.hmc.web.annotation.LoginAdmin;
 
 @Controller
-public class CouponController {
+@RequestMapping("/admin")
+public class AdminCouponController {
 	
 	@Autowired
 	private CouponService couponService;
@@ -32,6 +41,18 @@ public class CouponController {
 	@Autowired
 	private CouponCategoryDao couponCategoryDao;
 	
+	@Autowired
+	private PublishedCouponDao publishedCouponDao;
+	
+	@Autowired
+	private EventDao eventDao;
+	
+	@Autowired
+	private EventJoinDao eventJoinDao;
+	
+	@Autowired
+	private PublishedCouponService publishedCouponService;
+	
 	// 한 페이지당 표시할 게시글 행의 개수
 	private static final int ROWS_PER_PAGE = 10;
 	// 페이지블록 당 한번에 표시할 페이지번호 개수ㅈ
@@ -41,7 +62,7 @@ public class CouponController {
 	public String mainHome(@RequestParam(name = "page", required = false, defaultValue = "1") int page, 
 			@RequestParam(name = "opt", required = false) String searchOption, 
 			@RequestParam(name = "keyword", required = false) String searchKeyword, 
-			Model model)  {
+			Model model, @LoginAdmin User loginAdmin)  {
 		
 		Map<String, Object> param = new HashMap<String, Object>();
 		if(searchOption != null && searchKeyword != null ) {
@@ -81,11 +102,11 @@ public class CouponController {
 		
 		model.addAttribute("pagination", pagination);
 		
-		return "coupon/list";
+		return "admin/coupon/list";
 	}
 	
 	@RequestMapping("/coupon/detail")
-	public @ResponseBody ResponseEntity<Coupon> detail(@RequestParam("code") String couponCode) {
+	public @ResponseBody ResponseEntity<Coupon> detail(@RequestParam("code") String couponCode, @LoginAdmin User loginAdmin) {
 		System.out.println(couponCode + "1234");
 		Coupon savedCoupon = couponDao.getCouponByCode(couponCode);
 		System.out.println("디테일 실행됨");
@@ -94,14 +115,11 @@ public class CouponController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 
-		
-		
-		
 		return new ResponseEntity<>(savedCoupon, HttpStatus.OK);
 	}
 	
 	@RequestMapping("/coupon/add")
-	public @ResponseBody ResponseEntity<Coupon> add(Coupon coupon){
+	public @ResponseBody ResponseEntity<Coupon> add(Coupon coupon, @LoginAdmin User loginAdmin){
 		System.out.println("쿠폰등록");
 		couponDao.insertCoupon(coupon);
 		
@@ -111,7 +129,7 @@ public class CouponController {
 	}
 	
 	@RequestMapping("/coupon/modify")
-	public @ResponseBody ResponseEntity<Coupon> modify(Coupon coupon) {
+	public @ResponseBody ResponseEntity<Coupon> modify(Coupon coupon, @LoginAdmin User loginAdmin) {
 		System.out.println("수정 실행임니다!");
 
 		System.out.println(coupon+"123");
@@ -132,16 +150,34 @@ public class CouponController {
 	}
 	
 	@RequestMapping("/coupon/delete")
-	public @ResponseBody ResponseEntity<Void> delete(@RequestParam("code") String couponCode) {
+	public @ResponseBody ResponseEntity<Void> delete(@RequestParam("code") String couponCode, @LoginAdmin User loginAdmin) {
 		System.out.println("딜리트");
 		Coupon savedCoupon = couponDao.getCouponByCode(couponCode);
+		Map<String, Object> param = new HashMap<String, Object>();
 		if (savedCoupon == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-
-		couponDao.deleteCoupon(couponCode);
+		
+		// publishedCoupon 조회
+		String pcode = publishedCouponDao.checkPublishedCouponCode(couponCode);
+		String ec = couponDao.getEventCodeByCouponCode(couponCode);
+		
+		if(pcode == null) {
+			if(ec==null) {
+				couponDao.deleteCoupon(couponCode);
+			}
+		}
+		
+		System.out.println(ec+"1212");
 		
 		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@GetMapping("/coupon/couponModal")
+	public String modalMome() {
+		
+		
+		return "admin/coupon/couponModal";
 	}
 	
 }

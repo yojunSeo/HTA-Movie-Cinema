@@ -29,4 +29,5 @@ public interface CouponDao {
 	
 	void modifyCoupon(Coupon coupon);
 	
+	String getEventCodeByCouponCode(String eventCode);
 }
