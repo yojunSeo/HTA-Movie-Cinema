@@ -203,7 +203,7 @@ ul.nav.nav-tabs li.nav-item button.active {
 								</div>
 								<div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
 									<div class="score-box mb-5">
-										<p align="center">평점 ★<strong>${reviewScoreAvg }</strong></p>
+										<p align="center">평점 <span style="color:#FFA406">★</span><strong>${reviewScoreAvg }</strong></p>
 										<p align="center">영화 관람 후 관람평을 작성하시면 50P를 적립해드립니다.</p>
 									</div>
 									<div class="reivew-list">
@@ -220,7 +220,7 @@ ul.nav.nav-tabs li.nav-item button.active {
 												<c:otherwise>
 													<div>
 														<span>${reviews.userId }</span>
-														<span>★${reviews.score }</span>
+														<span><span style="color:#FFA406">★</span>${reviews.score }</span>
 													</div>
 													<div>
 														<span>${reviews.content }</span>

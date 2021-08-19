@@ -75,20 +75,27 @@ html, body {
 	color: #FF243E;
 	background: #FF243E;
 }
-.overbox {
-	color: #FFF;
+.topinfo {
+	position: relative !important;
 	width: 210px;
 	height: 300px;
 	
 }
-.inner {
-	text-align:center;
-	padding-top: 110px;
-	padding-bottom: 110px;
+.topinfo .overbox {
+	position: absolute;
+	opacity: 0;
+	top : 135px;
+	left : 60px;
 }
-.overbox a {	
-	outline: solid 1px gray;
-
+.topinfo .numinfo {
+	position: absolute;
+	top :250px;
+	left : 10px;
+	text-shadow: 1px 1px 10px #000;
+	color: #fff;
+	font-style: italic;
+	font-size:xx-large;
+	font-weight: bold;
 }
 </style>
 <body>
@@ -116,31 +123,30 @@ html, body {
 				</div>
 			</div>
 			<div class="row">
-				<div class="wrapper mt-5">
-					<ul class="nowmovie" style="max-width : 1100px;">
-						<div class="mb-3">
-							<h5>
-								<strong>상영 예정작</strong>
-							</h5>
-						</div>
+				<div class="wrapper mt-5 mb-3">
+					<ul class="commingsoonmovie" style="max-width : 1280px;">
+						<h5><strong>상영 예정작</strong></h5>
 						<c:forEach var="commingAllMovies" items="${commingAllMovies }">
-							<li>
+							<li class="mt-2">
 								<div class="topinfo">
-									<span> <img onmouseover="overclass(this)"
-										src="${commingAllMovies.poster }" alt=""> 
-<!-- 										<em class="numinfo">1</em> -->
-<!-- 										<span class="ic_grade gr_15"></span> -->
-									</span>
-								</div>
-								<div class="overbox">
-									<div class="inner">
-										<a href="detail?movieCode=${commingAllMovies.movieCode }">  상세정보    </a>
+									<img src="${commingAllMovies.poster }" alt=""> 
+									<div class="overbox">
+										<a class="btn btn-dark text-white" href="detail?movieCode=${commingAllMovies.movieCode }">상세정보 </a>
 									</div>
 								</div>
 								<div class="btminfo">
-									<strong>${commingAllMovies.movieName }</strong><br /> 
-									<span>개봉일
-										<em><fmt:formatDate value="${commingAllMovies.releaseDate }" pattern="yyyy.MM.dd" /></em>
+									<strong>
+										<c:choose>
+											<c:when test="${commingAllMovies.grade == '전체관람가' }"><span class="badge rounded-pill bg-info">All</span></c:when>
+											<c:when test="${commingAllMovies.grade == '12세이상관람가' }"><span class="badge rounded-pill bg-warning">12</span></c:when>
+											<c:when test="${commingAllMovies.grade == '15세이상관람가' }"><span class="badge rounded-pill bg-success">15</span></c:when>
+											<c:when test="${commingAllMovies.grade == '청소년관람불가' }"><span class="badge rounded-pill bg-danger">19</span></c:when>
+											<c:otherwise>
+											</c:otherwise>
+										</c:choose>${commingAllMovies.movieName }
+									</strong><br /> 
+									<span>
+										<em><fmt:formatDate value="${commingAllMovies.releaseDate }" pattern="yyyy.MM.dd" /></em> 개봉
 									</span>
 								</div>
 							</li>
@@ -174,20 +180,13 @@ html, body {
 				},
 			});
 		})
-
-		function overclass(obj) {
-			//마우스 인
-			obj.className = 'on';
-			$(".on").hide();
-			$(".on").parent().parent().next().show();
-
-			//마우스 아웃
-			obj.onmouseout = function() {
-				this.className = '';
-				$(this).show();
-				$(this).parent().parent().next().hide();
-			}
-		}
+	$('.commingsoonmovie .topinfo').hover(function(){
+			$(this).find('img').css('opacity',0);
+			$(this).find('.overbox').css('opacity',1);
+		}, function() {
+			$(this).find('img').css('opacity',1);
+			$(this).find('.overbox').css('opacity',0);
+		});
 	</script>
 </body>
 </html>

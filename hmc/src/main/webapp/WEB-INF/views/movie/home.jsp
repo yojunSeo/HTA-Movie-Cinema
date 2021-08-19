@@ -74,30 +74,36 @@ html, body {
 	color: #FF243E;
 	background: #FF243E;
 }
-.overbox {
-	color: #FFF;
+.topinfo {
+	position: relative !important;
 	width: 210px;
 	height: 300px;
 	
 }
-.inner {
-	text-align:center;
-	padding-top: 110px;
-	padding-bottom: 110px;
+.topinfo .overbox {
+	position: absolute;
+	opacity: 0;
+	top :100px;
+	left : 60px;
 }
-.overbox a {	
-	border: solid 1px gray;
-	padding: 3px;
-	marging: 2px;
-	
+.topinfo .numinfo {
+	position: absolute;
+	top :250px;
+	left : 10px;
+	text-shadow: 1px 1px 10px #000;
+	color: #fff;
+	font-style: italic;
+	font-size:xx-large;
+	font-weight: bold;
 }
+
 </style>
 <body>
 	<div class="container">
 		<header><%@ include file="../common/header.jsp"%></header>
 
 		<main>
-			<div class="row mt-2">
+			<div class="row mt-2 mb-5">
 				<div class="col">
 					<div class="swiper-container mySwiper">
 						<div class="swiper-wrapper">
@@ -123,28 +129,29 @@ html, body {
 
 			<!-- 현재 상영작 -->
 			<div class="row">
-				<div class="wrapper mt-3">
+				<div class="wrapper mt-5 mb-3">
 					<ul class="nowmovie">
-						<p>현재 상영작 <strong>TOP5</strong></p>
+						<h5><strong>현재 상영작 <span style="color:#FF243E;">TOP 5</span></strong></h5>
 						<c:forEach var="nowMovies" items="${nowMovies }">
-							<li>
+							<li class="mt-2">
 								<div class="topinfo">
-									<span> <img onmouseover="overclass(this)"
-										src="${nowMovies.poster }" alt=""> 
-<!-- 										<em class="numinfo">1</em> -->
-<!-- 										<span class="ic_grade gr_15"></span> -->
-									</span>
-								</div>
-								<div class="overbox">
-									<div class="inner">
-										<a href="/hmc/booking/schedule/movie">예매하기</a><br>
-										<a href="detail?movieCode=${nowMovies.movieCode }">상세정보</a>
+									<img src="${nowMovies.poster }" alt="${nowMovies.movieName }"> 
+									<div class="overbox text-center pt-3">
+										<a class="btn btn-dark text-white mb-2" href="/hmc/booking/schedule/movie?movieCode=${nowMovies.movieCode }">예매하기</a><br>
+										<a class="btn btn-dark text-white" href="detail?movieCode=${nowMovies.movieCode }">상세정보</a>
 									</div>
+									<div class="numinfo">${nowMovies.rank }</div>
 								</div>
 								<div class="btminfo">
-									<strong>${nowMovies.movieName }</strong><br /> 
-									<!-- 리뷰 점수 -->
-									<span><em>${nowMovies.totalScore }</em></span>
+									<strong>
+										<c:choose>
+											<c:when test="${nowMovies.grade == '전체관람가' }"><span class="badge rounded-pill bg-info">All</span></c:when>
+											<c:when test="${nowMovies.grade == '12세이상관람가' }"><span class="badge rounded-pill bg-warning">12</span></c:when>
+											<c:when test="${nowMovies.grade == '15세이상관람가' }"><span class="badge rounded-pill bg-success">15</span></c:when>
+											<c:when test="${nowMovies.grade == '청소년관람불가' }"><span class="badge rounded-pill bg-danger">19</span></c:when>
+											<c:otherwise>
+											</c:otherwise>
+										</c:choose>${nowMovies.movieName }</strong><br /> 
 								</div>
 							</li>
 						</c:forEach>
@@ -153,45 +160,50 @@ html, body {
 			</div>
 				
 			<!-- 상영 예정작 -->
-				<div class="row mt-5">
-					<div class="wrapper">
-						<ul class="commingsoonmovie">
-							<p>상영 예정작 <strong>TOP5</strong></p>
-							<c:forEach var="commingMovies" items="${commingMovies }">
-								<li>
-									<div class="topinfo">
-										<span> <img onmouseover="overclass(this)"
-											src="${commingMovies.poster }" alt=""> 
-										</span>
-									</div>
+			<div class="row">
+				<div class="wrapper mt-5">
+					<ul class="commingsoonmovie">
+						<h5><strong>상영 예정작 <span style="color:#FF243E;">TOP 5</span></strong></h5>
+						<c:forEach var="commingMovies" items="${commingMovies }">
+							<li class="mt-2">
+								<div class="topinfo">
+									<img src="${commingMovies.poster }" alt="">
 									<div class="overbox">
-										<div class="inner" style="margin-top: -20px;">
-											<a href="detail?movieCode=${commingMovies.movieCode }">상세정보</a>
-										</div>
+										<a class="btn btn-dark text-white" href="detail?movieCode=${commingMovies.movieCode }">상세정보</a>
 									</div>
-									<div class="btminfo">
-										<strong>${commingMovies.movieName }</strong><br /> 
-										<!-- 개봉일 d-day로 변경해야함 -->
-										<span>개봉일
-										<em><fmt:formatDate value="${commingMovies.releaseDate }" pattern="yyyy.MM.dd" /></em>
-										</span> 
 								</div>
-								</li>
-							</c:forEach>
-						</ul>
-					</div>
+								<div class="btminfo">
+									<strong>
+										<c:choose>
+											<c:when test="${commingMovies.grade == '전체관람가' }"><span class="badge rounded-pill bg-info">All</span></c:when>
+											<c:when test="${commingMovies.grade == '12세이상관람가' }"><span class="badge rounded-pill bg-warning">12</span></c:when>
+											<c:when test="${commingMovies.grade == '15세이상관람가' }"><span class="badge rounded-pill bg-success">15</span></c:when>
+											<c:when test="${commingMovies.grade == '청소년관람불가' }"><span class="badge rounded-pill bg-danger">19</span></c:when>
+											<c:otherwise>
+											</c:otherwise>
+										</c:choose>${commingMovies.movieName }</strong><br /> 
+									</strong>
+									<!-- 개봉일 d-day로 변경..? -->
+									<span><em><fmt:formatDate
+												value="${commingMovies.releaseDate }" pattern="yyyy.MM.dd" /></em> 개봉
+									</span>
+								</div>
+							</li>
+						</c:forEach>
+					</ul>
 				</div>
+			</div>
 		</main>
-
-		<footer><%@ include file="../common/footer.jsp"%></footer>
-
+		<div style="float:left;">
+			<footer><%@ include file="../common/footer.jsp"%></footer>
+		</div>
 	</div>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 	<script type="text/javascript">
 		$(function() {
-			$(".overbox").hide();
+			
 			var swiper = new Swiper(".mySwiper", {
 				spaceBetween : 30,
 				centeredSlides : true,
@@ -210,20 +222,24 @@ html, body {
 			});
 			
 		});
+		$('.nowmovie .topinfo').hover(function(){
+			$(this).find('img').css('opacity',0);
+			$(this).find('.overbox').css('opacity',1);
+			$(this).find('.numinfo').css('opacity',0);
+		}, function() {
+			$(this).find('img').css('opacity',1);
+			$(this).find('.overbox').css('opacity',0);
+			$(this).find('.numinfo').css('opacity',1);
+		});
+		
+		$('.commingsoonmovie .topinfo').hover(function(){
+			$(this).find('img').css('opacity',0);
+			$(this).find('.overbox').css('opacity',1);
+		}, function() {
+			$(this).find('img').css('opacity',1);
+			$(this).find('.overbox').css('opacity',0);
+		});
 
-		function overclass(obj){
-		    //마우스 인
-			 obj.className='on';
-		    $(".on").hide();
-		    $(".on").parent().parent().next().show();
-		    
-		    //마우스 아웃
-		    obj.onmouseout=function(){
-		        this.className='';
-		        $(this).show();
-			    $(this).parent().parent().next().hide();
-		    }
-		}
 // 		//디데이 종료 일자 설정 
 // 		var countDownDate = new Date("formatRegDate").getTime(); 
 // 		//1초마다 갱신되도록 함수 생성,실행 
@@ -240,5 +256,5 @@ html, body {
 // 		});
 
 	</script>
-	
+</body>	
 </html>
