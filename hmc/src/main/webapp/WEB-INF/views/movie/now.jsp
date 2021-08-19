@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!doctype html>
 <html lang="ko">
 <head>
@@ -16,10 +17,11 @@ html, body {
 	height: 100%;
 }
 .topinfo img {
-	width: 210px;
-	height: 300px;
+	width: 230px;
+	height: 320px;
 }
 .wrapper {
+	margin-left: 25px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -77,8 +79,8 @@ html, body {
 }
 .topinfo {
 	position: relative !important;
-	width: 210px;
-	height: 300px;
+	width: 230px;
+	height: 320px;
 	
 }
 .topinfo .overbox {
@@ -89,8 +91,8 @@ html, body {
 }
 .topinfo .numinfo {
 	position: absolute;
-	top :250px;
-	left : 10px;
+	top :280px;
+	left : 5px;
 	text-shadow: 1px 1px 10px #000;
 	color: #fff;
 	font-style: italic;
@@ -102,6 +104,7 @@ html, body {
 	<div class="container">
 	<header><%@ include file="../common/header.jsp"%></header>
 		<main>
+			<!-- 상단 슬라이드 부분 -->
 			<div class="row mb-3">
 				<div class="col">
 					<div class="swiper-container mySwiper">
@@ -122,18 +125,20 @@ html, body {
 					</div>
 				</div>
 			</div>
+			<!-- 현재 상영작 목록 전체 출력 -->
 			<div class="row">
 				<div class="wrapper mt-5 mb-3">
-					<ul class="nowmovie" style="max-width : 1100px;">
+					<ul class="nowmovie" style="max-width : 1280px;">
 						<h5><strong>현재 상영작</strong></h5>
 						<c:forEach var="nowAllMovies" items="${nowAllMovies }">
-							<li class="mt-2">
+							<li class="mt-2" style="margin-left:5px; margin-right:5px;">
 								<div class="topinfo">
 									<img src="${nowAllMovies.poster }" alt="${nowAllMovies.movieName }"> 
 									<div class="overbox">
 										<a class="btn btn-dark text-white mb-2" href="/hmc/booking/schedule/movie">  예매하기    </a><br>
 										<a class="btn btn-dark text-white"href="detail?movieCode=${nowAllMovies.movieCode }">  상세정보    </a>
 									</div>
+									<div class="numinfo">${nowAllMovies.rank }</div>
 								</div>
 								<div class="btminfo mb-5">
 									<strong>
@@ -160,6 +165,7 @@ html, body {
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 	<script type="text/javascript">
+		// 상단 슬라이드 부분
 		$(function() {
 			var swiper = new Swiper(".mySwiper", {
 				spaceBetween : 30,
@@ -178,13 +184,15 @@ html, body {
 				},
 			});
 		})
-
-			$('.nowmovie .topinfo').hover(function(){
+		// 현재 상영작 마우스오버 이벤트	
+		$('.nowmovie .topinfo').hover(function(){
 			$(this).find('img').css('opacity',0);
 			$(this).find('.overbox').css('opacity',1);
+			$(this).find('.numinfo').css('opacity',0);
 		}, function() {
 			$(this).find('img').css('opacity',1);
 			$(this).find('.overbox').css('opacity',0);
+			$(this).find('.numinfo').css('opacity',1);
 		});
 	</script>
 </body>

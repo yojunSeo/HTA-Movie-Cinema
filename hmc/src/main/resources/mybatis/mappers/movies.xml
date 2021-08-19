@@ -50,7 +50,7 @@
              movie_code = #{value}
     </select>
     
-    <select id="getNowMovie" resultType="com.hmc.vo.Movie">
+	<select id="getNowMovie" resultType="com.hmc.vo.Movie">
        select
             movie_code         		movieCode,
             movie_name            	movieName,
@@ -59,7 +59,7 @@
             movie_total_score      	totalScore,
             movie_rank				rank           
          from
-            T_MOVIE
+            t_movie
          where
          	movie_rank between 1 and 5
          order by 
@@ -180,4 +180,8 @@
 			movie_code = #{movieCode}
 	</update>
 	
+	<update id="resetMovieRanking" parameterType="com.hmc.vo.Movie">
+		update t_movie
+		set movie_rank = null
+	</update>
 </mapper>

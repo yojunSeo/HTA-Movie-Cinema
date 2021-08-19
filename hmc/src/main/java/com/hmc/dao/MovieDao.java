@@ -27,5 +27,6 @@ public interface MovieDao {
 	void updateReviewCnt(String movieCode);
 	
 	void updateReviewTotalScore(String movieCode);
-
+	
+	void resetMovieRanking();
 }

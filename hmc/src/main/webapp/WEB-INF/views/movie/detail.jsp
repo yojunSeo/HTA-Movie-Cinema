@@ -102,30 +102,29 @@ ul.nav.nav-tabs li.nav-item button.active {
 		<main>
 			<div class="box1 row">
 				<div class="col-12 mt-5">
+					<!-- 상단 영화 포스터 및 간단한 정보  -->
 					<div class="card mb-3">
 						<div class="row g-0">
 							<div class="poster col-md-4">
-								<img
-									src="${movie.poster }"
-									class="img-fluid rounded-start" alt="...">
+								<img src="${movie.poster }" class="img-fluid rounded-start" alt="...">
 							</div>
 							<div class="col-md-8">
 								<div class="card-body" style="width:750px;">
-									
 									<h3 class="card-title"> <strong>${movie.movieName }</strong></h3>
 									<p class="card-text">
 										${movie.grade } <br />
-										관람객 평점 <strong>${reviewScoreAvg }</strong>         예매율 <strong>${movie.rank }위</strong>
+										관람객 평점 <strong>${reviewScoreAvg }</strong>예매율 <strong>${movie.rank }위</strong>
 										누적관객수 <strong><fmt:formatNumber value="${movie.audiacc }" />명</strong> 
 									</p>
 									<hr style="border: solid 1px gray;">
 									<p class="card-text">
 										<small class="text-muted"><strong>장르</strong> ${movie.genre } ｜ 
-											<fmt:formatDate value="${movie.releaseDate }" pattern="yyyy.MM.dd" /> 개봉 ｜  ${movie.runningTime }분  
+											<strong><fmt:formatDate value="${movie.releaseDate }" pattern="yyyy.MM.dd" /> 개봉</strong> ｜  
+											<strong>${movie.runningTime }분</strong><br>
 											<c:set var="i" value="0" />
 											<c:set var="j" value="8" />
-											<table> 
-												<strong>출연</strong>
+											<table class="text-muted" style="font-size:14px; margin:0px;">
+											<strong>출연</strong>
 												<c:forEach items="${actors }" var="actors">
 													<c:if test="${i%j == 0 }">
 												    	<tr>
@@ -137,15 +136,14 @@ ul.nav.nav-tabs li.nav-item button.active {
 												    <c:set var="i" value="${i+1 }" />
 												  </c:forEach>
 												</table>				
-											<strong>배급</strong>  ${movie.company }
+											<strong>배급</strong> ${movie.company }
 										</small>
 									</p>
-								
-									
 								</div>
 							</div>
 						</div>
 					</div>
+					<!-- 영화 상세정보 및 관람평 탭 메뉴 -->
 					<div class="row" style="margin-top: 80px;">
 						<div class="col" style="border:none; outline:none;">
 							<ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
@@ -157,8 +155,8 @@ ul.nav.nav-tabs li.nav-item button.active {
 									<button class="nav-link" id="review-tab" data-bs-toggle="tab" data-bs-target="#review" type="button" role="tab"
 										aria-controls="review" aria-selected="false">평점 및 관람평</button>
 								</li>
-
 							</ul>
+							<!-- 영화 상세정보 -->
 							<div class="tab-content mt-5" id="myTabContent">
 								<div class="tab-pane show active" id="info" role="tabpanel" aria-labelledby="info-tab">
 									
@@ -167,8 +165,8 @@ ul.nav.nav-tabs li.nav-item button.active {
 									</p>
 									<br />
 									<h5><b>트레일러</b></h5>
-									<div class="mt-4 mb-4" style="margin-left: 60px">
-										<iframe width="853" height="480"
+									<div class="mt-4 mb-4">
+										<iframe width="956" height="500"
 											src="${movie.trailer }"
 											title="YouTube video player" frameborder="0"
 											allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -201,6 +199,7 @@ ul.nav.nav-tabs li.nav-item button.active {
 									</div>
 
 								</div>
+								<!-- 평점 및 관람평 -->
 								<div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
 									<div class="score-box mb-5">
 										<p align="center">평점 <span style="color:#FFA406">★</span><strong>${reviewScoreAvg }</strong></p>
@@ -233,18 +232,14 @@ ul.nav.nav-tabs li.nav-item button.active {
 											</c:forEach>
 										</div>
 									</div>
-									
 								</div>
-
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</main>
-
 		<footer><%@ include file="../common/footer.jsp"%></footer>
-
 	</div>
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -303,25 +298,25 @@ ul.nav.nav-tabs li.nav-item button.active {
 		})();	
 	})	
 
-	// 슬라이드 구현
-	$(function() {
-    var swiper = new Swiper(".mySwiper", {
-      spaceBetween: 30,
-      centeredSlides: true,
-      autoplay: {
-        delay: 2500,
-        disableOnInteraction: false,
-      },
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true,
-      },
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-      },
-    });
-})
+	// 상세정보 스틸컷 슬라이드 
+		$(function() {
+			var swiper = new Swiper(".mySwiper", {
+				spaceBetween : 30,
+				centeredSlides : true,
+				autoplay : {
+					delay : 2500,
+					disableOnInteraction : false,
+				},
+				pagination : {
+					el : ".swiper-pagination",
+					clickable : true,
+				},
+				navigation : {
+					nextEl : ".swiper-button-next",
+					prevEl : ".swiper-button-prev",
+				},
+			});
+		})
 	</script>
 </body>
 </html>
