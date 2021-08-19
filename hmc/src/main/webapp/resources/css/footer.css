@@ -23,13 +23,14 @@
     padding-top: 20px;
     padding-bottom: 20px;
     background-color: #F7F8E0;
-    font-size:18px;
+    font-size:16px;
 }
 
 .footer .inner {
     position: relative;
-    width: 1280px;
-    margin: 0 auto;
+    margin-left: calc(50vw - 640px);
+    padding-left: 30px;
+    width: 1320px;
 }
 
 
@@ -107,10 +108,10 @@ a, a:link, a:visited, a:active, a:hover {
 	text-align: center;
 }
 
-.artivle_award .inner{
+.artivle_award .inner2{
 	display: inline-block;
 }
-.artivle_award .inner ul li{
+.artivle_award .inner2 ul li{
 	padding-left:10px;
 	padding-right:10px;
 }

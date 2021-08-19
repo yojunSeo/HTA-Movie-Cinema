@@ -39,7 +39,7 @@
 		<p class="copyright">COPYRIGHT© HTA MOVIE CINEMA ALL RIGHT RESERVED.</p>
 	</div>
 	<div class="artivle_award">
-		<div class="inner">
+		<div class="inner2">
 			<ul>
 				<li>
 					<img src="/hmc/resources/images/footer/footer_award_NCSI5.png" 
