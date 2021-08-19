@@ -107,7 +107,7 @@ html, body {
 							</c:when>
 							<c:otherwise>
 								<c:forEach var="coupon" items="${coupons }">
-									<tr data-coupon-code="${coupon.COUPONCODE }">
+									<tr data-coupon-code="${coupon.PUBLISHEDCODE }">
 										<td>${coupon.COUPONCODE }</td>
 										<td>${coupon.COUPONTYPE }</td>
 										<td>${coupon.COUPONNAME }</td>
