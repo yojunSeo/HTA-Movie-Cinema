@@ -27,4 +27,7 @@ public interface CouponDao {
 	
 	List<Coupon> getCouponInfo(Map<String, Object> param);
 	
+	void modifyCoupon(Coupon coupon);
+	
+	String getEventCodeByCouponCode(String eventCode);
 }

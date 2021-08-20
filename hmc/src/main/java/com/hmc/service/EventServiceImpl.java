@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.hmc.dao.EventDao;
 import com.hmc.dao.EventJoinDao;
 import com.hmc.vo.Event;
+import com.hmc.vo.EventJoin;
 import com.hmc.vo.Notice;
 
 @Service
@@ -84,4 +85,5 @@ public class EventServiceImpl implements EventService {
 	public List<Map<String, Object>> getUserEventJoins(String userId) {
 		return eventJoinDao.getUserEventJoin(userId);
 	}
+	
 }

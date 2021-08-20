@@ -51,4 +51,6 @@ public interface EventDao {
 	int getTotalRows(Map<String, Object> param);
 	
 	Event eventDetail(String eventCode);
+	
+	void deleteEvent(String eventCode);
 }

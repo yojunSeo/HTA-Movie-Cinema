@@ -27,11 +27,33 @@
     		event_code = #{eventCode}
 	</update>
 	
+	<select id="getUserIdByEventCode" parameterType="string" resultType="string">
+		select
+		    user_id
+		from
+		    t_event_join
+		where
+		    event_code=#{value}	
+	</select>
+	
 	<update id="eventDraw" parameterType="com.hmc.vo.EventJoin">
 		update
 		   t_event_join
 		set
 		   event_join_result = 'Y'
+		where (event_code, user_id) in (select event_code, user_id
+		                                from ( select *
+		                                       from t_event_join
+		                                       where event_code = #{value}
+		                                       order by dbms_random.random )
+		                                 <![CDATA[where rownum <= 10]]>)
+	</update>
+	
+	<update id="eventDrawNo" parameterType="com.hmc.vo.EventJoin">
+		update
+		   t_event_join
+		set
+		   event_join_result = 'N'
 		where (event_code, user_id) in (select event_code, user_id
 		                                from ( select *
 		                                       from t_event_join
@@ -75,4 +97,21 @@
 		where 
     		event_code = #{value}
 	</select>
+	
+	<delete id="deleteEventJoin" parameterType="string">
+		delete from
+			t_event_join
+		where
+			event_code = #{value}
+	</delete>
+	
+	<select id="getUserIdAndResult" parameterType="string" resultMap="EventJoinResultMap">
+		select
+		    user_id, event_join_result, event_code
+		from
+		    t_event_join
+		where
+			event_code = #{value}
+	</select>
+	
 </mapper>

@@ -41,6 +41,7 @@
 		
 		where
 			rn between #{beginIndex} and #{endIndex}
+		order by coupon_code desc
 	</select>
 	
 	<insert id="insertCoupon" parameterType="com.hmc.vo.Coupon">
@@ -72,6 +73,15 @@
 		update t_coupon
 		set
 			event_code = #{eventCode}
+		where
+			coupon_code = #{code}
+	</update>
+	
+	<update id="modifyCoupon" parameterType="com.hmc.vo.Coupon">
+		update t_coupon
+		set
+			coupon_type = #{type},
+			coupon_name = #{name}
 		where
 			coupon_code = #{code}
 	</update>
@@ -121,4 +131,14 @@
 			pc.published_code = #{value}
 	
 	</select>
+	
+	<select id="getEventCodeByCouponCode" parameterType="string" resultType="string">
+		select
+		    event_code
+		from
+		    t_coupon
+		where
+		    coupon_code = #{value}
+	</select>
+	
 </mapper>

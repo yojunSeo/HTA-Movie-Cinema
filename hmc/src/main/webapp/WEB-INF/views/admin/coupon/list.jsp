@@ -11,8 +11,10 @@
 </style>
 </head>
 <body>
-<%@ include file="../common/header.jsp" %>
 <div class="container my-3">
+	<div class="col-2">
+		<%@include file ="../sidebar.jsp"%>
+	</div>
     <main>
     	<div class="row mb-3">
 			<div class="col">
@@ -57,7 +59,8 @@
 												<td>등록된 이벤트가 없습니다</td>
 											</c:if>		
 											<c:if test="${coupon.eventCode!=null}">
-												<td>${coupon.eventCode }</td>
+												<td><p id="eventCode"  data-event-code="${coupon.eventCode}">${coupon.eventCode}</p></td>
+												
 											</c:if>
 											<td><button id="btn-coupon-modify" class="btn btn-outline-primary btn-sm rm-2" data-coupon-code="${coupon.code }">수정</button>
 											<button id="btn-coupon-delete" class="btn btn-outline-danger btn-sm rm-2" data-coupon-code="${coupon.code }">삭제</button></td>
@@ -98,7 +101,7 @@
 		<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">새 일정쓰기</h5>
+						<h5 class="modal-title" id="exampleModalLabel">새 쿠폰등록</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
@@ -106,22 +109,19 @@
 							<input type="hidden" name="code" id="coupon-code">
 							<div class="row px-2 mb-2">
 								<div class="form-check">
-									<div class="form-check form-check-inline">
-										<input class="form-check-input" type="radio" name="type" value="50%할인" >
-										<label class="form-check-label">50%할인</label>
-									</div>
-									<div class="form-check form-check-inline">
-										<input class="form-check-input" type="radio" name="type" value="30%할인">
-										<label class="form-check-label">30%할인</label>
-									</div>
-									<div class="form-check form-check-inline">
-										<input class="form-check-input" type="radio" name="type" value="5000원 할인">
-										<label class="form-check-label">5000원 할인</label>
-									</div>
-									<div class="form-check form-check-inline">
-										<input class="form-check-input" type="radio" name="type" value="영화관람권">
-										<label class="form-check-label">영화관람권</label>
-									</div>
+									<c:forEach var="category" items="${categories }">
+										<div class="form-check form-check-inline">
+											<c:choose>
+												<c:when test="${category eq '30%할인'}">
+													<input class="form-check-input" type="radio" id="type" name="type" value="30%할인">
+												</c:when>
+												<c:otherwise>
+													<input class="form-check-input" type="radio" id="type" name="type" value="${category}" >
+												</c:otherwise>
+											</c:choose>
+											<label class="form-check-label">${category}</label>
+										</div>
+									</c:forEach>
 								</div>
 							</div>
 							<div class="row px-2 mb-2">
@@ -136,6 +136,9 @@
 				</div>
 		</div>
 	</div>
+	
+	
+	
 </div>
 
 
@@ -144,12 +147,10 @@
 <script>
 $(function(){
 	var request = "등록"
-	var requestURI = "/hmc/coupon/add";
-	
+	var requestURI = "/hmc/admin/coupon/add";
 	var couponModal = new bootstrap.Modal(document.getElementById("form-coupon-modal"), {
 		keyboard: false
 	})
-	
 	// 새 쿠폰 등록
 	$("#btn-open-coupon-modal").click(function(){
 		console.log("등록 실행이에요");
@@ -165,7 +166,17 @@ $(function(){
 	
 	// 등록 버튼
 	$("#btn-post-coupon").click(function() {
+		// 유효성 검사
+		if($(":radio[name=type][value="+"영화관람권"+"]").prop("checked")) {
+			$(":radio[name=type][value="+"영화관람권"+"]").val("영화관람권");
+		}
+		if(!$("#coupon-name").val()) {
+			alert("쿠폰 이름을 입력하세요");
+			$("#coupon-name").focus();
+			return;
+		}
 		$.ajax({
+			
 			type: "POST",
 			url: requestURI,
 			data: $("#form-coupon").serialize(),
@@ -192,34 +203,61 @@ $(function(){
 	
 	
 	// 수정버튼
+	
 	$("#table-coupon tbody").on('click', '.btn-outline-primary', function(event){
+		
 		request = "수정";
-		requestURI = "/hmc/coupon/modify";
+		requestURI = "/hmc/admin/coupon/modify";
+		data:{
+			type:$("#type").val();
+			name:$("#name").val();
+			code:$("#code").val();
+		};
 		$("#btn-post-coupon").text("수정");
 		$(":input:disabled").prop("disabled", false);
+		console.log("123");
 		
 		console.log("수정 실행임니당");
 		event.preventDefault();
-		$.getJSON("/hmc/coupon/detail?code=" + $(this).data("coupon-code"))
+		$.getJSON("/hmc/admin/coupon/detail?code=" + $(this).data("coupon-code"))
 			.done(function(coupons) {
 				console.log("5");
 				$("#coupon-code").val(coupons.code);
+				console.log("7");
+				if(coupons.type == "30%할인") {
+					console.log("8");
+					$(":radio[name=type][value="+"30%할인"+"]").prop("checked", true);
+					console.log("9");
+				} else {
+					console.log(coupons.type);
+					$(":radio[name=type][value="+coupons.type+"]").prop("checked", true);
+					console.log("11");
+				}
 				$(":radio[name=type]").eq(0).prop("checked", false);
 				$("#coupon-name").val(coupons.name);
+				console.log("6");
 				couponModal.show();
 			})
+			
+		
 		
 	})
 	
 	
 	// 삭제버튼
 	$("#table-coupon tbody").on('click', '.btn-outline-danger', function() {
+		var eventCode = $("#eventCode").data("coupon.eventCode");
+		console.log(eventCode);
+		if(eventCode!=null){
+			console.log("1234");
+		}
 		console.log("삭제");
 		var $tr = $(this).closest("tr");
 		$.ajax({
 			type: "GET",
 			url: "/hmc/coupon/delete",
-			data: {code: $(this).data("coupon-code")},
+			data: {code: $(this).data("coupon-code")
+			},
 			success: function() {
 				$tr.remove();
 			}
@@ -228,6 +266,7 @@ $(function(){
 	
 	function makeRow(coupon) {
 		var row = "<tr  class='align-middle' id='coupon-"+coupon.code+"'>"
+		console.log("1");
 		row += "<td>"+coupon.code+"</td>";
 		row += "<td>"+coupon.name+"</td>";
 		row += "<td><button class='btn btn-link' data-coupon-code='"+coupon.code+"'>"+coupon.name+"</td>";
@@ -235,23 +274,8 @@ $(function(){
 		row += "</tr>";
 		return row;
 	}
-	
-	function bgColor(status) {
-		if (status == '등록') {
-			return "bg-primary";
-		}
-		if (status == '완료') {
-			return "bg-success";
-		}
-		if (status == '보류') {
-			return "bg-secondary";
-		}
-	}
 })
 
 </script>
-<footer>
-	<%@ include file="../common/footer.jsp" %>
-</footer>
 </body>
 </html>
