@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" >
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
-<title>현재상영작-HMC</title>
+<title>상영 예정작-HMC</title>
 </head>
 <style type= "text/css">
 html, body {
@@ -85,17 +85,7 @@ html, body {
 	position: absolute;
 	opacity: 0;
 	top : 135px;
-	left : 60px;
-}
-.topinfo .numinfo {
-	position: absolute;
-	top :250px;
-	left : 10px;
-	text-shadow: 1px 1px 10px #000;
-	color: #fff;
-	font-style: italic;
-	font-size:xx-large;
-	font-weight: bold;
+	left : 67px;
 }
 </style>
 <body>
