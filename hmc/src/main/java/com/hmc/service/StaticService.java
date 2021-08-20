@@ -9,7 +9,7 @@ public interface StaticService {
 	
 	List<Map<String, Object>> getUserAgeStatic();
 	
-	List<Map<String, Object>> getBranchBookingRateStatic();
+	List<Map<String, Object>> getBranchBookingRateStatic(String dateString);
 	
 	List<Map<String, Object>> getBranchSalesStatic(String dateString);
 

@@ -15,12 +15,13 @@ public class StaticServiceImpl implements StaticService {
 	private StaticDao staticDao;
 	
 	@Override
-	public List<Map<String, Object>> getBranchBookingRateStatic() {
-		return staticDao.getBranchBookingRateStatic();
+	public List<Map<String, Object>> getBranchBookingRateStatic(String dateString) {
+		return staticDao.getBranchBookingRateStatic(dateString);
 	}
 	
 	@Override
 	public List<Map<String, Object>> getBranchSalesStatic(String dateString) {
+		System.out.println(dateString);
 		return staticDao.getBranchSalesStatic(dateString);
 	}
 	
