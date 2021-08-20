@@ -222,7 +222,7 @@ ul.nav.nav-tabs li.nav-item button.active {
 														<span><span style="color:#FFA406">★</span>${reviews.score }</span>
 													</div>
 													<div>
-														<span>${reviews.content }</span>
+														<pre>${reviews.content }</pre>
 													</div>
 													<div class="mb-3" style="font-size:15px;">
 														<span><fmt:formatDate value="${reviews.createdDate }" pattern="yyyy.MM.dd" /></span>
