@@ -83,8 +83,8 @@ html, body {
 .topinfo .overbox {
 	position: absolute;
 	opacity: 0;
-	top :127px;
-	left : 67px;
+	top :100px;
+	left : 60px;
 }
 .topinfo .numinfo {
 	position: absolute;
@@ -136,6 +136,7 @@ html, body {
 								<div class="topinfo">
 									<img src="${nowMovies.poster }" alt="${nowMovies.movieName }">
 									<div class="overbox text-center pt-3">
+										<a class="btn btn-dark text-white mb-2" href="/hmc/booking/schedule/movie">예매하기</a><br>
 										<a class="btn btn-dark text-white" href="detail?movieCode=${nowMovies.movieCode }">상세정보</a>
 									</div>
 									<div class="numinfo">${nowMovies.rank }</div>

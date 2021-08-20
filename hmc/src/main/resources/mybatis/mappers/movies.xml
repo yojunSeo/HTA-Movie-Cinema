@@ -75,13 +75,14 @@
 	            movie_name            	movieName,
 	            movie_grade				grade,
 	            movie_poster         	poster,
-	            movie_total_score      	totalScore    
+	            movie_total_score      	totalScore,
+	            movie_rank				rank           
 	         from
 	            T_MOVIE
 	         where 
 	         	movie_release_date<sysdate
 	         order by 
-	         	movie_release_date desc)
+	         	movie_rank asc)
 	    ]]>
     </select>
     

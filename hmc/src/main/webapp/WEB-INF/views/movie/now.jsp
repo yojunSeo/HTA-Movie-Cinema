@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" >
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
-<title>현재 상영작-HMC</title>
+<title>현재상영작-HMC</title>
 </head>
 <style type= "text/css">
 html, body {
@@ -89,6 +89,16 @@ html, body {
 	top :120px;
 	left : 60px;
 }
+.topinfo .numinfo {
+	position: absolute;
+	top :280px;
+	left : 5px;
+	text-shadow: 1px 1px 10px #000;
+	color: #fff;
+	font-style: italic;
+	font-size:xx-large;
+	font-weight: bold;
+}
 </style>
 <body>
 	<div class="container">
@@ -125,8 +135,18 @@ html, body {
 								<div class="topinfo">
 									<img src="${nowAllMovies.poster }" alt="${nowAllMovies.movieName }"> 
 									<div class="overbox">
-										<a class="btn btn-dark text-white mb-2" href="/hmc/booking/schedule/movie?=${nowAllMovies.movieCode }">  예매하기    </a><br>
+										<a class="btn btn-dark text-white mb-2" href="/hmc/booking/schedule/movie">  예매하기    </a><br>
 										<a class="btn btn-dark text-white"href="detail?movieCode=${nowAllMovies.movieCode }">  상세정보    </a>
+									</div>
+									<div class="numinfo">
+										<c:choose>
+											<c:when test="${nowAllMovies.rank == '1' || nowAllMovies.rank == '2'
+											|| nowAllMovies.rank == '3'|| nowAllMovies.rank == '4' || nowAllMovies.rank == '5'}">
+												${nowAllMovies.rank }
+											</c:when>
+											<c:otherwise>
+											</c:otherwise>
+										</c:choose>
 									</div>
 								</div>
 								<div class="btminfo mb-5">
@@ -177,9 +197,11 @@ html, body {
 		$('.nowmovie .topinfo').hover(function(){
 			$(this).find('img').css('opacity',0);
 			$(this).find('.overbox').css('opacity',1);
+			$(this).find('.numinfo').css('opacity',0);
 		}, function() {
 			$(this).find('img').css('opacity',1);
 			$(this).find('.overbox').css('opacity',0);
+			$(this).find('.numinfo').css('opacity',1);
 		});
 	</script>
 </body>
