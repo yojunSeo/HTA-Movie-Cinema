@@ -140,7 +140,8 @@ html, body {
 									</div>
 									<div class="numinfo">
 										<c:choose>
-											<c:when test="${nowAllMovies.rank != '0' }">
+											<c:when test="${nowAllMovies.rank == '1' || nowAllMovies.rank == '2'
+											|| nowAllMovies.rank == '3'|| nowAllMovies.rank == '4' || nowAllMovies.rank == '5'}">
 												${nowAllMovies.rank }
 											</c:when>
 											<c:otherwise>
