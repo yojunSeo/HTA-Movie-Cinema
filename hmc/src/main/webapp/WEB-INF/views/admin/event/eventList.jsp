@@ -209,9 +209,33 @@
 					</div>
 					<div class="modal-body">
 						<form id="form-join">
-							<div class="row px-2 mb-2">
-								
-							</div>
+							<table class="table" id="table-event">
+								<thead>
+									<tr>
+										<th>아이디</th>
+										<th>상태</th>
+									</tr>
+								</thead>
+		            			<tbody>
+									<c:choose>
+										<c:when test="${empty joins }">
+											<tr>
+												<td colspan="4">참여자가 없습니다..</td>
+											</tr>
+										</c:when>
+										<c:otherwise>
+											<c:forEach var="joins" items="${joins }">
+												<tr id="joins-${joins.eventCode }" id="jcode" data-join-code="${joins.eventCode}" class="align-middle">
+													<td>${joins.userId }</td>		
+													<td>${joins.result}</td>
+												</tr>			
+											</c:forEach>
+										</c:otherwise>
+										
+									</c:choose>
+							
+								</tbody>
+			            	</table>
 						</form>
 					</div>
 					<div class="modal-footer">
@@ -248,7 +272,7 @@ $(function(){
 	$("#btn-open-event-modal").click(function(){
 		console.log("등록 실행이에요");
 		request = "등록"
-		
+			code:$("#code").val();
 		
 		$("#btn-save").text("등록");
 		
@@ -329,13 +353,27 @@ $(function(){
 	var joinModal = new bootstrap.Modal(document.getElementById("form-join-modal"), {
 		keyboard: false
 	})
+	
+	
 	// 참여한 인원
 	$("#event-table tbody").on('click', '.joins', function() {
 		
-		console.log("1");
-		$("#btn-save").text("등록");
-		
-		joinModal.show();
+		var eventCode = $(this).data('event-code');
+		console.log(eventCode);
+		$.getJSON('joins', {code:eventCode}, function(joins){
+			var $tbody = $("#table-event body").empty();
+			console.log(eventCode);
+			$.each(joins, function(index,joins){
+				console.log(eventCode);
+				console.log(joins.userId);
+				var row = "<tr>"
+				row += "<td>"+joins.userId+"</td>"
+				row += "<td>"+joins.result+"</td>"
+				row += "</tr>"
+				$tbody.append(row);
+			})
+			joinModal.show();			
+		})
 	})
 	
 })

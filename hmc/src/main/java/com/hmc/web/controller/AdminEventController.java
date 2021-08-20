@@ -85,7 +85,7 @@ public class AdminEventController {
 	@GetMapping("/eventList")
 	public String eventForm(@RequestParam(name = "page", required = false, defaultValue = "1") int page, 
 			@RequestParam(name = "opt", required = false) String searchOption, 
-			@RequestParam(name = "keyword", required = false) String searchKeyword, 
+			@RequestParam(name = "keyword", required = false) String searchKeyword,
 			Model model, @LoginAdmin User loginAdmin) {
 		
 		Map<String, Object> param = new HashMap<String, Object>();
@@ -209,6 +209,14 @@ public class AdminEventController {
 		eventDao.deleteEvent(eventCode);
 		
 		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@RequestMapping("/joins")
+	public @ResponseBody List<EventJoin> getjoin(@RequestParam("code") String eventCode){
+		System.out.println(eventCode +"  모달창");
+		List<EventJoin> joins = eventJoinService.getUserIdAndResult(eventCode);
+		System.out.println(joins);
+		return joins;
 	}
 	
 	

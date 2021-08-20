@@ -107,9 +107,11 @@
 	
 	<select id="getUserIdAndResult" parameterType="string" resultMap="EventJoinResultMap">
 		select
-		    user_id, event_join_result
+		    user_id, event_join_result, event_code
 		from
 		    t_event_join
+		where
+			event_code = #{value}
 	</select>
 	
 </mapper>
