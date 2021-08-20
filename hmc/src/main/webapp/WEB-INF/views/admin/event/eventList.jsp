@@ -119,7 +119,7 @@
                                        <input type="text" class="form-control bg-light" name="title" id="title" placeholder="제목을 입력해주세요">
                                     </div>
                                     <div class="col-3">
-                                       <input type="text" class="form-control bg-light" name="writer" id="writer" placeholder="${user }" readonly>
+                                       <input type="text" class="form-control bg-light" name="writer" id="writer" placeholder="${LOGINED_USER.id }" readonly>
                                     </div>
                                  </div>
                                  </td>
@@ -178,9 +178,8 @@
                               <td>
                                  <select class="form-select-status" aria-label="Default select example" id="status" name="status">
                                    <option value="0" selected>상태</option>
-                                   <option value="대기">대기</option>
-                                   <option value="진행준">진행중</option>
-                                   <option value="종료">종료</option>
+                                   <option value="Y">진행중</option>
+                                   <option value="N">종료</option>
                                  </select>
                               </td>
                            </tr>

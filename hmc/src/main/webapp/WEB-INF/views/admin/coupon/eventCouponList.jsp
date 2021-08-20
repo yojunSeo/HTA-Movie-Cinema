@@ -18,12 +18,12 @@
     <main>
     	<div class="row offset-2">
             	<div class="col-3">
-            		<a href="../coupon/home" class="btn fw-bold text-danger">전체 쿠폰</a>
+            		<a href="../coupon/home" >전체 쿠폰</a>
             	</div>
             	<div class="col-3 ">
-            		<a href="../coupon/eventCouponList" >이벤트용 쿠폰</a>
+            		<a href="../coupon/eventCouponList" class="btn fw-bold text-danger">이벤트용 쿠폰</a>
             	</div>
-            	<div class="col-3 ">
+            	<div class="col-3">
 					<a href="../coupon/paymentList">지급된 쿠폰</a>
             	</div>
             	<div class="col-3">
@@ -37,8 +37,7 @@
     	<div class="row mb-3">
 			<div class="col">
 				<div class="border p-2 bg-light d-flex justify-content-between">
-					<span>쿠폰 목록</span>
-					<button class="btn btn-primary btn-sm" id="btn-open-coupon-modal">새 쿠폰 등록</button>
+					<span>이벤트 쿠폰 목록</span>
 				</div>
 			</div>
 		</div>
@@ -80,8 +79,7 @@
 												<td><p id="eventCode"  data-event-code="${coupon.eventCode}">${coupon.eventCode}</p></td>
 												
 											</c:if>
-											<td><button id="btn-coupon-modify" class="btn btn-outline-primary btn-sm rm-2" data-coupon-code="${coupon.code }">수정</button>
-											<button id="btn-coupon-delete" class="btn btn-outline-danger btn-sm rm-2" data-coupon-code="${coupon.code }">삭제</button></td>
+											<td><button id="btn-coupon-modify" class="btn btn-outline-primary btn-sm rm-2" data-coupon-code="${coupon.code }">수정</button></td>
 										</tr>			
 									</c:forEach>
 								</c:otherwise>
@@ -98,15 +96,15 @@
 					<div class="col-12">
 						<ul class="pagination justify-content-center">
 							<li class="page-item ${pagination.pageNo le 1 ? 'disabled' : ''}">
-								<a class="page-link" href="home?page=${pagination.pageNo - 1 }">이전</a>
+								<a class="page-link" href="eventCouponList?page=${pagination.pageNo - 1 }">이전</a>
 							</li>
 							<c:forEach var="num" begin="${pagination.beginPage }" end="${pagination.endPage }">
 								<li class="page-item ${pagination.pageNo eq num ? 'active' : '' }">
-									<a class="page-link" href="home?page=${num }">${num }</a>
+									<a class="page-link" href="eventCouponList?page=${num }">${num }</a>
 								</li>
 							</c:forEach>
 							<li class="page-item ${pagination.pageNo ge pagination.totalPages ? 'disabled' : ''}">
-								<a class="page-link" href="home?page=${pagination.pageNo + 1 }">다음</a>
+								<a class="page-link" href="eventCouponList?page=${pagination.pageNo + 1 }">다음</a>
 							</li>
 							
 						</ul>
@@ -168,18 +166,6 @@ $(function(){
 	var requestURI = "/hmc/admin/coupon/add";
 	var couponModal = new bootstrap.Modal(document.getElementById("form-coupon-modal"), {
 		keyboard: false
-	})
-	// 새 쿠폰 등록
-	$("#btn-open-coupon-modal").click(function(){
-		console.log("등록 실행이에요");
-		request = "등록"
-		
-		$(":radio[name=type]").eq(0).prop("checked", true);
-		
-		$("#coupon-name").val("");
-		$("#btn-post-coupon").text("등록");
-		
-		couponModal.show();
 	})
 	
 	// 등록 버튼
@@ -261,37 +247,6 @@ $(function(){
 		
 	})
 	
-	
-	// 삭제버튼
-	$("#table-coupon tbody").on('click', '.btn-outline-danger', function() {
-		var eventCode = $("#eventCode").data("coupon.eventCode");
-		console.log(eventCode);
-		if(eventCode!=null){
-			console.log("1234");
-		}
-		console.log("삭제");
-		var $tr = $(this).closest("tr");
-		$.ajax({
-			type: "GET",
-			url: "/hmc/admin/coupon/delete",
-			data: {code: $(this).data("coupon-code")
-			},
-			success: function() {
-				$tr.remove();
-			}
-		});
-	});
-	
-	function makeRow(coupon) {
-		var row = "<tr  class='align-middle' id='coupon-"+coupon.code+"'>"
-		console.log("1");
-		row += "<td>"+coupon.code+"</td>";
-		row += "<td>"+coupon.name+"</td>";
-		row += "<td><button class='btn btn-link' data-coupon-code='"+coupon.code+"'>"+coupon.name+"</td>";
-		row += "<td><button class='btn btn-outline-danger btn-sm' data-coupon-code='"+coupon.code+"'>삭제하기</button></td>";
-		row += "</tr>";
-		return row;
-	}
 })
 
 </script>

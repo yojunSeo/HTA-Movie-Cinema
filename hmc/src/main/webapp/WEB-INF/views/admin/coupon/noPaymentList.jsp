@@ -18,7 +18,7 @@
     <main>
     	<div class="row offset-2">
             	<div class="col-3">
-            		<a href="../coupon/home" class="btn fw-bold text-danger">전체 쿠폰</a>
+            		<a href="../coupon/home">전체 쿠폰</a>
             	</div>
             	<div class="col-3 ">
             		<a href="../coupon/eventCouponList" >이벤트용 쿠폰</a>
@@ -27,7 +27,7 @@
 					<a href="../coupon/paymentList">지급된 쿠폰</a>
             	</div>
             	<div class="col-3">
-            		<a href="../coupon/noPaymentList">할당되지 않은 쿠폰</a>
+            		<a href="../coupon/noPaymentList" class="btn fw-bold text-danger">할당되지 않은 쿠폰</a>
             	</div>
             </div>
             <div class="row my-2">
@@ -43,12 +43,13 @@
 			</div>
 		</div>
 		<div class="row mb-3">
-			<div class="col">
+			<div class="col-20">
 				<div class="border p-2 bg-light">
 					<table class="table" id="table-coupon">
 						<colgroup>
 							<col width="10%">
 							<col width="*">
+							<col width="20%">
 							<col width="20%">
 							<col width="20%">
 						</colgroup>
@@ -58,6 +59,7 @@
 								<th>이름</th>
 								<th>쿠폰종류</th>
 								<th>연관 이벤트</th>
+								<th>기타</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -98,15 +100,15 @@
 					<div class="col-12">
 						<ul class="pagination justify-content-center">
 							<li class="page-item ${pagination.pageNo le 1 ? 'disabled' : ''}">
-								<a class="page-link" href="home?page=${pagination.pageNo - 1 }">이전</a>
+								<a class="page-link" href="noPaymentList?page=${pagination.pageNo - 1 }">이전</a>
 							</li>
 							<c:forEach var="num" begin="${pagination.beginPage }" end="${pagination.endPage }">
 								<li class="page-item ${pagination.pageNo eq num ? 'active' : '' }">
-									<a class="page-link" href="home?page=${num }">${num }</a>
+									<a class="page-link" href="noPaymentList?page=${num }">${num }</a>
 								</li>
 							</c:forEach>
 							<li class="page-item ${pagination.pageNo ge pagination.totalPages ? 'disabled' : ''}">
-								<a class="page-link" href="home?page=${pagination.pageNo + 1 }">다음</a>
+								<a class="page-link" href="noPaymentList?page=${pagination.pageNo + 1 }">다음</a>
 							</li>
 							
 						</ul>
@@ -131,7 +133,13 @@
 										<div class="form-check form-check-inline">
 											<c:choose>
 												<c:when test="${category eq '30%할인'}">
-													<input class="form-check-input" type="radio" id="type" name="type" value="30%할인">
+													<input class="form-check-input" type="radio" id="type" name="type" value="30할인">
+												</c:when>
+												<c:when test="${category eq '50%할인'}">
+													<input class="form-check-input" type="radio" id="type" name="type" value="50할인">
+												</c:when>
+												<c:when test="${category eq '5000원 할인'}">
+													<input class="form-check-input" type="radio" id="type" name="type" value="5000할인">
 												</c:when>
 												<c:otherwise>
 													<input class="form-check-input" type="radio" id="type" name="type" value="${category}" >
@@ -244,9 +252,17 @@ $(function(){
 				console.log("7");
 				if(coupons.type == "30%할인") {
 					console.log("8");
-					$(":radio[name=type][value="+"30%할인"+"]").prop("checked", true);
+					$(":radio[name=type][value="+"30할인"+"]").prop("checked", true);
 					console.log("9");
-				} else {
+				} else if(coupons.type == "50%할인"){
+					console.log(coupons.type);
+					$(":radio[name=type][value="+"50할인"+"]").prop("checked", true);
+					console.log("11");
+				}else if(coupons.type == "5000원 할인"){
+					console.log(coupons.type);
+					$(":radio[name=type][value="+"5000할인"+"]").prop("checked", true);
+					console.log("11");
+				}else {
 					console.log(coupons.type);
 					$(":radio[name=type][value="+coupons.type+"]").prop("checked", true);
 					console.log("11");

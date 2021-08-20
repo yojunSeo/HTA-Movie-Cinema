@@ -91,6 +91,24 @@ public class CouponServiceImpl implements CouponService{
 	}
 	
 	@Override
+	public List<Coupon> couponListPageByEvent(Map<String, Object> param) {
+		List<Coupon> coupons = couponDao.couponListPageByEvent(param);
+		return coupons;
+	}
+	
+	@Override
+	public List<Coupon> couponListPageByNull(Map<String, Object> param) {
+		List<Coupon> coupons = couponDao.couponListPageByNull(param);
+		return coupons;
+	}
+	
+	@Override
+	public List<Coupon> couponListPageByPublished(Map<String, Object> param) {
+		List<Coupon> coupons = couponDao.couponListPageByPublished(param);
+		return coupons;
+	}
+	
+	@Override
 	public void deleteCoupon(String couponCode) {
 		// TODO Auto-generated method stub
 		
@@ -127,6 +145,24 @@ public class CouponServiceImpl implements CouponService{
 	}
 	
 	@Override
+	public int getTotalRowsByEvent(Map<String, Object> param) {
+		int rows = couponDao.getTotalRowsByEvent(param);
+		return rows;
+	}
+	
+	@Override
+	public int getTotalRowsByNull(Map<String, Object> param) {
+		int rows = couponDao.getTotalRowsByNull(param);
+		return rows;
+	}
+	
+	@Override
+	public int getTotalRowsByPublished(Map<String, Object> param) {
+		int rows = couponDao.getTotalRowsByPublished(param);
+		return rows;
+	}
+	
+	@Override
 	public void insertCoupon(Coupon coupon) {
 		// TODO Auto-generated method stub
 		
@@ -150,7 +186,11 @@ public class CouponServiceImpl implements CouponService{
 		return coupons;
 	}
 	
-	
+	@Override
+	public void modifyCoupon(Coupon coupon) {
+		couponDao.modifyCoupon(coupon);
+		
+	}
 	
 	
 	

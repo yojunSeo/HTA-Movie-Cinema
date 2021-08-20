@@ -25,4 +25,6 @@ public interface PublishedCouponDao {
 	void deletePublichedCoupon(String couponCode);
 	
 	String checkPublishedCouponCode(String couponCode);
+	
+	List<PublishedCoupon> getDateByPublishedCoupon(String couponCode);
 }

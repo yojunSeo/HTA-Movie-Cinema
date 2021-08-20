@@ -28,6 +28,11 @@ public class PublishedCouponServiceImpl implements PublishedCouponService {
 		return lists;
 	}
 
+	@Override
+	public List<PublishedCoupon> getDateByPublishedCoupon(String couponCode) {
+		List<PublishedCoupon> publishedCoupons = publisedCouponDao.getDateByPublishedCoupon(couponCode);
+		return publishedCoupons;
+	}
 	
 	
 }
