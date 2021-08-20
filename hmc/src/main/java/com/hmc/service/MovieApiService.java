@@ -115,11 +115,13 @@ public class MovieApiService {
 				}
 				// 영화예매순위
 				String rank = movieObject.get("rank").getAsString();
+				int ranking = Integer.parseInt(rank);
 				// 누적관객수
 				String audiAcc = movieObject.get("audiAcc").getAsString();
 				
 				movie.setMovieCode(movieCode);
-				movie.setRank(rank);
+				movie.setRank(ranking);
+				
 				movie.setAudiacc(audiAcc);
 				
 				movieDao.updateMovie(movie);

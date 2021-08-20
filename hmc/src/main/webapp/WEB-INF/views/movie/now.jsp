@@ -138,7 +138,15 @@ html, body {
 										<a class="btn btn-dark text-white mb-2" href="/hmc/booking/schedule/movie">  예매하기    </a><br>
 										<a class="btn btn-dark text-white"href="detail?movieCode=${nowAllMovies.movieCode }">  상세정보    </a>
 									</div>
-									<div class="numinfo">${nowAllMovies.rank }</div>
+									<div class="numinfo">
+										<c:choose>
+											<c:when test="${nowAllMovies.rank != '0' }">
+												${nowAllMovies.rank }
+											</c:when>
+											<c:otherwise>
+											</c:otherwise>
+										</c:choose>
+									</div>
 								</div>
 								<div class="btminfo mb-5">
 									<strong>
