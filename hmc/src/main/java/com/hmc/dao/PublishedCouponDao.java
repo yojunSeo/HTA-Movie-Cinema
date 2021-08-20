@@ -22,7 +22,9 @@ public interface PublishedCouponDao {
 	
 	void insertPublichedCouponJoin(String couponCode);
 	
-	void deletePublichedCoupon(String couponCode);
+	void deletePublishedCoupon(String couponCode);
+	
+	List<String> getDeletePublishedCouponCode(Map<String, Object> param);
 	
 	String checkPublishedCouponCode(String couponCode);
 	

@@ -49,16 +49,23 @@
 									</tr>
 								</c:when>
 								<c:otherwise>
-									<c:forEach var="events" items="${events }">
-										<tr data-event-code="${events.code }" class="align-middle">
-											<th>${events.code }</th>
+									<c:forEach var="event" items="${events }">
+										<tr data-event-code="${event.code }" class="align-middle">
+											<th>${event.code }</th>
 											<td style="cursor:pointer;">
-											<a href="/hmc/event/detail?no=${events.code }">
-											${events.title }</a>
+											<a href="/hmc/event/detail?no=${event.code }">
+											${event.title }</a>
 											</td>						
-											<td><fmt:formatDate value="${events.startDate }" pattern="yyyy년  M월  d일"/></td>						
-											<td><fmt:formatDate value="${events.endDate }" pattern="yyyy년  M월  d일"/></td>
-											<td>${events.status }</td>		
+											<td><fmt:formatDate value="${event.startDate }" pattern="yyyy년  M월  d일"/></td>						
+											<td><fmt:formatDate value="${event.endDate }" pattern="yyyy년  M월  d일"/></td>
+											<td>
+												<c:choose>
+													<c:when test="${event.status eq 'Y' }">진행중</c:when>
+													<c:when test="${event.status eq 'N' }">종료</c:when>
+													<c:when test="${event.status eq 'A' }">상시</c:when>
+												</c:choose>
+											
+											</td>		
 										</tr>			
 									</c:forEach>
 								</c:otherwise>

@@ -31,9 +31,7 @@
 	    	<div  class="eventContent">
 	    		<p>${event.content }</p>
 	    	</div>
-	    	<div class="couponName">
-	    		<p>${events.name } </p>
-	    	</div>
+	    	
 	    	<div class="test">
 	    		<p>${LOGINED_USER.id } </p>
 	    	</div>
@@ -42,7 +40,9 @@
 	    	</div>
 	    </div>
     	<div class="btn-eventJoin" style="text-align:center;">
-    		<button id="btn-open-event-modal"  class="btn btn-danger btn-lg w-25 text-light" >참여</button>
+    		<c:if test="${event.status eq 'Y' }">
+    			<button id="btn-open-event-modal"  class="btn btn-danger btn-lg w-25 text-light" >응모하기</button>
+    		</c:if>
     	</div>
     	
     	<table class="table" id="table-event"  style="display:block;">

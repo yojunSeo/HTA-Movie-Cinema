@@ -6,7 +6,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<title>이벤트 페이지</title>
+<title>이벤트관리-HMC</title>
 <style>
 </style>
 </head>
@@ -29,42 +29,52 @@
                      <div class="border p-2 bg-light">
                         <table class="table" id="event-table">
                            <colgroup>
+                              <col width="5%">
                               <col width="10%">
                               <col width="*">
-                              <col width="20%">
-                              <col width="20%">
+                              <col width="15%">
+                              <col width="15%">
+                              <col width="7%">
                               <col width="10%">
-                              <col width="10%">
+                              <col width="7%">
                            </colgroup>
-                           <thead>
+                           <thead class="text-center">
                               <tr>
                                  <th>번호</th>
+                                 <th>이벤트코드</th>
                                  <th>제목</th>
                                  <th>시작일</th>
                                  <th>마감일</th>
                                  <th>상태</th>
-                                 <th>기타</th>
+                                 <th>당첨결과</th>
+                                 <th></th>
                               </tr>
                            </thead>
                            <tbody>
                               <c:choose>
                                  <c:when test="${empty events }">
                                     <tr>
-                                       <td colspan="4">진행중인 이벤트가 없습니다.</td>
+                                       <td colspan="7">진행중인 이벤트가 없습니다.</td>
                                     </tr>
                                  </c:when>
                                  <c:otherwise>
-                                    <c:forEach var="events" items="${events }">
-                                       <tr id="events-${events.code }" data-event-code="${events.code }" class="align-middle">
-                                          <th>${events.code }</th>
-                                          <td style="cursor:pointer;">
-                                          <a id="btn-event-modify" class="joins" data-event-code="${events.code }">
-                                          ${events.title }</a>
-                                          </td>                  
-                                          <td><fmt:formatDate value="${events.startDate }" pattern="yyyy년  M월  d일"/></td>                  
-                                          <td><fmt:formatDate value="${events.endDate }" pattern="yyyy년  M월  d일"/></td>
-                                          <td>${events.status }</td>   
-                                          <td><button id="btn-event-delete" class="btn btn-outline-danger btn-sm rm-2" data-event-code="${events.code }">삭제</button></td>
+                                    <c:forEach var="event" items="${events }" varStatus="status">
+                                       <tr id="event-${event.code }" data-event-code="${event.code }" class="align-middle">
+                                          <td class="text-center">${status.count + (pagination.pageNo-1) * 10}</td>
+                                          <td class="text-center">${event.code }</td>
+                                          <td>${event.title }</td>                  
+                                          <td class="text-center"><fmt:formatDate value="${event.startDate }" pattern="yyyy년  M월  d일"/></td>                  
+                                          <td class="text-center"><fmt:formatDate value="${event.endDate }" pattern="yyyy년  M월  d일"/></td>
+                                          <td class="text-center">
+                                          		<c:choose>
+                                          			<c:when test="${event.status eq 'Y' && event.endDate >= today}">진행중</c:when>
+                                          			<c:when test="${event.status eq 'Y' && event.endDate < today}">기간종료</c:when>
+                                          			<c:otherwise>종료</c:otherwise>
+                                          		</c:choose>
+                                          		
+                                          </td>
+                                          <td class="text-center"><button id="btn-open-join-modal" class="btn btn-outline-primary btn-sm rm-2" data-event-code="${event.code }">조회</button> </td>
+                                          <td class="text-center"><button id="btn-event-delete" class="btn btn-outline-danger btn-sm rm-2" data-event-code="${event.code }">삭제</button></td>
                                        </tr>         
                                     </c:forEach>
                                  </c:otherwise>
@@ -110,7 +120,7 @@
                </div>
                <div class="modal-body">
                   <form action="insertEvent" method="post" id="form-event">
-                     <table class="table" id="table-event">
+                     <table class="table" id="table-modal-event">
                         <tbody>
                               <tr>
                                  <td>
@@ -178,6 +188,7 @@
                               <td>
                                  <select class="form-select-status" aria-label="Default select example" id="status" name="status">
                                    <option value="0" selected>상태</option>
+                                   <option value="A">상시</option>
                                    <option value="Y">진행중</option>
                                    <option value="N">종료</option>
                                  </select>
@@ -187,8 +198,8 @@
                      </table>
                      <div class="row my-3 text-center my-5">
                      <div class="col-12">
-                        <a href="../event/eventList" class="btn btn-dark btn-lg w-25 text-light">취소</a>
-                        <button type="submit" id="btn-save" class="btn btn-danger btn-lg w-25 text-light" >등록</button>
+                        <button type="button" id="btn-cancle" class="btn btn-dark btn-lg w-25 text-light" >취소</button>
+                        <button type="button" id="btn-save" class="btn btn-danger btn-lg w-25 text-light" >등록</button>
                      </div>
                   </div>
                </form>
@@ -248,8 +259,14 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
+// 이벤트 삭제
 $("#event-table tbody").on('click', '.btn-outline-danger', function() {
-   console.log("삭제");
+   
+	var result = confirm("정말삭제하시겠습니까?");
+	if(!result) {
+		return;
+	}
+	
    var $tr = $(this).closest("tr");
    $.ajax({
       type: "GET",
@@ -269,7 +286,6 @@ $(function(){
    })
    // 새 이벤트
    $("#btn-open-event-modal").click(function(){
-      console.log("등록 실행이에요");
       request = "등록"
          code:$("#code").val();
       
@@ -278,7 +294,12 @@ $(function(){
       eventModal.show();
    })
    
-   // 등록 버튼
+   // 이벤트등록 모달 취소 버튼 클릭시
+   $("#btn-cancle").click(function() {
+	   eventModal.hide(); 
+   })
+   
+   // 이벤트등록 모달 등록 버튼 클릭시
    $("#btn-save").click(function() {
       
       $("#form-event").prop("action", requestURI);
@@ -320,21 +341,8 @@ $(function(){
       }
       
       $("#form-event").submit();
-      console.log("등록이 됌니다!");
    })
    
-   // 삭제버튼
-   $("#table-event tbody").on('click', '.btn-outline-danger', function() {
-      var $tr = $(this).closest("tr");
-      $.ajax({
-         type: "GET",
-         url: "/admin/event/delete",
-         data: {code: $(this).data("event-code")},
-         success: function() {
-            $tr.remove();
-         }
-      });
-   });
    
    function makeRow(event) {
       var row = "<tr  class='align-middle' id='events-"+events.code+"'>"
@@ -355,16 +363,12 @@ $(function(){
    
    
    // 참여한 인원
-   $("#event-table tbody").on('click', '.joins', function() {
+   $("#event-table tbody").on('click', '#btn-open-join-modal', function() {
       
       var eventCode = $(this).data('event-code');
-      console.log(eventCode);
       $.getJSON('joins', {code:eventCode}, function(joins){
          var $tbody = $("#table-join tbody").empty();
-         console.log(eventCode);
          $.each(joins, function(index,joins){
-            console.log(eventCode);
-            console.log(joins.userId);
             var row = "<tr>"
             row += "<td>"+joins.userId+"</td>"
             row += "<td>"+joins.result+"</td>"
