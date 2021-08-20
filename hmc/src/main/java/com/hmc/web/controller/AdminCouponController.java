@@ -253,7 +253,6 @@ public class AdminCouponController {
 	
 	@RequestMapping("/coupon/detail")
 	public @ResponseBody ResponseEntity<Coupon> detail(@RequestParam("code") String couponCode, @LoginAdmin User loginAdmin) {
-		System.out.println(couponCode + "1234");
 		Coupon savedCoupon = couponDao.getCouponByCode(couponCode);
 		System.out.println("디테일 실행됨");
 		if(savedCoupon == null) {
@@ -276,13 +275,8 @@ public class AdminCouponController {
 	
 	@RequestMapping("/coupon/modify")
 	public @ResponseBody ResponseEntity<Coupon> modify(Coupon coupon, @LoginAdmin User loginAdmin) {
-		System.out.println("수정 실행임니다!");
-
-		System.out.println(coupon+"123");
 		Coupon savedCoupon = couponDao.getCouponByCode(coupon.getCode());
-		System.out.println(coupon+"1234");
 		if (savedCoupon == null) {
-			System.out.println("if문 실행");
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		System.out.println(coupon.getType());

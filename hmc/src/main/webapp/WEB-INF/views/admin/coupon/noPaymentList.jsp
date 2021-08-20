@@ -11,7 +11,7 @@
 </style>
 </head>
 <body>
-<div class="container my-3">
+<div class="container p-2 my-3">
 	<div class="col-2">
 		<%@include file ="../sidebar.jsp"%>
 	</div>
@@ -36,7 +36,7 @@
             </div>
     	<div class="row mb-3">
 			<div class="col">
-				<div class="border p-2 bg-light d-flex justify-content-between">
+				<div class="border p-2 d-flex justify-content-between">
 					<span>쿠폰 목록</span>
 					<button class="btn btn-primary btn-sm" id="btn-open-coupon-modal">새 쿠폰 등록</button>
 				</div>
@@ -44,7 +44,7 @@
 		</div>
 		<div class="row mb-3">
 			<div class="col-20">
-				<div class="border p-2 bg-light">
+				<div class="border">
 					<table class="table" id="table-coupon">
 						<colgroup>
 							<col width="10%">
@@ -53,7 +53,7 @@
 							<col width="20%">
 							<col width="20%">
 						</colgroup>
-						<thead>
+						<thead class="table-light">
 							<tr>
 								<th>번호</th>
 								<th>이름</th>
@@ -133,13 +133,13 @@
 										<div class="form-check form-check-inline">
 											<c:choose>
 												<c:when test="${category eq '30%할인'}">
-													<input class="form-check-input" type="radio" id="type" name="type" value="30할인">
+													<input class="form-check-input" type="radio" id="type" name="type" value="30%할인">
 												</c:when>
 												<c:when test="${category eq '50%할인'}">
-													<input class="form-check-input" type="radio" id="type" name="type" value="50할인">
+													<input class="form-check-input" type="radio" id="type" name="type" value="50%할인">
 												</c:when>
 												<c:when test="${category eq '5000원 할인'}">
-													<input class="form-check-input" type="radio" id="type" name="type" value="5000할인">
+													<input class="form-check-input" type="radio" id="type" name="type" value="5000원 할인">
 												</c:when>
 												<c:otherwise>
 													<input class="form-check-input" type="radio" id="type" name="type" value="${category}" >
@@ -222,9 +222,9 @@ $(function(){
 			},
 			complete: function() {
 				couponModal.hide();
+				location.reload();
 			}
 		});
-		console.log("등록이 됌니다!");
 	})
 	
 	
@@ -252,22 +252,21 @@ $(function(){
 				console.log("7");
 				if(coupons.type == "30%할인") {
 					console.log("8");
-					$(":radio[name=type][value="+"30할인"+"]").prop("checked", true);
+					$(":radio[name=type]").eq(0).prop("checked", true);
 					console.log("9");
 				} else if(coupons.type == "50%할인"){
 					console.log(coupons.type);
-					$(":radio[name=type][value="+"50할인"+"]").prop("checked", true);
+					$(":radio[name=type]").eq(1).prop("checked", true);
 					console.log("11");
 				}else if(coupons.type == "5000원 할인"){
 					console.log(coupons.type);
-					$(":radio[name=type][value="+"5000할인"+"]").prop("checked", true);
+					$(":radio[name=type]").eq(2).prop("checked", true);
 					console.log("11");
 				}else {
 					console.log(coupons.type);
-					$(":radio[name=type][value="+coupons.type+"]").prop("checked", true);
+					$(":radio[name=type]").eq(3).prop("checked", true);
 					console.log("11");
 				}
-				$(":radio[name=type]").eq(0).prop("checked", false);
 				$("#coupon-name").val(coupons.name);
 				console.log("6");
 				couponModal.show();
