@@ -18,6 +18,7 @@ public class MovieServiceImpl implements MovieService {
 	  
 	@Override
 	public Movie getMovieDetail(String movieCode) {
+		// 영화별 리뷰 개수와 리뷰 총점을 DB에 업데이트
 		movieDao.updateReviewCnt(movieCode);
 		movieDao.updateReviewTotalScore(movieCode);
 		return movieDao.getMovieInfoByCode(movieCode);
@@ -25,21 +26,19 @@ public class MovieServiceImpl implements MovieService {
 	
 	@Override
 	public void saveMoviesFromApi() throws Exception {
+		// 영화상세정보와 영화순위정보를 API에서 받아서 DB에 저장
 		movieApiService.saveMoviesFromApi();
+		// 영화 순위정보 API에서 받아서 DB에 업데이트
 		movieApiService.updateMovieRanking();	
 	}
 
 
 	@Override
 	public void insertMovie(Movie movie) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void updateMovie(Movie savedMovie) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

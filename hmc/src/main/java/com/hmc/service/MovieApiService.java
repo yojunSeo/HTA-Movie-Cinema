@@ -44,15 +44,10 @@ public class MovieApiService {
 			
 			if (savedMovie == null) {
 				String movieName = movieObject.get("movieNm").getAsString();
-
-				System.out.println("###############45번째라인 무비코드: " + movieCode + ", 무비네임: " + movieName);
-
+				
 				Movie movie = new Movie();
 				movie.setMovieCode(movieCode);
 				movie.setMovieName(movieName);
-				
-				System.out.println("#############53번째라인: "+movie);
-				
 				JsonObject movieInfo = getMovieDetail(movieCode);
 
 				/// 1. 러닝타임 
@@ -61,98 +56,75 @@ public class MovieApiService {
 					runningTime= movieInfo.get("showTm").getAsString();
 					int showTm = Integer.parseInt(runningTime);
 					movie.setRunningTime(showTm);
-					System.out.println("############러닝타임:  "+runningTime); //-->ok
-					System.out.println("############쇼타임:  "+showTm);
 				}
-				System.out.println(movie);
 				
 				/// 2. 장르 
 				String genre = ((JsonObject) (movieInfo.get("genres").getAsJsonArray().get(0))).get("genreNm").getAsString();
-				System.out.println("##########장르: "+genre); //->ok
 				movie.setGenre(genre);
-				System.out.println(movie);
 				
 				/// 3. 관람등급
 				JsonArray gradeArray = ((JsonArray) (movieInfo.get("audits").getAsJsonArray()));
-				System.out.println("######### gradArray: " + gradeArray);
 				if(!gradeArray.isEmpty() || gradeArray.size() != 0) {
-					System.out.println(gradeArray);
 					String grade = ((JsonObject) (movieInfo.get("audits").getAsJsonArray().get(0))).get("watchGradeNm").getAsString();
 					movie.setGrade(grade);
-					System.out.println("#########관람 등급:  "+grade);
 				}
-				System.out.println(movie);
 
 				/// 4. 제작국가
 				String country = ((JsonObject) (movieInfo.get("nations").getAsJsonArray().get(0))).get("nationNm").getAsString();
-				System.out.println("##########74번째라인 국가: "+country);
 				movie.setCountry(country);
-				System.out.println(movie);
 				
 				/// 5. 감독
 				JsonArray directorArray = ((JsonArray) (movieInfo.get("directors").getAsJsonArray()));
 				if (!directorArray.isEmpty()) {
-					System.out.println(directorArray);
 					String director = ((JsonObject) (movieInfo.get("directors").getAsJsonArray().get(0))).get("peopleNm").getAsString();
 					movie.setDirector(director);
-					System.out.println("##########76번째라인 감독: "+director);
 				}
-				System.out.println(movie);
 				
 				/// 6. 제작사
 				JsonArray companyArray = ((JsonArray) (movieInfo.get("companys").getAsJsonArray()));
 				if (!companyArray.isEmpty()) {
-					System.out.println(companyArray);
 					String company = ((JsonObject) (movieInfo.get("companys").getAsJsonArray().get(0))).get("companyNm").getAsString();
 					movie.setCompany(company);
-					System.out.println("##########78번째라인 제작사: "+company);
-				}
-				System.out.println(movie);
-				
+				}				
 				movieDao.insertMovie(movie);
-				System.out.println("########상세정보저장한내용######"+movie);
 			}		
 			
 			
 		}
 	}
 	public void updateMovieRanking() throws Exception{
+		movieDao.resetMovieRanking();
 		// 데일리영화박스오피스리스트 조회
 		JsonArray array = getMovieRank();
-		System.out.println("######121array: " + array);
 		for (int i=0; i<array.size(); i++) {
 			// 데일리영화박스오피스리스트에서 순서대로 영화정보 조회
 			JsonObject movieObject =  (JsonObject) array.get(i);
-			System.out.println("#######124movieObject: " + movieObject );
 			// 순위에 해당하는 영화코드를 조회한다.
 			String movieCode = movieObject.get("movieCd").getAsString();
-			System.out.println("###########127movieCode: "+movieCode);
 			// 획득한 영화코드로 데이터베이스에서 영화정보 조회
 			Movie savedMovie = movieDao.getMovieInfoByCode(movieCode);
-			System.out.println("#############130savedMovie: " + savedMovie);
 			if (savedMovie != null) {
 				Movie movie = new Movie();
-				
 				JsonArray movieRank = getMovieRank();
-				System.out.println("##########135movieRank: " + movieRank);
+				// 개봉일 
 				String releaseDate = movieObject.get("openDt").getAsString();
-				System.out.println("##########138 date: " +releaseDate);
 				DateFormatter formatter = new DateFormatter("yyyy-MM-dd");
 				if (releaseDate !=null ) {
 					Date date = formatter.parse(releaseDate, Locale.KOREA);
 					movie.setReleaseDate(date);
 				}
+				// 영화예매순위
 				String rank = movieObject.get("rank").getAsString();
-				System.out.println("###########rank: " + rank);
+				int ranking = Integer.parseInt(rank);
+				// 누적관객수
 				String audiAcc = movieObject.get("audiAcc").getAsString();
-				System.out.println("##########audiAcc: " + audiAcc);
 				
 				movie.setMovieCode(movieCode);
-				movie.setRank(rank);
+				movie.setRank(ranking);
+				
 				movie.setAudiacc(audiAcc);
-
+				
 				movieDao.updateMovie(movie);
-				System.out.println("##########updatemovie##" +movie);
 			}	
 		}
 	}
@@ -162,12 +134,10 @@ public class MovieApiService {
 		URL url = new URL(movieListURL);
 		// 영화목록 정보를 읽어오는 스트림 생성
 		Reader reader = new InputStreamReader(url.openStream(), "utf-8");
-
 		Gson gson = new Gson();
 		// 영화정보를 읽어와서 JsonObject객체에 저장
 		JsonObject obj = gson.fromJson(reader, JsonObject.class);
 		reader.close();
-		System.out.println("###########getMovieList: " +obj);
 		// 영화목록정보만 조회
 		JsonArray array = obj.getAsJsonObject("movieListResult").getAsJsonArray("movieList");
 		return array;
@@ -178,12 +148,10 @@ public class MovieApiService {
 		URL url = new URL(movieDetailUrl + movieCode);
 		// 영화상세정보를 읽어오는 스트림 생성
 		Reader reader = new InputStreamReader(url.openStream(), "utf-8");
-
 		Gson gson = new Gson();
 		// 영화상세정보를 읽어와서 JsonObject객체에 저장
 		JsonObject obj = gson.fromJson(reader, JsonObject.class);
 		reader.close();
-		System.out.println("###########getMovieDetail: "+obj);
 		// 영화상세정보만 조회
 		JsonObject movieInfo = obj.getAsJsonObject("movieInfoResult").getAsJsonObject("movieInfo");
 
@@ -191,32 +159,26 @@ public class MovieApiService {
 	}
 	
 	private JsonArray getMovieRank() throws Exception {
+		// 어제 날짜 조회
 		Calendar cal = Calendar.getInstance();
 		int day = cal.get(Calendar.DAY_OF_MONTH);
 		cal.set(Calendar.DAY_OF_MONTH, day - 1);
 		Date yesterday = cal.getTime();
-
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		String targetDate = sdf.format(yesterday);
+		
 		// 영화박스오피스 주소로 URL 객체 생성
 		URL url = new URL(movieRankUrl + targetDate);
 		// 영화박스오피스 정보를 읽어오는 스트림 생성
 		Reader reader = new InputStreamReader(url.openStream(), "utf-8");
-
 		Gson gson = new Gson();
 		// 영화정보를 읽어와서 JsonObject객체에 저장
 		JsonObject obj = gson.fromJson(reader, JsonObject.class);
 		reader.close();
-		System.out.println("###########getMovieRank: "+obj);
 		// 영화목록정보만 조회
 		JsonArray rankArray = obj.getAsJsonObject("boxOfficeResult").getAsJsonArray("dailyBoxOfficeList");
 		return rankArray;
 	}
-
-	
-
-
-
 }
 
 

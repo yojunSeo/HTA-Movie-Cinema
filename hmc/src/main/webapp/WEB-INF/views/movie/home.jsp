@@ -16,8 +16,8 @@ html, body {
 	height: 100%;
 }
 .topinfo img {
-	width: 210px;
-	height: 300px;
+	width: 230px;
+	height: 320px;
 }
 .wrapper {
 	display: flex;
@@ -76,8 +76,8 @@ html, body {
 }
 .topinfo {
 	position: relative !important;
-	width: 210px;
-	height: 300px;
+	width: 230px;
+	height: 320px;
 	
 }
 .topinfo .overbox {
@@ -88,8 +88,8 @@ html, body {
 }
 .topinfo .numinfo {
 	position: absolute;
-	top :250px;
-	left : 10px;
+	top :280px;
+	left : 5px;
 	text-shadow: 1px 1px 10px #000;
 	color: #fff;
 	font-style: italic;
@@ -101,8 +101,8 @@ html, body {
 <body>
 	<div class="container">
 		<header><%@ include file="../common/header.jsp"%></header>
-
 		<main>
+			<!-- 상단 슬라이드 부분 -->
 			<div class="row mt-2 mb-5">
 				<div class="col">
 					<div class="swiper-container mySwiper">
@@ -126,18 +126,17 @@ html, body {
 					</div>
 				</div>
 			</div>
-
-			<!-- 현재 상영작 -->
+			<!-- 현재 상영작  목록 중 예매 순위 top5 출력-->
 			<div class="row">
 				<div class="wrapper mt-5 mb-3">
 					<ul class="nowmovie">
 						<h5><strong>현재 상영작 <span style="color:#FF243E;">TOP 5</span></strong></h5>
 						<c:forEach var="nowMovies" items="${nowMovies }">
-							<li class="mt-2">
+							<li class="mt-2" style="margin-left:5px; margin-right:5px;">
 								<div class="topinfo">
-									<img src="${nowMovies.poster }" alt="${nowMovies.movieName }"> 
+									<img src="${nowMovies.poster }" alt="${nowMovies.movieName }">
 									<div class="overbox text-center pt-3">
-										<a class="btn btn-dark text-white mb-2" href="/hmc/booking/schedule/movie?movieCode=${nowMovies.movieCode }">예매하기</a><br>
+										<a class="btn btn-dark text-white mb-2" href="/hmc/booking/schedule/movie">예매하기</a><br>
 										<a class="btn btn-dark text-white" href="detail?movieCode=${nowMovies.movieCode }">상세정보</a>
 									</div>
 									<div class="numinfo">${nowMovies.rank }</div>
@@ -158,21 +157,20 @@ html, body {
 					</ul>
 				</div>
 			</div>
-				
-			<!-- 상영 예정작 -->
+			<!-- 상영 예정작 목록 중 개봉일 가까운 순으로 5개 출력 -->
 			<div class="row">
 				<div class="wrapper mt-5">
 					<ul class="commingsoonmovie">
 						<h5><strong>상영 예정작 <span style="color:#FF243E;">TOP 5</span></strong></h5>
 						<c:forEach var="commingMovies" items="${commingMovies }">
-							<li class="mt-2">
+							<li class="mt-2" style="margin-left:5px; margin-right:5px;">
 								<div class="topinfo">
 									<img src="${commingMovies.poster }" alt="">
 									<div class="overbox">
 										<a class="btn btn-dark text-white" href="detail?movieCode=${commingMovies.movieCode }">상세정보</a>
 									</div>
+									<div class="btminfo">
 								</div>
-								<div class="btminfo">
 									<strong>
 										<c:choose>
 											<c:when test="${commingMovies.grade == '전체관람가' }"><span class="badge rounded-pill bg-info">All</span></c:when>
@@ -183,7 +181,6 @@ html, body {
 											</c:otherwise>
 										</c:choose>${commingMovies.movieName }</strong><br /> 
 									</strong>
-									<!-- 개봉일 d-day로 변경..? -->
 									<span><em><fmt:formatDate
 												value="${commingMovies.releaseDate }" pattern="yyyy.MM.dd" /></em> 개봉
 									</span>
@@ -194,16 +191,15 @@ html, body {
 				</div>
 			</div>
 		</main>
-		<div style="float:left;">
-			<footer><%@ include file="../common/footer.jsp"%></footer>
-		</div>
+		<footer><%@ include file="../common/footer.jsp"%></footer>
 	</div>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 	<script type="text/javascript">
+		// 상단 슬라이드 
 		$(function() {
-			
+
 			var swiper = new Swiper(".mySwiper", {
 				spaceBetween : 30,
 				centeredSlides : true,
@@ -220,41 +216,26 @@ html, body {
 					prevEl : ".swiper-button-prev",
 				},
 			});
-			
-		});
-		$('.nowmovie .topinfo').hover(function(){
-			$(this).find('img').css('opacity',0);
-			$(this).find('.overbox').css('opacity',1);
-			$(this).find('.numinfo').css('opacity',0);
-		}, function() {
-			$(this).find('img').css('opacity',1);
-			$(this).find('.overbox').css('opacity',0);
-			$(this).find('.numinfo').css('opacity',1);
-		});
-		
-		$('.commingsoonmovie .topinfo').hover(function(){
-			$(this).find('img').css('opacity',0);
-			$(this).find('.overbox').css('opacity',1);
-		}, function() {
-			$(this).find('img').css('opacity',1);
-			$(this).find('.overbox').css('opacity',0);
-		});
 
-// 		//디데이 종료 일자 설정 
-// 		var countDownDate = new Date("formatRegDate").getTime(); 
-// 		//1초마다 갱신되도록 함수 생성,실행 
-// 		var x = setInterval(function() { 
-// 			// 오늘 날짜 등록 
-// 			var now = new Date().getTime(); 
-// 			// 종료일자에서 현재일자를 뺀 시간 
-// 			var distance = countDownDate - now; 
-// 			// 각 변수에 일 등록 
-// 			var d = Math.floor(distance / (1000 * 60 * 60 * 24)); 
-			
-// 			//id가 d-day인 HTML코드에 내용 삽입 
-// 			document.getElementById("d-day").innerHTML = "D-" + d; 
-// 		});
-
+		});
+		// 현재상영작 마우스오버 이벤트
+		$('.nowmovie .topinfo').hover(function() {
+			$(this).find('img').css('opacity', 0);
+			$(this).find('.overbox').css('opacity', 1);
+			$(this).find('.numinfo').css('opacity', 0);
+		}, function() {
+			$(this).find('img').css('opacity', 1);
+			$(this).find('.overbox').css('opacity', 0);
+			$(this).find('.numinfo').css('opacity', 1);
+		});
+		// 상영예정작 마우스오버 이벤트
+		$('.commingsoonmovie .topinfo').hover(function() {
+			$(this).find('img').css('opacity', 0);
+			$(this).find('.overbox').css('opacity', 1);
+		}, function() {
+			$(this).find('img').css('opacity', 1);
+			$(this).find('.overbox').css('opacity', 0);
+		});
 	</script>
 </body>	
 </html>

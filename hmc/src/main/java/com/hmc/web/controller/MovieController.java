@@ -40,13 +40,7 @@ public class MovieController {
 	
 	private String movieCode;
 	
-	/**
-	 * API 요청값 조회  및 저장
-	 * @param movie
-	 * @param model
-	 * @return
-	 * @throws Exception
-	 */
+	// 영화홈화면 영화일일박스오피스API 조회 및 저장
 	@RequestMapping("/home")
 	public String home (Model model) throws Exception{
 		//movieService.saveMoviesFromApi();
@@ -55,44 +49,33 @@ public class MovieController {
 		List<Movie> commingMovies = movieService.getCommingMovie();
 		model.addAttribute("nowMovies", nowMovies);
 		model.addAttribute("commingMovies", commingMovies);
-		System.out.println("########nowMovies: " + nowMovies);
-		System.out.println("########commingMoives: " + commingMovies);
-		logger.debug("###########실행됨");
 		return "movie/home";
 	}
 	
-	/**
-	 * 뷰에 영화상세정보 전달
-	 * @param movieCode
-	 * @param model
-	 * @return
-	 * @throws Exception
-	 */
+	// 영화상세정보화면 영화상세정보 조회
 	@GetMapping("/detail")
 	public String detail (@RequestParam("movieCode") String movieCode, Model model) throws Exception {
 		Movie movie = movieService.getMovieDetail(movieCode); 
-		logger.debug("###########detail실행됨movie" +movie);
 		model.addAttribute("movie", movie);
 		
+		// 평점 평균점수 구하기
 		int cnt = movie.getTotalScore();
 		int total = movie.getReviewCnt();
 		if (cnt!=0 || total!=0) {
 			int reviewScoreAvg = cnt/total;
 			model.addAttribute("reviewScoreAvg",reviewScoreAvg); 
-			System.out.println("###########reviewScoreAvg: "+reviewScoreAvg); 
 		}
 				
 		List<Actor> actors = actorService.getAllActorByCode(movieCode);
 		model.addAttribute("actors", actors);
-		logger.debug("###########detail실행됨actors:" +actors);
 		
 		List<Review> reviews = reviewService.getReviewByMovieCode(movieCode);
-		System.out.println("##########detail실행됨reviews" + reviews);
 		model.addAttribute("reviews", reviews);
 
 		return "movie/detail";
 	}
 	
+	// 현재상영작 조회  및 뷰 전달
 	@GetMapping("/now")
 	public String now ( Model model) throws Exception {
 		List<Movie> nowAllMovies = movieService.getNowAllMovies();
@@ -100,6 +83,7 @@ public class MovieController {
 		return "movie/now";
 	}
 	
+	// 상영예정작 조회 및 뷰 전달
 	@GetMapping("/commingsoon")
 	public String commingsoon (Model model) throws Exception {
 		List<Movie> commingAllMovies = movieService.getCommingAllMovies();
