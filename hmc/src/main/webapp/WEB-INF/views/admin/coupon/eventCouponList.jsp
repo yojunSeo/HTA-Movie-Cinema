@@ -71,15 +71,15 @@
 										<tr id="coupon-${coupon.code }" >
 											<th>${coupon.code }</th>
 											<td>${coupon.name }</td>						
-											<td>${coupon.type }</td>		
-											<c:if test="${coupon.eventCode==null}">		
-												<td>등록된 이벤트가 없습니다</td>
-											</c:if>		
-											<c:if test="${coupon.eventCode!=null}">
-												<td><p id="eventCode"  data-event-code="${coupon.eventCode}">${coupon.eventCode}</p></td>
-												
-											</c:if>
-											<td><button id="btn-coupon-modify" class="btn btn-outline-primary btn-sm rm-2" data-coupon-code="${coupon.code }">수정</button></td>
+											<td>${coupon.type }</td>
+											<c:choose>	
+												<c:when test="${empty coupon.eventCode}">
+													<td>등록된 이벤트가 없습니다</td>
+												</c:when>		
+												<c:otherwise>
+													<td><p id="eventCode"  data-event-code="${coupon.eventCode}">${coupon.eventCode}</p></td>
+												</c:otherwise>
+											</c:choose>	
 										</tr>			
 									</c:forEach>
 								</c:otherwise>

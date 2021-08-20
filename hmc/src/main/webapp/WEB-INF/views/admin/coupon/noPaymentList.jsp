@@ -59,7 +59,7 @@
 								<th>이름</th>
 								<th>쿠폰종류</th>
 								<th>연관 이벤트</th>
-								<th>기타</th>
+								<th>수정/삭제</th>
 							</tr>
 						</thead>
 						<tbody>

@@ -38,7 +38,6 @@
 			<div class="col">
 				<div class="border p-2 bg-light d-flex justify-content-between">
 					<span>쿠폰 목록</span>
-					<button class="btn btn-primary btn-sm" id="btn-open-coupon-modal">새 쿠폰 등록</button>
 				</div>
 			</div>
 		</div>
@@ -80,8 +79,6 @@
 												<td><p id="eventCode"  data-event-code="${coupon.eventCode}">${coupon.eventCode}</p></td>
 												
 											</c:if>
-											<td><button id="btn-coupon-modify" class="btn btn-outline-primary btn-sm rm-2" data-coupon-code="${coupon.code }">수정</button>
-											<button id="btn-coupon-delete" class="btn btn-outline-danger btn-sm rm-2" data-coupon-code="${coupon.code }">삭제</button></td>
 										</tr>			
 									</c:forEach>
 								</c:otherwise>
@@ -163,136 +160,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
-$(function(){
-	var request = "등록"
-	var requestURI = "/hmc/admin/coupon/add";
-	var couponModal = new bootstrap.Modal(document.getElementById("form-coupon-modal"), {
-		keyboard: false
-	})
-	// 새 쿠폰 등록
-	$("#btn-open-coupon-modal").click(function(){
-		console.log("등록 실행이에요");
-		request = "등록"
-		
-		$(":radio[name=type]").eq(0).prop("checked", true);
-		
-		$("#coupon-name").val("");
-		$("#btn-post-coupon").text("등록");
-		
-		couponModal.show();
-	})
-	
-	// 등록 버튼
-	$("#btn-post-coupon").click(function() {
-		// 유효성 검사
-		if($(":radio[name=type][value="+"영화관람권"+"]").prop("checked")) {
-			$(":radio[name=type][value="+"영화관람권"+"]").val("영화관람권");
-		}
-		if(!$("#coupon-name").val()) {
-			alert("쿠폰 이름을 입력하세요");
-			$("#coupon-name").focus();
-			return;
-		}
-		$.ajax({
-			
-			type: "POST",
-			url: requestURI,
-			data: $("#form-coupon").serialize(),
-			dataType: 'json',
-			success: function(coupon) {
-				if (request == "등록") {
-					console.log("등록이 됌니다");
-					$("#table-coupon tbody").prepend(makeRow(coupon));
-				} else if(request =="수정"){
-					console.log("6");
-					var $tds = $("#coupon-" + coupon.code).find("td");
-					console.log("8");
-					$tds.eq(0).text(coupon.name);
-					console.log("7");
-					$tds.eq(1).text(coupon.type);
-				}
-			},
-			complete: function() {
-				couponModal.hide();
-			}
-		});
-		console.log("등록이 됌니다!");
-	})
-	
-	
-	// 수정버튼
-	
-	$("#table-coupon tbody").on('click', '.btn-outline-primary', function(event){
-		
-		request = "수정";
-		requestURI = "/hmc/admin/coupon/modify";
-		data:{
-			type:$("#type").val();
-			name:$("#name").val();
-			code:$("#code").val();
-		};
-		$("#btn-post-coupon").text("수정");
-		$(":input:disabled").prop("disabled", false);
-		console.log("123");
-		
-		console.log("수정 실행임니당");
-		event.preventDefault();
-		$.getJSON("/hmc/admin/coupon/detail?code=" + $(this).data("coupon-code"))
-			.done(function(coupons) {
-				console.log("5");
-				$("#coupon-code").val(coupons.code);
-				console.log("7");
-				if(coupons.type == "30%할인") {
-					console.log("8");
-					$(":radio[name=type][value="+"30%할인"+"]").prop("checked", true);
-					console.log("9");
-				} else {
-					console.log(coupons.type);
-					$(":radio[name=type][value="+coupons.type+"]").prop("checked", true);
-					console.log("11");
-				}
-				$(":radio[name=type]").eq(0).prop("checked", false);
-				$("#coupon-name").val(coupons.name);
-				console.log("6");
-				couponModal.show();
-			})
-			
-		
-		
-	})
-	
-	
-	// 삭제버튼
-	$("#table-coupon tbody").on('click', '.btn-outline-danger', function() {
-		var eventCode = $("#eventCode").data("coupon.eventCode");
-		console.log(eventCode);
-		if(eventCode!=null){
-			console.log("1234");
-		}
-		console.log("삭제");
-		var $tr = $(this).closest("tr");
-		$.ajax({
-			type: "GET",
-			url: "/hmc/admin/coupon/delete",
-			data: {code: $(this).data("coupon-code")
-			},
-			success: function() {
-				$tr.remove();
-			}
-		});
-	});
-	
-	function makeRow(coupon) {
-		var row = "<tr  class='align-middle' id='coupon-"+coupon.code+"'>"
-		console.log("1");
-		row += "<td>"+coupon.code+"</td>";
-		row += "<td>"+coupon.name+"</td>";
-		row += "<td><button class='btn btn-link' data-coupon-code='"+coupon.code+"'>"+coupon.name+"</td>";
-		row += "<td><button class='btn btn-outline-danger btn-sm' data-coupon-code='"+coupon.code+"'>삭제하기</button></td>";
-		row += "</tr>";
-		return row;
-	}
-})
 
 </script>
 </body>

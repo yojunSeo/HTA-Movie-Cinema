@@ -66,10 +66,11 @@
 			event_code eventCode
 		from(
 			select
-				row_number() over (order by coupon_code) rn,
+				row_number() over (order by coupon_code desc) rn,
 				coupon_code , coupon_type,coupon_name, event_code
 			from
 				t_coupon
+			order by coupon_code desc
 		)
 		
 		where
@@ -85,13 +86,16 @@
 		    v.event_code eventCode
 		from(
 		    select
-		        row_number() over (order by coupon_code desc) rn,
-		        c.coupon_code , c.coupon_type, c.coupon_name, c.event_code
+		        row_number() over (order by c.coupon_code desc) rn,
+		        c.coupon_code , c.coupon_type, c.coupon_name, e.event_code
 		    from
-		        t_coupon c
+		        t_coupon c, t_event e
+            where
+                e.coupon_code = c.coupon_code
+            order by c.coupon_code desc
 		) v
 		where
-		    rn between '1' and '10'
+		    rn between #{beginIndex} and #{endIndex}
 		    and exists (select 1
 				            from t_event e
 				            where v.coupon_code = e.coupon_code)
@@ -106,13 +110,14 @@
 		    v.event_code eventCode
 		from(
 		    select
-		        row_number() over (order by coupon_code desc) rn,
-		        c.coupon_code , c.coupon_type, c.coupon_name, c.event_code
+		        row_number() over (order by c.coupon_code desc) rn,
+		        c.coupon_code , c.coupon_type, c.coupon_name, e.event_code
 		    from
-		        t_coupon c
+		        t_coupon c, t_event e
+		    order by c.coupon_code desc
 		) v
 		where
-		    rn between '1' and '10'
+		    rn between #{beginIndex} and #{endIndex}
 		    and exists (select 1
 		            from t_published_coupon p
 		            where v.coupon_code = p.coupon_code)
@@ -131,9 +136,10 @@
 		        c.coupon_code , c.coupon_type, c.coupon_name, c.event_code
 		    from
 		        t_coupon c
+		    order by c.coupon_code desc
 		) v
 		where
-		    rn between '1' and '10'
+		    rn between #{beginIndex} and #{endIndex}
 		    and not exists (select 1
 				            from t_event e
 				            where v.coupon_code = e.coupon_code)
