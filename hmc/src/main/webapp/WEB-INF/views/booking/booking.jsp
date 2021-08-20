@@ -51,7 +51,7 @@
         font-weight: bold;
       }
     </style>
-<title>좌석선택-HMC</title>
+<title>예매정보-HMC</title>
 </head>
 <body>
 	<div class="container-fluid">

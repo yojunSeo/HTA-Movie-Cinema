@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hmc.dao.StaticDao">
+
+	<select id="getUserGenderStatic" resultType="hashMap">
+		select 
+			user_gender as gender, 
+			count(user_gender) as cnt
+		from 
+			t_user
+		group by 
+			user_gender
+	</select>
+	
+	<select id="getUserAgeStatic" resultType="hashmap">
+		select 
+			trunc(months_between(sysdate, user_birthday)/12+1, -1) as age, 
+			count(trunc(months_between(sysdate, user_birthday)/12+1, -1)) as cnt
+		from 
+			t_user
+		group by 
+			trunc(months_between(sysdate, user_birthday)/12+1, -1)
+		order by 
+			age asc
+	</select>
+	
+	<select id="getBranchBookingRateStatic" resultType="hashmap">
+		select 
+   			br.branch_code as branchCode, 
+    		schedule_date as scheduleDate, 
+    		count(schedule_date) as scheduleCnt, 
+    		(sum(sh.schedule_total_seat) -sum(sh.schedule_empty_seat)) as bookedSeats, 
+    		sum(sh.schedule_total_seat) as totalSeats
+		from 
+    		t_schedule sh, t_branch br
+		where
+    		sh.branch_code = br.branch_code
+		group by 
+			br.branch_code, schedule_date
+		order by 
+			br.branch_code
+	</select> 
+	
+	<select id="getBranchSalesStatic" parameterType="string" resultType="hashmap">
+		select
+		    br.branch_name, 
+		    sum(bk.booking_price) as sum
+		from 
+			t_booking bk, t_branch br, t_schedule sh
+		where
+		    bk.schedule_code = sh.schedule_code
+		and
+		    sh.branch_code = br.branch_code
+		and
+		    schedule_date between trunc(to_date(#{value}) , 'iw')-6 and trunc(to_date(#{value}) , 'iw')+6
+		group by 
+			br.branch_name
+		order 
+			by br.branch_name
+	</select>
+</mapper>
