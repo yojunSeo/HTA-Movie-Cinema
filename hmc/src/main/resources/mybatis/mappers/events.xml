@@ -48,9 +48,7 @@
 				event_start_date, event_end_date, event_coupon_amount, event_status
 			from
 				t_event
-			where
-				event_status NOT IN ('N')
-			order by event_status
+			order by event_code desc
 		
 		)
 		where 
@@ -61,11 +59,16 @@
 	
 	
 	<insert id="insertEvent" parameterType="com.hmc.vo.Event">
+		<selectKey keyProperty="code" resultType="string" order="BEFORE">
+			select 
+				'EV' || lpad(T_EVENT_SEQ.nextval, 6,0)
+			from dual
+		</selectKey>
 		insert into t_event
 			(event_code, coupon_code, event_title, event_content,event_writer, 
 						event_start_date, event_end_date, event_coupon_amount, event_status)
 		values
-			('EV' || lpad(T_EVENT_SEQ.nextval, 6,0), #{couponCode}, #{title}, #{content}, #{writer},
+			(#{code}, #{couponCode}, #{title}, #{content}, #{writer},
 					 #{startDate}, #{endDate}, #{couponAmount}, #{status})
 	</insert>
 	

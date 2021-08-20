@@ -6,10 +6,6 @@ import java.util.Map;
 import com.hmc.vo.Coupon;
 
 public interface CouponService {
-
-	public void couponServiceTest();
-	
-	public void publishedCouponServiceTest();
 	
 	void insertCoupon(Coupon coupon);
 	

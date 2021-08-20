@@ -105,6 +105,8 @@ public class EventController {
 		Event event = eventService.getEventByCode(eventCode);
 		EventJoin eventJoin = (EventJoin) eventJoinService.getEventJoinByEventCode(eventCode);
 		
+		System.out.println(event);
+		
 		
 		model.addAttribute("event", event);
 		model.addAttribute("events", events);
