@@ -209,7 +209,7 @@
 					</div>
 					<div class="modal-body">
 						<form id="form-join">
-							<table class="table" id="table-event">
+							<table class="table" id="table-join">
 								<thead>
 									<tr>
 										<th>아이디</th>
@@ -361,7 +361,7 @@ $(function(){
 		var eventCode = $(this).data('event-code');
 		console.log(eventCode);
 		$.getJSON('joins', {code:eventCode}, function(joins){
-			var $tbody = $("#table-event body").empty();
+			var $tbody = $("#table-join tbody").empty();
 			console.log(eventCode);
 			$.each(joins, function(index,joins){
 				console.log(eventCode);
