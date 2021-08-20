@@ -134,9 +134,9 @@ html, body {
 						<c:forEach var="nowMovies" items="${nowMovies }">
 							<li class="mt-2" style="margin-left:5px; margin-right:5px;">
 								<div class="topinfo">
-									<img src="${nowMovies.poster }" alt="${nowMovies.movieName }"> 
+									<img src="${nowMovies.poster }" alt="${nowMovies.movieName }">
 									<div class="overbox text-center pt-3">
-										<a class="btn btn-dark text-white mb-2" href="/hmc/booking/schedule/movie }">예매하기</a><br>
+										<a class="btn btn-dark text-white mb-2" href="/hmc/booking/schedule/movie">예매하기</a><br>
 										<a class="btn btn-dark text-white" href="detail?movieCode=${nowMovies.movieCode }">상세정보</a>
 									</div>
 									<div class="numinfo">${nowMovies.rank }</div>
