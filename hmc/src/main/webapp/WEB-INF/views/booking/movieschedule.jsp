@@ -132,29 +132,61 @@ $(function(){
 	
 	// 페이지 로딩시 바로 가지고 올 것
 	(function(){
-		$.getJSON("rest/movie/info",function(map){
-			console.log(map);
-			var movies = map.movies;
-			var defaultMovie = map.defaultMovie;
-
-			$('#movie-zone').empty();
-			var $movie = "";
-			$.each(movies, function(index, movie){
-				var grade = movie.MOVIEGRADE;
-				var result = getMovieGrade(grade);
-				var movieGrade = result.movieGrade;
-				var gradeClass = result.gradeClass;
-				
-				if(defaultMovie.SCREENCODE == movie.SCREENCODE){
-					$movie += "<p class='list-group-item b small list-group-item-action active border-0 m-0 p-2 mb-2' style='background-color:#ADB5BD;' data-screen-code='"+movie.SCREENCODE+"' data-movie-name='"+movie.MOVIENAME+"'><span class='badge rounded-pill "+gradeClass+" mx-3'>"+movieGrade+"</span>"+movie.MOVIENAME+"</p>";
-				}else{
-					$movie += "<p class='list-group-item b small list-group-item-action  border-0 m-0 p-2 mb-2' data-screen-code='"+movie.SCREENCODE+"' data-movie-name='"+movie.MOVIENAME+"'><span class='badge rounded-pill "+gradeClass+" mx-3'>"+movieGrade+"</span>"+movie.MOVIENAME+"</p>";
-				}
+		var urlParams = new URLSearchParams(window.location.search);
+		var movieCode = urlParams.get('code');
+		if(movieCode){
+			console.log(movieCode)
+			$.ajax({
+				type:"GET",
+				url:"rest/movie/info",
+				data:{movieCode:movieCode},
+				dataType:'json'
+			}).done(function(map){
+				var movies = map.movies;
+				var defaultMovie = map.defaultMovie;
+	
+				$('#movie-zone').empty();
+				var $movie = "";
+				$.each(movies, function(index, movie){
+					var grade = movie.MOVIEGRADE;
+					var result = getMovieGrade(grade);
+					var movieGrade = result.movieGrade;
+					var gradeClass = result.gradeClass;
+					
+					if(defaultMovie.SCREENCODE == movie.SCREENCODE){
+						$movie += "<p class='list-group-item b small list-group-item-action active border-0 m-0 p-2 mb-2' style='background-color:#ADB5BD;' data-screen-code='"+movie.SCREENCODE+"' data-movie-name='"+movie.MOVIENAME+"'><span class='badge rounded-pill "+gradeClass+" mx-3'>"+movieGrade+"</span>"+movie.MOVIENAME+"</p>";
+					}else{
+						$movie += "<p class='list-group-item b small list-group-item-action  border-0 m-0 p-2 mb-2' data-screen-code='"+movie.SCREENCODE+"' data-movie-name='"+movie.MOVIENAME+"'><span class='badge rounded-pill "+gradeClass+" mx-3'>"+movieGrade+"</span>"+movie.MOVIENAME+"</p>";
+					}
+				})
+				$('#movie-zone').append($movie);
+				changeScheduleSelect();
+				changeSchedule();
 			})
-			$('#movie-zone').append($movie);
-			changeScheduleSelect();
-			changeSchedule();
-		})
+		}else{
+			$.getJSON("rest/movie/info",function(map){
+				var movies = map.movies;
+				var defaultMovie = map.defaultMovie;
+	
+				$('#movie-zone').empty();
+				var $movie = "";
+				$.each(movies, function(index, movie){
+					var grade = movie.MOVIEGRADE;
+					var result = getMovieGrade(grade);
+					var movieGrade = result.movieGrade;
+					var gradeClass = result.gradeClass;
+					
+					if(defaultMovie.SCREENCODE == movie.SCREENCODE){
+						$movie += "<p class='list-group-item b small list-group-item-action active border-0 m-0 p-2 mb-2' style='background-color:#ADB5BD;' data-screen-code='"+movie.SCREENCODE+"' data-movie-name='"+movie.MOVIENAME+"'><span class='badge rounded-pill "+gradeClass+" mx-3'>"+movieGrade+"</span>"+movie.MOVIENAME+"</p>";
+					}else{
+						$movie += "<p class='list-group-item b small list-group-item-action  border-0 m-0 p-2 mb-2' data-screen-code='"+movie.SCREENCODE+"' data-movie-name='"+movie.MOVIENAME+"'><span class='badge rounded-pill "+gradeClass+" mx-3'>"+movieGrade+"</span>"+movie.MOVIENAME+"</p>";
+					}
+				})
+				$('#movie-zone').append($movie);
+				changeScheduleSelect();
+				changeSchedule();
+			})
+		}
 		
 		// 날짜 부분 생성 - 총 10일간을 보여준다.
 		var today = new Date();

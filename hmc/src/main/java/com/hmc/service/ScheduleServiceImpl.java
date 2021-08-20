@@ -221,11 +221,16 @@ public class ScheduleServiceImpl implements ScheduleService{
 	}
 	
 	@Override
-	public Map<String, Object> getMovieSheduleinfo() {
+	public Map<String, Object> getMovieSheduleinfo(String movie) {
 		Map<String, Object> info = new HashMap<String, Object>();
 		List<Map<String, Object>> movies = screenDao.getScreenSimpleInfo();
 		info.put("movies", movies);
-		Map<String, Object> defaultMovie = movies.get(0);
+		Map<String, Object> defaultMovie = new HashMap<String, Object>();
+		if(movie != null) {
+			defaultMovie = screenDao.getScreenMoviesByMovieCode(movie);
+		}else {
+			defaultMovie = movies.get(0);
+		}
 		info.put("defaultMovie", defaultMovie);		
 		return info;
 	}

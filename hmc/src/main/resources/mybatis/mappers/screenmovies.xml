@@ -67,6 +67,19 @@
 			t_screen_movie
 	</select>
 	
+	<select id="getScreenMoviesByMovieCode" parameterType="string" resultType="hashmap">
+		select 
+			sc.screen_code as screenCode,
+            sc.movie_name as movieName,
+            mv.movie_grade as movieGrade
+		from 
+			t_screen_movie sc, t_movie mv
+        where 
+            sc.movie_code = mv.movie_code
+        and
+			mv.movie_code  = #{value}
+	</select>
+	
 	<select id="getScreenMovies" parameterType="map" resultMap="ScreenMovieResultMap">
 		select 
 			* 

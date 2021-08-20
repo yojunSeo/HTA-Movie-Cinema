@@ -17,7 +17,6 @@ import com.hmc.dto.MovieDto;
 import com.hmc.dto.ScheduleDetail;
 import com.hmc.service.ScheduleService;
 import com.hmc.vo.Branch;
-import com.hmc.vo.ScreenMovie;
 
 @RestController
 @RequestMapping("/booking/schedule/rest")
@@ -46,8 +45,12 @@ public class BookingScheduleRestController {
 	}
 	
 	@GetMapping("/movie/info")
-	public ResponseEntity<Map<String, Object>> movieSheduleinfo(){
-		Map<String, Object> info = scheduleService.getMovieSheduleinfo();	
+	public ResponseEntity<Map<String, Object>> movieSheduleinfo(@RequestParam(name = "movieCode", required = false)String movieCode){
+		String movie = null;
+		if(movieCode != null) {
+			movie = movieCode;
+		}
+		Map<String, Object> info = scheduleService.getMovieSheduleinfo(movie);	
 		return new ResponseEntity<Map<String,Object>>(info,HttpStatus.OK);
 	}
 	

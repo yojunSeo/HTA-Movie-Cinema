@@ -47,7 +47,7 @@
 
   <div class="flex-shrink-0 p-3 bg-white" style="width: 200px;">
     <p class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
-      <span class="fs-3 fw-semibold">관리자 메뉴</span>
+      <a href="/hmc/admin/main"><span class="fs-3 fw-bold">관리자 메뉴</span></a>
     </p>
     <ul class="p-0">
       <li class="mb-1" style="width: 200px">

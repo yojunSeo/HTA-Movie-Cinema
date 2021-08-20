@@ -19,7 +19,7 @@
 						<%@include file ="sidebar.jsp"%>
 					</div>
 					<div class="col-10">
-						<h4 class="my-5">사용자 통계</h4>
+						<h4 class="my-3 fw-bold">사용자 통계</h4>
 							<div class="row" id="user-chart">
 								<div class="col-6">
 									<p class="fs-5">[사용자 성별]</p>
@@ -30,9 +30,9 @@
 									<canvas id="age-chart"></canvas>
 								</div>
 							</div>
-						<h4 class="my-5" id="branch-chart">지점별 통계</h4>
+						<h4 class="my-3 fw-bold" id="branch-chart">지점별 통계</h4>
 							<div class="row">
-								<div class="col-8">
+								<div class="col-10">
 									<p class="fs-5">[지점별 매출]  <button type="button" id="search-sales" class="btn btn-outline-primary mx-3">조회</button>
 									</p>
 									<div class="row">
@@ -48,7 +48,7 @@
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-8">
+								<div class="col-10">
 									<p class="fs-5">[지점별 예매울]  <button type="button" id="search-booking" class="btn btn-outline-primary mx-3">조회</button>
 									</p>
 									<div class="row">
@@ -288,7 +288,7 @@ $(function(){
 										borderWidth: 1 
 									}] 
 						}, 
-						options: { scales: { yAxes: [{ ticks: { beginAtZero: true } }] } } });
+						options: { scales: { yAxes: [{ ticks: { beginAtZero: true } }] } }});
 			}else{
 				$('#non-sales').addClass('mt-5 text-center fs-5 fw-bold');
 				$('#non-sales').text('해당 기간에 조회된 데이터가 없습니다.');

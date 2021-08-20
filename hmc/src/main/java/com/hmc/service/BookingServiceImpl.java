@@ -16,6 +16,7 @@ import com.hmc.dao.CouponDao;
 import com.hmc.dao.PaymentDao;
 import com.hmc.dao.PublishedCouponDao;
 import com.hmc.dao.ScheduleDao;
+import com.hmc.dao.ScreenMovieDao;
 import com.hmc.dao.SeatDao;
 import com.hmc.dao.UserDao;
 import com.hmc.dto.BookingDto;
@@ -27,6 +28,7 @@ import com.hmc.vo.Pagination;
 import com.hmc.vo.Payment;
 import com.hmc.vo.PublishedCoupon;
 import com.hmc.vo.Schedule;
+import com.hmc.vo.ScreenMovie;
 import com.hmc.vo.SeatBooking;
 import com.hmc.vo.User;
 import com.hmc.web.util.SessionUtils;
@@ -50,6 +52,8 @@ public class BookingServiceImpl implements BookingService{
 	private PaymentDao paymentDao;
 	@Autowired
 	private BookingDao bookingDao;
+	@Autowired
+	private ScreenMovieDao screenDao;
 	@Autowired
 	private PublishedCouponDao publishedCouponDao;
 	@Resource(name = "membershipMap")
@@ -384,6 +388,11 @@ public class BookingServiceImpl implements BookingService{
 		result.put("booking", booking);
 		result.put("bookDetail", bookDetail);
 		return result;
+	}
+	
+	@Override
+	public ScreenMovie getScreenMovieByMovieCode(String movieCode) {
+		return screenDao.getScreenMoviesByMovieCode(movieCode);
 	}
 
 }
