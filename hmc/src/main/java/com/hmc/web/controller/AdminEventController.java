@@ -131,6 +131,8 @@ public class AdminEventController {
 		
 		model.addAttribute("pagination", pagination);
 		
+		eventDao.updateStatus();
+		
 		return "admin/event/eventList";
 	}
 	
@@ -163,7 +165,7 @@ public class AdminEventController {
 	}
 	
 	
-	@GetMapping("/detail")
+	@GetMapping("/detail2")
 	public String eventDetail(@RequestParam("no") String eventCode, @LoginUser User user, Model model) {
 		
 		Event events = eventService.eventDetail(eventCode);
@@ -215,5 +217,40 @@ public class AdminEventController {
 		return joins;
 	}
 	
+	@RequestMapping("/modify")
+	public @ResponseBody ResponseEntity<Event> modify(Event event, @LoginAdmin User loginAdmin) {
+		Event savedEvent = eventDao.getEventByCode(event.getCode());
+		if (savedEvent == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+		savedEvent.setTitle(event.getTitle());
+		savedEvent.setContent(event.getContent());
+		savedEvent.setStartDate(event.getStartDate());
+		savedEvent.setEndDate(event.getEndDate());
+		savedEvent.setCouponCode(event.getCouponCode());
+		savedEvent.setCouponAmount(event.getCouponAmount());
+		
+		
+		
+		
+		eventDao.updateEvent(savedEvent);
+		
+		return new ResponseEntity<>(savedEvent, HttpStatus.OK);
+	}
+	
+	
+	@RequestMapping("/detail")
+	public @ResponseBody ResponseEntity<Event> detail(@RequestParam("code") String eventCode, @LoginAdmin User loginAdmin) {
+		Event savedEvent = eventDao.getEventByCode(eventCode);
+		System.out.println("디테일 실행됨");
+		System.out.println(savedEvent);
+		if(savedEvent == null) {
+			System.out.println("디테일 실패");
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
+		return new ResponseEntity<>(savedEvent, HttpStatus.OK);
+	}
 	
 }

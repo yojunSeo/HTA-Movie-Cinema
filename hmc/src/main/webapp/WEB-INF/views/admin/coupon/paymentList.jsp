@@ -143,8 +143,8 @@
                                  <c:forEach var="publishedCoupons" items="${publishedCoupons }">
                                     <tr id="publishedCoupons-${publishedCoupons.couponCode }" id="pcode" data-publishedCoupons-code="${publishedCoupons.couponCode}" class="align-middle">
                                        <td>${publishedCoupons.userId }</td> 
-                                       <td><fmt:formatDate value="${publishedCoupons.givenDate }" type="date" dateStyle="short"/></td>      
-                                       <td><fmt:formatDate value="${publishedCoupons.endDate }" type="date" dateStyle="short"/></td>      
+                                       <td id="givenDate"><fmt:formatDate value="${publishedCoupons.startDate }" pattern="yyyy년  M월  d일"/></td>      
+                                       <td id="endDate"><fmt:formatDate value="${publishedCoupons.endDate }" pattern="yyyy년  M월  d일"/></td>  
                                        <td>${publishedCoupons.isUsed }</td>      
                                     </tr>         
                                  </c:forEach>
@@ -183,12 +183,15 @@ $(function(){
 	   $("#publishedCoupons-table tbody").on('click', '.publishedCoupons', function() {
 	      
 	      var couponCode = $(this).data('coupon-code');
+	      var givenDate = $("#givenDate").data();
+		   var endDate = $("#endDate").val();
+		   var date = getFormatDate(new Date());
 	      $.getJSON('publishedCoupons', {code:couponCode}, function(publishedCoupons){
 	    	 console.log(couponCode);
 	         var $tbody = $("#table-publishedCoupons tbody").empty();
-	    	 console.log(couponCode);
+	    	 console.log(endDate);
 	         $.each(publishedCoupons, function(index,publishedCoupons){
-	    	 console.log(couponCode);
+	    	 console.log(givenDate);
 	            var row = "<tr>"
 	            row += "<td>"+publishedCoupons.userId+"</td>"
 	            row += "<td>"+publishedCoupons.givenDate+"</td>"
@@ -202,6 +205,15 @@ $(function(){
 	   })
 	
 })
+
+function getFormatDate(date){
+	var year = date.getFullYear();              //yyyy
+    var month = (1 + date.getMonth());          //M
+    month = month >= 10 ? month : '0' + month;  //month 두자리로 저장
+    var day = date.getDate();                   //d
+    day = day >= 10 ? day : '0' + day;          //day 두자리로 저장
+    return  year + '-' + month + '-' + day;
+}
 
 </script>
 </body>

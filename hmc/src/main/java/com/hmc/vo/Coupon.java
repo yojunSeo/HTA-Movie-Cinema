@@ -13,5 +13,6 @@ public class Coupon {
 	private String type;
 	private String name;
 	private String eventCode;
+	private String eventTitle;
 	
 }

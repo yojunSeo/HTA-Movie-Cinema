@@ -56,6 +56,68 @@
 		order by event_code desc
 	</select>
 	
+	<select id="eventListPageByProceeding" resultType="com.hmc.vo.Event" parameterType="map">
+		select 
+			event_code code, coupon_code couponCode, event_title title, event_content content, 
+			event_writer writer, event_start_date startDate, event_end_date endDate, 
+			event_coupon_amount couponAmount, event_status status
+		from(
+			select
+				row_number() over (order by event_status) rn,
+				event_code, coupon_code, event_title, event_content, event_writer,
+				event_start_date, event_end_date, event_coupon_amount, event_status
+			from
+				t_event
+			order by event_code desc
+		
+		)
+		where 
+			rn between #{beginIndex} and #{endIndex}
+			and event_status = 'Y'
+			or event_status = 'A'
+		order by event_code desc
+	</select>
+	
+	<select id="eventListPageByWating" resultType="com.hmc.vo.Event" parameterType="map">
+		select 
+			event_code code, coupon_code couponCode, event_title title, event_content content, 
+			event_writer writer, event_start_date startDate, event_end_date endDate, 
+			event_coupon_amount couponAmount, event_status status
+		from(
+			select
+				row_number() over (order by event_status) rn,
+				event_code, coupon_code, event_title, event_content, event_writer,
+				event_start_date, event_end_date, event_coupon_amount, event_status
+			from
+				t_event
+			order by event_code desc
+		)
+		where 
+			rn between #{beginIndex} and #{endIndex}
+			and event_status = 'S'
+		order by event_code desc
+	</select>
+	
+	<select id="eventListPageByEnd" resultType="com.hmc.vo.Event" parameterType="map">
+		select 
+			event_code code, coupon_code couponCode, event_title title, event_content content, 
+			event_writer writer, event_start_date startDate, event_end_date endDate, 
+			event_coupon_amount couponAmount, event_status status
+		from(
+			select
+				row_number() over (order by event_status) rn,
+				event_code, coupon_code, event_title, event_content, event_writer,
+				event_start_date, event_end_date, event_coupon_amount, event_status
+			from
+				t_event
+			order by event_code desc
+		)
+		where 
+			rn between #{beginIndex} and #{endIndex}
+			and event_status = 'N'
+		order by event_code desc
+	</select>
+	
 	
 	
 	<insert id="insertEvent" parameterType="com.hmc.vo.Event">
@@ -95,6 +157,16 @@
 			event_code = #{eventCode}
 	</update>
 	
+	<update id="updateStatus">
+		update t_event
+	    set event_status = <![CDATA[case
+	                        when to_char(sysdate,'YYYYMMDD') > to_char(event_start_date,'YYYYMMDD')
+	                        and to_char(sysdate,'YYYYMMDD') < to_char(event_end_date,'YYYYMMDD') then 'Y'
+	                        when to_char(sysdate,'YYYYMMDD') > to_char(event_end_date,'YYYYMMDD') then 'N'
+	                        when to_char(sysdate,'YYYYMMDD') < to_char(event_start_date,'YYYYMMDD') then 'S'
+	                        end]]>
+	</update>
+	
 	<select id="getAllEvents" resultMap="EventResultMap">
 		select 
 			*
@@ -119,5 +191,7 @@
 		where
 			event_code = #{value}
 	</delete>
+	
+	
 	
 </mapper>

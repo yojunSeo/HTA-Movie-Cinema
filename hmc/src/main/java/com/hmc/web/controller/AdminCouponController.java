@@ -255,6 +255,7 @@ public class AdminCouponController {
 	public @ResponseBody ResponseEntity<Coupon> detail(@RequestParam("code") String couponCode, @LoginAdmin User loginAdmin) {
 		Coupon savedCoupon = couponDao.getCouponByCode(couponCode);
 		System.out.println("디테일 실행됨");
+		System.out.println(couponCode);
 		if(savedCoupon == null) {
 			System.out.println("디테일 실패");
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);

@@ -50,6 +50,8 @@
 							<col width="*">
 							<col width="20%">
 							<col width="20%">
+							<col width="20%">
+							<col width="10%">
 						</colgroup>
 						<thead>
 							<tr>
@@ -57,6 +59,8 @@
 								<th>이름</th>
 								<th>쿠폰종류</th>
 								<th>연관 이벤트</th>
+								<th>이벤트 이름</th>
+								<th>삭제</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -79,7 +83,16 @@
 												<c:otherwise>
 													<td><p id="eventCode"  data-event-code="${coupon.eventCode}">${coupon.eventCode}</p></td>
 												</c:otherwise>
-											</c:choose>	
+											</c:choose>
+											<c:choose>	
+												<c:when test="${empty coupon.eventTitle}">
+													<td>등록된 이벤트가 없습니다</td>
+												</c:when>		
+												<c:otherwise>
+													<td><p id="eventTitle"  data-event-title="${coupon.eventTitle}">${coupon.eventTitle}</p></td>
+												</c:otherwise>
+											</c:choose>
+											<td><button id="btn-coupon-delete" class="btn btn-outline-danger btn-sm rm-2" data-coupon-code="${coupon.code }">삭제</button></td>
 										</tr>			
 									</c:forEach>
 								</c:otherwise>

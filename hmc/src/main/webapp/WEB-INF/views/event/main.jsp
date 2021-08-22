@@ -8,73 +8,78 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <title>이벤트 페이지</title>
 <style>
+.eventTitleInfo{
+	position:absolute;
+	left: 380px;
+	margin-top:20px;
+}
+.eventDateInfo{
+	position:absolute;
+	right: 350px;
+	margin-top:17px;
+}
+
+      
+.banner {
+	position: relative;
+	width:1300px;
+	height:180px;
+}
 </style>
 </head>
 <body>
 <%@ include file="../common/header.jsp" %>
 <div class="container my-3">
+	<img class="banner" src="../resources/images/event/banner.png">
     <main>
     	<div class="row mb-3">
 			<div class="col">
-				<div class="border p-2 bg-light d-flex justify-content-between">
-					<span>이벤트 목록</span>
+				<div class=" p-2">
+					<h5 style="margin-top:30px; margin-left:10px"><strong>이벤트 목록</strong></h5>
 				</div>
 			</div>
 		</div>
 		<div class="row mb-3">
 			<div class="col">
-				<div class="border p-2 bg-light">
-					<table class="table" id="event-table">
-						<colgroup>
-							<col width="10%">
-							<col width="*">
-							<col width="20%">
-							<col width="20%">
-							<col width="10%">
-						</colgroup>
-						<thead>
+				<c:choose>
+						<c:when test="${empty events }">
 							<tr>
-								<th>번호</th>
-								<th>제목</th>
-								<th>시작일</th>
-								<th>마감일</th>
-								<th>상태</th>
+								<td colspan="4">진행중인 이벤트가 없습니다.</td>
 							</tr>
-						</thead>
-						<tbody>
-							<c:choose>
-								<c:when test="${empty events }">
-									<tr>
-										<td colspan="4">진행중인 이벤트가 없습니다.</td>
-									</tr>
-								</c:when>
-								<c:otherwise>
-									<c:forEach var="event" items="${events }">
-										<tr data-event-code="${event.code }" class="align-middle">
-											<th>${event.code }</th>
-											<td style="cursor:pointer;">
-											<a href="/hmc/event/detail?no=${event.code }">
-											${event.title }</a>
-											</td>						
-											<td><fmt:formatDate value="${event.startDate }" pattern="yyyy년  M월  d일"/></td>						
-											<td><fmt:formatDate value="${event.endDate }" pattern="yyyy년  M월  d일"/></td>
-											<td>
-												<c:choose>
-													<c:when test="${event.status eq 'Y' }">진행중</c:when>
-													<c:when test="${event.status eq 'N' }">종료</c:when>
-													<c:when test="${event.status eq 'A' }">상시</c:when>
-												</c:choose>
-											
-											</td>		
-										</tr>			
-									</c:forEach>
-								</c:otherwise>
-								
-							</c:choose>
-						
-						</tbody>
-					</table>
-				</div>
+						</c:when>
+						<c:otherwise>
+							<c:forEach var="event" items="${events}" >
+								<div class="accordion accordion-flush" id="accordionFlushExample">
+									<div class="accordion-item">
+										<button class="btn btn-outline-secondary d-flex" style="width:1280px; height:80px; margin:10px;"type="button" data-bs-toggle="collapse" data-bs-target="#${event.code }" aria-expanded="false" aria-controls="flush-collapseOne">
+									  		<strong class="eventTitleInfo">${event.title }</strong>
+									  		<span class="eventDateInfo">
+									  			<fmt:formatDate value="${event.startDate }" pattern="yyyy년  M월  d일"/>
+									  			~
+									  			<fmt:formatDate value="${event.endDate }" pattern="yyyy년  M월  d일"/>
+									  		</span>
+									  	</button>
+									  	<div id="${event.code }" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample" style="border:4px solid #e9e9e9; margin-left:10px; margin-right:5px;">
+										    <div class="accordion-body">
+										    ${event.content }
+										    <br>
+										    <br>
+										    <br>
+										    <br>
+										    <br>
+										    <div class="btn-eventJoin" style="text-align:center;" >
+									    		<c:if test="${event.status eq 'Y' }">
+									    			<button id="btn-open-event-modal"  class="btn btn-danger btn-lg w-25 text-light" >응모하기</button>
+									    		</c:if>
+									    	</div>
+										    </div>
+									  	</div>
+								  	</div>
+								</div>
+							</c:forEach>
+						</c:otherwise>
+				</c:choose>
+				
 			</div>
 		</div>
 		<c:if test="${pagination.totalRows gt 0 }">

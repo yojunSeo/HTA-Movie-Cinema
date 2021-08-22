@@ -83,11 +83,12 @@
 		    v.coupon_code code,
 		    v.coupon_type type,
 		    v.coupon_name name,
-		    v.event_code eventCode
+		    v.event_code eventCode,
+            v.event_title eventTitle
 		from(
 		    select
 		        row_number() over (order by c.coupon_code desc) rn,
-		        c.coupon_code , c.coupon_type, c.coupon_name, e.event_code
+		        c.coupon_code , c.coupon_type, c.coupon_name, e.event_code, e.event_title
 		    from
 		        t_coupon c, t_event e
             where
