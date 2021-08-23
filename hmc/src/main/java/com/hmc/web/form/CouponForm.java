@@ -1,4 +1,4 @@
-package com.hmc.vo;
+package com.hmc.web.form;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,12 +7,9 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Coupon {
+public class CouponForm {
 
 	private String code;
 	private String type;
 	private String name;
-	private String eventCode;
-	private String eventTitle;
-	
 }

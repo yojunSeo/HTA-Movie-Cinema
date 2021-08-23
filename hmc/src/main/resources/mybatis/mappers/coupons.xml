@@ -16,6 +16,39 @@
 			t_coupon
 	</select>
 	
+	<select id="getTotalRowsByEvent" parameterType="map" resultType="int">
+		select
+		    count(*)
+		from
+		    t_coupon c
+		where exists (select 1
+				            from t_event e
+				            where c.coupon_code = e.coupon_code)
+	</select>
+	
+	<select id="getTotalRowsByPublished" parameterType="map" resultType="int">
+		select
+		    count(*)
+		from
+		    t_coupon c
+		where exists (select 1
+		            from t_published_coupon p
+		            where c.coupon_code = p.coupon_code)
+	</select>
+	
+	<select id="getTotalRowsByNull" parameterType="map" resultType="int">
+		select
+		    count(*)
+		from
+		    t_coupon c
+		where not exists (select 1
+				            from t_event e
+				            where c.coupon_code = e.coupon_code)
+		and not exists (select 1
+				            from t_published_coupon p
+				            where c.coupon_code = p.coupon_code)
+	</select>
+	
 	<select id="getCouponInfo" parameterType="map" resultType="com.hmc.vo.Coupon">
 		select
 		    coupon_code as code, coupon_type as type, coupon_name as name, event_code as eventCode
@@ -33,16 +66,91 @@
 			event_code eventCode
 		from(
 			select
-				row_number() over (order by coupon_code) rn,
+				row_number() over (order by coupon_code desc) rn,
 				coupon_code , coupon_type,coupon_name, event_code
 			from
 				t_coupon
+			order by coupon_code desc
 		)
 		
 		where
 			rn between #{beginIndex} and #{endIndex}
 		order by coupon_code desc
 	</select>
+	
+	<select id="couponListPageByEvent" resultType="com.hmc.vo.Coupon" parameterType="map">
+		select
+		    v.coupon_code code,
+		    v.coupon_type type,
+		    v.coupon_name name,
+		    v.event_code eventCode,
+            v.event_title eventTitle
+		from(
+		    select
+		        row_number() over (order by c.coupon_code desc) rn,
+		        c.coupon_code , c.coupon_type, c.coupon_name, e.event_code, e.event_title
+		    from
+		        t_coupon c, t_event e
+            where
+                e.coupon_code = c.coupon_code
+            order by c.coupon_code desc
+		) v
+		where
+		    rn between #{beginIndex} and #{endIndex}
+		    and exists (select 1
+				            from t_event e
+				            where v.coupon_code = e.coupon_code)
+		order by coupon_code desc
+	</select>
+	
+	<select id="couponListPageByPublished" resultType="com.hmc.vo.Coupon" parameterType="map">
+		select
+			v.coupon_code code,
+			v.coupon_type type,
+			v.coupon_name name,
+			v.event_code eventCode
+		from(
+			select
+				row_number() over (order by coupon_code desc) rn,
+				coupon_code , coupon_type,coupon_name, event_code
+			from
+				t_coupon
+			order by coupon_code desc
+		)v
+         where rn between #{beginIndex} and #{endIndex}
+        and exists (select 1
+		            from t_published_coupon p
+		            where v.coupon_code = p.coupon_code)
+		order by coupon_code desc
+	</select>
+	
+	<select id="couponListPageByNull" resultType="com.hmc.vo.Coupon" parameterType="map" >
+		select
+		    v.coupon_code code,
+		    v.coupon_type type,
+		    v.coupon_name name,
+		    v.event_code eventCode
+		from(
+		    select
+		        row_number() over (order by coupon_code desc) rn,
+		        c.coupon_code , c.coupon_type, c.coupon_name, c.event_code
+		    from
+		        t_coupon c
+		    order by c.coupon_code desc
+		) v
+		where
+		    rn between #{beginIndex} and #{endIndex}
+		    and not exists (select 1
+				            from t_event e
+				            where v.coupon_code = e.coupon_code)
+		    and not exists (select 1
+				            from t_published_coupon p
+				            where v.coupon_code = p.coupon_code)
+		order by coupon_code desc
+	</select>
+	
+	
+	
 	
 	<insert id="insertCoupon" parameterType="com.hmc.vo.Coupon">
 		insert into t_coupon
@@ -87,11 +195,31 @@
 	</update>
 	
 	<delete id="deleteCoupon" parameterType="string">
-		delete from
-			t_coupon
-		where
-			coupon_code = #{value}
+		delete from t_coupon c
+		where not exists (select 1
+		            from t_event e
+		            where c.coupon_code = e.coupon_code)
+		and not exists (select 1
+		            from t_published_coupon p
+		            where c.coupon_code = p.coupon_code)
+		and c.coupon_code = #{value}
 	</delete>
+	
+	<select id="existsEventCoupon" parameterType="string" resultType="string">
+		select c.coupon_code from t_coupon c
+		where exists (select 1
+		            from t_event e
+		            where c.coupon_code = e.coupon_code)
+		and c.coupon_code = #{value}
+	</select>
+	
+	<select id="existsPublishedCoupon" parameterType="string" resultType="string">
+		select c.coupon_code from t_coupon c
+		where exists (select 1
+		            from t_published_coupon p
+		            where c.coupon_code = p.coupon_code)
+		and c.coupon_code = #{value}
+	</select>
 	
 	<select id="getAbleCouponByUserId" parameterType="string" resultType="hashmap">
 		select 

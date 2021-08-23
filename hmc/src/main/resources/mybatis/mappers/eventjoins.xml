@@ -45,7 +45,7 @@
 		                                from ( select *
 		                                       from t_event_join
 		                                       where event_code = #{value}
-		                                       order by dbms_random.random )
+		                                       order by dbms_random.random)
 		                                 <![CDATA[where rownum <= 10]]>)
 	</update>
 	

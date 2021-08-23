@@ -27,4 +27,6 @@ public interface PublishedCouponDao {
 	List<String> getDeletePublishedCouponCode(Map<String, Object> param);
 	
 	String checkPublishedCouponCode(String couponCode);
+	
+	List<PublishedCoupon> getDateByPublishedCoupon(String couponCode);
 }

@@ -88,6 +88,9 @@ public class AdminEventController {
 			@RequestParam(name = "keyword", required = false) String searchKeyword,
 			Model model, @LoginAdmin User loginAdmin) {
 		
+		// 이벤트 종료일과 비교하기 위한 오늘 날짜를 model에 저장
+		model.addAttribute("today", new Date());
+		
 		Map<String, Object> param = new HashMap<String, Object>();
 		if(searchOption != null && searchKeyword != null ) {
 			page=1;
@@ -96,9 +99,7 @@ public class AdminEventController {
 		}
 		param.put("beginIndex", (page-1)*ROWS_PER_PAGE+1);
 		param.put("endIndex", page*ROWS_PER_PAGE);
-		System.out.println(param);
 		List<Event> events = eventService.eventListPage(param);
-		System.out.println("실행됨");
 		model.addAttribute("events", events);
 		
 		Map<String, Object> param2 = new HashMap<String, Object>();
@@ -130,9 +131,7 @@ public class AdminEventController {
 		
 		model.addAttribute("pagination", pagination);
 		
-		
-		
-		
+		eventDao.updateStatus();
 		
 		return "admin/event/eventList";
 	}
@@ -140,7 +139,7 @@ public class AdminEventController {
 	
 	@PostMapping("/insertEvent")
 	public String add(EventForm form, HttpServletRequest request, @LoginAdmin User loginAdmin) throws ParseException {
-		
+		System.out.println(form);
 		Event event = new Event();
 		event.setTitle(form.getTitle());
 		event.setContent(form.getEventContent());
@@ -155,10 +154,12 @@ public class AdminEventController {
 		//event.setWriter(loginAdmin.getId());
 		User logginedUser = (User)SessionUtils.getAttribute("LOGINED_USER");
 		event.setWriter(logginedUser.getId());
-		System.out.println(event);
-		System.out.println("1");
 		eventService.insertEvent(event);
-		System.out.println("2");
+		
+		// 선택한 쿠폰의 이벤트컬럼 업데이트
+		Coupon coupon = couponService.getCouponByCode(form.getSelectCoupon());
+		coupon.setEventCode(event.getCode());
+		couponService.updateCoupon(coupon);
 		
 		return "redirect:eventList";
 	}
@@ -183,8 +184,7 @@ public class AdminEventController {
 	public String eventJoin(@RequestParam(value="eventCode",required=false) String eventCode,
 			@RequestParam("userId") String userId ,
 			@RequestParam("couponCode") String couponCode,Model model) {
-		System.out.println(couponCode);
-		System.out.println(eventCode);
+
 		eventJoindao.eventDraw(eventCode);
 		
 		PublishedCoupon publishedCoupon = new PublishedCoupon();
@@ -216,5 +216,40 @@ public class AdminEventController {
 		return joins;
 	}
 	
+	@RequestMapping("/modify")
+	public @ResponseBody ResponseEntity<Event> modify(Event event, @LoginAdmin User loginAdmin) {
+		Event savedEvent = eventDao.getEventByCode(event.getCode());
+		if (savedEvent == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+		savedEvent.setTitle(event.getTitle());
+		savedEvent.setContent(event.getContent());
+		savedEvent.setStartDate(event.getStartDate());
+		savedEvent.setEndDate(event.getEndDate());
+		savedEvent.setCouponCode(event.getCouponCode());
+		savedEvent.setCouponAmount(event.getCouponAmount());
+		
+		
+		
+		
+		eventDao.updateEvent(savedEvent);
+		
+		return new ResponseEntity<>(savedEvent, HttpStatus.OK);
+	}
+	
+	
+	@RequestMapping("/detail2")
+	public @ResponseBody ResponseEntity<Event> detail(@RequestParam("code") String eventCode, @LoginAdmin User loginAdmin) {
+		Event savedEvent = eventDao.getEventByCode(eventCode);
+		System.out.println("디테일 실행됨");
+		System.out.println(savedEvent);
+		if(savedEvent == null) {
+			System.out.println("디테일 실패");
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
+		return new ResponseEntity<>(savedEvent, HttpStatus.OK);
+	}
 	
 }
