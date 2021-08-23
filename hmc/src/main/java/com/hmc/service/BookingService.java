@@ -33,6 +33,4 @@ public interface BookingService {
 	
 	void userDownGrade(String grade);
 	
-	ScreenMovie getScreenMovieByMovieCode(String movieCode);
-	
 }

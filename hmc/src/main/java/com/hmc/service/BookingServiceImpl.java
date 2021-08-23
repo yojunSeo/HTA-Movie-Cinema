@@ -389,10 +389,5 @@ public class BookingServiceImpl implements BookingService{
 		result.put("bookDetail", bookDetail);
 		return result;
 	}
-	
-	@Override
-	public ScreenMovie getScreenMovieByMovieCode(String movieCode) {
-		return screenDao.getScreenMoviesByMovieCode(movieCode);
-	}
 
 }
