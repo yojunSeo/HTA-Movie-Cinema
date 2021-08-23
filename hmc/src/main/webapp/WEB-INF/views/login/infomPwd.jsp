@@ -37,7 +37,7 @@
             </div>
             <div class="row my-5">
             	<div class="col-2">
-            		<a href="../login/" class="btn btn-danger w-100">확인</a>
+            		<a href="../login/" class="btn btn-danger w-100 text-light">확인</a>
             	</div>
             </div>
 		</main>
