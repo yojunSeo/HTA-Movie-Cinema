@@ -168,6 +168,7 @@
 
 <script>
 	$(function(){
+		// 유효성 검사
 		$("#inquery-form").submit(function(){
 			var category = $("#opt option:selected").val();
 			if(category == 0){

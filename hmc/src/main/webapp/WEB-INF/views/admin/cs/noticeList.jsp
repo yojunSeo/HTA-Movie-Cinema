@@ -126,7 +126,7 @@ $(function(){
 		location.href = "noticeDetail?code=" + noticeCode;
 		
 	});
-	
+	// 공지사항 삭제
 	$("#notice-table tbody tr .btn-outline-danger").on('click',function(){
 		var returnValue = confirm("공지사항을 삭제하시겠습니까?");
 		if(returnValue){

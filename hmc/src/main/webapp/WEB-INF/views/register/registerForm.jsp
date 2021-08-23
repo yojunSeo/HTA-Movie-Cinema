@@ -125,7 +125,7 @@
 
 <script>
 	$(function(){
-	
+		// 아이디 중복 확인
 		$("#btn-post-id").click(function(){
 			var userId = $("#confirmId").val();
 			
@@ -146,7 +146,7 @@
 				}
 			})
 		});
-		
+		// 유효성검사
 		$("#register-form").submit(function(){
 			
 			var id = $.trim($("#confirmId").val());

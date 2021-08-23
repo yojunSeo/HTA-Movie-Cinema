@@ -139,13 +139,14 @@
 
 <script>
 $(function(){
+	// 상세정보페이지 이동
 	$("#user-table tbody tr #goDetail").click(function(){
 		var userCode = $(this).closest('tr').data('user-code');
 		
 		location.href = "userDetail?id=" + userCode;
 		
 	});
-	
+	// 탈퇴처리
 	$("#user-table tbody tr .btn-outline-danger").on('click',function(){
 		var returnValue = confirm("해당 회원을 탈퇴처리하시겠습니까?");
 		if(returnValue){
@@ -154,7 +155,7 @@ $(function(){
 		}
 			return false;
 	})
-	
+	// 회원권한 복구
 	$("#user-table tbody tr .btn-outline-success").on('click', function(){
 		var returnValue = confirm("해당 회원의 회원권한을 복구시키시겠습니까?");
 		if(returnValue){
@@ -163,7 +164,7 @@ $(function(){
 		}
 			return false;
 	})
-	
+	// 관리자 지정
 	$("#user-table tbody tr .btn-outline-primary").on('click', function(){
 		var returnValue = confirm("해당 회원을 관리자로 지정하시겠습니까?");
 		if(returnValue){
@@ -172,7 +173,7 @@ $(function(){
 		}
 			return false;
 	})
-	
+	// 관리자 권한 해제
 	$("#user-table tbody tr .btn-outline-dark").on('click', function(){
 		var returnValue = confirm("해당 회원의 관리자권한을 해제하시겠습니까?");
 		if(returnValue){
