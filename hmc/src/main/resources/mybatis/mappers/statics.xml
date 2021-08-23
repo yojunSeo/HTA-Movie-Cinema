@@ -25,10 +25,9 @@
 			age asc
 	</select>
 	
-	<select id="getBranchBookingRateStatic" resultType="hashmap">
+	<select id="getBranchBookingRateStatic" parameterType="string" resultType="hashmap">
 		select 
-   			br.branch_code as branchCode, 
-    		schedule_date as scheduleDate, 
+   			 br.branch_name as branchName, 
     		count(schedule_date) as scheduleCnt, 
     		(sum(sh.schedule_total_seat) -sum(sh.schedule_empty_seat)) as bookedSeats, 
     		sum(sh.schedule_total_seat) as totalSeats
@@ -36,10 +35,12 @@
     		t_schedule sh, t_branch br
 		where
     		sh.branch_code = br.branch_code
+        and
+		    schedule_date between trunc(to_date(#{value}) , 'iw')-6 and trunc(to_date(#{value}) , 'iw')+6
 		group by 
-			br.branch_code, schedule_date
+			 br.branch_name
 		order by 
-			br.branch_code
+			 br.branch_name
 	</select> 
 	
 	<select id="getBranchSalesStatic" parameterType="string" resultType="hashmap">
