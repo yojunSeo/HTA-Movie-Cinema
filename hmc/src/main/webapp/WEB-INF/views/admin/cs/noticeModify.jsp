@@ -107,6 +107,7 @@
 
 <script>
 $(function(){
+	// 공지사항 수정
 	$("#notice-form").submit(function(){
 		var noticeTitle = $("#title").data('notice-title');
 		var title = $.trim($("#title").val());

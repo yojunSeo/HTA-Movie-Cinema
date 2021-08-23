@@ -150,7 +150,7 @@ $(function(){
 	var modal = new bootstrap.Modal(document.getElementById("form-todo-modal"), {
 		keyboard: false
 	})
-	
+	// 약관내용 모달창 
 	$("#table-agree-register #detail").click(function(){
 		modal.show();
 	})
