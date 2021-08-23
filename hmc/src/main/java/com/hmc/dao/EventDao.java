@@ -48,9 +48,20 @@ public interface EventDao {
 	 */
 	List<Event> eventListPage(Map<String, Object> param);
 	
+	List<Event> eventListPageByProceeding(Map<String, Object> param);
+	
+	List<Event> eventListPageByWating(Map<String, Object> param);
+	
+	List<Event> eventListPageByEnd(Map<String, Object> param);
+	
+	
+	
+	
 	int getTotalRows(Map<String, Object> param);
 	
 	Event eventDetail(String eventCode);
 	
 	void deleteEvent(String eventCode);
+	
+	void updateStatus();
 }

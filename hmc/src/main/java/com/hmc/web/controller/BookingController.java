@@ -41,7 +41,7 @@ public class BookingController {
 	}
 	
 	@GetMapping("/schedule/movie")
-	public String movieSchedule() {
+	public String movieSchedule(@RequestParam(name = "code", required = false)String movieCode) {
 		return "booking/movieschedule";
 	}
 	

@@ -102,6 +102,7 @@
 
 <script>
 $(function(){
+	// 유효성 검사
 	$("#notice-form").submit(function(){
 		var status = $("#status :radio:checked").length;
 		if(status == 0){

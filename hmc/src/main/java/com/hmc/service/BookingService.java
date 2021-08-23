@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.hmc.dto.BookingDto;
+import com.hmc.vo.ScreenMovie;
 import com.hmc.vo.User;
 
 public interface BookingService {
@@ -31,5 +32,7 @@ public interface BookingService {
 	Map<String, Object> isUserDownGrade(int beforeTotalPayment, int afterTotalPayment);
 	
 	void userDownGrade(String grade);
+	
+	ScreenMovie getScreenMovieByMovieCode(String movieCode);
 	
 }

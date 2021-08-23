@@ -125,7 +125,7 @@ html, body {
 								<div class="topinfo">
 									<img src="${nowAllMovies.poster }" alt="${nowAllMovies.movieName }"> 
 									<div class="overbox">
-										<a class="btn btn-dark text-white mb-2" href="/hmc/booking/schedule/movie?=${nowAllMovies.movieCode }">  예매하기    </a><br>
+										<a class="btn btn-dark text-white mb-2" href="/hmc/booking/schedule/movie?code=${nowAllMovies.movieCode }">  예매하기    </a><br>
 										<a class="btn btn-dark text-white"href="detail?movieCode=${nowAllMovies.movieCode }">  상세정보    </a>
 									</div>
 								</div>

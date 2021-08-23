@@ -33,7 +33,7 @@ public interface ScheduleService {
 	
 	List<MovieDto> getMovieSchedule(String branchCode, String screenDate);
 	
-	Map<String, Object> getMovieSheduleinfo();
+	Map<String, Object> getMovieSheduleinfo(String movie);
 	
 	List<BranchDto> getBranchSchedule(String screenCode, String screenDate);
 	

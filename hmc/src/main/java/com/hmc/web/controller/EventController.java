@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hmc.dao.EventDao;
 import com.hmc.dao.EventJoinDao;
 import com.hmc.service.CouponService;
 import com.hmc.service.EventJoinService;
@@ -49,11 +50,15 @@ public class EventController {
 	
 	@Autowired EventJoinService eventJoinService;
 	
+	@Autowired
+	private EventDao eventDao;
+	
  	
 	// 한 페이지당 표시할 게시글 행의 개수
 	private static final int ROWS_PER_PAGE = 10;
 	// 페이지블록 당 한번에 표시할 페이지번호 개수
 	private static final int PAGES_PER_PAGE_BLOCK = 5;
+	
 	
 	
 	@GetMapping("/home")
@@ -71,7 +76,7 @@ public class EventController {
 		param.put("beginIndex", (page-1)*ROWS_PER_PAGE+1);
 		param.put("endIndex", page*ROWS_PER_PAGE);
 		System.out.println(param);
-		List<Event> events = eventService.eventListPage(param);
+		List<Event> events = eventService.eventListPageByProceeding(param);
 		System.out.println("실행됨");
 		model.addAttribute("events", events);
 		
@@ -94,8 +99,95 @@ public class EventController {
 		pagination.setEndPage(endPage);
 		
 		model.addAttribute("pagination", pagination);
+		eventDao.updateStatus();
 		
 		return "event/main";
+	}
+	
+	@GetMapping("/waitingEvent")
+	public String waitingEvent(@RequestParam(name = "page", required = false, defaultValue = "1") int page, 
+							@RequestParam(name = "opt", required = false) String searchOption, 
+							@RequestParam(name = "keyword", required = false) String searchKeyword, 
+							Model model) 
+	{
+		Map<String, Object> param = new HashMap<String, Object>();
+		if(searchOption != null && searchKeyword != null ) {
+			page=1;
+			param.put("opt", searchOption);
+			param.put("keyword", searchKeyword);
+		}
+		param.put("beginIndex", (page-1)*ROWS_PER_PAGE+1);
+		param.put("endIndex", page*ROWS_PER_PAGE);
+		System.out.println(param);
+		List<Event> events = eventService.eventListPageByWating(param);
+		System.out.println("실행됨");
+		model.addAttribute("events", events);
+		
+		int totalRows = eventService.getTotalRows(param);
+		int totalPages = (int) Math.ceil((double) totalRows/ROWS_PER_PAGE);
+		int totalPageBlocks = (int)Math.ceil((double)totalPages/PAGES_PER_PAGE_BLOCK);
+		int currentPageBlock = (int) Math.ceil((double)page/PAGES_PER_PAGE_BLOCK);
+		int beginPage = (currentPageBlock -1)*PAGES_PER_PAGE_BLOCK+1;
+		int endPage = currentPageBlock*PAGES_PER_PAGE_BLOCK;
+		if(currentPageBlock == totalPageBlocks) {
+			endPage = totalPages;
+		}
+		Pagination pagination = new Pagination();
+		pagination.setPageNo(page);
+		pagination.setTotalRows(totalRows);
+		pagination.setTotalPages(totalPages);
+		pagination.setTotalPageBlocks(totalPageBlocks);
+		pagination.setCurrentPageBlock(currentPageBlock);
+		pagination.setBeginPage(beginPage);
+		pagination.setEndPage(endPage);
+		
+		model.addAttribute("pagination", pagination);
+		eventDao.updateStatus();
+		
+		return "event/waitingEvent";
+	}
+	
+	@GetMapping("/endEvent")
+	public String endEvent(@RequestParam(name = "page", required = false, defaultValue = "1") int page, 
+							@RequestParam(name = "opt", required = false) String searchOption, 
+							@RequestParam(name = "keyword", required = false) String searchKeyword, 
+							Model model) 
+	{
+		Map<String, Object> param = new HashMap<String, Object>();
+		if(searchOption != null && searchKeyword != null ) {
+			page=1;
+			param.put("opt", searchOption);
+			param.put("keyword", searchKeyword);
+		}
+		param.put("beginIndex", (page-1)*ROWS_PER_PAGE+1);
+		param.put("endIndex", page*ROWS_PER_PAGE);
+		System.out.println(param);
+		List<Event> events = eventService.eventListPageByEnd(param);
+		System.out.println("실행됨");
+		model.addAttribute("events", events);
+		
+		int totalRows = eventService.getTotalRows(param);
+		int totalPages = (int) Math.ceil((double) totalRows/ROWS_PER_PAGE);
+		int totalPageBlocks = (int)Math.ceil((double)totalPages/PAGES_PER_PAGE_BLOCK);
+		int currentPageBlock = (int) Math.ceil((double)page/PAGES_PER_PAGE_BLOCK);
+		int beginPage = (currentPageBlock -1)*PAGES_PER_PAGE_BLOCK+1;
+		int endPage = currentPageBlock*PAGES_PER_PAGE_BLOCK;
+		if(currentPageBlock == totalPageBlocks) {
+			endPage = totalPages;
+		}
+		Pagination pagination = new Pagination();
+		pagination.setPageNo(page);
+		pagination.setTotalRows(totalRows);
+		pagination.setTotalPages(totalPages);
+		pagination.setTotalPageBlocks(totalPageBlocks);
+		pagination.setCurrentPageBlock(currentPageBlock);
+		pagination.setBeginPage(beginPage);
+		pagination.setEndPage(endPage);
+		
+		model.addAttribute("pagination", pagination);
+		eventDao.updateStatus();
+		
+		return "event/endEvent";
 	}
 	
 	@GetMapping("/detail")
@@ -105,6 +197,7 @@ public class EventController {
 		Event event = eventService.getEventByCode(eventCode);
 		EventJoin eventJoin = (EventJoin) eventJoinService.getEventJoinByEventCode(eventCode);
 		
+		System.out.println(event);
 		
 		model.addAttribute("event", event);
 		model.addAttribute("events", events);

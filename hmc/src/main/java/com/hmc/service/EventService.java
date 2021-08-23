@@ -20,6 +20,12 @@ public interface EventService {
 	
 	List<Event> eventListPage(Map<String, Object> param);
 	
+	List<Event> eventListPageByProceeding(Map<String, Object> param);
+	
+	List<Event> eventListPageByWating(Map<String, Object> param);
+	
+	List<Event> eventListPageByEnd(Map<String, Object> param);
+	
 	Event getEventByCode(String code);
 	
 	Event getEventDetail(String eventCode);

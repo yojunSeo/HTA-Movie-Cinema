@@ -46,6 +46,24 @@ public class EventServiceImpl implements EventService {
 	}
 	
 	@Override
+	public List<Event> eventListPageByProceeding(Map<String, Object> param) {
+		List<Event> events = eventDao.eventListPageByProceeding(param);
+		return events;
+	}
+	
+	@Override
+	public List<Event> eventListPageByEnd(Map<String, Object> param) {
+		List<Event> events = eventDao.eventListPageByEnd(param);
+		return events;
+	}
+	
+	@Override
+	public List<Event> eventListPageByWating(Map<String, Object> param) {
+		List<Event> events = eventDao.eventListPageByWating(param);
+		return events;
+	}
+	
+	@Override
 	public void insertEvent(Event event) {
 		eventDao.insertEvent(event);
 		

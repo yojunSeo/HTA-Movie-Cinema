@@ -6,7 +6,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<title>이벤트 페이지</title>
+<title>이벤트관리-HMC</title>
 <style>
 </style>
 </head>
@@ -29,42 +29,53 @@
                      <div class="border p-2 bg-light">
                         <table class="table" id="event-table">
                            <colgroup>
+                              <col width="5%">
                               <col width="10%">
                               <col width="*">
-                              <col width="20%">
-                              <col width="20%">
+                              <col width="15%">
+                              <col width="15%">
+                              <col width="7%">
                               <col width="10%">
-                              <col width="10%">
+                              <col width="7%">
                            </colgroup>
-                           <thead>
+                           <thead class="text-center">
                               <tr>
                                  <th>번호</th>
+                                 <th>이벤트코드</th>
                                  <th>제목</th>
                                  <th>시작일</th>
                                  <th>마감일</th>
                                  <th>상태</th>
-                                 <th>기타</th>
+                                 <th>당첨결과</th>
+                                 <th></th>
                               </tr>
                            </thead>
                            <tbody>
                               <c:choose>
                                  <c:when test="${empty events }">
                                     <tr>
-                                       <td colspan="4">진행중인 이벤트가 없습니다.</td>
+                                       <td colspan="7">진행중인 이벤트가 없습니다.</td>
                                     </tr>
                                  </c:when>
                                  <c:otherwise>
-                                    <c:forEach var="events" items="${events }">
-                                       <tr id="events-${events.code }" data-event-code="${events.code }" class="align-middle">
-                                          <th>${events.code }</th>
-                                          <td style="cursor:pointer;">
-                                          <a id="btn-event-modify" class="joins" data-event-code="${events.code }">
-                                          ${events.title }</a>
-                                          </td>                  
-                                          <td><fmt:formatDate value="${events.startDate }" pattern="yyyy년  M월  d일"/></td>                  
-                                          <td><fmt:formatDate value="${events.endDate }" pattern="yyyy년  M월  d일"/></td>
-                                          <td>${events.status }</td>   
-                                          <td><button id="btn-event-delete" class="btn btn-outline-danger btn-sm rm-2" data-event-code="${events.code }">삭제</button></td>
+                                    <c:forEach var="event" items="${events }" varStatus="status">
+                                       <tr id="event-${event.code }" data-event-code="${event.code }" class="align-middle">
+                                          <td class="text-center">${status.count + (pagination.pageNo-1) * 10}</td>
+                                          <td class="text-center">${event.code }</td>
+                                          <td class="modifyEvent" style="cursor:pointer;"><a>${event.title }</a></td>                  
+                                          <td class="text-center"><fmt:formatDate value="${event.startDate }" pattern="yyyy년  M월  d일"/></td>                  
+                                          <td class="text-center"><fmt:formatDate value="${event.endDate }" pattern="yyyy년  M월  d일"/></td>
+                                          <td class="text-center">
+                                          		<c:choose>
+                                          			<c:when test="${event.status eq 'Y' }">진행중</c:when>
+													<c:when test="${event.status eq 'S' }">대기</c:when>
+													<c:when test="${event.status eq 'N' }">종료</c:when>
+													<c:when test="${event.status eq 'A' }">상시</c:when>
+                                          		</c:choose>
+                                          		
+                                          </td>
+                                          <td class="text-center"><button id="btn-open-join-modal" class="btn btn-outline-primary btn-sm rm-2" data-event-code="${event.code }">조회</button> </td>
+                                          <td class="text-center"><button id="btn-event-delete" class="btn btn-outline-danger btn-sm rm-2" data-event-code="${event.code }">삭제</button></td>
                                        </tr>         
                                     </c:forEach>
                                  </c:otherwise>
@@ -110,7 +121,8 @@
                </div>
                <div class="modal-body">
                   <form action="insertEvent" method="post" id="form-event">
-                     <table class="table" id="table-event">
+					 <input type="hidden" name="code" id="event-code">
+                     <table class="table" id="table-modal-event">
                         <tbody>
                               <tr>
                                  <td>
@@ -119,7 +131,7 @@
                                        <input type="text" class="form-control bg-light" name="title" id="title" placeholder="제목을 입력해주세요">
                                     </div>
                                     <div class="col-3">
-                                       <input type="text" class="form-control bg-light" name="writer" id="writer" placeholder="${user }" readonly>
+                                       <input type="text" class="form-control bg-light" name="writer" id="writer" placeholder="${LOGINED_USER.id }" readonly>
                                     </div>
                                  </div>
                                  </td>
@@ -178,9 +190,10 @@
                               <td>
                                  <select class="form-select-status" aria-label="Default select example" id="status" name="status">
                                    <option value="0" selected>상태</option>
-                                   <option value="대기">대기</option>
-                                   <option value="진행준">진행중</option>
-                                   <option value="종료">종료</option>
+                                   <option value="S">대기</option>
+                                   <option value="A">상시</option>
+                                   <option value="Y">진행중</option>
+                                   <option value="N">종료</option>
                                  </select>
                               </td>
                            </tr>
@@ -188,8 +201,8 @@
                      </table>
                      <div class="row my-3 text-center my-5">
                      <div class="col-12">
-                        <a href="../event/eventList" class="btn btn-dark btn-lg w-25 text-light">취소</a>
-                        <button type="submit" id="btn-save" class="btn btn-danger btn-lg w-25 text-light" >등록</button>
+                        <button type="button" id="btn-cancle" class="btn btn-dark btn-lg w-25 text-light" >취소</button>
+                        <button type="button" id="btn-save" class="btn btn-danger btn-lg w-25 text-light" >등록</button>
                      </div>
                   </div>
                </form>
@@ -233,12 +246,17 @@
                               </c:otherwise>
                               
                            </c:choose>
-                     
                         </tbody>
                         </table>
                   </form>
+                  <form id="form-eventjoin">
+							<div><input type="hidden" id="eventCode" name="eventCode" value="${event.code }"></div>
+							<div><input type="hidden" id="couponCode" name="couponCode" value="${event.couponCode }"></div>
+							<div><input type="hidden" id="userId" name="userId" value="${LOGINED_USER.id }"></div>
+					</form>
                </div>
                <div class="modal-footer">
+               		<button type="button" class="btn btn-primary" id="btn-post-event">뽑기</button>
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
                </div>
             </div>
@@ -249,8 +267,14 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
+// 이벤트 삭제
 $("#event-table tbody").on('click', '.btn-outline-danger', function() {
-   console.log("삭제");
+   
+	var result = confirm("정말삭제하시겠습니까?");
+	if(!result) {
+		return;
+	}
+	
    var $tr = $(this).closest("tr");
    $.ajax({
       type: "GET",
@@ -263,118 +287,186 @@ $("#event-table tbody").on('click', '.btn-outline-danger', function() {
 });
 
 $(function(){
-   var request = "등록"
-   var requestURI
-   var eventModal = new bootstrap.Modal(document.getElementById("form-event-modal"), {
+   	var request = "등록"
+   	var requestURI
+   	var eventModal = new bootstrap.Modal(document.getElementById("form-event-modal"), {
       keyboard: false
-   })
-   // 새 이벤트
-   $("#btn-open-event-modal").click(function(){
-      console.log("등록 실행이에요");
-      request = "등록"
-         code:$("#code").val();
-      
-      $("#btn-save").text("등록");
-      
-      eventModal.show();
-   })
-   
-   // 등록 버튼
-   $("#btn-save").click(function() {
-      
-      $("#form-event").prop("action", requestURI);
-      // 유효성 검사
-      if(!$("#title").val()) {
-         alert("제목을 입력하세요");
-         $("#title").focus();
-         return false;
-      }
-      if(!$("#eventContent").val()) {
-         alert("내용을 입력하세요")
-         $("#eventContent").focus();
-         return false;
-      }
-      if(!$("#startDate").val()) {
-         alert("시작일을 입력하세요")
-         $("#startDate").focus();
-         return false;
-      }
-      if(!$("#endDate").val()) {
-         alert("마감일을 입력하세요")
-         $("#endDate").focus();
-         return false;
-      }
-      if($("#selectCoupon").val()==0) {
-         alert("쿠폰을 선택해주세요")
-         $("#selectCoupon").focus();
-         return false;
-      }
-      if($("#couponAmount").val()==0) {
-         alert("쿠폰수를 선택하세요")
-         $("#couponAmount").focus();
-         return false;
-      }
-      if($("#status").val()==0) {
-         alert("상태를 선택하세요")
-         $("#status").focus();
-         return false;
-      }
-      
-      $("#form-event").submit();
-      console.log("등록이 됌니다!");
-   })
-   
-   // 삭제버튼
-   $("#table-event tbody").on('click', '.btn-outline-danger', function() {
-      var $tr = $(this).closest("tr");
-      $.ajax({
-         type: "GET",
-         url: "/admin/event/delete",
-         data: {code: $(this).data("event-code")},
-         success: function() {
-            $tr.remove();
-         }
-      });
-   });
-   
-   function makeRow(event) {
-      var row = "<tr  class='align-middle' id='events-"+events.code+"'>"
-      row += "<td>"+events.code+"</td>";
-      row += "<td>"+events.title+"</td>";
-      row += "<td>"+events.startDate+"</td>";
-      row += "<td>"+events.endDate+"</td>";
-      row += "<td>"+events.status+"</td>";
-      row += "</tr>";
-      return row;
-   }
-   
-   
-
-   var joinModal = new bootstrap.Modal(document.getElementById("form-join-modal"), {
-      keyboard: false
-   })
-   
-   
-   // 참여한 인원
-   $("#event-table tbody").on('click', '.joins', function() {
-      
-      var eventCode = $(this).data('event-code');
-      console.log(eventCode);
-      $.getJSON('joins', {code:eventCode}, function(joins){
-         var $tbody = $("#table-join tbody").empty();
-         console.log(eventCode);
-         $.each(joins, function(index,joins){
-            console.log(eventCode);
-            console.log(joins.userId);
-            var row = "<tr>"
-            row += "<td>"+joins.userId+"</td>"
-            row += "<td>"+joins.result+"</td>"
-            row += "</tr>"
-            $tbody.append(row);
-         })
-         joinModal.show();         
-      })
-   })
+   	})
+	var today = new Date;
+	var todayDate = today.getFullYear() + "-" + 0 +(today.getMonth()+1) + "-" + today.getDate();
+	// 새 이벤트
+	$("#btn-open-event-modal").click(function(){
+	   request = "등록"
+	      code:$("#code").val();
+	   $("#btn-save").text("등록");
+	   console.log(todayDate)
+	   eventModal.show();
+	})
+	
+	// 이벤트등록 모달 취소 버튼 클릭시
+	$("#btn-cancle").click(function() {
+	 eventModal.hide(); 
+	})
+	
+	// 이벤트등록 모달 등록 버튼 클릭시
+	$("#btn-save").click(function() {
+	   
+	   $("#form-event").prop("action", requestURI);
+	   // 유효성 검사
+	   if(!$("#title").val()) {
+	      alert("제목을 입력하세요");
+	      $("#title").focus();
+	      return false;
+	   }
+	   if(!$("#eventContent").val()) {
+	      alert("내용을 입력하세요")
+	      $("#eventContent").focus();
+	      return false;
+	   }
+	   if(!$("#startDate").val()) {
+	      alert("시작일을 입력하세요")
+	      var startDate = $("#startDate").val()
+	      $("#startDate").focus();
+	      return false;
+	   }
+	   if(!$("#endDate").val()) {
+	      alert("마감일을 입력하세요")
+	      $("#endDate").focus();
+	      return false;
+	   }
+	   if($("#selectCoupon").val()==0) {
+	      alert("쿠폰을 선택해주세요")
+	      $("#selectCoupon").focus();
+	      return false;
+	   }
+	   if($("#couponAmount").val()==0) {
+	      alert("쿠폰수를 선택하세요")
+	      $("#couponAmount").focus();
+	      return false;
+	   }
+	   if($("#status").val()==0) {
+	      alert("상태를 선택하세요")
+	      $("#status").focus();
+	      return false;
+	   }
+	   
+	   // 날짜 비교
+	   var startDate = $("#startDate").val();
+	   var endDate = $("#endDate").val();
+	   if(todayDate > startDate){
+		   alert("오늘 이전 날짜를 선택할 수 없습니다.")
+		   return false;
+		}
+	   if(startDate > endDate){
+		   alert("마감일을 시작일 이전 날짜로 선택할 수 없습니다.")
+		   return false;
+	   }
+	   
+	   $("#form-event").submit();
+	})
+	
+	
+	function makeRow(event) {
+	   var row = "<tr  class='align-middle' id='events-"+events.code+"'>"
+	   row += "<td>"+events.code+"</td>";
+	   row += "<td>"+events.title+"</td>";
+	   row += "<td>"+events.startDate+"</td>";
+	   row += "<td>"+events.endDate+"</td>";
+	   row += "<td>"+events.status+"</td>";
+	   row += "</tr>";
+	   return row;
+	}
+	
+	
+	
+	var joinModal = new bootstrap.Modal(document.getElementById("form-join-modal"), {
+	   keyboard: false
+	})
+	
+	
+	// 참여한 인원
+	$("#event-table tbody").on('click', '#btn-open-join-modal', function() {
+	   
+	   var eventCode = $(this).data('event-code');
+	   $.getJSON('joins', {code:eventCode}, function(joins){
+	      var $tbody = $("#table-join tbody").empty();
+	      $.each(joins, function(index,joins){
+	         var row = "<tr>"
+	         row += "<td>"+joins.userId+"</td>"
+	         row += "<td>"+joins.result+"</td>"
+	         row += "</tr>"
+	         $tbody.append(row);
+	      })
+	      joinModal.show();         
+	   })
+	})
+	
+	// 수정
+	
+	$("#event-table tbody").on('click', '.modifyEvent', function(event){
+		
+		request = "수정";
+		requestURI = "/hmc/admin/event/modify";
+		data:{
+			title:$("#title").val();
+			eventContent:$("#eventContent").val();
+			startDate:$("#startDate").val();
+			endDate:$("#endDate").val();
+			selectCoupon:$("#selectCoupon").val();
+			couponAmount:$("#couponAmount").val();
+		};
+		$("#btn-save").text("수정");
+		console.log("수정 실행임니당");
+		var b = $("#eventContent").val();
+		console.log(b);
+		var a = $("#event-code").text(event.code);
+		console.log(a);
+		event.preventDefault();
+		data: {code: $(this).data("event-code")}
+		$.getJSON("/hmc/admin/event/detail?code=" + $(this).data("event-code"))
+			.done(function(events) {
+				console.log("콘솔");
+				$("#event-code").val(events.code);
+				$("#title").val(events.title);
+				$("#eventContent").val(events.content);
+				$("#writer").val(events.writer);
+				$("#startDate").val(events.startDate);
+				$("#endDate").val(events.endDate);
+				$("#selectCoupon").val(events.selectCoupon);
+				$("#couponAmount").val(events.couponAmount);
+				eventModal.show();
+			})
+			
+		
+		
+	})
+	
+	
+	// 뽑기
+	var is_action =false;
+	
+	$("#btn-post-event").click(function() {
+		if(is_action == true){
+			return false;
+		}
+		$.ajax({
+			type: "POST",
+			url: "/hmc/admin/event/draw",
+			data:{
+				eventCode:$("#eventCode").val(),
+				couponCode:$("#couponCode").val(),
+				userId:$("#userId").val()
+				},
+			dataType: 'json',
+			success: function(eventJoin) {
+				console.log(eventJoin);
+			},
+			complete: function() {
+				eventModal.hide();
+			}
+		});
+		console.log("등록이 됌니다!");
+	})
    
 })
 

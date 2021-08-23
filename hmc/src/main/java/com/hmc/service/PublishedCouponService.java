@@ -11,4 +11,5 @@ public interface PublishedCouponService {
 	
 	List<Map<String, Object>> getMyCouponsByUserId(Map<String, Object> param);
 	
+	List<PublishedCoupon> getDateByPublishedCoupon(String couponCode);
 }

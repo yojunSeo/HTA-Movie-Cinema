@@ -49,7 +49,7 @@ public class AdminController {
 	
 	@GetMapping("/rest/static/branch/booking")
 	public @ResponseBody ResponseEntity<List<Map<String, Object>>> getBranchBookingStaticData(@RequestParam("date")String date){
-		List<Map<String, Object>> results = staticService.getBranchBookingRateStatic();
+		List<Map<String, Object>> results = staticService.getBranchBookingRateStatic(date);
 		return new ResponseEntity<List<Map<String, Object>>>(results, HttpStatus.OK);
 	}
 }

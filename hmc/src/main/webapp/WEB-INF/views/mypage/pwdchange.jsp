@@ -164,7 +164,7 @@ html, body {
 			   })
 		   })
 	   })
-	   
+	   // 유효성 검사
 	   $("#changePwd-form").submit(function(){
 		   var password = $.trim($("#password").val());
 			if(!password){

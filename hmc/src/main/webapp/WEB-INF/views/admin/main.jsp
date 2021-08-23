@@ -19,7 +19,7 @@
 						<%@include file ="sidebar.jsp"%>
 					</div>
 					<div class="col-10">
-						<h4 class="my-5">사용자 통계</h4>
+						<h4 class="my-3 fw-bold">사용자 통계</h4>
 							<div class="row" id="user-chart">
 								<div class="col-6">
 									<p class="fs-5">[사용자 성별]</p>
@@ -30,7 +30,7 @@
 									<canvas id="age-chart"></canvas>
 								</div>
 							</div>
-						<h4 class="my-5" id="branch-chart">지점별 통계</h4>
+						<h4 class="my-3 fw-bold" id="branch-chart">지점별 통계</h4>
 							<div class="row">
 								<div class="col-10">
 									<p class="fs-5">[지점별 매출]  <button type="button" id="search-sales" class="btn btn-outline-primary mx-3">조회</button>
@@ -41,13 +41,26 @@
 										<select class="form-select mx-2" id="sales-date" style="width: 300px">
 										</select>
 									</div>
-									<canvas id="sales-chart" class="my-5"></canvas>
+									<p id="non-sales"></p>
+									<div id="sales-canvas-zone">
+										<canvas id="sales-chart" class="my-5"></canvas>
+									</div>
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-12">
-									<p class="fs-5 my-5">[지점별 예매율]</p>
-									<canvas id="booking-chart"></canvas>
+								<div class="col-10">
+									<p class="fs-5">[지점별 예매울]  <button type="button" id="search-booking" class="btn btn-outline-primary mx-3">조회</button>
+									</p>
+									<div class="row">
+										<select class="form-select" id="booking-month" style="width: 300px">
+										</select>
+										<select class="form-select mx-2" id="booking-date" style="width: 300px">
+										</select>
+									</div>
+									<p id="non-booking"></p>
+									<div id="booking-canvas-zone">
+										<canvas id="booking-chart" class="my-5"></canvas>
+									</div>
 								</div>
 							</div>
 					</div>
@@ -116,24 +129,53 @@ $(function(){
 		}
 	});
 	
-	$salesMonth = "<option selected disaled>월을 선택하세요</option>";
-	for(i=1; i<=month; i++){
-		$salesMonth += "<option value='"+i+"'>"+i+"월</option>";
-	}
-	$('#sales-month').append($salesMonth);
+	(function(){
+		var today = new Date();
+		var year = today.getFullYear();
+		var month = ('0' + (today.getMonth() + 1)).slice(-2);
+		var day = ('0' + today.getDate()).slice(-2);
+		var dateString = year + '-' + month  + '-' + day;
+		ajaxSales(dateString);
+		ajaxBooking(dateString);
+		
+		$month = "<option selected disaled>월을 선택하세요</option>";
+		for(i=1; i<=month; i++){
+			if(i == month){
+				$month += "<option value='"+i+"' selected>"+i+"월</option>";		
+			}else{
+				$month += "<option value='"+i+"'>"+i+"월</option>";			
+			}
+		}
+		$('#sales-month').append($month);
+		$('#booking-month').append($month);
+		
+		selectWeek(month, '#sales-date');
+		selectWeek(month, '#booking-date');
+		
+	})();
+	
 	
 	$('#sales-month').on('change', function(){
 		var sMonth = $(this).val();
-		var weeks = printWeek(sMonth);
-		
-		$('#sales-date').empty();
-		$salesWeek = "<option selected disabled>주를 선택하세요</option>";
-		for(i=0; i<weeks.length; i++){
-			$salesWeek += "<option>"+weeks[i]+"</option>";
-		}
-		$('#sales-date').append($salesWeek);
+		selectWeek(sMonth, '#sales-date');
 	});
 	
+	$('#booking-month').on('change', function(){
+		var sMonth = $(this).val();
+		selectWeek(sMonth, '#booking-date');
+	});
+	
+	function selectWeek(month, id){
+		var weeks = printWeek(month);
+		var weekDays = weeks.weekDays;
+		var weekFirsts = weeks.weekFirsts;
+		$(id).empty();
+		$week = "<option selected disabled>주를 선택하세요</option>";
+		for(i=0; i<weekDays.length; i++){
+			$week += "<option value='"+weekFirsts[i]+"'>"+weekDays[i]+"</option>";
+		}
+		$(id).append($week);
+	}
 	
 	function formatDate(date) {
 	       var mymonth = date.getMonth()+1;
@@ -148,7 +190,6 @@ $(function(){
 		var lastDay = (new Date(2021, month-1, 0)).getDate();
 		for(i=0; i<=5; i++){
 			var day = (i*7)+1;
-			console.log(day)
 			var now = new Date(2021, month-1, day);
 			if(day>lastDay){
 				return resultWeeks;
@@ -164,54 +205,108 @@ $(function(){
 		    var weekStartDate = new Date(nowYear, nowMonth, nowDay - nowDayOfWeek + 1);
 		    var weekEndDate = new Date(nowYear, nowMonth, nowDay + (6 - nowDayOfWeek) + 1);
 		    var weekData = formatDate(weekStartDate) + " - " + formatDate(weekEndDate);
-		    if(weekDays[weekDays.length-1] != weekData){
+		    
+			var firstYear = weekStartDate.getFullYear();
+			var firstMonth = ('0' + (weekStartDate.getMonth() + 1)).slice(-2);
+			var firstDay = ('0' + weekStartDate.getDate()).slice(-2);
+			var dateString = firstYear + '-' + firstMonth  + '-' + firstDay;
+		   
+			if(weekDays[weekDays.length-1] != weekData){
 		    	weekDays.push(weekData);
+		    	weekFirsts.push(dateString);
 		    }
 		}
 		return resultWeeks;
 	}
 	
+	$('#search-booking').on('click', function(){
+		$('#booking-canvas-zone').empty();
+		$('#booking-canvas-zone').append('<canvas id="booking-chart" class="my-5"></canvas>');
+		var startDate = $('#booking-date').val();
+		if(!startDate){
+			alert("조회할 주를 선택해주세요!");
+			return false;
+		}
+		ajaxBooking(startDate);
+	});
+	
+	function ajaxBooking(startDate){
+		$.ajax({
+			type:"GET",
+			url:'rest/static/branch/booking',
+			data:{date:startDate},
+			dataType:"json"
+		}).done(function(booking){
+			console.log(booking);
+			if(booking.length !=0){
+				$('#non-sales').text('');
+				console.log(booking);
+				var bookedSeats = [booking[0].BOOKEDSEATS, booking[1].BOOKEDSEATS, booking[2].BOOKEDSEATS,
+					booking[3].BOOKEDSEATS, booking[4].BOOKEDSEATS, booking[5].BOOKEDSEATS, booking[6].BOOKEDSEATS]; 
+				var scheduleCnt = [booking[0].SCHEDULECNT, booking[1].SCHEDULECNT, booking[2].SCHEDULECNT,
+					booking[3].SCHEDULECNT, booking[4].SCHEDULECNT, booking[5].SCHEDULECNT, booking[6].SCHEDULECNT];
+				var bookingChart = $('#booking-chart'); 
+				var mixedChart = { type: 'bar', labels: [booking[0].BRANCHNAME, booking[1].BRANCHNAME, booking[2].BRANCHNAME,
+					booking[3].BRANCHNAME, booking[4].BRANCHNAME, booking[5].BRANCHNAME, booking[6].BRANCHNAME], 
+						datasets : [ { label: '예매된 좌석 수', data : bookedSeats, backgroundColor: 'rgba(232, 46, 46, 0.5)' }, 
+							{ label: '스케줄 수', data: scheduleCnt, backgroundColor: 'transparent', borderColor: 
+								'skyblue', type: 'line' } ] }; var myChart = new Chart(bookingChart, { type: 'bar', 
+									data: mixedChart, options: { legend: { display: true } } });
+
+			}else{
+				$('#non-booking').addClass('mt-5 text-center fs-5 fw-bold');
+				$('#non-booking').text('해당 기간에 조회된 데이터가 없습니다.');
+			}
+		});
+	}
+	
+	function ajaxSales(startDate){
+		$.ajax({
+			type:"GET",
+			url:'rest/static/branch/sales',
+			data:{date:startDate},
+			dataType:"json"
+		}).done(function(sales){
+			if(sales.length != 0){
+				$('#non-sales').text('');
+				var salesZone = $('#sales-chart'); 
+				var salesChart = new Chart(salesZone, 
+					{	type: 'bar', 
+						data: 
+						{ 	labels: [sales[0].BRANCH_NAME, sales[1].BRANCH_NAME, sales[2].BRANCH_NAME, sales[3].BRANCH_NAME,
+							sales[4].BRANCH_NAME, sales[5].BRANCH_NAME, sales[6].BRANCH_NAME], 
+							datasets: [{ label: '단위(원)', 
+										data: [sales[0].SUM, sales[1].SUM, sales[2].SUM, sales[3].SUM,sales[4].SUM, 
+											sales[5].SUM, sales[6].SUM], 
+										backgroundColor:
+										[ 'rgba(232, 46, 46, 0.5)', 'rgba(54, 162, 235, 0.5)', 
+											'rgba(255, 206, 86, 0.5)', 'rgba(75, 192, 192, 0.5)', 
+											'rgba(153, 102, 255, 0.5)', 'rgba(255, 159, 64, 0.5)', 'rgba(31, 72, 175, 0.5)' ], 
+										borderColor: 
+										[ 'rgba(232, 46, 46, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 
+											'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)', 'rgba(31, 72, 175, 1)' ], 
+										borderWidth: 1 
+									}] 
+						}, 
+						options: { scales: { yAxes: [{ ticks: { beginAtZero: true } }] } }});
+			}else{
+				$('#non-sales').addClass('mt-5 text-center fs-5 fw-bold');
+				$('#non-sales').text('해당 기간에 조회된 데이터가 없습니다.');
+			}
+		})
+	}
+	
 	$('#search-sales').on('click', function(){
-		console.log('조회')
+		$('#sales-canvas-zone').empty();
+		$('#sales-canvas-zone').append('<canvas id="sales-chart" class="my-5"></canvas>');
+		var startDate = $('#sales-date').val();
+		if(!startDate){
+			alert("조회할 주를 선택해주세요!");
+			return false;
+		}
+		ajaxSales(startDate);
 	})
 	
-	var today = new Date();
-
-	var year = today.getFullYear();
-	var month = ('0' + (today.getMonth() + 1)).slice(-2);
-	var day = ('0' + today.getDate()).slice(-2);
-
-	var dateString = year + '-' + month  + '-' + day;
-	
-	$.ajax({
-		type:"GET",
-		url:'rest/static/branch/sales',
-		data:{date:dateString},
-		dataType:"json"
-	}).done(function(sales){
-		console.log(sales);
-		var salesZone = $('#sales-chart'); 
-		var salesChart = new Chart(salesZone, 
-			{	type: 'bar', 
-				data: 
-				{ 	labels: [sales[0].BRANCH_NAME, sales[1].BRANCH_NAME, sales[2].BRANCH_NAME, sales[3].BRANCH_NAME,
-					sales[4].BRANCH_NAME, sales[5].BRANCH_NAME, sales[6].BRANCH_NAME], 
-					datasets: [{ label: '단위(원)', 
-								data: [sales[0].SUM, sales[1].SUM, sales[2].SUM, sales[3].SUM,sales[4].SUM, 
-									sales[5].SUM, sales[6].SUM], 
-								backgroundColor:
-								[ 'rgba(232, 46, 46, 0.5)', 'rgba(54, 162, 235, 0.5)', 
-									'rgba(255, 206, 86, 0.5)', 'rgba(75, 192, 192, 0.5)', 
-									'rgba(153, 102, 255, 0.5)', 'rgba(255, 159, 64, 0.5)', 'rgba(31, 72, 175, 0.5)' ], 
-								borderColor: 
-								[ 'rgba(232, 46, 46, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 
-									'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)', 'rgba(31, 72, 175, 1)' ], 
-								borderWidth: 1 
-							}] 
-				}, 
-				options: { scales: { yAxes: [{ ticks: { beginAtZero: true } }] } } });
-
-	})
 	
 })
 	

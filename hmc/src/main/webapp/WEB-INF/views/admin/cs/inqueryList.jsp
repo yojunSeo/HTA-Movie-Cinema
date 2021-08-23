@@ -102,6 +102,7 @@
 
 <script>
 $(function(){
+	// 상세페이지 이동
 	$("#inquery-table tr").click(function(){
 		var inqueryCode = $(this).data('inquery-code');
 		location.href = "inqueryDetail?code="+inqueryCode;
