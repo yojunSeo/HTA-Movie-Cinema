@@ -130,7 +130,7 @@ html, body {
 			<div class="row">
 				<div class="wrapper mt-5 mb-3">
 					<ul class="nowmovie">
-						<h5><strong>현재 상영작 <span style="color:#FF243E;">TOP 5</span></strong></h5>
+						<h5><strong>박스오피스 상영작 <span style="color:#FF243E;">TOP 5</span></strong></h5>
 						<c:forEach var="nowMovies" items="${nowMovies }">
 							<li class="mt-2" style="margin-left:5px; margin-right:5px;">
 								<div class="topinfo">
@@ -160,7 +160,7 @@ html, body {
 			<div class="row">
 				<div class="wrapper mt-5">
 					<ul class="commingsoonmovie">
-						<h5><strong>상영 예정작 <span style="color:#FF243E;">TOP 5</span></strong></h5>
+						<h5><strong>박스오피스 상영 예정작</strong></h5>
 						<c:forEach var="commingMovies" items="${commingMovies }">
 							<li class="mt-2" style="margin-left:5px; margin-right:5px;">
 								<div class="topinfo">
