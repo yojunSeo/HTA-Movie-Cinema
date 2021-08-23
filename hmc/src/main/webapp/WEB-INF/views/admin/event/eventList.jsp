@@ -246,12 +246,17 @@
                               </c:otherwise>
                               
                            </c:choose>
-                     
                         </tbody>
                         </table>
                   </form>
+                  <form id="form-eventjoin">
+							<div><input type="hidden" id="eventCode" name="eventCode" value="${event.code }"></div>
+							<div><input type="hidden" id="couponCode" name="couponCode" value="${event.couponCode }"></div>
+							<div><input type="hidden" id="userId" name="userId" value="${LOGINED_USER.id }"></div>
+					</form>
                </div>
                <div class="modal-footer">
+               		<button type="button" class="btn btn-primary" id="btn-post-event">뽑기</button>
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
                </div>
             </div>
@@ -412,8 +417,11 @@ $(function(){
 		};
 		$("#btn-save").text("수정");
 		console.log("수정 실행임니당");
-		event.preventDefault();
+		var b = $("#eventContent").val();
+		console.log(b);
 		var a = $("#event-code").text(event.code);
+		console.log(a);
+		event.preventDefault();
 		data: {code: $(this).data("event-code")}
 		$.getJSON("/hmc/admin/event/detail?code=" + $(this).data("event-code"))
 			.done(function(events) {
@@ -431,6 +439,33 @@ $(function(){
 			
 		
 		
+	})
+	
+	
+	// 뽑기
+	var is_action =false;
+	
+	$("#btn-post-event").click(function() {
+		if(is_action == true){
+			return false;
+		}
+		$.ajax({
+			type: "POST",
+			url: "/hmc/admin/event/draw",
+			data:{
+				eventCode:$("#eventCode").val(),
+				couponCode:$("#couponCode").val(),
+				userId:$("#userId").val()
+				},
+			dataType: 'json',
+			success: function(eventJoin) {
+				console.log(eventJoin);
+			},
+			complete: function() {
+				eventModal.hide();
+			}
+		});
+		console.log("등록이 됌니다!");
 	})
    
 })

@@ -105,21 +105,20 @@
 	
 	<select id="couponListPageByPublished" resultType="com.hmc.vo.Coupon" parameterType="map">
 		select
-		    v.coupon_code code,
-		    v.coupon_type type,
-		    v.coupon_name name,
-		    v.event_code eventCode
+			v.coupon_code code,
+			v.coupon_type type,
+			v.coupon_name name,
+			v.event_code eventCode
 		from(
-		    select
-		        row_number() over (order by c.coupon_code desc) rn,
-		        c.coupon_code , c.coupon_type, c.coupon_name, e.event_code
-		    from
-		        t_coupon c, t_event e
-		    order by c.coupon_code desc
-		) v
-		where
-		    rn between #{beginIndex} and #{endIndex}
-		    and exists (select 1
+			select
+				row_number() over (order by coupon_code desc) rn,
+				coupon_code , coupon_type,coupon_name, event_code
+			from
+				t_coupon
+			order by coupon_code desc
+		)v
+         where rn between #{beginIndex} and #{endIndex}
+        and exists (select 1
 		            from t_published_coupon p
 		            where v.coupon_code = p.coupon_code)
 		order by coupon_code desc

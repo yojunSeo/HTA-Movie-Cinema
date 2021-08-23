@@ -165,7 +165,7 @@ public class AdminEventController {
 	}
 	
 	
-	@GetMapping("/detail2")
+	@GetMapping("/detail")
 	public String eventDetail(@RequestParam("no") String eventCode, @LoginUser User user, Model model) {
 		
 		Event events = eventService.eventDetail(eventCode);
@@ -184,8 +184,7 @@ public class AdminEventController {
 	public String eventJoin(@RequestParam(value="eventCode",required=false) String eventCode,
 			@RequestParam("userId") String userId ,
 			@RequestParam("couponCode") String couponCode,Model model) {
-		System.out.println(couponCode);
-		System.out.println(eventCode);
+
 		eventJoindao.eventDraw(eventCode);
 		
 		PublishedCoupon publishedCoupon = new PublishedCoupon();
@@ -240,7 +239,7 @@ public class AdminEventController {
 	}
 	
 	
-	@RequestMapping("/detail")
+	@RequestMapping("/detail2")
 	public @ResponseBody ResponseEntity<Event> detail(@RequestParam("code") String eventCode, @LoginAdmin User loginAdmin) {
 		Event savedEvent = eventDao.getEventByCode(eventCode);
 		System.out.println("디테일 실행됨");

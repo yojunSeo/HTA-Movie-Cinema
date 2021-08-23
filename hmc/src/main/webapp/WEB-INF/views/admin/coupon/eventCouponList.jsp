@@ -6,16 +6,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<title>이벤트 페이지</title>
+<title>쿠폰 관리-HMC</title>
 <style>
 </style>
 </head>
 <body>
-<div class="container my-3">
-	<div class="col-2">
+<div class="container" style="display:inline-flex;">
+	<div class="col-2 row-left">
 		<%@include file ="../sidebar.jsp"%>
 	</div>
-    <main>
+    <main class="col-10 mt-4">
     	<div class="row offset-2">
             	<div class="col-3">
             		<a href="../coupon/home" >전체 쿠폰</a>
