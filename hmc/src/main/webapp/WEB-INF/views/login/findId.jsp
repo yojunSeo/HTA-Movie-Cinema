@@ -33,12 +33,12 @@
 	            	<form action="findId" method="post" id="findIn-form">
 	            		<div class="row mt-4">
 		            		<div class="col-2">
-		            			<div class="row mb-2"><p class="fw-lighter">아이디</p></div>
+		            			<div class="row mb-2"><p class="fw-lighter">휴대폰번호</p></div>
 		            			<div class="row"><p class="fw-lighter">이메일</p></div>
 		            		</div>
 		            		<div class="col-8">
 		            			<div class="row">
-		            				<input type="text" class="form-control w-100 mb-2 bg-light" name="id" placeholder="아이디를 입력하세요.">
+		            				<input type="text" class="form-control w-100 mb-2 bg-light" name="phone" placeholder="휴대폰번호를 입력하세요. ex) 010-1111-1111">
 		            			</div>
 		            			<div class="row">
 		            				<input type="text" class="form-control w-100 bg-light" name="email" placeholder="이메일을 입력하세요.">
