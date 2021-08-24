@@ -69,7 +69,6 @@
 									<th class="text-center">시작</th>
 									<th class="text-center">종료</th>
 									<th class="text-center">예매</th>
-									<th class="text-center"></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -89,7 +88,6 @@
 												<td class="text-center"><fmt:formatDate value="${schedule.startTime }" pattern="HH:mm"/></td>
 												<td class="text-center"><fmt:formatDate value="${schedule.endTime }" pattern="HH:mm"/></td>
 												<td class="text-center"><span id="empty-seat">${schedule.emptySeat }</span> / <span id="total-seat">${schedule.totalSeat }</span></td>
-												<td class="text-center"><button class="btn btn-outline-danger btn-sm">삭제</button></td>
 											</tr>
 										</c:forEach>
 									</c:otherwise>

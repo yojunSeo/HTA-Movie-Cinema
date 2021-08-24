@@ -76,7 +76,6 @@
 				      					<th scope="col" class="text-center">러닝타임</th>
 				      					<th scope="col" class="text-center">시작일</th>
 				    	  				<th scope="col" class="text-center">종료일</th>
-				    	  				<th scope="col" class="text-center"></th>
 				 	   				</tr>
 				  				</thead>
 				  				<tbody>
@@ -95,7 +94,6 @@
 								      				<td class="text-center">${screen.runningTime }</td>
 								      				<td class="text-center"><fmt:formatDate value="${screen.startDate }" pattern="yyyy-MM-dd"/></td>
 								      				<td class="text-center"><input class="text-center" type="date" name="endDate" value="<fmt:formatDate value="${screen.endDate }" pattern="yyyy-MM-dd"/>"><button class="btn btn-outline-warning btn-sm mx-3">수정</button></td>
-								      				<td class="text-center"><button class="btn btn-outline-danger btn-sm">삭제</button></td>
 								    			</tr>
 				  							</c:forEach>
 				  						</c:otherwise>
@@ -232,10 +230,10 @@
     				$tr.append("<td class=\"text-center\">"+screen.startDate+"</td>")
     				$tr.append("<td class=\"text-center\">"+screen.endDate+"</td>")
     				
-    				var $deleteButton = $("<button></button>").addClass("btn btn-outline-danger btn-sm").text("삭제");
-    				var $buttonTd = $("<td></td>").addClass("text-center")
-    				$buttonTd.append($deleteButton);
-    				$tr.append($buttonTd);
+    				//var $deleteButton = $("<button></button>").addClass("btn btn-outline-danger btn-sm").text("삭제");
+    				//var $buttonTd = $("<td></td>").addClass("text-center")
+    				//$buttonTd.append($deleteButton);
+    				//$tr.append($buttonTd);
     				
     				$('#no-screen-movie').closest("tr").remove();
     				$('#table-screen-movies tbody').prepend($tr);

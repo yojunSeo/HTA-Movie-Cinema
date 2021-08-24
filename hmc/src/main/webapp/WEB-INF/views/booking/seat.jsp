@@ -367,7 +367,7 @@ $(function(){
 	$('#booking-total .btn-light').on('click', function(){
 		var confirmValue = confirm('예매를 취소하시겠습니까?');
 		if(confirmValue){
-			location.href = "schedule/branch";
+			location.href = "schedule";
 		}
 	})
 	// 총 결제금엑

@@ -9,6 +9,8 @@
 			count(user_gender) as cnt
 		from 
 			t_user
+		where 
+            user_status = 'Y'
 		group by 
 			user_gender
 	</select>
@@ -19,6 +21,8 @@
 			count(trunc(months_between(sysdate, user_birthday)/12+1, -1)) as cnt
 		from 
 			t_user
+		where 
+            user_status = 'Y'
 		group by 
 			trunc(months_between(sysdate, user_birthday)/12+1, -1)
 		order by 
@@ -36,7 +40,7 @@
 		where
     		sh.branch_code = br.branch_code
         and
-		    schedule_date between trunc(to_date(#{value}) , 'iw')-6 and trunc(to_date(#{value}) , 'iw')+6
+		    schedule_date between trunc(to_date(#{value}) , 'iw') and trunc(to_date(#{value}) , 'iw')+6
 		group by 
 			 br.branch_name
 		order by 
@@ -54,7 +58,7 @@
 		and
 		    sh.branch_code = br.branch_code
 		and
-		    schedule_date between trunc(to_date(#{value}) , 'iw')-6 and trunc(to_date(#{value}) , 'iw')+6
+		    schedule_date between trunc(to_date(#{value}) , 'iw') and trunc(to_date(#{value}) , 'iw')+6
 		group by 
 			br.branch_name
 		order 

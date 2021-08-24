@@ -276,7 +276,7 @@ $(function(){
 	$('#payment .btn-outline-secondary').on('click', function(){
 		var confirmValue = confirm("결제를 취소하고 상영스케줄페이지로 돌아가시겠습니까?");
 		if(confirmValue){
-			location.href = "schedule/branch";
+			location.href = "schedule";
 		}
 		return false;
 	});
