@@ -90,7 +90,7 @@ html, body {
 	            		<div class="row mt-4">
 		            		<div class="col-2">
 		            			<div class="row mb-2" id="pwdRow"><p class="fw-lighter">이전 비밀번호</p></div>
-		            			<div class="row mt-4 mb-2"><p class="fw-lighter">비밀번호 </p></div>
+		            			<div class="row mt-4 mb-2"><p class="fw-lighter">새로운 비밀번호 </p></div>
 		            			<div class="row mt-3"><p class="fw-lighter">비밀번호 확인 </p></div>
 		            		</div>
 		            		<div class="col-8">
