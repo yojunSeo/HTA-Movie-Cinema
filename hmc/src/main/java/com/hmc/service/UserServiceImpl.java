@@ -132,9 +132,9 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String findId(String name, String email) {
-		User userByName = userDao.getUserByName(name);
-		if(userByName == null) {
+	public String findId(String phone, String email) {
+		User userByPhone = userDao.getUserByPhone(phone);
+		if(userByPhone == null) {
 			throw new FindException("정보조회 오류", "입력하신 정보와 일치하는 회원정보가 존재하지 않습니다.");
 		}
 		
@@ -143,7 +143,7 @@ public class UserServiceImpl implements UserService {
 			throw new FindException("정보조회 오류", "입력하신 정보와 일치하는 회원정보가 존재하지 않습니다.");
 		}
 		
-		if(!userByName.getId().equals(userByEmail.getId())) {
+		if(!userByPhone.getId().equals(userByEmail.getId())) {
 			throw new FindException("정보조회 오류", "입력하신 정보와 일치하는 회원정보가 존재하지 않습니다.");
 		}
 		

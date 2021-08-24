@@ -108,8 +108,30 @@
 	
 	</select>
 	
+	<delete id="deletePublichedCoupon" parameterType="string">
+		delete from
+			t_published_coupon
+		where
+			coupon_code = #{value}
+	</delete>
 	
 	
+	<select id="checkPublishedCouponCode" parameterType="string" resultType="string">
+		select 
+		    coupon_code
+		from
+		    t_published_coupon
+		where
+		    coupon_code = #{value}
+		    <![CDATA[and rownum <= 1]]>
+	</select>
+	
+	<select id="getDateByPublishedCoupon" parameterType="string" resultMap="PublishedCouponMap">
+		select
+		    user_id, published_given_date, published_end_date, published_used
+		from t_published_coupon
+		where coupon_code = #{value}
+	</select>
 	
 	
 	

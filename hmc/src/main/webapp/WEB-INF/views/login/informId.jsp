@@ -6,13 +6,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<title>페이지이름-HMC</title>
+<title>아이디 찾기-HMC</title>
 </head>
 <body>
 	<div class="container">
 
 		<header>
-			<%@ include file="../common/footer.jsp" %>
+			<%@ include file="../common/header.jsp" %>
 		</header>
 
 		<main>
@@ -36,7 +36,7 @@
             </div>
             <div class="row my-5">
             	<div class="col-2">
-            		<a href="../login/" class="btn btn-danger w-100">확인</a>
+            		<a href="../login/" class="btn btn-danger w-100 text-light">확인</a>
             	</div>
             </div>
 		</main>

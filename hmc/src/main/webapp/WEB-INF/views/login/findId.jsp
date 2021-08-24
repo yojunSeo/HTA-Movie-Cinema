@@ -6,7 +6,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<title>페이지이름-HMC</title>
+<title>아이디 찾기-HMC</title>
 </head>
 <body>
 	<div class="container">
@@ -33,12 +33,12 @@
 	            	<form action="findId" method="post" id="findIn-form">
 	            		<div class="row mt-4">
 		            		<div class="col-2">
-		            			<div class="row mb-2"><p class="fw-lighter">이름</p></div>
+		            			<div class="row mb-2"><p class="fw-lighter">휴대폰번호</p></div>
 		            			<div class="row"><p class="fw-lighter">이메일</p></div>
 		            		</div>
 		            		<div class="col-8">
 		            			<div class="row">
-		            				<input type="text" class="form-control w-100 mb-2 bg-light" name="name" placeholder="이름을 입력하세요.">
+		            				<input type="text" class="form-control w-100 mb-2 bg-light" name="phone" placeholder="휴대폰번호를 입력하세요. ex) 010-1111-1111">
 		            			</div>
 		            			<div class="row">
 		            				<input type="text" class="form-control w-100 bg-light" name="email" placeholder="이메일을 입력하세요.">

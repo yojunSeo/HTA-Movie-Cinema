@@ -31,6 +31,5 @@ public interface BookingService {
 	Map<String, Object> isUserDownGrade(int beforeTotalPayment, int afterTotalPayment);
 	
 	void userDownGrade(String grade);
-	
-	
+
 }

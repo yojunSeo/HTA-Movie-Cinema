@@ -389,6 +389,6 @@ public class BookingServiceImpl implements BookingService{
 		result.put("bookDetail", bookDetail);
 		return result;
 	}
-	
+
 
 }

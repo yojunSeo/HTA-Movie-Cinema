@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" >
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
-<title>현재상영작-HMC</title>
+<title>상영 예정작-HMC</title>
 </head>
 <style type= "text/css">
 html, body {
@@ -16,8 +16,8 @@ html, body {
 	height: 100%;
 }
 .topinfo img {
-	width: 210px;
-	height: 300px;
+	width: 230px;
+	height: 320px;
 }
 .wrapper {
 	display: flex;
@@ -77,31 +77,22 @@ html, body {
 }
 .topinfo {
 	position: relative !important;
-	width: 210px;
-	height: 300px;
+	width: 230px;
+	height: 320px;
 	
 }
 .topinfo .overbox {
 	position: absolute;
 	opacity: 0;
 	top : 135px;
-	left : 60px;
-}
-.topinfo .numinfo {
-	position: absolute;
-	top :250px;
-	left : 10px;
-	text-shadow: 1px 1px 10px #000;
-	color: #fff;
-	font-style: italic;
-	font-size:xx-large;
-	font-weight: bold;
+	left : 67px;
 }
 </style>
 <body>
 	<div class="container">
 	<header><%@ include file="../common/header.jsp"%></header>
 		<main>
+			<!-- 상단 슬라이드 부분 -->
 			<div class="row mb-3">
 				<div class="col">
 					<div class="swiper-container mySwiper">
@@ -122,12 +113,14 @@ html, body {
 					</div>
 				</div>
 			</div>
+			
+			<!-- 상영 예정작 목록 전체 출력 -->
 			<div class="row">
 				<div class="wrapper mt-5 mb-3">
 					<ul class="commingsoonmovie" style="max-width : 1280px;">
 						<h5><strong>상영 예정작</strong></h5>
 						<c:forEach var="commingAllMovies" items="${commingAllMovies }">
-							<li class="mt-2">
+							<li class="mt-2" style="margin-left:5px; margin-right:5px;">
 								<div class="topinfo">
 									<img src="${commingAllMovies.poster }" alt=""> 
 									<div class="overbox">
@@ -162,6 +155,7 @@ html, body {
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 	<script type="text/javascript">
+		// 상단 슬라이드 부분
 		$(function() {
 			var swiper = new Swiper(".mySwiper", {
 				spaceBetween : 30,
@@ -180,12 +174,14 @@ html, body {
 				},
 			});
 		})
-	$('.commingsoonmovie .topinfo').hover(function(){
-			$(this).find('img').css('opacity',0);
-			$(this).find('.overbox').css('opacity',1);
+		
+		// 상영 예정작 전체 목록 마우스오버 이벤트
+		$('.commingsoonmovie .topinfo').hover(function() {
+			$(this).find('img').css('opacity', 0);
+			$(this).find('.overbox').css('opacity', 1);
 		}, function() {
-			$(this).find('img').css('opacity',1);
-			$(this).find('.overbox').css('opacity',0);
+			$(this).find('img').css('opacity', 1);
+			$(this).find('.overbox').css('opacity', 0);
 		});
 	</script>
 </body>

@@ -6,7 +6,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<title>페이지이름-HMC</title>
+<title>공지사항 관리-HMC</title>
 </head>
 <body>
 	<div class="container-fluid">
@@ -126,7 +126,7 @@ $(function(){
 		location.href = "noticeDetail?code=" + noticeCode;
 		
 	});
-	
+	// 공지사항 삭제
 	$("#notice-table tbody tr .btn-outline-danger").on('click',function(){
 		var returnValue = confirm("공지사항을 삭제하시겠습니까?");
 		if(returnValue){

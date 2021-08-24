@@ -6,7 +6,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<title>페이지이름-HMC</title>
+<title>회원가입-HMC</title>
 </head>
 <body>
 	<div class="container">
@@ -125,7 +125,7 @@
 
 <script>
 	$(function(){
-	
+		// 아이디 중복 확인
 		$("#btn-post-id").click(function(){
 			var userId = $("#confirmId").val();
 			
@@ -146,7 +146,7 @@
 				}
 			})
 		});
-		
+		// 유효성검사
 		$("#register-form").submit(function(){
 			
 			var id = $.trim($("#confirmId").val());

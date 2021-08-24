@@ -82,9 +82,9 @@ public class LoginController {
 	}
 	// 찾은 아이디 공지
 	@PostMapping("/findId")
-	public String informId(@RequestParam("name") String name, @RequestParam("email") String email, Model model) {
+	public String informId(@RequestParam("phone") String phone, @RequestParam("email") String email, Model model) {
 		
-		String findId = userService.findId(name, email);
+		String findId = userService.findId(phone, email);
 		model.addAttribute("findId", findId);
 		
 		return "login/informId";

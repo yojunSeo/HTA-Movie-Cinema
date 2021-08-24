@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!doctype html>
 <html lang="ko">
 <head>
@@ -8,7 +9,7 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" >
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
-<title>현재상영작-HMC</title>
+<title>현재 상영작-HMC</title>
 </head>
 <style type= "text/css">
 html, body {
@@ -16,10 +17,11 @@ html, body {
 	height: 100%;
 }
 .topinfo img {
-	width: 210px;
-	height: 300px;
+	width: 230px;
+	height: 320px;
 }
 .wrapper {
+	margin-left: 25px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -77,8 +79,8 @@ html, body {
 }
 .topinfo {
 	position: relative !important;
-	width: 210px;
-	height: 300px;
+	width: 230px;
+	height: 320px;
 	
 }
 .topinfo .overbox {
@@ -87,21 +89,12 @@ html, body {
 	top :120px;
 	left : 60px;
 }
-.topinfo .numinfo {
-	position: absolute;
-	top :250px;
-	left : 10px;
-	text-shadow: 1px 1px 10px #000;
-	color: #fff;
-	font-style: italic;
-	font-size:xx-large;
-	font-weight: bold;
-}
 </style>
 <body>
 	<div class="container">
 	<header><%@ include file="../common/header.jsp"%></header>
 		<main>
+			<!-- 상단 슬라이드 부분 -->
 			<div class="row mb-3">
 				<div class="col">
 					<div class="swiper-container mySwiper">
@@ -122,16 +115,17 @@ html, body {
 					</div>
 				</div>
 			</div>
+			<!-- 현재 상영작 목록 전체 출력 -->
 			<div class="row">
 				<div class="wrapper mt-5 mb-3">
-					<ul class="nowmovie" style="max-width : 1100px;">
+					<ul class="nowmovie" style="max-width : 1280px;">
 						<h5><strong>현재 상영작</strong></h5>
 						<c:forEach var="nowAllMovies" items="${nowAllMovies }">
-							<li class="mt-2">
+							<li class="mt-2" style="margin-left:5px; margin-right:5px;">
 								<div class="topinfo">
 									<img src="${nowAllMovies.poster }" alt="${nowAllMovies.movieName }"> 
 									<div class="overbox">
-										<a class="btn btn-dark text-white mb-2" href="/hmc/booking/schedule/movie">  예매하기    </a><br>
+										<a class="btn btn-dark text-white mb-2" href="/hmc/booking/schedule/movie?code=${nowAllMovies.movieCode }">  예매하기    </a><br>
 										<a class="btn btn-dark text-white"href="detail?movieCode=${nowAllMovies.movieCode }">  상세정보    </a>
 									</div>
 								</div>
@@ -160,6 +154,7 @@ html, body {
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 	<script type="text/javascript">
+		// 상단 슬라이드 부분
 		$(function() {
 			var swiper = new Swiper(".mySwiper", {
 				spaceBetween : 30,
@@ -178,8 +173,8 @@ html, body {
 				},
 			});
 		})
-
-			$('.nowmovie .topinfo').hover(function(){
+		// 현재 상영작 마우스오버 이벤트	
+		$('.nowmovie .topinfo').hover(function(){
 			$(this).find('img').css('opacity',0);
 			$(this).find('.overbox').css('opacity',1);
 		}, function() {
