@@ -21,13 +21,13 @@
             		<a href="../coupon/home">전체 쿠폰</a>
             	</div>
             	<div class="col-3 ">
-            		<a href="../coupon/eventCouponList" >이벤트용 쿠폰</a>
+            		<a href="../coupon/eventCouponList" >사용된 쿠폰</a>
             	</div>
             	<div class="col-3 ">
 					<a href="../coupon/paymentList" class="btn fw-bold text-danger">지급된 쿠폰</a>
             	</div>
             	<div class="col-3">
-            		<a href="../coupon/noPaymentList">할당되지 않은 쿠폰</a>
+            		<a href="../coupon/noPaymentList">쿠폰 생성</a>
             	</div>
             </div>
             <div class="row my-2">
