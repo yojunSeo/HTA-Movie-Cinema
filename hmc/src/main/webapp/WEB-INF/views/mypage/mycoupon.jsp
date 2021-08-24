@@ -102,7 +102,7 @@ html, body {
 						<c:choose>
 							<c:when test="${empty coupons }">
 								<tr>
-									<td colspan="4">쿠폰내역이 존재하지 않습니다.</td>
+									<td colspan="7">쿠폰내역이 존재하지 않습니다.</td>
 								</tr>
 							</c:when>
 							<c:otherwise>
