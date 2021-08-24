@@ -209,14 +209,10 @@ $(function(){
 			dataType: 'json',
 			success: function(coupon) {
 				if (request == "등록") {
-					console.log("등록이 됌니다");
 					$("#table-coupon tbody").prepend(makeRow(coupon));
 				} else if(request =="수정"){
-					console.log("6");
 					var $tds = $("#coupon-" + coupon.code).find("td");
-					console.log("8");
 					$tds.eq(0).text(coupon.name);
-					console.log("7");
 					$tds.eq(1).text(coupon.type);
 				}
 			},
@@ -241,9 +237,6 @@ $(function(){
 		};
 		$("#btn-post-coupon").text("수정");
 		$(":input:disabled").prop("disabled", false);
-		console.log("123");
-		
-		console.log("수정 실행임니당");
 		event.preventDefault();
 		$.getJSON("/hmc/admin/coupon/detail?code=" + $(this).data("coupon-code"))
 			.done(function(coupons) {

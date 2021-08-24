@@ -70,6 +70,14 @@
 		where 
     		user_id = #{value}
 	</select>
+	<select id="getEventJoinReSultByUserId" resultType="com.hmc.vo.EventJoin" parameterType="map">
+		select 
+    		event_join_result
+		from 
+   		 	t_event_join
+		where 
+    		user_id = #{value}
+	</select>
 	 
 	<select id="getUserEventJoin" parameterType="string" resultType="hashmap">
 		select 

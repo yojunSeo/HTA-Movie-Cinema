@@ -3,6 +3,7 @@ package com.hmc.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.hmc.vo.Event;
 import com.hmc.vo.EventJoin;
 
 public interface EventJoinDao {
@@ -45,5 +46,7 @@ public interface EventJoinDao {
 	String getUserIdByEventCode(String eventCode);
 	
 	List<EventJoin> getUserIdAndResult(String eventCode);
+	
+	List<EventJoin> getEventJoinReSultByUserId(Map<String, Object> param);
 
 }

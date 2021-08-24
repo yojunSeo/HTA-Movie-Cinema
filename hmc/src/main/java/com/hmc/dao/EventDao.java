@@ -64,4 +64,6 @@ public interface EventDao {
 	void deleteEvent(String eventCode);
 	
 	void updateStatus();
+	
+	void updateEventCodeIsNull(String code);
 }
