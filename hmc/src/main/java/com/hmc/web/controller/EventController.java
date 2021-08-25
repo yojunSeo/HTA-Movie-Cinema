@@ -53,7 +53,7 @@ public class EventController {
 	
  	
 	// 한 페이지당 표시할 게시글 행의 개수
-	private static final int ROWS_PER_PAGE = 10;
+	private static final int ROWS_PER_PAGE = 5;
 	// 페이지블록 당 한번에 표시할 페이지번호 개수
 	private static final int PAGES_PER_PAGE_BLOCK = 5;
 	
