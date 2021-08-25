@@ -20,7 +20,7 @@
 					</div>
 					<div class="col-10">
 						<div class="mt-3">
-							<h3>상영스케줄 조회/변경/삭제</h3>
+							<h3>상영스케줄 조회</h3>
 						</div>
 						<div class="row mb-2">
 							<div class="col-12">
