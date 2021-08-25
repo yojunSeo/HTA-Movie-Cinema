@@ -85,6 +85,9 @@ public class StoreController {
 		model.addAttribute("amount", amount);
 		model.addAttribute("totalPrice", totalPrice);
 		
+		User findedUser = userDao.getUserById(user.getId());
+		model.addAttribute("findedUser", findedUser);
+		
 		Product findedProduct = storeService.getProductByCode(productCode);
 		model.addAttribute("product", findedProduct);
 		
@@ -124,6 +127,14 @@ public class StoreController {
 		
 		paymentInfo.put("usedPoint", pointUsed);
 		
+		// 상품 재고 감소
+		// 현재 상품 중 한정판 상품이 없으므로 코드 죽여놈
+		/*
+		Product product = storeService.getProductByCode(productCode);
+		int stock = product.getStock();
+		product.setStock(stock-amount);
+		storeService.updateProduct(product);
+		*/
 		storeService.successPayment(paymentInfo);
 		
 		String afterUserGrade = userDao.getUserById(giveUserId).getGrade();
