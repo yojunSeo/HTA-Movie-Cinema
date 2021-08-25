@@ -119,7 +119,7 @@ html, body {
 												<td class="text-success fw-bold">사용완료</td>
 											</c:when>
 											<c:otherwise>
-												<td scope="row"></td>
+												<td class="text-danger fw-bold">미사용</td>
 											</c:otherwise>
 										</c:choose>
 									</tr>
