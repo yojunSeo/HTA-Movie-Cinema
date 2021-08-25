@@ -165,15 +165,17 @@ public class EventController {
 	
 	@PostMapping("/eventJoin")
 	public String eventJoin(@RequestParam("eventCode") String eventCode) {
+		System.out.println(eventCode);
 		User user =  (User) SessionUtils.getAttribute("LOGINED_USER");
 		EventJoin eventJoin = new EventJoin();
 		eventJoin.setEventCode(eventCode);
+		System.out.println(eventJoin);
 		
 		eventJoin.setUserId(user.getId());
 		
 		eventJoinDao.insertEventJoin(eventJoin);
 		
-		return "redirect:/event/home";
+		return "redirect:/event/main";
 	}
 	
 	

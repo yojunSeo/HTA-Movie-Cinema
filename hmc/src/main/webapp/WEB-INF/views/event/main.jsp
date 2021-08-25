@@ -9,13 +9,13 @@
 <title>이벤트-HMC</title>
 <style>
 .eventTitleInfo{
-	position:absolute;
-	left: 160px;
+	position:relative;
 	margin-top:20px;
 }
 .eventDateInfo{
-	position:absolute;
-	right: 160px;
+	position:relative;
+	left:700px;
+	text-end;
 	margin-top:17px;
 }
 
@@ -53,9 +53,9 @@
 							<c:forEach var="event" items="${events}" >
 								<div class="accordion accordion-flush" id="accordionFlushExample">
 									<div class="accordion-item">
-										<button class="btn btn-outline-secondary d-flex" style="width:1280px; height:80px; margin:10px;"type="button" data-bs-toggle="collapse" data-bs-target="#${event.code }" aria-expanded="false" aria-controls="flush-collapseOne">
+										<button class="btn btn-outline-secondary" style="width:1280px; height:80px; margin:10px;"type="button" data-bs-toggle="collapse" data-bs-target="#${event.code }" aria-expanded="false" aria-controls="flush-collapseOne">
 									  		<strong class="eventTitleInfo">${event.title }</strong>
-									  		<span class="eventDateInfo">
+									  		<span class="eventDateInfo" >
 									  			<fmt:formatDate value="${event.startDate }" pattern="yyyy년  M월  d일"/>
 									  			~
 									  			<fmt:formatDate value="${event.endDate }" pattern="yyyy년  M월  d일"/>
@@ -160,8 +160,14 @@ $(function(){
 	
 	// 이벤트 등록
 	$("button[data-event-code]").click(function(){
+		var eventCode = $(this).data("event-code");
+		var joined = $(this).data('joined-code');
+		var joined2 = $("#joined").val();
 		var userId = $("#userIdByJoin").val();
 		$("#eventCode").val(eventCode);
+		var checked = "YES";
+		console.log(joined+"@@");
+		console.log(checked==joined+"123");
 		if(!userId){
 			alert("이벤트는 회원만 참여할 수 있습니다.");
 			return false;
@@ -173,9 +179,6 @@ $(function(){
 	$("#btn-post-event").click(function() {
 		var userId = $("#userIdByJoin").val();
 		var userId2 = $("#userIdForJoined").val();
-		console.log(userId);
-		console.log(userId2+"이거");
-		console.log("1234");
 		$.ajax({
 			type: "POST",
 			url: requestURI,

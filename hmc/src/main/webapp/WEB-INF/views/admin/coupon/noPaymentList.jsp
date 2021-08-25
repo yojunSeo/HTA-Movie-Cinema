@@ -227,7 +227,7 @@ $(function(){
 	// 수정버튼
 	
 	$("#table-coupon tbody").on('click', '.btn-outline-primary', function(event){
-		
+		$("#exampleModalLabel").text("쿠폰 수정");
 		request = "수정";
 		requestURI = "/hmc/admin/coupon/modify";
 		data:{
