@@ -102,7 +102,7 @@ html, body {
 						<c:choose>
 							<c:when test="${empty coupons }">
 								<tr>
-									<td colspan="4">쿠폰내역이 존재하지 않습니다.</td>
+									<td colspan="7">쿠폰내역이 존재하지 않습니다.</td>
 								</tr>
 							</c:when>
 							<c:otherwise>
@@ -119,7 +119,7 @@ html, body {
 												<td class="text-success fw-bold">사용완료</td>
 											</c:when>
 											<c:otherwise>
-												<td scope="row"></td>
+												<td class="text-danger fw-bold">미사용</td>
 											</c:otherwise>
 										</c:choose>
 									</tr>
