@@ -8,17 +8,15 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <title>이벤트-HMC</title>
 <style>
-.eventTitleInfo{
-	position:absolute;
-	left: 160px;
+
+.text-in-btn-start {
 	margin-top:20px;
 }
-.eventDateInfo{
-	position:absolute;
-	right: 160px;
-	margin-top:17px;
-}
 
+.text-in-btn-end {
+	position:relative;
+	top: -24px;
+}
       
 .banner {
 		position: relative;
@@ -35,14 +33,14 @@
 	<img class="banner" src="../resources/images/event/banner.png">
     <main>
     	<div class="row mb-3">
-			<div class="col">
+			<div class="col-10">
 				<div class=" p-2">
 					<h5 style="margin-top:30px; margin-left:10px"><strong>이벤트 목록</strong></h5>
 				</div>
 			</div>
 		</div>
 		<div class="row mb-3">
-			<div class="col">
+			<div class="col-10">
 				<c:choose>
 						<c:when test="${empty events }">
 							<tr>
@@ -52,14 +50,18 @@
 						<c:otherwise>
 							<c:forEach var="event" items="${events}" >
 								<div class="accordion accordion-flush" id="accordionFlushExample">
-									<div class="accordion-item">
-										<button class="btn btn-outline-secondary d-flex" style="width:1280px; height:80px; margin:10px;"type="button" data-bs-toggle="collapse" data-bs-target="#${event.code }" aria-expanded="false" aria-controls="flush-collapseOne">
-									  		<strong class="eventTitleInfo">${event.title }</strong>
-									  		<span class="eventDateInfo">
-									  			<fmt:formatDate value="${event.startDate }" pattern="yyyy년  M월  d일"/>
-									  			~
-									  			<fmt:formatDate value="${event.endDate }" pattern="yyyy년  M월  d일"/>
-									  		</span>
+									<div class="accordion-item d-grid gap-2">
+										<button class="btn btn-outline-secondary" style="height:80px; margin:10px;" type="button" data-bs-toggle="collapse" data-bs-target="#${event.code }" aria-expanded="false" aria-controls="flush-collapseOne">
+									  		<div class="text-in-btn-start text-start" >
+										  		<span><strong style="">${event.title }</strong></span>
+										  	</div>
+										  	<div class="text-in-btn-end text-end">									  		
+									  			<span>
+										  			<fmt:formatDate value="${event.startDate }" pattern="yyyy년  M월  d일"/>
+										  			~
+										  			<fmt:formatDate value="${event.endDate }" pattern="yyyy년  M월  d일"/>
+										  		</span>
+									  		</div>
 									  	</button>
 									  	<div id="${event.code }" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample" style="border:4px solid #e9e9e9; margin-left:10px; margin-right:5px;">
 										    <div class="accordion-body">
@@ -161,6 +163,7 @@ $(function(){
 	// 이벤트 등록
 	$("button[data-event-code]").click(function(){
 		var userId = $("#userIdByJoin").val();
+		var eventCode = $(this).data("event-code");
 		$("#eventCode").val(eventCode);
 		if(!userId){
 			alert("이벤트는 회원만 참여할 수 있습니다.");
@@ -191,6 +194,7 @@ $(function(){
 			}
 		});
 		console.log("등록이 됌니다!");
+		alert("이벤트 신청 완료되었습니다.");
 	})
 	
 	
