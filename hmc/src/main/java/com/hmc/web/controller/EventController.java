@@ -42,8 +42,6 @@ public class EventController {
 	@Autowired
 	private CouponService couponService;
 	
-	@Autowired
-	private UserService userService;
 	
 	@Autowired
 	private EventJoinDao eventJoinDao;

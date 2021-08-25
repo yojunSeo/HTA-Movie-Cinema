@@ -10,21 +10,23 @@
 <style>
 .eventTitleInfo{
 	position:absolute;
-	left: 380px;
+	left: 160px;
 	margin-top:20px;
 }
 .eventDateInfo{
 	position:absolute;
-	right: 350px;
+	right: 160px;
 	margin-top:17px;
 }
 
       
 .banner {
-	position: relative;
-	width:1300px;
-	height:180px;
-}
+		position: relative;
+		width:100vw;
+		height:296px;
+		margin-left: calc(-50vw + 50%);
+		margin-right: auto;
+	}
 </style>
 </head>
 <body>
@@ -61,12 +63,8 @@
 									  	</button>
 									  	<div id="${event.code }" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample" style="border:4px solid #e9e9e9; margin-left:10px; margin-right:5px;">
 										    <div class="accordion-body">
-										    ${event.joined }
-										    <br>
-										    ${event.status }
 										    <br>
 										    ${event.content }
-										    <br>
 										    <br>
 										    <br>
 										    <br>
