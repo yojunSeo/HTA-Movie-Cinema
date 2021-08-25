@@ -21,7 +21,7 @@
 		    e.event_writer writer, e.event_start_date startDate, e.event_end_date endDate, e.event_coupon_amount couponAmount,
 		    e.event_status status, c.coupon_name name
 		from
-		    t_event e ,t_coupon c
+		    t_event e ,t_coupon 
 		where
 		    e.coupon_code = c.coupon_code
 		    and e.event_code = #{value}
@@ -33,14 +33,20 @@
 		from
 			t_event
 		where
-		 	event_status NOT IN ('N')
+		 	event_status NOT IN ('N','S')
 	</select>
 	
 	<select id="eventListPage" resultType="com.hmc.vo.Event" parameterType="map">
 		select 
 			event_code code, coupon_code couponCode, event_title title, event_content content, 
 			event_writer writer, event_start_date startDate, event_end_date endDate, 
-			event_coupon_amount couponAmount, event_status status
+			event_coupon_amount couponAmount, event_status status, nvl2((select distinct ej.event_code
+                                                                        from 
+                                                                            t_event e, t_event_join ej, t_published_coupon p
+                                                                        where 
+                                                                            e.event_code = ej.event_code 
+                                                                            and e.coupon_code = p.coupon_code
+                                                                            and ej.event_code=#{eventCode }), 'YES', 'NO') drawed
 		from(
 			select
 				row_number() over (order by event_status) rn,
@@ -60,21 +66,21 @@
 		select 
 			event_code code, coupon_code couponCode, event_title title, event_content content, 
 			event_writer writer, event_start_date startDate, event_end_date endDate, 
-			event_coupon_amount couponAmount, event_status status
+			event_coupon_amount couponAmount, event_status status, nvl2((select 1
+                                                                    from t_event_join Y
+                                                                    where Y.event_code = v.event_code
+                                                                    and Y.user_id = #{userId}),'YES','NO') joined
 		from(
 			select
-				row_number() over (order by event_status) rn,
+				row_number() over (order by event_code desc) rn,
 				event_code, coupon_code, event_title, event_content, event_writer,
 				event_start_date, event_end_date, event_coupon_amount, event_status
 			from
-				t_event
-			order by event_code desc
-		
-		)
+				t_event e 
+			where event_status in ('Y','A')
+		) v
 		where 
 			rn between #{beginIndex} and #{endIndex}
-			and event_status = 'Y'
-			or event_status = 'A'
 		order by event_code desc
 	</select>
 	
@@ -82,19 +88,21 @@
 		select 
 			event_code code, coupon_code couponCode, event_title title, event_content content, 
 			event_writer writer, event_start_date startDate, event_end_date endDate, 
-			event_coupon_amount couponAmount, event_status status
+			event_coupon_amount couponAmount, event_status status, nvl2((select 1
+                                                                    from t_event_join Y
+                                                                    where Y.event_code = v.event_code
+                                                                    and Y.user_id = #{userId}),'YES','NO') joined
 		from(
 			select
-				row_number() over (order by event_status) rn,
+				row_number() over (order by event_code desc) rn,
 				event_code, coupon_code, event_title, event_content, event_writer,
 				event_start_date, event_end_date, event_coupon_amount, event_status
 			from
-				t_event
-			order by event_code desc
-		)
+				t_event e 
+			where event_status in ('Y','A')
+		) v
 		where 
 			rn between #{beginIndex} and #{endIndex}
-			and event_status = 'S'
 		order by event_code desc
 	</select>
 	
@@ -105,16 +113,15 @@
 			event_coupon_amount couponAmount, event_status status
 		from(
 			select
-				row_number() over (order by event_status) rn,
+				row_number() over (order by event_code desc) rn,
 				event_code, coupon_code, event_title, event_content, event_writer,
 				event_start_date, event_end_date, event_coupon_amount, event_status
 			from
 				t_event
-			order by event_code desc
+			where event_status = 'N'
 		)
 		where 
 			rn between #{beginIndex} and #{endIndex}
-			and event_status = 'N'
 		order by event_code desc
 	</select>
 	
@@ -142,6 +149,14 @@
 			event_code = #{eventCode}
 	</update>
 	
+	<update id="updateEventCodeIsNull" parameterType="string">
+		update t_coupon
+		set 
+			event_code = null
+		where 
+			coupon_Code = #{code}
+	</update>
+	
 	
 	<update id="updateEvent" parameterType="com.hmc.vo.Event">
 		update t_event
@@ -154,7 +169,7 @@
 			event_end_date = #{endDate},
 			event_coupon_amount = #{couponAmount}
 		where 
-			event_code = #{eventCode}
+			event_code = #{code}
 	</update>
 	
 	<update id="updateStatus">

@@ -10,21 +10,23 @@
 <style>
 .eventTitleInfo{
 	position:absolute;
-	left: 380px;
+	left: 160px;
 	margin-top:20px;
 }
 .eventDateInfo{
 	position:absolute;
-	right: 350px;
+	right: 160px;
 	margin-top:17px;
 }
 
       
 .banner {
-	position: relative;
-	width:1300px;
-	height:180px;
-}
+		position: relative;
+		width:100vw;
+		height:296px;
+		margin-left: calc(-50vw + 50%);
+		margin-right: auto;
+	}
 </style>
 </head>
 <body>
@@ -61,15 +63,18 @@
 									  	</button>
 									  	<div id="${event.code }" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample" style="border:4px solid #e9e9e9; margin-left:10px; margin-right:5px;">
 										    <div class="accordion-body">
+										    <br>
 										    ${event.content }
 										    <br>
 										    <br>
 										    <br>
 										    <br>
-										    <br>
 										    <div class="btn-eventJoin" style="text-align:center;" >
-									    		<c:if test="${event.status eq 'Y' }">
-									    			<button id="btn-open-event-modal"  class="btn btn-danger btn-lg w-25 text-light" >응모하기</button>
+									    		<c:if test="${event.joined eq 'NO' }">
+									    			<button data-event-code="${event.code }" data-joined-code="${event.joined }" class="btn btn-danger btn-lg w-25 text-light" >응모하기</button>
+									    		</c:if>
+									    		<c:if test="${event.joined eq 'YES' }">
+									    			<button class="btn btn-danger btn-lg w-25 text-light" >참여하였습니다.</button>
 									    		</c:if>
 									    	</div>
 										    </div>
@@ -102,13 +107,96 @@
 				</div>
 			</c:if>
     </main>
+    <div class="modal fade" id="form-event-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">이벤트 참여</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<form id="form-event">
+							<input type="hidden" name="code" id="event-code">
+							<div class="row px-2 mb-2">
+								<div class="form-check">
+								<input type="hidden" id="userIdByJoin" name="userIdByJoin" value="${LOGINED_USER.id }">
+									<c:forEach var="join" items="${joins }">
+										<input type="text" id="userIdforJoined" name="userIdForJoined" value="${eventJoins.userId }">
+										<span style="font-size: 1.1rem;" >${join.name }</span>
+									</c:forEach>
+									<div class="form-check form-check-inline">
+										<br>
+										 이벤트에 참여하시겠습니까?
+									</div>
+								</div>
+								
+							</div>
+							<div class="row px-2 mb-2">
+							</div>
+						</form>
+						<form id="form-eventjoin">
+							<div><input type="hidden" id="eventCode" name="eventCode" value="${event.code }"></div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+						<button type="button" class="btn btn-primary" id="btn-post-event">등록</button>
+					</div>
+				</div>
+		</div>
+	</div>
 </div>
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
-
+$(function(){
+	var requestURI = "/hmc/event/eventJoin";
+	
+	var eventModal = new bootstrap.Modal(document.getElementById("form-event-modal"), {
+		keyboard: false
+	})
+	
+	// 이벤트 등록
+	$("button[data-event-code]").click(function(){
+		var userId = $("#userIdByJoin").val();
+		$("#eventCode").val(eventCode);
+		if(!userId){
+			alert("이벤트는 회원만 참여할 수 있습니다.");
+			return false;
+		}
+		
+		eventModal.show();
+	})
+	
+	$("#btn-post-event").click(function() {
+		var userId = $("#userIdByJoin").val();
+		var userId2 = $("#userIdForJoined").val();
+		console.log(userId);
+		console.log(userId2+"이거");
+		console.log("1234");
+		$.ajax({
+			type: "POST",
+			url: requestURI,
+			data: $("#form-eventjoin").serialize(),
+			dataType: 'json',
+			success: function(eventJoin) {
+				if (request == "등록") {
+					console.log("이벤트 참여");
+				} 
+			},
+			complete: function() {
+				eventModal.hide();
+			}
+		});
+		console.log("등록이 됌니다!");
+	})
+	
+	
+	
+	
+})
 </script>
 <footer>
 	<%@ include file="../common/footer.jsp" %>

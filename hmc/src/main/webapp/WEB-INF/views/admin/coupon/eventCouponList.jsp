@@ -21,13 +21,13 @@
             		<a href="../coupon/home" >전체 쿠폰</a>
             	</div>
             	<div class="col-3 ">
-            		<a href="../coupon/eventCouponList" class="btn fw-bold text-danger">이벤트용 쿠폰</a>
+            		<a href="../coupon/eventCouponList" class="btn fw-bold text-danger">사용된 쿠폰</a>
             	</div>
             	<div class="col-3">
 					<a href="../coupon/paymentList">지급된 쿠폰</a>
             	</div>
             	<div class="col-3">
-            		<a href="../coupon/noPaymentList">할당되지 않은 쿠폰</a>
+            		<a href="../coupon/noPaymentList">쿠폰 생성</a>
             	</div>
             </div>
             <div class="row my-2">
@@ -51,7 +51,6 @@
 							<col width="20%">
 							<col width="20%">
 							<col width="20%">
-							<col width="10%">
 						</colgroup>
 						<thead>
 							<tr>
@@ -60,7 +59,6 @@
 								<th>쿠폰종류</th>
 								<th>연관 이벤트</th>
 								<th>이벤트 이름</th>
-								<th>삭제</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -92,7 +90,6 @@
 													<td><p id="eventTitle"  data-event-title="${coupon.eventTitle}">${coupon.eventTitle}</p></td>
 												</c:otherwise>
 											</c:choose>
-											<td><button id="btn-coupon-delete" class="btn btn-outline-danger btn-sm rm-2" data-coupon-code="${coupon.code }">삭제</button></td>
 										</tr>			
 									</c:forEach>
 								</c:otherwise>

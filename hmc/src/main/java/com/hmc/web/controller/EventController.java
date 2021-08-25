@@ -42,8 +42,6 @@ public class EventController {
 	@Autowired
 	private CouponService couponService;
 	
-	@Autowired
-	private UserService userService;
 	
 	@Autowired
 	private EventJoinDao eventJoinDao;
@@ -64,7 +62,7 @@ public class EventController {
 	@GetMapping("/home")
 	public String eventHome(@RequestParam(name = "page", required = false, defaultValue = "1") int page, 
 							@RequestParam(name = "opt", required = false) String searchOption, 
-							@RequestParam(name = "keyword", required = false) String searchKeyword, 
+							@RequestParam(name = "keyword", required = false) String searchKeyword,
 							Model model) 
 	{
 		Map<String, Object> param = new HashMap<String, Object>();
@@ -76,10 +74,30 @@ public class EventController {
 		param.put("beginIndex", (page-1)*ROWS_PER_PAGE+1);
 		param.put("endIndex", page*ROWS_PER_PAGE);
 		System.out.println(param);
-		List<Event> events = eventService.eventListPageByProceeding(param);
-		System.out.println("실행됨");
-		model.addAttribute("events", events);
 		
+		User loginedUser = (User) SessionUtils.getAttribute("LOGINED_USER");
+		
+		// 로그인시 뷰
+		if(loginedUser!=null) {
+			param.put("userId", loginedUser.getId());
+			List<Event> events = eventService.eventListPageByWating(param);
+			model.addAttribute("events", events);
+		}else {	// 비로그인시 뷰
+			List<Event> events = eventService.eventListPageByProceeding(param);
+			model.addAttribute("events", events);
+		}
+		//userId.setUserId(loginedUser.getId());
+		//String userIds = userId.getUserId();
+		//System.out.println(userIds+"############");
+		
+		//Event events = eventService.eventListPageByWating(loginedUser.getId());
+		System.out.println("실행됨");
+		
+		List<EventJoin> joins = eventJoinService.getEventJoinReSultByUserId(param);
+		model.addAttribute("joins", joins);
+		System.out.println();
+		System.out.println();
+		System.out.println();
 		int totalRows = eventService.getTotalRows(param);
 		int totalPages = (int) Math.ceil((double) totalRows/ROWS_PER_PAGE);
 		int totalPageBlocks = (int)Math.ceil((double)totalPages/PAGES_PER_PAGE_BLOCK);
@@ -100,94 +118,11 @@ public class EventController {
 		
 		model.addAttribute("pagination", pagination);
 		eventDao.updateStatus();
+		
+		
+		
 		
 		return "event/main";
-	}
-	
-	@GetMapping("/waitingEvent")
-	public String waitingEvent(@RequestParam(name = "page", required = false, defaultValue = "1") int page, 
-							@RequestParam(name = "opt", required = false) String searchOption, 
-							@RequestParam(name = "keyword", required = false) String searchKeyword, 
-							Model model) 
-	{
-		Map<String, Object> param = new HashMap<String, Object>();
-		if(searchOption != null && searchKeyword != null ) {
-			page=1;
-			param.put("opt", searchOption);
-			param.put("keyword", searchKeyword);
-		}
-		param.put("beginIndex", (page-1)*ROWS_PER_PAGE+1);
-		param.put("endIndex", page*ROWS_PER_PAGE);
-		System.out.println(param);
-		List<Event> events = eventService.eventListPageByWating(param);
-		System.out.println("실행됨");
-		model.addAttribute("events", events);
-		
-		int totalRows = eventService.getTotalRows(param);
-		int totalPages = (int) Math.ceil((double) totalRows/ROWS_PER_PAGE);
-		int totalPageBlocks = (int)Math.ceil((double)totalPages/PAGES_PER_PAGE_BLOCK);
-		int currentPageBlock = (int) Math.ceil((double)page/PAGES_PER_PAGE_BLOCK);
-		int beginPage = (currentPageBlock -1)*PAGES_PER_PAGE_BLOCK+1;
-		int endPage = currentPageBlock*PAGES_PER_PAGE_BLOCK;
-		if(currentPageBlock == totalPageBlocks) {
-			endPage = totalPages;
-		}
-		Pagination pagination = new Pagination();
-		pagination.setPageNo(page);
-		pagination.setTotalRows(totalRows);
-		pagination.setTotalPages(totalPages);
-		pagination.setTotalPageBlocks(totalPageBlocks);
-		pagination.setCurrentPageBlock(currentPageBlock);
-		pagination.setBeginPage(beginPage);
-		pagination.setEndPage(endPage);
-		
-		model.addAttribute("pagination", pagination);
-		eventDao.updateStatus();
-		
-		return "event/waitingEvent";
-	}
-	
-	@GetMapping("/endEvent")
-	public String endEvent(@RequestParam(name = "page", required = false, defaultValue = "1") int page, 
-							@RequestParam(name = "opt", required = false) String searchOption, 
-							@RequestParam(name = "keyword", required = false) String searchKeyword, 
-							Model model) 
-	{
-		Map<String, Object> param = new HashMap<String, Object>();
-		if(searchOption != null && searchKeyword != null ) {
-			page=1;
-			param.put("opt", searchOption);
-			param.put("keyword", searchKeyword);
-		}
-		param.put("beginIndex", (page-1)*ROWS_PER_PAGE+1);
-		param.put("endIndex", page*ROWS_PER_PAGE);
-		System.out.println(param);
-		List<Event> events = eventService.eventListPageByEnd(param);
-		System.out.println("실행됨");
-		model.addAttribute("events", events);
-		
-		int totalRows = eventService.getTotalRows(param);
-		int totalPages = (int) Math.ceil((double) totalRows/ROWS_PER_PAGE);
-		int totalPageBlocks = (int)Math.ceil((double)totalPages/PAGES_PER_PAGE_BLOCK);
-		int currentPageBlock = (int) Math.ceil((double)page/PAGES_PER_PAGE_BLOCK);
-		int beginPage = (currentPageBlock -1)*PAGES_PER_PAGE_BLOCK+1;
-		int endPage = currentPageBlock*PAGES_PER_PAGE_BLOCK;
-		if(currentPageBlock == totalPageBlocks) {
-			endPage = totalPages;
-		}
-		Pagination pagination = new Pagination();
-		pagination.setPageNo(page);
-		pagination.setTotalRows(totalRows);
-		pagination.setTotalPages(totalPages);
-		pagination.setTotalPageBlocks(totalPageBlocks);
-		pagination.setCurrentPageBlock(currentPageBlock);
-		pagination.setBeginPage(beginPage);
-		pagination.setEndPage(endPage);
-		
-		model.addAttribute("pagination", pagination);
-		eventDao.updateStatus();
-		
-		return "event/endEvent";
 	}
 	
 	@GetMapping("/detail")
@@ -197,8 +132,8 @@ public class EventController {
 		Event event = eventService.getEventByCode(eventCode);
 		EventJoin eventJoin = (EventJoin) eventJoinService.getEventJoinByEventCode(eventCode);
 		
-		System.out.println(event);
-		
+		System.out.println(eventJoin);
+		System.out.println("김김");
 		model.addAttribute("event", event);
 		model.addAttribute("events", events);
 		model.addAttribute("eventJoin", eventJoin);
@@ -229,11 +164,12 @@ public class EventController {
 	
 	
 	@PostMapping("/eventJoin")
-	public String eventJoin(@RequestParam("eventCode") String eventCode, @RequestParam("userId") String userId) {
-		
+	public String eventJoin(@RequestParam("eventCode") String eventCode) {
+		User user =  (User) SessionUtils.getAttribute("LOGINED_USER");
 		EventJoin eventJoin = new EventJoin();
 		eventJoin.setEventCode(eventCode);
-		eventJoin.setUserId(userId);
+		
+		eventJoin.setUserId(user.getId());
 		
 		eventJoinDao.insertEventJoin(eventJoin);
 		

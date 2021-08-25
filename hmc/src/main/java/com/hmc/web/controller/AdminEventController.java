@@ -1,5 +1,6 @@
 package com.hmc.web.controller;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
@@ -81,7 +82,7 @@ public class AdminEventController {
 		return "admin/event/add";
 	}
 	
-	
+	// 이벤트 리스트
 	@GetMapping("/eventList")
 	public String eventForm(@RequestParam(name = "page", required = false, defaultValue = "1") int page, 
 			@RequestParam(name = "opt", required = false) String searchOption, 
@@ -99,15 +100,17 @@ public class AdminEventController {
 		}
 		param.put("beginIndex", (page-1)*ROWS_PER_PAGE+1);
 		param.put("endIndex", page*ROWS_PER_PAGE);
+		User loginedUser = (User) SessionUtils.getAttribute("LOGINED_USER");
 		List<Event> events = eventService.eventListPage(param);
 		model.addAttribute("events", events);
 		
+	
 		Map<String, Object> param2 = new HashMap<String, Object>();
 		
 		List<Coupon> coupons = couponService.getCouponInfo(param2);
 		model.addAttribute("coupons", coupons);
 		
-		User loginedUser = (User) SessionUtils.getAttribute("LOGINED_USER");
+		
 		
 		model.addAttribute("loginedUser", loginedUser);
 		
@@ -130,7 +133,6 @@ public class AdminEventController {
 		pagination.setEndPage(endPage);
 		
 		model.addAttribute("pagination", pagination);
-		
 		eventDao.updateStatus();
 		
 		return "admin/event/eventList";
@@ -142,22 +144,20 @@ public class AdminEventController {
 		System.out.println(form);
 		Event event = new Event();
 		event.setTitle(form.getTitle());
-		event.setContent(form.getEventContent());
-		Date eventStart = DateUtils.stringToDate(form.getStartDate());
-		event.setStartDate(eventStart);
-		Date eventEnd = DateUtils.stringToDate(form.getEndDate());
-		event.setEndDate(eventEnd);
-		event.setCouponCode(form.getSelectCoupon());
+		event.setContent(form.getContent());
+		event.setStartDate(form.getStartDate());
+		event.setEndDate(form.getEndDate());
+		event.setCouponCode(form.getCouponCode());
 		event.setCouponAmount(form.getCouponAmount());
 		event.setStatus(form.getStatus());
+		System.out.println(event.getCouponCode()+"@@@@");
 		
-		//event.setWriter(loginAdmin.getId());
 		User logginedUser = (User)SessionUtils.getAttribute("LOGINED_USER");
 		event.setWriter(logginedUser.getId());
 		eventService.insertEvent(event);
 		
 		// 선택한 쿠폰의 이벤트컬럼 업데이트
-		Coupon coupon = couponService.getCouponByCode(form.getSelectCoupon());
+		Coupon coupon = couponService.getCouponByCode(form.getCouponCode());
 		coupon.setEventCode(event.getCode());
 		couponService.updateCoupon(coupon);
 		
@@ -165,38 +165,24 @@ public class AdminEventController {
 	}
 	
 	
-	@GetMapping("/detail")
-	public String eventDetail(@RequestParam("no") String eventCode, @LoginUser User user, Model model) {
-		
-		Event events = eventService.eventDetail(eventCode);
-		Event event = eventService.getEventByCode(eventCode);
-		EventJoin eventJoins = (EventJoin) eventJoinService.getEventJoinByEventCode(eventCode);
-		
-		model.addAttribute("event", event);
-		model.addAttribute("events", events);
-		model.addAttribute("eventJoins", eventJoins);
-		
-		
-		return "/admin/event/detail";
-	}
 	
 	@PostMapping("/draw")
-	public String eventJoin(@RequestParam(value="eventCode",required=false) String eventCode,
+	public String eventJoin(@RequestParam(value="eventCode") String eventCode,
 			@RequestParam("userId") String userId ,
 			@RequestParam("couponCode") String couponCode,Model model) {
 
 		eventJoindao.eventDraw(eventCode);
-		
-		PublishedCoupon publishedCoupon = new PublishedCoupon();
-		
+		System.out.println(eventCode+"1234");
+		System.out.println(userId);
+		System.out.println(couponCode);
 		publishedCouponDao.insertPublichedCouponJoin(couponCode);
 		
-		return "redirect:/event/home";
+		return "/event/home";
 	}
 	
 	
 	@RequestMapping("/delete")
-	public @ResponseBody ResponseEntity<Void> delete(@RequestParam("code") String eventCode) {
+	public @ResponseBody ResponseEntity<Void> delete(@RequestParam("eventCode") String eventCode,@RequestParam("code") String code) {
 		System.out.println("딜리트");
 		Event savedEvent = eventDao.getEventByCode(eventCode);
 		if (savedEvent == null) {
@@ -204,6 +190,8 @@ public class AdminEventController {
 		}
 
 		eventDao.deleteEvent(eventCode);
+		eventDao.updateEventCodeIsNull(code);
+		eventJoindao.deleteEventJoin(eventCode);
 		
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
@@ -216,40 +204,36 @@ public class AdminEventController {
 		return joins;
 	}
 	
-	@RequestMapping("/modify")
-	public @ResponseBody ResponseEntity<Event> modify(Event event, @LoginAdmin User loginAdmin) {
-		Event savedEvent = eventDao.getEventByCode(event.getCode());
-		if (savedEvent == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-		
-		savedEvent.setTitle(event.getTitle());
-		savedEvent.setContent(event.getContent());
-		savedEvent.setStartDate(event.getStartDate());
-		savedEvent.setEndDate(event.getEndDate());
-		savedEvent.setCouponCode(event.getCouponCode());
-		savedEvent.setCouponAmount(event.getCouponAmount());
-		
-		
-		
-		
-		eventDao.updateEvent(savedEvent);
-		
-		return new ResponseEntity<>(savedEvent, HttpStatus.OK);
-	}
-	
-	
-	@RequestMapping("/detail2")
+	@RequestMapping("/detail")
 	public @ResponseBody ResponseEntity<Event> detail(@RequestParam("code") String eventCode, @LoginAdmin User loginAdmin) {
 		Event savedEvent = eventDao.getEventByCode(eventCode);
-		System.out.println("디테일 실행됨");
-		System.out.println(savedEvent);
+		System.out.println("디테일 실행");
 		if(savedEvent == null) {
 			System.out.println("디테일 실패");
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-
+		System.out.println("디테일 실행");
+		System.out.println(savedEvent);
 		return new ResponseEntity<>(savedEvent, HttpStatus.OK);
+	}
+	
+	
+	@PostMapping("/modify")
+	public String productUpdate(EventForm form, HttpServletRequest request, @LoginAdmin User loginAdmin) throws IOException {
+		
+		Event event = new Event();
+		
+		event.setCode(form.getCode());
+		event.setTitle(form.getTitle());
+		event.setContent(form.getContent());
+		event.setStartDate(form.getStartDate());
+		event.setEndDate(form.getEndDate());
+		event.setCouponCode(form.getCouponCode());
+		event.setCouponAmount(form.getCouponAmount());
+		
+		eventService.updateEvent(event);
+		
+		return "redirect:eventList";
 	}
 	
 }

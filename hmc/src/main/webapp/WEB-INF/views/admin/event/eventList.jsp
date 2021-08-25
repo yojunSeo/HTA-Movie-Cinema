@@ -45,8 +45,8 @@
                                  <th>제목</th>
                                  <th>시작일</th>
                                  <th>마감일</th>
-                                 <th>상태</th>
                                  <th>당첨결과</th>
+                                 <th>수정</th>
                                  <th></th>
                               </tr>
                            </thead>
@@ -62,7 +62,7 @@
                                        <tr id="event-${event.code }" data-event-code="${event.code }" class="align-middle">
                                           <td class="text-center">${status.count + (pagination.pageNo-1) * 10}</td>
                                           <td class="text-center">${event.code }</td>
-                                          <td class="modifyEvent" style="cursor:pointer;"><a>${event.title }</a></td>                  
+                                          <td class="text-center" >${event.title }</td>                  
                                           <td class="text-center"><fmt:formatDate value="${event.startDate }" pattern="yyyy년  M월  d일"/></td>                  
                                           <td class="text-center"><fmt:formatDate value="${event.endDate }" pattern="yyyy년  M월  d일"/></td>
                                           <td class="text-center">
@@ -74,8 +74,9 @@
                                           		</c:choose>
                                           		
                                           </td>
-                                          <td class="text-center"><button id="btn-open-join-modal" class="btn btn-outline-primary btn-sm rm-2" data-event-code="${event.code }">조회</button> </td>
-                                          <td class="text-center"><button id="btn-event-delete" class="btn btn-outline-danger btn-sm rm-2" data-event-code="${event.code }">삭제</button></td>
+                                          <td class="text-center"><button id="btn-open-join-modal" class="btn btn-outline-primary btn-sm rm-2" data-event-code="${event.code }" data-coupon-code="${event.couponCode }">조회</button> </td>
+                                          <td class="text-center"><button id="btn-open-modify-modal" class="btn btn btn-outline-success btn-sm rm-2" data-event-code="${event.code }" data-coupon-code="${event.couponCode }" data-drawed-code="${event.drawed }">수정</button></td>
+                                          <td class="text-center"><button id="btn-event-delete" class="btn btn-outline-danger btn-sm rm-2" data-event-code="${event.code }" data-coupon-code="${event.couponCode }">삭제</button></td>
                                        </tr>         
                                     </c:forEach>
                                  </c:otherwise>
@@ -140,7 +141,7 @@
                                  <td>
                                     <div class="row">
                                     <div class="col-12">
-                                       <textarea class="form-control" id="eventContent" name="eventContent" rows="5" placeholder="내용을 입력해주세요"></textarea>
+                                       <textarea class="form-control" id="content" name="content" rows="5" placeholder="내용을 입력해주세요"></textarea>
                                     </div>
                                  </div>
                                  </td>
@@ -166,8 +167,9 @@
                               <c:otherwise>
                                  <tr>
                                     <td>
-                                       <select name="selectCoupon" id="selectCoupon">
+                                       <select name="couponCode" id="couponCode">
                                           <option value="0">쿠폰 선택</option>
+                                          <option value="NULL">쿠폰 없음</option>
                                           <c:forEach var="coupons" items="${coupons}">
                                              <option value="${coupons.code}">${coupons.name}</option>
                                           </c:forEach>
@@ -181,21 +183,10 @@
                                  <select class="form-select-coupon" aria-label="Default select example" name="couponAmount" id="couponAmount">
                                    <option value="0" selected>쿠폰 수</option>
                                    <option value="10">10</option>
-                                   <option value="20">20</option>
-                                   <option value="30">30</option>
                                  </select>
                               </td>
                            </tr>
                            <tr>
-                              <td>
-                                 <select class="form-select-status" aria-label="Default select example" id="status" name="status">
-                                   <option value="0" selected>상태</option>
-                                   <option value="S">대기</option>
-                                   <option value="A">상시</option>
-                                   <option value="Y">진행중</option>
-                                   <option value="N">종료</option>
-                                 </select>
-                              </td>
                            </tr>
                         </tbody>
                      </table>
@@ -225,7 +216,7 @@
                      <table class="table" id="table-join">
                         <thead>
                            <tr>
-                              <th>아이디</th>
+                              <th>아이디</th>form-event
                               <th>상태</th>
                            </tr>
                         </thead>
@@ -241,22 +232,23 @@
                                     <tr id="joins-${joins.eventCode }" id="jcode" data-join-code="${joins.eventCode}" class="align-middle">
                                        <td>${joins.userId }</td>      
                                        <td>${joins.result}</td>
-                                    </tr>         
+                                    </tr>
                                  </c:forEach>
+                                 <c:if test="${joins.result eq 'Y'}">
+					    			<input type="hidden" id="userId" name="userId" value="${LOGINED_USER.id }">
+					    			<button class="btn btn-danger btn-lg w-25 text-light" >응모하기</button>
+					    		</c:if>
                               </c:otherwise>
-                              
                            </c:choose>
                         </tbody>
                         </table>
                   </form>
                   <form id="form-eventjoin">
-							<div><input type="hidden" id="eventCode" name="eventCode" value="${event.code }"></div>
-							<div><input type="hidden" id="couponCode" name="couponCode" value="${event.couponCode }"></div>
 							<div><input type="hidden" id="userId" name="userId" value="${LOGINED_USER.id }"></div>
 					</form>
                </div>
                <div class="modal-footer">
-               		<button type="button" class="btn btn-primary" id="btn-post-event">뽑기</button>
+               		<button type="button" class="btn btn-primary" id="btn-post-event" data-joins-code="${joins.eventCode }" data-coupon-code="${event.couponCode }">뽑기</button>
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
                </div>
             </div>
@@ -279,7 +271,8 @@ $("#event-table tbody").on('click', '.btn-outline-danger', function() {
    $.ajax({
       type: "GET",
       url: "/hmc/admin/event/delete",
-      data: {code: $(this).data("event-code")},
+      data: {eventCode: $(this).data("event-code"),
+    	  	code :$(this).data("coupon-code")},
       success: function() {
          $tr.remove();
       }
@@ -297,7 +290,7 @@ $(function(){
 	// 새 이벤트
 	$("#btn-open-event-modal").click(function(){
 	   request = "등록"
-	      code:$("#code").val();
+	   $("#code").val();
 	   $("#btn-save").text("등록");
 	   console.log(todayDate)
 	   eventModal.show();
@@ -318,7 +311,7 @@ $(function(){
 	      $("#title").focus();
 	      return false;
 	   }
-	   if(!$("#eventContent").val()) {
+	   if(!$("#content").val()) {
 	      alert("내용을 입력하세요")
 	      $("#eventContent").focus();
 	      return false;
@@ -334,7 +327,7 @@ $(function(){
 	      $("#endDate").focus();
 	      return false;
 	   }
-	   if($("#selectCoupon").val()==0) {
+	   if($("#couponCoupon").val()==0) {
 	      alert("쿠폰을 선택해주세요")
 	      $("#selectCoupon").focus();
 	      return false;
@@ -342,11 +335,6 @@ $(function(){
 	   if($("#couponAmount").val()==0) {
 	      alert("쿠폰수를 선택하세요")
 	      $("#couponAmount").focus();
-	      return false;
-	   }
-	   if($("#status").val()==0) {
-	      alert("상태를 선택하세요")
-	      $("#status").focus();
 	      return false;
 	   }
 	   
@@ -388,7 +376,8 @@ $(function(){
 	$("#event-table tbody").on('click', '#btn-open-join-modal', function() {
 	   
 	   var eventCode = $(this).data('event-code');
-	   $.getJSON('joins', {code:eventCode}, function(joins){
+	   var couponCode = $(this).data('coupon-code');
+	   $.getJSON('joins', {code:$(this).data('event-code')}, function(joins){
 	      var $tbody = $("#table-join tbody").empty();
 	      $.each(joins, function(index,joins){
 	         var row = "<tr>"
@@ -397,76 +386,75 @@ $(function(){
 	         row += "</tr>"
 	         $tbody.append(row);
 	      })
-	      joinModal.show();         
+	      joinModal.show();    
+	      
+	      
+	      
+	      // 뽑기
+	      $("#btn-post-event").click(function() {
+	    	  if(drawed="YES"){
+	    		  alert("이미 추첨했습니다.");
+	    		  return;
+	    	  }
+	  		$.ajax({
+	  			type: "POST",
+	  			url: "/hmc/admin/event/draw",
+	  			data:{
+	  				eventCode:eventCode,
+	  				couponCode:couponCode,
+	  				joins:$("#joins").val(),
+	  				userId:$("#userId").val()
+	  				},
+	  			dataType: 'json',
+	  			success: function(eventJoin) {
+	  				console.log(eventJoin);
+	  			},
+	  			complete: function() {
+	  				eventModal.hide();
+	  		console.log("등록");
+	  			}
+	  		});
+	  		console.log("등록이 됌니다!");
+	  	})
 	   })
 	})
 	
 	// 수정
-	
-	$("#event-table tbody").on('click', '.modifyEvent', function(event){
+	$("#event-table tbody").on('click', '#btn-open-modify-modal', function(event){
 		
 		request = "수정";
 		requestURI = "/hmc/admin/event/modify";
 		data:{
-			title:$("#title").val();
 			eventContent:$("#eventContent").val();
 			startDate:$("#startDate").val();
 			endDate:$("#endDate").val();
-			selectCoupon:$("#selectCoupon").val();
+			selectCoupon:$("#couponCode").val();
 			couponAmount:$("#couponAmount").val();
 		};
 		$("#btn-save").text("수정");
 		console.log("수정 실행임니당");
 		var b = $("#eventContent").val();
 		console.log(b);
-		var a = $("#event-code").text(event.code);
-		console.log(a);
 		event.preventDefault();
-		data: {code: $(this).data("event-code")}
 		$.getJSON("/hmc/admin/event/detail?code=" + $(this).data("event-code"))
 			.done(function(events) {
-				console.log("콘솔");
 				$("#event-code").val(events.code);
 				$("#title").val(events.title);
-				$("#eventContent").val(events.content);
+				$("#content").val(events.content);
 				$("#writer").val(events.writer);
 				$("#startDate").val(events.startDate);
 				$("#endDate").val(events.endDate);
-				$("#selectCoupon").val(events.selectCoupon);
+				$("#couponCode").val(events.selectCoupon);
 				$("#couponAmount").val(events.couponAmount);
 				eventModal.show();
 			})
-			
-		
-		
 	})
 	
 	
 	// 뽑기
 	var is_action =false;
 	
-	$("#btn-post-event").click(function() {
-		if(is_action == true){
-			return false;
-		}
-		$.ajax({
-			type: "POST",
-			url: "/hmc/admin/event/draw",
-			data:{
-				eventCode:$("#eventCode").val(),
-				couponCode:$("#couponCode").val(),
-				userId:$("#userId").val()
-				},
-			dataType: 'json',
-			success: function(eventJoin) {
-				console.log(eventJoin);
-			},
-			complete: function() {
-				eventModal.hide();
-			}
-		});
-		console.log("등록이 됌니다!");
-	})
+	
    
 })
 
