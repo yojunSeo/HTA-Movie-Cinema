@@ -216,7 +216,8 @@
                      <table class="table" id="table-join">
                         <thead>
                            <tr>
-                              <th>아이디</th>form-event
+                              <th>아이디</th>
+                              <th>상태</th>
                               <th>상태</th>
                            </tr>
                         </thead>
@@ -232,6 +233,7 @@
                                     <tr id="joins-${joins.eventCode }" id="jcode" data-join-code="${joins.eventCode}" class="align-middle">
                                        <td>${joins.userId }</td>      
                                        <td>${joins.result}</td>
+                                       <td>${joins.drawed}</td>
                                     </tr>
                                  </c:forEach>
                                  <c:if test="${joins.result eq 'Y'}">
@@ -392,10 +394,6 @@ $(function(){
 	      
 	      // 뽑기
 	      $("#btn-post-event").click(function() {
-	    	  if(drawed="YES"){
-	    		  alert("이미 추첨했습니다.");
-	    		  return;
-	    	  }
 	  		$.ajax({
 	  			type: "POST",
 	  			url: "/hmc/admin/event/draw",
@@ -410,6 +408,7 @@ $(function(){
 	  				console.log(eventJoin);
 	  			},
 	  			complete: function() {
+	  				alert("쿠폰 추첨을 완료했습니다.");
 	  				eventModal.hide();
 	  		console.log("등록");
 	  			}
@@ -421,7 +420,7 @@ $(function(){
 	
 	// 수정
 	$("#event-table tbody").on('click', '#btn-open-modify-modal', function(event){
-		
+		$("#exampleModalLabel").text("이벤트 수정");
 		request = "수정";
 		requestURI = "/hmc/admin/event/modify";
 		data:{
