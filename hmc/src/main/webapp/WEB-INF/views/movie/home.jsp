@@ -66,6 +66,9 @@ html, body {
 	color: #444444;
 }
 
+.swiper-pagination {
+	top: 620px;
+}
 .swiper-pagination-bullet {
 	color: #444444;
 }
