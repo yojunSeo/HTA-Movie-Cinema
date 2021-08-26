@@ -218,7 +218,6 @@
                            <tr>
                               <th>아이디</th>
                               <th>상태</th>
-                              <th>상태</th>
                            </tr>
                         </thead>
                            <tbody>
@@ -231,9 +230,13 @@
                               <c:otherwise>
                                  <c:forEach var="joins" items="${joins }">
                                     <tr id="joins-${joins.eventCode }" id="jcode" data-join-code="${joins.eventCode}" class="align-middle">
-                                       <td>${joins.userId }</td>      
-                                       <td>${joins.result}</td>
-                                       <td>${joins.drawed}</td>
+                                       <td>${joins.userId }</td>
+                                       <c:when test="${empty joins.result}">
+									   		<td>당첨 대기</td>
+									   </c:when>
+									   <c:otherwise>
+									   		<td>${joins.result }</td>
+									   </c:otherwise>
                                     </tr>
                                  </c:forEach>
                                  <c:if test="${joins.result eq 'Y'}">
