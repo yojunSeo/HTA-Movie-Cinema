@@ -209,7 +209,7 @@
 			$("#btn-open-product-modal").click(function() {
 				requestURI = "add";
 				request = "등록";
-				
+				$("#exampleModalLabel").text("새 상품 등록하기");
 				$(".modal-footer .btn-primary").text("등록");
 				$("#product-code").val("").prop("readonly", true);
 				$(":radio[name=category]").eq(0).prop("checked", true);
@@ -230,6 +230,7 @@
 				var productCode = $(this).data("product-code");
 				$.getJSON("detail?code=" + productCode)
 					.done(function(product) {
+						$("#exampleModalLabel").text("상품정보 수정하기");
 						$(".modal-footer .btn-primary").text("수정");
 						$("#product-code").val(product.code).prop("readonly", true);
 						if(product.category == "스낵/음료") {
