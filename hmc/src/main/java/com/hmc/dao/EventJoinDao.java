@@ -47,6 +47,8 @@ public interface EventJoinDao {
 	
 	List<EventJoin> getUserIdAndResult(String eventCode);
 	
+	void changeS(String eventCode);
+	
 	List<EventJoin> getEventJoinReSultByUserId(Map<String, Object> param);
 
 }

@@ -49,6 +49,14 @@
 		                                 <![CDATA[where rownum <= 10]]>)
 	</update>
 	
+	<update id="changeS" parameterType="com.hmc.vo.EventJoin">
+		update
+			t_event_join
+		set
+			event_join_result = 'N'
+		where event_join_result = 'S'
+	</update>
+	
 	<update id="eventDrawNo" parameterType="com.hmc.vo.EventJoin">
 		update
 		   t_event_join

@@ -175,6 +175,7 @@ public class AdminEventController {
 		System.out.println(eventCode+"1234");
 		System.out.println(userId);
 		System.out.println(couponCode);
+		eventJoindao.changeS(eventCode);
 		publishedCouponDao.insertPublichedCouponJoin(couponCode);
 		
 		return "/event/home";
