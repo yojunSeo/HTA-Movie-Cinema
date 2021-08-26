@@ -268,10 +268,10 @@ $(function(){
 	}
 	
 	$('#payment .btn-outline-danger').on('click', function(){
-		//iamport();
-		var msg = '결제가 완료되었습니다.';
-    	alert(msg);
-    	$('#booking-form').submit();
+		iamport();
+		//var msg = '결제가 완료되었습니다.';
+    	//alert(msg);
+    	//$('#booking-form').submit();
 	});
 	$('#payment .btn-outline-secondary').on('click', function(){
 		var confirmValue = confirm("결제를 취소하고 상영스케줄페이지로 돌아가시겠습니까?");
