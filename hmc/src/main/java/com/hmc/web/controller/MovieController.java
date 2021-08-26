@@ -62,7 +62,8 @@ public class MovieController {
 		int cnt = movie.getTotalScore();
 		int total = movie.getReviewCnt();
 		if (cnt!=0 || total!=0) {
-			int reviewScoreAvg = cnt/total;
+			double avg = (double)cnt/total;
+			String reviewScoreAvg = String.format("%.1f", avg);
 			model.addAttribute("reviewScoreAvg",reviewScoreAvg); 
 		}
 				
