@@ -207,6 +207,17 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
 
 	<script>
+		$(function() {
+			
+			// 나의 영화관 설정 버튼 클릭시
+			$("#btn-my-theater").click(function() {
+				confirm("나의 영화관 설정을 위해 마이페이지로 이동하시겠습니까?");
+				var link = '/hmc/mypage/home';
+				 
+				location.href=link;
+			});
+			
+		})
 		
 	</script>
 </body>
