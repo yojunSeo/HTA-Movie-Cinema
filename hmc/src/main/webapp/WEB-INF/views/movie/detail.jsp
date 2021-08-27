@@ -176,7 +176,7 @@ ul.nav.nav-tabs li.nav-item button.active {
 									<h5><b>스틸컷</b></h5>
 									<div class="row mb-3">
 										<div class="col mt-4">
-											<div class="swiper-container mySwiper">
+											<div class="swiper swiper-container mySwiper">
 												<div class="swiper-wrapper">
 													<div class="swiper-slide">
 														<img src="${movie.stillcut1 }">
